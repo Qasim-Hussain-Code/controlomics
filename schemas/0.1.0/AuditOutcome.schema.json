@@ -1,0 +1,177 @@
+{
+  "$defs": {
+    "VerificationRecord": {
+      "additionalProperties": false,
+      "description": "An attested check; authenticity must be established outside this schema.",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "reviewer_kind": {
+          "enum": [
+            "HUMAN",
+            "PROGRAMMATIC"
+          ],
+          "title": "Reviewer Kind",
+          "type": "string"
+        },
+        "reviewer": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "method": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Method",
+          "type": "string"
+        },
+        "checked_at": {
+          "format": "date-time",
+          "title": "Checked At",
+          "type": "string"
+        },
+        "artifact_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Artifact Sha256"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reviewer_kind",
+        "reviewer",
+        "method",
+        "checked_at"
+      ],
+      "title": "VerificationRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "audit_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Audit Id",
+      "type": "string"
+    },
+    "claim_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Claim Id",
+      "type": "string"
+    },
+    "assessment": {
+      "enum": [
+        "ROBUST",
+        "SUPPORTED",
+        "CONDITIONAL",
+        "FRAGILE",
+        "CONTROL_FAILURE",
+        "INSUFFICIENT_EVIDENCE",
+        "UNRESOLVED"
+      ],
+      "title": "Assessment",
+      "type": "string"
+    },
+    "rationale": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Rationale",
+      "type": "string"
+    },
+    "result_ids": {
+      "default": [],
+      "items": {
+        "maxLength": 100,
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+        "type": "string"
+      },
+      "title": "Result Ids",
+      "type": "array"
+    },
+    "evidence_ids": {
+      "default": [],
+      "items": {
+        "maxLength": 100,
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+        "type": "string"
+      },
+      "title": "Evidence Ids",
+      "type": "array"
+    },
+    "reviewer": {
+      "$ref": "#/$defs/VerificationRecord"
+    },
+    "uncertainties": {
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Uncertainties",
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "audit_id",
+    "claim_id",
+    "assessment",
+    "rationale",
+    "reviewer",
+    "uncertainties",
+    "limitations"
+  ],
+  "title": "AuditOutcome",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:controlomics:schema:0.1.0:AuditOutcome"
+}

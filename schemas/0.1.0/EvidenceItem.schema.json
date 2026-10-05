@@ -1,0 +1,548 @@
+{
+  "$defs": {
+    "BiologicalContext": {
+      "additionalProperties": false,
+      "description": "Unknown dimensions remain absent rather than being inferred as matches.",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "organism": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Organism"
+        },
+        "strain": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Strain"
+        },
+        "cell_type": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cell Type"
+        },
+        "tissue": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tissue"
+        },
+        "disease_state": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Disease State"
+        },
+        "experimental_condition": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Experimental Condition"
+        },
+        "molecular_target": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Molecular Target"
+        },
+        "assay_type": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Assay Type"
+        },
+        "computational_method": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Computational Method"
+        },
+        "data_modality": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Data Modality"
+        },
+        "biological_scale": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Biological Scale"
+        },
+        "intervention": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Intervention"
+        },
+        "time_point": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Time Point"
+        },
+        "reference_database": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Database"
+        },
+        "software_assumptions": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Software Assumptions",
+          "type": "array"
+        }
+      },
+      "title": "BiologicalContext",
+      "type": "object"
+    },
+    "EvidenceIdentifier": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "namespace": {
+          "enum": [
+            "DOI",
+            "PMID",
+            "PMCID",
+            "ACCESSION",
+            "OTHER"
+          ],
+          "title": "Namespace",
+          "type": "string"
+        },
+        "value": {
+          "maxLength": 500,
+          "minLength": 1,
+          "pattern": "^\\S+$",
+          "title": "Value",
+          "type": "string"
+        },
+        "authority": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Authority",
+          "type": "string"
+        }
+      },
+      "required": [
+        "namespace",
+        "value",
+        "authority"
+      ],
+      "title": "EvidenceIdentifier",
+      "type": "object"
+    },
+    "VerificationRecord": {
+      "additionalProperties": false,
+      "description": "An attested check; authenticity must be established outside this schema.",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "reviewer_kind": {
+          "enum": [
+            "HUMAN",
+            "PROGRAMMATIC"
+          ],
+          "title": "Reviewer Kind",
+          "type": "string"
+        },
+        "reviewer": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "method": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Method",
+          "type": "string"
+        },
+        "checked_at": {
+          "format": "date-time",
+          "title": "Checked At",
+          "type": "string"
+        },
+        "artifact_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Artifact Sha256"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reviewer_kind",
+        "reviewer",
+        "method",
+        "checked_at"
+      ],
+      "title": "VerificationRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "evidence_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Evidence Id",
+      "type": "string"
+    },
+    "source": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Source",
+      "type": "string"
+    },
+    "identifiers": {
+      "items": {
+        "$ref": "#/$defs/EvidenceIdentifier"
+      },
+      "minItems": 1,
+      "title": "Identifiers",
+      "type": "array"
+    },
+    "title": {
+      "anyOf": [
+        {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Title"
+    },
+    "authors": {
+      "default": [],
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Authors",
+      "type": "array"
+    },
+    "year": {
+      "anyOf": [
+        {
+          "maximum": 9999,
+          "minimum": 1600,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Year"
+    },
+    "retrieved_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Retrieved At"
+    },
+    "publication_type": {
+      "anyOf": [
+        {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Publication Type"
+    },
+    "evidence_type": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Evidence Type",
+      "type": "string"
+    },
+    "biological_context": {
+      "$ref": "#/$defs/BiologicalContext"
+    },
+    "experimental_context": {
+      "anyOf": [
+        {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Experimental Context"
+    },
+    "licensing_restrictions": {
+      "anyOf": [
+        {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Licensing Restrictions"
+    },
+    "existence_status": {
+      "default": "UNVERIFIED",
+      "enum": [
+        "UNVERIFIED",
+        "VERIFIED",
+        "NOT_FOUND"
+      ],
+      "title": "Existence Status",
+      "type": "string"
+    },
+    "existence_check": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/VerificationRecord"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "content_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Content Sha256"
+    },
+    "limitations": {
+      "default": [],
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "evidence_id",
+    "source",
+    "identifiers",
+    "evidence_type",
+    "biological_context"
+  ],
+  "title": "EvidenceItem",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:controlomics:schema:0.1.0:EvidenceItem"
+}

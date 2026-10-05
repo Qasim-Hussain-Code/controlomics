@@ -1,0 +1,103 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "claim_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Claim Id",
+      "type": "string"
+    },
+    "analysis_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "statement": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Statement",
+      "type": "string"
+    },
+    "category": {
+      "enum": [
+        "DESCRIPTIVE",
+        "ASSOCIATIONAL",
+        "COMPARATIVE",
+        "PREDICTIVE",
+        "STATISTICAL",
+        "FUNCTIONAL",
+        "MECHANISTIC",
+        "CAUSAL"
+      ],
+      "title": "Category",
+      "type": "string"
+    },
+    "computational_support": {
+      "enum": [
+        "DESCRIPTIVE",
+        "ASSOCIATIONAL",
+        "COMPARATIVE",
+        "PREDICTIVE",
+        "STATISTICAL",
+        "FUNCTIONAL",
+        "MECHANISTIC",
+        "CAUSAL"
+      ],
+      "title": "Computational Support",
+      "type": "string"
+    },
+    "assumptions": {
+      "default": [],
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Assumptions",
+      "type": "array"
+    },
+    "origin": {
+      "default": "RESEARCHER",
+      "enum": [
+        "RESEARCHER",
+        "MODEL",
+        "IMPORT"
+      ],
+      "title": "Origin",
+      "type": "string"
+    },
+    "uncertainties": {
+      "default": [],
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Uncertainties",
+      "type": "array"
+    }
+  },
+  "required": [
+    "claim_id",
+    "analysis_id",
+    "statement",
+    "category",
+    "computational_support"
+  ],
+  "title": "ScientificClaim",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:controlomics:schema:0.1.0:ScientificClaim"
+}

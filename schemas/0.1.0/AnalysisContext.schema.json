@@ -1,0 +1,413 @@
+{
+  "$defs": {
+    "AnalyticalDesign": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "sampling_unit": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sampling Unit"
+        },
+        "independence_assumptions": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Independence Assumptions",
+          "type": "array"
+        },
+        "contrasts": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Contrasts",
+          "type": "array"
+        },
+        "covariates": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Covariates",
+          "type": "array"
+        },
+        "data_partition": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Data Partition"
+        },
+        "missing_information": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Missing Information",
+          "type": "array"
+        }
+      },
+      "title": "AnalyticalDesign",
+      "type": "object"
+    },
+    "BiologicalContext": {
+      "additionalProperties": false,
+      "description": "Unknown dimensions remain absent rather than being inferred as matches.",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "organism": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Organism"
+        },
+        "strain": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Strain"
+        },
+        "cell_type": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cell Type"
+        },
+        "tissue": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tissue"
+        },
+        "disease_state": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Disease State"
+        },
+        "experimental_condition": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Experimental Condition"
+        },
+        "molecular_target": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Molecular Target"
+        },
+        "assay_type": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Assay Type"
+        },
+        "computational_method": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Computational Method"
+        },
+        "data_modality": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Data Modality"
+        },
+        "biological_scale": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Biological Scale"
+        },
+        "intervention": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Intervention"
+        },
+        "time_point": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Time Point"
+        },
+        "reference_database": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Database"
+        },
+        "software_assumptions": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Software Assumptions",
+          "type": "array"
+        }
+      },
+      "title": "BiologicalContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "analysis_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "scientific_question": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Scientific Question",
+      "type": "string"
+    },
+    "analysis_description": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Analysis Description",
+      "type": "string"
+    },
+    "methods": {
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Methods",
+      "type": "array"
+    },
+    "biological_context": {
+      "$ref": "#/$defs/BiologicalContext"
+    },
+    "design": {
+      "$ref": "#/$defs/AnalyticalDesign"
+    },
+    "observed_result": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Observed Result",
+      "type": "string"
+    },
+    "coverage_status": {
+      "default": "UNVALIDATED",
+      "enum": [
+        "UNVALIDATED",
+        "OUTSIDE_VALIDATED_COVERAGE"
+      ],
+      "title": "Coverage Status",
+      "type": "string"
+    },
+    "uncertainties": {
+      "default": [],
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Uncertainties",
+      "type": "array"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "scientific_question",
+    "analysis_description",
+    "methods",
+    "biological_context",
+    "design",
+    "observed_result"
+  ],
+  "title": "AnalysisContext",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:controlomics:schema:0.1.0:AnalysisContext"
+}

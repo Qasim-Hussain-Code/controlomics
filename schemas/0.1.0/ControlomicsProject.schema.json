@@ -1,0 +1,2703 @@
+{
+  "$defs": {
+    "AnalysisContext": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "analysis_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "scientific_question": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Scientific Question",
+          "type": "string"
+        },
+        "analysis_description": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Analysis Description",
+          "type": "string"
+        },
+        "methods": {
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Methods",
+          "type": "array"
+        },
+        "biological_context": {
+          "$ref": "#/$defs/BiologicalContext"
+        },
+        "design": {
+          "$ref": "#/$defs/AnalyticalDesign"
+        },
+        "observed_result": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Observed Result",
+          "type": "string"
+        },
+        "coverage_status": {
+          "default": "UNVALIDATED",
+          "enum": [
+            "UNVALIDATED",
+            "OUTSIDE_VALIDATED_COVERAGE"
+          ],
+          "title": "Coverage Status",
+          "type": "string"
+        },
+        "uncertainties": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Uncertainties",
+          "type": "array"
+        }
+      },
+      "required": [
+        "analysis_id",
+        "scientific_question",
+        "analysis_description",
+        "methods",
+        "biological_context",
+        "design",
+        "observed_result"
+      ],
+      "title": "AnalysisContext",
+      "type": "object"
+    },
+    "AnalyticalDesign": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "sampling_unit": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sampling Unit"
+        },
+        "independence_assumptions": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Independence Assumptions",
+          "type": "array"
+        },
+        "contrasts": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Contrasts",
+          "type": "array"
+        },
+        "covariates": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Covariates",
+          "type": "array"
+        },
+        "data_partition": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Data Partition"
+        },
+        "missing_information": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Missing Information",
+          "type": "array"
+        }
+      },
+      "title": "AnalyticalDesign",
+      "type": "object"
+    },
+    "AuditOutcome": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "audit_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Audit Id",
+          "type": "string"
+        },
+        "claim_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "assessment": {
+          "enum": [
+            "ROBUST",
+            "SUPPORTED",
+            "CONDITIONAL",
+            "FRAGILE",
+            "CONTROL_FAILURE",
+            "INSUFFICIENT_EVIDENCE",
+            "UNRESOLVED"
+          ],
+          "title": "Assessment",
+          "type": "string"
+        },
+        "rationale": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Rationale",
+          "type": "string"
+        },
+        "result_ids": {
+          "default": [],
+          "items": {
+            "maxLength": 100,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+            "type": "string"
+          },
+          "title": "Result Ids",
+          "type": "array"
+        },
+        "evidence_ids": {
+          "default": [],
+          "items": {
+            "maxLength": 100,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "reviewer": {
+          "$ref": "#/$defs/VerificationRecord"
+        },
+        "uncertainties": {
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Uncertainties",
+          "type": "array"
+        },
+        "limitations": {
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "audit_id",
+        "claim_id",
+        "assessment",
+        "rationale",
+        "reviewer",
+        "uncertainties",
+        "limitations"
+      ],
+      "title": "AuditOutcome",
+      "type": "object"
+    },
+    "BiologicalContext": {
+      "additionalProperties": false,
+      "description": "Unknown dimensions remain absent rather than being inferred as matches.",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "organism": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Organism"
+        },
+        "strain": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Strain"
+        },
+        "cell_type": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cell Type"
+        },
+        "tissue": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tissue"
+        },
+        "disease_state": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Disease State"
+        },
+        "experimental_condition": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Experimental Condition"
+        },
+        "molecular_target": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Molecular Target"
+        },
+        "assay_type": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Assay Type"
+        },
+        "computational_method": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Computational Method"
+        },
+        "data_modality": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Data Modality"
+        },
+        "biological_scale": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Biological Scale"
+        },
+        "intervention": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Intervention"
+        },
+        "time_point": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Time Point"
+        },
+        "reference_database": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Database"
+        },
+        "software_assumptions": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Software Assumptions",
+          "type": "array"
+        }
+      },
+      "title": "BiologicalContext",
+      "type": "object"
+    },
+    "ClaimRelation": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_claim_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Source Claim Id",
+          "type": "string"
+        },
+        "target_claim_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Target Claim Id",
+          "type": "string"
+        },
+        "relationship": {
+          "enum": [
+            "ASSOCIATED_WITH",
+            "DEPENDS_ON",
+            "PREDICTS",
+            "PROPOSED_CAUSES"
+          ],
+          "title": "Relationship",
+          "type": "string"
+        },
+        "rationale": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_claim_id",
+        "target_claim_id",
+        "relationship",
+        "rationale"
+      ],
+      "title": "ClaimRelation",
+      "type": "object"
+    },
+    "ConfidenceInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "lower": {
+          "title": "Lower",
+          "type": "number"
+        },
+        "upper": {
+          "title": "Upper",
+          "type": "number"
+        },
+        "coverage": {
+          "exclusiveMaximum": 1,
+          "exclusiveMinimum": 0,
+          "title": "Coverage",
+          "type": "number"
+        },
+        "method": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Method",
+          "type": "string"
+        }
+      },
+      "required": [
+        "lower",
+        "upper",
+        "coverage",
+        "method"
+      ],
+      "title": "ConfidenceInterval",
+      "type": "object"
+    },
+    "ContextComparison": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "dimension": {
+          "enum": [
+            "organism",
+            "strain",
+            "cell_type",
+            "tissue",
+            "disease_state",
+            "experimental_condition",
+            "molecular_target",
+            "assay_type",
+            "computational_method",
+            "data_modality",
+            "biological_scale",
+            "intervention",
+            "time_point",
+            "reference_database",
+            "software_assumptions"
+          ],
+          "title": "Dimension",
+          "type": "string"
+        },
+        "analysis_value": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Analysis Value"
+        },
+        "evidence_value": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Value"
+        },
+        "status": {
+          "enum": [
+            "MATCH",
+            "MISMATCH",
+            "UNKNOWN",
+            "NOT_APPLICABLE"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "rationale": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dimension",
+        "status",
+        "rationale"
+      ],
+      "title": "ContextComparison",
+      "type": "object"
+    },
+    "ContextCompatibility": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "status": {
+          "default": "UNKNOWN",
+          "enum": [
+            "MATCH",
+            "PARTIAL",
+            "MISMATCH",
+            "UNKNOWN"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "comparisons": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ContextComparison"
+          },
+          "title": "Comparisons",
+          "type": "array"
+        },
+        "rationale": {
+          "default": "Context compatibility has not been assessed.",
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Rationale",
+          "type": "string"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "title": "ContextCompatibility",
+      "type": "object"
+    },
+    "ControlCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "control_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Control Id",
+          "type": "string"
+        },
+        "control_name": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Control Name",
+          "type": "string"
+        },
+        "control_class": {
+          "enum": [
+            "POSITIVE",
+            "NEGATIVE",
+            "NULL",
+            "SPECIFICITY",
+            "ROBUSTNESS",
+            "CONFOUNDER",
+            "FALSIFICATION"
+          ],
+          "title": "Control Class",
+          "type": "string"
+        },
+        "scientific_level": {
+          "enum": [
+            "TECHNICAL",
+            "STATISTICAL",
+            "BIOLOGICAL",
+            "MECHANISTIC"
+          ],
+          "title": "Scientific Level",
+          "type": "string"
+        },
+        "analysis_context": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Analysis Context",
+          "type": "string"
+        },
+        "claim_tested": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Claim Tested",
+          "type": "string"
+        },
+        "scientific_rationale": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Scientific Rationale",
+          "type": "string"
+        },
+        "expected_behavior": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Expected Behavior",
+          "type": "string"
+        },
+        "failure_interpretation": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Failure Interpretation",
+          "type": "string"
+        },
+        "evidence_required": {
+          "title": "Evidence Required",
+          "type": "boolean"
+        },
+        "supporting_evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/EvidenceLink"
+          },
+          "title": "Supporting Evidence",
+          "type": "array"
+        },
+        "evidence_status": {
+          "default": "AGENT_PROPOSED",
+          "enum": [
+            "AGENT_PROPOSED",
+            "UNVERIFIED",
+            "INSUFFICIENT_EVIDENCE"
+          ],
+          "title": "Evidence Status",
+          "type": "string"
+        },
+        "context_compatibility": {
+          "$ref": "#/$defs/ContextCompatibility"
+        },
+        "execution_status": {
+          "default": "NOT_RUN",
+          "enum": [
+            "NOT_RUN",
+            "PLANNED",
+            "RUNNING",
+            "COMPLETED",
+            "FAILED",
+            "BLOCKED"
+          ],
+          "title": "Execution Status",
+          "type": "string"
+        },
+        "required_inputs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/InputRequirement"
+          },
+          "title": "Required Inputs",
+          "type": "array"
+        },
+        "privacy_requirements": {
+          "$ref": "#/$defs/PrivacyRequirements"
+        },
+        "priority": {
+          "enum": [
+            "ESSENTIAL",
+            "RECOMMENDED",
+            "EXPLORATORY"
+          ],
+          "title": "Priority",
+          "type": "string"
+        },
+        "priority_rationale": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Priority Rationale",
+          "type": "string"
+        },
+        "method_basis": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Method Basis"
+        },
+        "uncertainties": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Uncertainties",
+          "type": "array"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "control_id",
+        "control_name",
+        "control_class",
+        "scientific_level",
+        "analysis_context",
+        "claim_tested",
+        "scientific_rationale",
+        "expected_behavior",
+        "failure_interpretation",
+        "evidence_required",
+        "privacy_requirements",
+        "priority",
+        "priority_rationale"
+      ],
+      "title": "ControlCandidate",
+      "type": "object"
+    },
+    "ControlResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "result_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Result Id",
+          "type": "string"
+        },
+        "control_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Control Id",
+          "type": "string"
+        },
+        "execution_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Execution Id",
+          "type": "string"
+        },
+        "execution_status": {
+          "enum": [
+            "NOT_RUN",
+            "PLANNED",
+            "RUNNING",
+            "COMPLETED",
+            "FAILED",
+            "BLOCKED"
+          ],
+          "title": "Execution Status",
+          "type": "string"
+        },
+        "started_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Started At"
+        },
+        "completed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Completed At"
+        },
+        "test_statistic": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NumericMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "effect_estimate": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NumericMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "confidence_interval": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ConfidenceInterval"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "p_value": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "P Value"
+        },
+        "null_distribution_summary": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NullDistributionSummary"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "software_versions": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SoftwareVersion"
+          },
+          "title": "Software Versions",
+          "type": "array"
+        },
+        "random_seed": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Random Seed"
+        },
+        "input_hashes": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/InputHash"
+          },
+          "title": "Input Hashes",
+          "type": "array"
+        },
+        "warnings": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        },
+        "errors": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Errors",
+          "type": "array"
+        },
+        "interpretive_metadata": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Interpretive Metadata",
+          "type": "array"
+        },
+        "outcome": {
+          "anyOf": [
+            {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "INDETERMINATE"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Outcome"
+        },
+        "decision_rule_id": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Decision Rule Id"
+        },
+        "interpretation": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Interpretation"
+        }
+      },
+      "required": [
+        "result_id",
+        "control_id",
+        "execution_id",
+        "execution_status"
+      ],
+      "title": "ControlResult",
+      "type": "object"
+    },
+    "DecisionRule": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "rule_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "description": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Description",
+          "type": "string"
+        },
+        "specified_at": {
+          "format": "date-time",
+          "title": "Specified At",
+          "type": "string"
+        },
+        "limitations": {
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "rule_id",
+        "description",
+        "specified_at",
+        "limitations"
+      ],
+      "title": "DecisionRule",
+      "type": "object"
+    },
+    "EvidenceIdentifier": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "namespace": {
+          "enum": [
+            "DOI",
+            "PMID",
+            "PMCID",
+            "ACCESSION",
+            "OTHER"
+          ],
+          "title": "Namespace",
+          "type": "string"
+        },
+        "value": {
+          "maxLength": 500,
+          "minLength": 1,
+          "pattern": "^\\S+$",
+          "title": "Value",
+          "type": "string"
+        },
+        "authority": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Authority",
+          "type": "string"
+        }
+      },
+      "required": [
+        "namespace",
+        "value",
+        "authority"
+      ],
+      "title": "EvidenceIdentifier",
+      "type": "object"
+    },
+    "EvidenceItem": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "evidence_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "source": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Source",
+          "type": "string"
+        },
+        "identifiers": {
+          "items": {
+            "$ref": "#/$defs/EvidenceIdentifier"
+          },
+          "minItems": 1,
+          "title": "Identifiers",
+          "type": "array"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "authors": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Authors",
+          "type": "array"
+        },
+        "year": {
+          "anyOf": [
+            {
+              "maximum": 9999,
+              "minimum": 1600,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Year"
+        },
+        "retrieved_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retrieved At"
+        },
+        "publication_type": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Publication Type"
+        },
+        "evidence_type": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Evidence Type",
+          "type": "string"
+        },
+        "biological_context": {
+          "$ref": "#/$defs/BiologicalContext"
+        },
+        "experimental_context": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Experimental Context"
+        },
+        "licensing_restrictions": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Licensing Restrictions"
+        },
+        "existence_status": {
+          "default": "UNVERIFIED",
+          "enum": [
+            "UNVERIFIED",
+            "VERIFIED",
+            "NOT_FOUND"
+          ],
+          "title": "Existence Status",
+          "type": "string"
+        },
+        "existence_check": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VerificationRecord"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "content_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content Sha256"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "source",
+        "identifiers",
+        "evidence_type",
+        "biological_context"
+      ],
+      "title": "EvidenceItem",
+      "type": "object"
+    },
+    "EvidenceLink": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "evidence_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "statement": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Statement",
+          "type": "string"
+        },
+        "relationship": {
+          "enum": [
+            "SUPPORTS",
+            "CONTRADICTS",
+            "UNCERTAIN"
+          ],
+          "title": "Relationship",
+          "type": "string"
+        },
+        "locator": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Locator",
+          "type": "string"
+        },
+        "rationale": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Rationale",
+          "type": "string"
+        },
+        "entailment_check": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VerificationRecord"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "evidence_id",
+        "statement",
+        "relationship",
+        "locator",
+        "rationale"
+      ],
+      "title": "EvidenceLink",
+      "type": "object"
+    },
+    "ExecutionPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "execution_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Execution Id",
+          "type": "string"
+        },
+        "control_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Control Id",
+          "type": "string"
+        },
+        "pathway": {
+          "enum": [
+            "LOCAL",
+            "DISPATCHED"
+          ],
+          "title": "Pathway",
+          "type": "string"
+        },
+        "execution_status": {
+          "default": "PLANNED",
+          "enum": [
+            "PLANNED",
+            "BLOCKED"
+          ],
+          "title": "Execution Status",
+          "type": "string"
+        },
+        "required_inputs": {
+          "items": {
+            "$ref": "#/$defs/InputRequirement"
+          },
+          "title": "Required Inputs",
+          "type": "array"
+        },
+        "software_versions": {
+          "items": {
+            "$ref": "#/$defs/SoftwareVersion"
+          },
+          "minItems": 1,
+          "title": "Software Versions",
+          "type": "array"
+        },
+        "parameters": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Parameters",
+          "type": "array"
+        },
+        "randomness": {
+          "enum": [
+            "DETERMINISTIC",
+            "SEEDED",
+            "UNCONTROLLED"
+          ],
+          "title": "Randomness",
+          "type": "string"
+        },
+        "random_seed": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Random Seed"
+        },
+        "code_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Sha256"
+        },
+        "output_schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Output Schema Version",
+          "type": "string"
+        },
+        "decision_rule": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DecisionRule"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "instructions": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Instructions",
+          "type": "string"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "execution_id",
+        "control_id",
+        "pathway",
+        "required_inputs",
+        "software_versions",
+        "randomness",
+        "instructions"
+      ],
+      "title": "ExecutionPlan",
+      "type": "object"
+    },
+    "InputHash": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "input_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Input Id",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "input_id",
+        "sha256"
+      ],
+      "title": "InputHash",
+      "type": "object"
+    },
+    "InputRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "input_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Input Id",
+          "type": "string"
+        },
+        "description": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Description",
+          "type": "string"
+        },
+        "format": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Format",
+          "type": "string"
+        },
+        "privacy_class": {
+          "default": "RESTRICTED",
+          "enum": [
+            "SAFE",
+            "SENSITIVE_SCIENTIFIC",
+            "RESTRICTED"
+          ],
+          "title": "Privacy Class",
+          "type": "string"
+        }
+      },
+      "required": [
+        "input_id",
+        "description",
+        "format"
+      ],
+      "title": "InputRequirement",
+      "type": "object"
+    },
+    "ModelProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "provider": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Provider",
+          "type": "string"
+        },
+        "model_identifier": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Model Identifier",
+          "type": "string"
+        },
+        "revision": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Revision"
+        },
+        "prompt_template_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Prompt Template Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "model_identifier",
+        "prompt_template_sha256"
+      ],
+      "title": "ModelProvenance",
+      "type": "object"
+    },
+    "NullDistributionSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "draws": {
+          "exclusiveMinimum": 0,
+          "title": "Draws",
+          "type": "integer"
+        },
+        "mean": {
+          "title": "Mean",
+          "type": "number"
+        },
+        "standard_deviation": {
+          "minimum": 0,
+          "title": "Standard Deviation",
+          "type": "number"
+        },
+        "null_hypothesis": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Null Hypothesis",
+          "type": "string"
+        },
+        "exchangeability_assumptions": {
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Exchangeability Assumptions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "draws",
+        "mean",
+        "standard_deviation",
+        "null_hypothesis",
+        "exchangeability_assumptions"
+      ],
+      "title": "NullDistributionSummary",
+      "type": "object"
+    },
+    "NumericMeasure": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "title": "NumericMeasure",
+      "type": "object"
+    },
+    "PrivacyPolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "classification": {
+          "default": "RESTRICTED",
+          "enum": [
+            "SAFE",
+            "SENSITIVE_SCIENTIFIC",
+            "RESTRICTED"
+          ],
+          "title": "Classification",
+          "type": "string"
+        },
+        "network_enabled": {
+          "const": false,
+          "default": false,
+          "title": "Network Enabled",
+          "type": "boolean"
+        },
+        "storage": {
+          "const": "LOCAL_ONLY",
+          "default": "LOCAL_ONLY",
+          "title": "Storage",
+          "type": "string"
+        },
+        "rationale": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale"
+      ],
+      "title": "PrivacyPolicy",
+      "type": "object"
+    },
+    "PrivacyRequirements": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "classification": {
+          "default": "RESTRICTED",
+          "enum": [
+            "SAFE",
+            "SENSITIVE_SCIENTIFIC",
+            "RESTRICTED"
+          ],
+          "title": "Classification",
+          "type": "string"
+        },
+        "raw_data_must_remain_local": {
+          "const": true,
+          "default": true,
+          "title": "Raw Data Must Remain Local",
+          "type": "boolean"
+        },
+        "external_transmission_allowed": {
+          "const": false,
+          "default": false,
+          "title": "External Transmission Allowed",
+          "type": "boolean"
+        },
+        "rationale": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale"
+      ],
+      "title": "PrivacyRequirements",
+      "type": "object"
+    },
+    "ProjectManifest": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "project_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Project Id",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "controlomics_version": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Controlomics Version",
+          "type": "string"
+        },
+        "ontology_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Ontology Version",
+          "type": "string"
+        },
+        "format": {
+          "const": "controlomics.project",
+          "default": "controlomics.project",
+          "title": "Format",
+          "type": "string"
+        }
+      },
+      "required": [
+        "project_id",
+        "created_at",
+        "controlomics_version"
+      ],
+      "title": "ProjectManifest",
+      "type": "object"
+    },
+    "ProvenanceRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "provenance_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Provenance Id",
+          "type": "string"
+        },
+        "action": {
+          "enum": [
+            "SCHEMA_VALIDATION",
+            "CLAIM_REVIEW",
+            "EVIDENCE_REVIEW",
+            "CONTEXT_REVIEW",
+            "CONTROL_REVIEW",
+            "EXECUTION_RESULT_IMPORT",
+            "AUDIT"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        "recorded_at": {
+          "format": "date-time",
+          "title": "Recorded At",
+          "type": "string"
+        },
+        "controlomics_version": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Controlomics Version",
+          "type": "string"
+        },
+        "ontology_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Ontology Version",
+          "type": "string"
+        },
+        "record_ids": {
+          "items": {
+            "maxLength": 100,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Record Ids",
+          "type": "array"
+        },
+        "software_versions": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SoftwareVersion"
+          },
+          "title": "Software Versions",
+          "type": "array"
+        },
+        "input_hashes": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/InputHash"
+          },
+          "title": "Input Hashes",
+          "type": "array"
+        },
+        "random_seed": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Random Seed"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ModelProvenance"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "query_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Query Sha256"
+        },
+        "warnings": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "provenance_id",
+        "action",
+        "recorded_at",
+        "controlomics_version",
+        "record_ids"
+      ],
+      "title": "ProvenanceRecord",
+      "type": "object"
+    },
+    "ScientificClaim": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "claim_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "analysis_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "statement": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Statement",
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "DESCRIPTIVE",
+            "ASSOCIATIONAL",
+            "COMPARATIVE",
+            "PREDICTIVE",
+            "STATISTICAL",
+            "FUNCTIONAL",
+            "MECHANISTIC",
+            "CAUSAL"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "computational_support": {
+          "enum": [
+            "DESCRIPTIVE",
+            "ASSOCIATIONAL",
+            "COMPARATIVE",
+            "PREDICTIVE",
+            "STATISTICAL",
+            "FUNCTIONAL",
+            "MECHANISTIC",
+            "CAUSAL"
+          ],
+          "title": "Computational Support",
+          "type": "string"
+        },
+        "assumptions": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "origin": {
+          "default": "RESEARCHER",
+          "enum": [
+            "RESEARCHER",
+            "MODEL",
+            "IMPORT"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "uncertainties": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Uncertainties",
+          "type": "array"
+        }
+      },
+      "required": [
+        "claim_id",
+        "analysis_id",
+        "statement",
+        "category",
+        "computational_support"
+      ],
+      "title": "ScientificClaim",
+      "type": "object"
+    },
+    "SoftwareVersion": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "title": "SoftwareVersion",
+      "type": "object"
+    },
+    "VerificationRecord": {
+      "additionalProperties": false,
+      "description": "An attested check; authenticity must be established outside this schema.",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "reviewer_kind": {
+          "enum": [
+            "HUMAN",
+            "PROGRAMMATIC"
+          ],
+          "title": "Reviewer Kind",
+          "type": "string"
+        },
+        "reviewer": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "method": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Method",
+          "type": "string"
+        },
+        "checked_at": {
+          "format": "date-time",
+          "title": "Checked At",
+          "type": "string"
+        },
+        "artifact_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Artifact Sha256"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reviewer_kind",
+        "reviewer",
+        "method",
+        "checked_at"
+      ],
+      "title": "VerificationRecord",
+      "type": "object"
+    },
+    "VerifiedControl": {
+      "additionalProperties": false,
+      "description": "A reviewed control record, including reviews that find insufficient evidence.",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "control_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Control Id",
+          "type": "string"
+        },
+        "control_name": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Control Name",
+          "type": "string"
+        },
+        "control_class": {
+          "enum": [
+            "POSITIVE",
+            "NEGATIVE",
+            "NULL",
+            "SPECIFICITY",
+            "ROBUSTNESS",
+            "CONFOUNDER",
+            "FALSIFICATION"
+          ],
+          "title": "Control Class",
+          "type": "string"
+        },
+        "scientific_level": {
+          "enum": [
+            "TECHNICAL",
+            "STATISTICAL",
+            "BIOLOGICAL",
+            "MECHANISTIC"
+          ],
+          "title": "Scientific Level",
+          "type": "string"
+        },
+        "analysis_context": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Analysis Context",
+          "type": "string"
+        },
+        "claim_tested": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Claim Tested",
+          "type": "string"
+        },
+        "scientific_rationale": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Scientific Rationale",
+          "type": "string"
+        },
+        "expected_behavior": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Expected Behavior",
+          "type": "string"
+        },
+        "failure_interpretation": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Failure Interpretation",
+          "type": "string"
+        },
+        "evidence_required": {
+          "title": "Evidence Required",
+          "type": "boolean"
+        },
+        "supporting_evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/EvidenceLink"
+          },
+          "title": "Supporting Evidence",
+          "type": "array"
+        },
+        "evidence_status": {
+          "enum": [
+            "EVIDENCE_BACKED",
+            "METHOD_BASED",
+            "AGENT_PROPOSED",
+            "UNVERIFIED",
+            "CONFLICTING_EVIDENCE",
+            "INSUFFICIENT_EVIDENCE"
+          ],
+          "title": "Evidence Status",
+          "type": "string"
+        },
+        "context_compatibility": {
+          "$ref": "#/$defs/ContextCompatibility"
+        },
+        "execution_status": {
+          "default": "NOT_RUN",
+          "enum": [
+            "NOT_RUN",
+            "PLANNED",
+            "RUNNING",
+            "COMPLETED",
+            "FAILED",
+            "BLOCKED"
+          ],
+          "title": "Execution Status",
+          "type": "string"
+        },
+        "required_inputs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/InputRequirement"
+          },
+          "title": "Required Inputs",
+          "type": "array"
+        },
+        "privacy_requirements": {
+          "$ref": "#/$defs/PrivacyRequirements"
+        },
+        "priority": {
+          "enum": [
+            "ESSENTIAL",
+            "RECOMMENDED",
+            "EXPLORATORY"
+          ],
+          "title": "Priority",
+          "type": "string"
+        },
+        "priority_rationale": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Priority Rationale",
+          "type": "string"
+        },
+        "method_basis": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Method Basis"
+        },
+        "uncertainties": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Uncertainties",
+          "type": "array"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "verification": {
+          "$ref": "#/$defs/VerificationRecord"
+        }
+      },
+      "required": [
+        "control_id",
+        "control_name",
+        "control_class",
+        "scientific_level",
+        "analysis_context",
+        "claim_tested",
+        "scientific_rationale",
+        "expected_behavior",
+        "failure_interpretation",
+        "evidence_required",
+        "evidence_status",
+        "privacy_requirements",
+        "priority",
+        "priority_rationale",
+        "verification"
+      ],
+      "title": "VerifiedControl",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "manifest": {
+      "$ref": "#/$defs/ProjectManifest"
+    },
+    "analysis": {
+      "$ref": "#/$defs/AnalysisContext"
+    },
+    "claims": {
+      "items": {
+        "$ref": "#/$defs/ScientificClaim"
+      },
+      "minItems": 1,
+      "title": "Claims",
+      "type": "array"
+    },
+    "claim_relations": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ClaimRelation"
+      },
+      "title": "Claim Relations",
+      "type": "array"
+    },
+    "evidence": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/EvidenceItem"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "candidates": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ControlCandidate"
+      },
+      "title": "Candidates",
+      "type": "array"
+    },
+    "controls": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/VerifiedControl"
+      },
+      "title": "Controls",
+      "type": "array"
+    },
+    "execution_plans": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ExecutionPlan"
+      },
+      "title": "Execution Plans",
+      "type": "array"
+    },
+    "results": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ControlResult"
+      },
+      "title": "Results",
+      "type": "array"
+    },
+    "audits": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/AuditOutcome"
+      },
+      "title": "Audits",
+      "type": "array"
+    },
+    "provenance": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ProvenanceRecord"
+      },
+      "title": "Provenance",
+      "type": "array"
+    },
+    "privacy": {
+      "$ref": "#/$defs/PrivacyPolicy"
+    }
+  },
+  "required": [
+    "manifest",
+    "analysis",
+    "claims",
+    "privacy"
+  ],
+  "title": "ControlomicsProject",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:controlomics:schema:0.1.0:ControlomicsProject"
+}

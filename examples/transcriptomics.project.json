@@ -1,0 +1,185 @@
+{
+  "schema_version": "0.1.0",
+  "manifest": {
+    "schema_version": "0.1.0",
+    "project_id": "project.transcriptomics",
+    "created_at": "2026-10-05T00:00:00Z",
+    "controlomics_version": "0.1.0.dev0",
+    "ontology_version": "0.1.0",
+    "format": "controlomics.project"
+  },
+  "analysis": {
+    "schema_version": "0.1.0",
+    "analysis_id": "analysis.transcriptomics",
+    "scientific_question": "Does a hypothetical treatment change transcript abundance in cultured yeast?",
+    "analysis_description": "A hypothetical between-culture differential abundance comparison.",
+    "methods": [
+      "A researcher-specified count-based differential abundance method"
+    ],
+    "biological_context": {
+      "schema_version": "0.1.0",
+      "organism": "Saccharomyces cerevisiae",
+      "strain": null,
+      "cell_type": null,
+      "tissue": null,
+      "disease_state": null,
+      "experimental_condition": null,
+      "molecular_target": null,
+      "assay_type": null,
+      "computational_method": null,
+      "data_modality": "bulk transcript counts",
+      "biological_scale": null,
+      "intervention": null,
+      "time_point": null,
+      "reference_database": null,
+      "software_assumptions": []
+    },
+    "design": {
+      "schema_version": "0.1.0",
+      "sampling_unit": "Independent culture",
+      "independence_assumptions": [
+        "Cultures, rather than individual counts, are the independent units."
+      ],
+      "contrasts": [
+        "Hypothetical treatment versus reference"
+      ],
+      "covariates": [],
+      "data_partition": null,
+      "missing_information": [
+        "Replication, normalization, batch structure, and model specification are not supplied."
+      ]
+    },
+    "observed_result": "Hypothetical reported abundance differences; no measurements are included.",
+    "coverage_status": "UNVALIDATED",
+    "uncertainties": [
+      "The analysis and claim have not been scientifically reviewed."
+    ]
+  },
+  "claims": [
+    {
+      "schema_version": "0.1.0",
+      "claim_id": "claim.transcriptomics",
+      "analysis_id": "analysis.transcriptomics",
+      "statement": "Transcript abundance differs between the hypothetical conditions.",
+      "category": "COMPARATIVE",
+      "computational_support": "COMPARATIVE",
+      "assumptions": [
+        "The sampling units and stated contrasts represent the intended comparison."
+      ],
+      "origin": "RESEARCHER",
+      "uncertainties": []
+    }
+  ],
+  "claim_relations": [],
+  "evidence": [],
+  "candidates": [
+    {
+      "schema_version": "0.1.0",
+      "control_id": "analysis.transcriptomics.positive",
+      "control_name": "Known synthetic abundance change",
+      "control_class": "POSITIVE",
+      "scientific_level": "STATISTICAL",
+      "analysis_context": "analysis.transcriptomics",
+      "claim_tested": "claim.transcriptomics",
+      "scientific_rationale": "A locally simulated signal can challenge the implementation's ability to recover a specified contrast.",
+      "expected_behavior": "The method should recover a prespecified injected signal under its simulation assumptions.",
+      "failure_interpretation": "Failure would motivate checking contrast coding, implementation, or simulation assumptions.",
+      "evidence_required": false,
+      "supporting_evidence": [],
+      "evidence_status": "UNVERIFIED",
+      "context_compatibility": {
+        "schema_version": "0.1.0",
+        "status": "UNKNOWN",
+        "comparisons": [],
+        "rationale": "Context compatibility has not been assessed.",
+        "limitations": []
+      },
+      "execution_status": "NOT_RUN",
+      "required_inputs": [
+        {
+          "schema_version": "0.1.0",
+          "input_id": "synthetic_input",
+          "description": "A small synthetic dataset created locally for a separately specified test.",
+          "format": "Locally specified tabular input",
+          "privacy_class": "SAFE"
+        }
+      ],
+      "privacy_requirements": {
+        "schema_version": "0.1.0",
+        "classification": "SAFE",
+        "raw_data_must_remain_local": true,
+        "external_transmission_allowed": false,
+        "rationale": "The example describes a hypothetical local test and contains no research data."
+      },
+      "priority": "EXPLORATORY",
+      "priority_rationale": "Method calibration is useful during development; biological appropriateness remains unreviewed.",
+      "method_basis": "A simulation requires specified count behavior, effect size, replication, and acceptance criteria.",
+      "uncertainties": [
+        "No executable test or empirical outcome is supplied."
+      ],
+      "limitations": [
+        "Synthetic method calibration cannot establish the biological claim."
+      ]
+    },
+    {
+      "schema_version": "0.1.0",
+      "control_id": "analysis.transcriptomics.negative",
+      "control_name": "Unit-respecting null calibration",
+      "control_class": "NEGATIVE",
+      "scientific_level": "STATISTICAL",
+      "analysis_context": "analysis.transcriptomics",
+      "claim_tested": "claim.transcriptomics",
+      "scientific_rationale": "A justified null simulation can assess spurious signal under a separately defined no-effect model.",
+      "expected_behavior": "False detections should be assessed against a prespecified null calibration criterion.",
+      "failure_interpretation": "Excess detections could reflect a misspecified null, dependence, or analytical failure.",
+      "evidence_required": false,
+      "supporting_evidence": [],
+      "evidence_status": "UNVERIFIED",
+      "context_compatibility": {
+        "schema_version": "0.1.0",
+        "status": "UNKNOWN",
+        "comparisons": [],
+        "rationale": "Context compatibility has not been assessed.",
+        "limitations": []
+      },
+      "execution_status": "NOT_RUN",
+      "required_inputs": [
+        {
+          "schema_version": "0.1.0",
+          "input_id": "synthetic_input",
+          "description": "A small synthetic dataset created locally for a separately specified test.",
+          "format": "Locally specified tabular input",
+          "privacy_class": "SAFE"
+        }
+      ],
+      "privacy_requirements": {
+        "schema_version": "0.1.0",
+        "classification": "SAFE",
+        "raw_data_must_remain_local": true,
+        "external_transmission_allowed": false,
+        "rationale": "The example describes a hypothetical local test and contains no research data."
+      },
+      "priority": "EXPLORATORY",
+      "priority_rationale": "Method calibration is useful during development; biological appropriateness remains unreviewed.",
+      "method_basis": "Define the no-effect process and dependence structure; label permutation requires exchangeability of independent units.",
+      "uncertainties": [
+        "No executable test or empirical outcome is supplied."
+      ],
+      "limitations": [
+        "Synthetic method calibration cannot establish the biological claim."
+      ]
+    }
+  ],
+  "controls": [],
+  "execution_plans": [],
+  "results": [],
+  "audits": [],
+  "provenance": [],
+  "privacy": {
+    "schema_version": "0.1.0",
+    "classification": "SAFE",
+    "network_enabled": false,
+    "storage": "LOCAL_ONLY",
+    "rationale": "Manually specified hypothetical example; no raw data."
+  }
+}

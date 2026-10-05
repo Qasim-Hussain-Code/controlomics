@@ -1,0 +1,576 @@
+{
+  "$defs": {
+    "ContextComparison": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "dimension": {
+          "enum": [
+            "organism",
+            "strain",
+            "cell_type",
+            "tissue",
+            "disease_state",
+            "experimental_condition",
+            "molecular_target",
+            "assay_type",
+            "computational_method",
+            "data_modality",
+            "biological_scale",
+            "intervention",
+            "time_point",
+            "reference_database",
+            "software_assumptions"
+          ],
+          "title": "Dimension",
+          "type": "string"
+        },
+        "analysis_value": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Analysis Value"
+        },
+        "evidence_value": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Value"
+        },
+        "status": {
+          "enum": [
+            "MATCH",
+            "MISMATCH",
+            "UNKNOWN",
+            "NOT_APPLICABLE"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "rationale": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dimension",
+        "status",
+        "rationale"
+      ],
+      "title": "ContextComparison",
+      "type": "object"
+    },
+    "ContextCompatibility": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "status": {
+          "default": "UNKNOWN",
+          "enum": [
+            "MATCH",
+            "PARTIAL",
+            "MISMATCH",
+            "UNKNOWN"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "comparisons": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ContextComparison"
+          },
+          "title": "Comparisons",
+          "type": "array"
+        },
+        "rationale": {
+          "default": "Context compatibility has not been assessed.",
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Rationale",
+          "type": "string"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "title": "ContextCompatibility",
+      "type": "object"
+    },
+    "EvidenceLink": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "evidence_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "statement": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Statement",
+          "type": "string"
+        },
+        "relationship": {
+          "enum": [
+            "SUPPORTS",
+            "CONTRADICTS",
+            "UNCERTAIN"
+          ],
+          "title": "Relationship",
+          "type": "string"
+        },
+        "locator": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Locator",
+          "type": "string"
+        },
+        "rationale": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Rationale",
+          "type": "string"
+        },
+        "entailment_check": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VerificationRecord"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "evidence_id",
+        "statement",
+        "relationship",
+        "locator",
+        "rationale"
+      ],
+      "title": "EvidenceLink",
+      "type": "object"
+    },
+    "InputRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "input_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Input Id",
+          "type": "string"
+        },
+        "description": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Description",
+          "type": "string"
+        },
+        "format": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Format",
+          "type": "string"
+        },
+        "privacy_class": {
+          "default": "RESTRICTED",
+          "enum": [
+            "SAFE",
+            "SENSITIVE_SCIENTIFIC",
+            "RESTRICTED"
+          ],
+          "title": "Privacy Class",
+          "type": "string"
+        }
+      },
+      "required": [
+        "input_id",
+        "description",
+        "format"
+      ],
+      "title": "InputRequirement",
+      "type": "object"
+    },
+    "PrivacyRequirements": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "classification": {
+          "default": "RESTRICTED",
+          "enum": [
+            "SAFE",
+            "SENSITIVE_SCIENTIFIC",
+            "RESTRICTED"
+          ],
+          "title": "Classification",
+          "type": "string"
+        },
+        "raw_data_must_remain_local": {
+          "const": true,
+          "default": true,
+          "title": "Raw Data Must Remain Local",
+          "type": "boolean"
+        },
+        "external_transmission_allowed": {
+          "const": false,
+          "default": false,
+          "title": "External Transmission Allowed",
+          "type": "boolean"
+        },
+        "rationale": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale"
+      ],
+      "title": "PrivacyRequirements",
+      "type": "object"
+    },
+    "VerificationRecord": {
+      "additionalProperties": false,
+      "description": "An attested check; authenticity must be established outside this schema.",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "reviewer_kind": {
+          "enum": [
+            "HUMAN",
+            "PROGRAMMATIC"
+          ],
+          "title": "Reviewer Kind",
+          "type": "string"
+        },
+        "reviewer": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "method": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Method",
+          "type": "string"
+        },
+        "checked_at": {
+          "format": "date-time",
+          "title": "Checked At",
+          "type": "string"
+        },
+        "artifact_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Artifact Sha256"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reviewer_kind",
+        "reviewer",
+        "method",
+        "checked_at"
+      ],
+      "title": "VerificationRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "control_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Control Id",
+      "type": "string"
+    },
+    "control_name": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Control Name",
+      "type": "string"
+    },
+    "control_class": {
+      "enum": [
+        "POSITIVE",
+        "NEGATIVE",
+        "NULL",
+        "SPECIFICITY",
+        "ROBUSTNESS",
+        "CONFOUNDER",
+        "FALSIFICATION"
+      ],
+      "title": "Control Class",
+      "type": "string"
+    },
+    "scientific_level": {
+      "enum": [
+        "TECHNICAL",
+        "STATISTICAL",
+        "BIOLOGICAL",
+        "MECHANISTIC"
+      ],
+      "title": "Scientific Level",
+      "type": "string"
+    },
+    "analysis_context": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Analysis Context",
+      "type": "string"
+    },
+    "claim_tested": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Claim Tested",
+      "type": "string"
+    },
+    "scientific_rationale": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Scientific Rationale",
+      "type": "string"
+    },
+    "expected_behavior": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Expected Behavior",
+      "type": "string"
+    },
+    "failure_interpretation": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Failure Interpretation",
+      "type": "string"
+    },
+    "evidence_required": {
+      "title": "Evidence Required",
+      "type": "boolean"
+    },
+    "supporting_evidence": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/EvidenceLink"
+      },
+      "title": "Supporting Evidence",
+      "type": "array"
+    },
+    "evidence_status": {
+      "default": "AGENT_PROPOSED",
+      "enum": [
+        "AGENT_PROPOSED",
+        "UNVERIFIED",
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "title": "Evidence Status",
+      "type": "string"
+    },
+    "context_compatibility": {
+      "$ref": "#/$defs/ContextCompatibility"
+    },
+    "execution_status": {
+      "default": "NOT_RUN",
+      "enum": [
+        "NOT_RUN",
+        "PLANNED",
+        "RUNNING",
+        "COMPLETED",
+        "FAILED",
+        "BLOCKED"
+      ],
+      "title": "Execution Status",
+      "type": "string"
+    },
+    "required_inputs": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/InputRequirement"
+      },
+      "title": "Required Inputs",
+      "type": "array"
+    },
+    "privacy_requirements": {
+      "$ref": "#/$defs/PrivacyRequirements"
+    },
+    "priority": {
+      "enum": [
+        "ESSENTIAL",
+        "RECOMMENDED",
+        "EXPLORATORY"
+      ],
+      "title": "Priority",
+      "type": "string"
+    },
+    "priority_rationale": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Priority Rationale",
+      "type": "string"
+    },
+    "method_basis": {
+      "anyOf": [
+        {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Method Basis"
+    },
+    "uncertainties": {
+      "default": [],
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Uncertainties",
+      "type": "array"
+    },
+    "limitations": {
+      "default": [],
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "control_id",
+    "control_name",
+    "control_class",
+    "scientific_level",
+    "analysis_context",
+    "claim_tested",
+    "scientific_rationale",
+    "expected_behavior",
+    "failure_interpretation",
+    "evidence_required",
+    "privacy_requirements",
+    "priority",
+    "priority_rationale"
+  ],
+  "title": "ControlCandidate",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:controlomics:schema:0.1.0:ControlCandidate"
+}

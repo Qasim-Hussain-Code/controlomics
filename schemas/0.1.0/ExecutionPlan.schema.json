@@ -1,0 +1,282 @@
+{
+  "$defs": {
+    "DecisionRule": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "rule_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "description": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Description",
+          "type": "string"
+        },
+        "specified_at": {
+          "format": "date-time",
+          "title": "Specified At",
+          "type": "string"
+        },
+        "limitations": {
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "rule_id",
+        "description",
+        "specified_at",
+        "limitations"
+      ],
+      "title": "DecisionRule",
+      "type": "object"
+    },
+    "InputRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "input_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Input Id",
+          "type": "string"
+        },
+        "description": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Description",
+          "type": "string"
+        },
+        "format": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Format",
+          "type": "string"
+        },
+        "privacy_class": {
+          "default": "RESTRICTED",
+          "enum": [
+            "SAFE",
+            "SENSITIVE_SCIENTIFIC",
+            "RESTRICTED"
+          ],
+          "title": "Privacy Class",
+          "type": "string"
+        }
+      },
+      "required": [
+        "input_id",
+        "description",
+        "format"
+      ],
+      "title": "InputRequirement",
+      "type": "object"
+    },
+    "SoftwareVersion": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "title": "SoftwareVersion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "execution_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Execution Id",
+      "type": "string"
+    },
+    "control_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Control Id",
+      "type": "string"
+    },
+    "pathway": {
+      "enum": [
+        "LOCAL",
+        "DISPATCHED"
+      ],
+      "title": "Pathway",
+      "type": "string"
+    },
+    "execution_status": {
+      "default": "PLANNED",
+      "enum": [
+        "PLANNED",
+        "BLOCKED"
+      ],
+      "title": "Execution Status",
+      "type": "string"
+    },
+    "required_inputs": {
+      "items": {
+        "$ref": "#/$defs/InputRequirement"
+      },
+      "title": "Required Inputs",
+      "type": "array"
+    },
+    "software_versions": {
+      "items": {
+        "$ref": "#/$defs/SoftwareVersion"
+      },
+      "minItems": 1,
+      "title": "Software Versions",
+      "type": "array"
+    },
+    "parameters": {
+      "default": [],
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Parameters",
+      "type": "array"
+    },
+    "randomness": {
+      "enum": [
+        "DETERMINISTIC",
+        "SEEDED",
+        "UNCONTROLLED"
+      ],
+      "title": "Randomness",
+      "type": "string"
+    },
+    "random_seed": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Random Seed"
+    },
+    "code_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Code Sha256"
+    },
+    "output_schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Output Schema Version",
+      "type": "string"
+    },
+    "decision_rule": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DecisionRule"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "instructions": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Instructions",
+      "type": "string"
+    },
+    "limitations": {
+      "default": [],
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "execution_id",
+    "control_id",
+    "pathway",
+    "required_inputs",
+    "software_versions",
+    "randomness",
+    "instructions"
+  ],
+  "title": "ExecutionPlan",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:controlomics:schema:0.1.0:ExecutionPlan"
+}

@@ -1,0 +1,22 @@
+{
+  "ontology_version": "0.1.0",
+  "status": "PROPOSED_RESEARCH_VOCABULARY",
+  "control_classes": {
+    "POSITIVE": "A known signal expected to be recovered if the approach can detect the relevant phenomenon.",
+    "NEGATIVE": "An appropriate absence or irrelevant entity expected not to produce the claimed signal.",
+    "NULL": "A specified null process or reference distribution with explicit statistical assumptions.",
+    "SPECIFICITY": "A comparison testing whether a signal is specific to the proposed explanation.",
+    "ROBUSTNESS": "A justified perturbation testing the stability of an analytical conclusion.",
+    "CONFOUNDER": "A test of an alternative explanatory factor or design imbalance.",
+    "FALSIFICATION": "A test whose outcome could challenge a stated claim under explicit assumptions."
+  },
+  "scientific_levels": {
+    "TECHNICAL": "Properties of measurement, implementation, or computational operation.",
+    "STATISTICAL": "Sampling, estimation, null models, or inferential assumptions.",
+    "BIOLOGICAL": "Empirical biological signals and context-dependent absence or specificity.",
+    "MECHANISTIC": "A proposed functional or causal biological mechanism."
+  },
+  "evidence_states": ["EVIDENCE_BACKED", "METHOD_BASED", "AGENT_PROPOSED", "UNVERIFIED", "CONFLICTING_EVIDENCE", "INSUFFICIENT_EVIDENCE"],
+  "priority_classes": ["ESSENTIAL", "RECOMMENDED", "EXPLORATORY"],
+  "notes": ["Control class and scientific level are independent axes.", "A statistical null procedure is not necessarily a biological negative control.", "This vocabulary has not undergone external ontology validation."]
+}

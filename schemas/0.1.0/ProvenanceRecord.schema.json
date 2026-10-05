@@ -1,0 +1,249 @@
+{
+  "$defs": {
+    "InputHash": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "input_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Input Id",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "input_id",
+        "sha256"
+      ],
+      "title": "InputHash",
+      "type": "object"
+    },
+    "ModelProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "provider": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Provider",
+          "type": "string"
+        },
+        "model_identifier": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Model Identifier",
+          "type": "string"
+        },
+        "revision": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Revision"
+        },
+        "prompt_template_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Prompt Template Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "model_identifier",
+        "prompt_template_sha256"
+      ],
+      "title": "ModelProvenance",
+      "type": "object"
+    },
+    "SoftwareVersion": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "title": "SoftwareVersion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "provenance_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Provenance Id",
+      "type": "string"
+    },
+    "action": {
+      "enum": [
+        "SCHEMA_VALIDATION",
+        "CLAIM_REVIEW",
+        "EVIDENCE_REVIEW",
+        "CONTEXT_REVIEW",
+        "CONTROL_REVIEW",
+        "EXECUTION_RESULT_IMPORT",
+        "AUDIT"
+      ],
+      "title": "Action",
+      "type": "string"
+    },
+    "recorded_at": {
+      "format": "date-time",
+      "title": "Recorded At",
+      "type": "string"
+    },
+    "controlomics_version": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Controlomics Version",
+      "type": "string"
+    },
+    "ontology_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Ontology Version",
+      "type": "string"
+    },
+    "record_ids": {
+      "items": {
+        "maxLength": 100,
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Record Ids",
+      "type": "array"
+    },
+    "software_versions": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/SoftwareVersion"
+      },
+      "title": "Software Versions",
+      "type": "array"
+    },
+    "input_hashes": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/InputHash"
+      },
+      "title": "Input Hashes",
+      "type": "array"
+    },
+    "random_seed": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Random Seed"
+    },
+    "model": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ModelProvenance"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "query_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Query Sha256"
+    },
+    "warnings": {
+      "default": [],
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "provenance_id",
+    "action",
+    "recorded_at",
+    "controlomics_version",
+    "record_ids"
+  ],
+  "title": "ProvenanceRecord",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:controlomics:schema:0.1.0:ProvenanceRecord"
+}

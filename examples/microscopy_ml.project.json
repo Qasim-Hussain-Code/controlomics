@@ -1,0 +1,179 @@
+{
+  "schema_version": "0.1.0",
+  "manifest": {
+    "schema_version": "0.1.0",
+    "project_id": "project.microscopy",
+    "created_at": "2026-10-05T00:00:00Z",
+    "controlomics_version": "0.1.0.dev0",
+    "ontology_version": "0.1.0",
+    "format": "controlomics.project"
+  },
+  "analysis": {
+    "schema_version": "0.1.0",
+    "analysis_id": "analysis.microscopy",
+    "scientific_question": "Can image features distinguish two hypothetical cell morphology labels?",
+    "analysis_description": "A hypothetical supervised classifier evaluated on held-out cultures.",
+    "methods": [
+      "A researcher-specified image-feature classification pipeline"
+    ],
+    "biological_context": {
+      "schema_version": "0.1.0",
+      "organism": null,
+      "strain": null,
+      "cell_type": null,
+      "tissue": null,
+      "disease_state": null,
+      "experimental_condition": null,
+      "molecular_target": null,
+      "assay_type": null,
+      "computational_method": null,
+      "data_modality": "microscopy image features",
+      "biological_scale": "cultured cells",
+      "intervention": null,
+      "time_point": null,
+      "reference_database": null,
+      "software_assumptions": []
+    },
+    "design": {
+      "schema_version": "0.1.0",
+      "sampling_unit": "Independent culture",
+      "independence_assumptions": [],
+      "contrasts": [],
+      "covariates": [],
+      "data_partition": "All images from one culture must remain in one partition.",
+      "missing_information": [
+        "Label provenance, acquisition batches, and feature-selection procedure are unknown."
+      ]
+    },
+    "observed_result": "Hypothetical reported predictive discrimination; no metric or dataset is supplied.",
+    "coverage_status": "UNVALIDATED",
+    "uncertainties": []
+  },
+  "claims": [
+    {
+      "schema_version": "0.1.0",
+      "claim_id": "claim.microscopy",
+      "analysis_id": "analysis.microscopy",
+      "statement": "The image-feature pipeline predicts the hypothetical morphology label in new cultures.",
+      "category": "PREDICTIVE",
+      "computational_support": "PREDICTIVE",
+      "assumptions": [
+        "Held-out cultures are independent of training and preprocessing selection."
+      ],
+      "origin": "RESEARCHER",
+      "uncertainties": []
+    }
+  ],
+  "claim_relations": [],
+  "evidence": [],
+  "candidates": [
+    {
+      "schema_version": "0.1.0",
+      "control_id": "analysis.microscopy.positive",
+      "control_name": "Prespecified synthetic predictive signal",
+      "control_class": "POSITIVE",
+      "scientific_level": "STATISTICAL",
+      "analysis_context": "analysis.microscopy",
+      "claim_tested": "claim.microscopy",
+      "scientific_rationale": "An independently generated separable feature can challenge a pipeline's ability to detect a known synthetic signal.",
+      "expected_behavior": "The full pipeline should recover discrimination for the prespecified signal in independently generated held-out units.",
+      "failure_interpretation": "Failure could indicate preprocessing, label handling, evaluation, or simulation problems.",
+      "evidence_required": false,
+      "supporting_evidence": [],
+      "evidence_status": "UNVERIFIED",
+      "context_compatibility": {
+        "schema_version": "0.1.0",
+        "status": "UNKNOWN",
+        "comparisons": [],
+        "rationale": "Context compatibility has not been assessed.",
+        "limitations": []
+      },
+      "execution_status": "NOT_RUN",
+      "required_inputs": [
+        {
+          "schema_version": "0.1.0",
+          "input_id": "synthetic_input",
+          "description": "A small synthetic dataset created locally for a separately specified test.",
+          "format": "Locally specified tabular input",
+          "privacy_class": "SAFE"
+        }
+      ],
+      "privacy_requirements": {
+        "schema_version": "0.1.0",
+        "classification": "SAFE",
+        "raw_data_must_remain_local": true,
+        "external_transmission_allowed": false,
+        "rationale": "The example describes a hypothetical local test and contains no research data."
+      },
+      "priority": "EXPLORATORY",
+      "priority_rationale": "Method calibration is useful during development; biological appropriateness remains unreviewed.",
+      "method_basis": "Specify signal strength and held-out generation before testing; avoid learning fixture labels through shared preprocessing.",
+      "uncertainties": [
+        "No executable test or empirical outcome is supplied."
+      ],
+      "limitations": [
+        "Synthetic method calibration cannot establish the biological claim."
+      ]
+    },
+    {
+      "schema_version": "0.1.0",
+      "control_id": "analysis.microscopy.negative",
+      "control_name": "Unit-respecting label null",
+      "control_class": "NEGATIVE",
+      "scientific_level": "STATISTICAL",
+      "analysis_context": "analysis.microscopy",
+      "claim_tested": "claim.microscopy",
+      "scientific_rationale": "A justified label-null experiment can challenge apparent discrimination caused by analytical leakage.",
+      "expected_behavior": "The rerun pipeline should satisfy a prespecified no-information criterion under an appropriate label null.",
+      "failure_interpretation": "Unexpected discrimination could indicate leakage, a misspecified null, or dependence.",
+      "evidence_required": false,
+      "supporting_evidence": [],
+      "evidence_status": "UNVERIFIED",
+      "context_compatibility": {
+        "schema_version": "0.1.0",
+        "status": "UNKNOWN",
+        "comparisons": [],
+        "rationale": "Context compatibility has not been assessed.",
+        "limitations": []
+      },
+      "execution_status": "NOT_RUN",
+      "required_inputs": [
+        {
+          "schema_version": "0.1.0",
+          "input_id": "synthetic_input",
+          "description": "A small synthetic dataset created locally for a separately specified test.",
+          "format": "Locally specified tabular input",
+          "privacy_class": "SAFE"
+        }
+      ],
+      "privacy_requirements": {
+        "schema_version": "0.1.0",
+        "classification": "SAFE",
+        "raw_data_must_remain_local": true,
+        "external_transmission_allowed": false,
+        "rationale": "The example describes a hypothetical local test and contains no research data."
+      },
+      "priority": "EXPLORATORY",
+      "priority_rationale": "Method calibration is useful during development; biological appropriateness remains unreviewed.",
+      "method_basis": "Specify exchangeability and partitioning; repeat feature selection and tuning inside each null replicate.",
+      "uncertainties": [
+        "No executable test or empirical outcome is supplied."
+      ],
+      "limitations": [
+        "Synthetic method calibration cannot establish the biological claim."
+      ]
+    }
+  ],
+  "controls": [],
+  "execution_plans": [],
+  "results": [],
+  "audits": [],
+  "provenance": [],
+  "privacy": {
+    "schema_version": "0.1.0",
+    "classification": "SAFE",
+    "network_enabled": false,
+    "storage": "LOCAL_ONLY",
+    "rationale": "Manually specified hypothetical example; no raw data."
+  }
+}

@@ -1,0 +1,8 @@
+# Observed development environment: CPython 3.14.0 on Windows, 2026-10-05.
+# Exact dependency versions; platform-specific wheel hashes are not locked.
+annotated-types==0.8.0
+pydantic==2.12.4
+pydantic-core==2.41.5
+setuptools==80.9.0
+typing-extensions==4.16.0
+typing-inspection==0.4.4

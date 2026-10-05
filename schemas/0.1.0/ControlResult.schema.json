@@ -1,0 +1,444 @@
+{
+  "$defs": {
+    "ConfidenceInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "lower": {
+          "title": "Lower",
+          "type": "number"
+        },
+        "upper": {
+          "title": "Upper",
+          "type": "number"
+        },
+        "coverage": {
+          "exclusiveMaximum": 1,
+          "exclusiveMinimum": 0,
+          "title": "Coverage",
+          "type": "number"
+        },
+        "method": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Method",
+          "type": "string"
+        }
+      },
+      "required": [
+        "lower",
+        "upper",
+        "coverage",
+        "method"
+      ],
+      "title": "ConfidenceInterval",
+      "type": "object"
+    },
+    "InputHash": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "input_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Input Id",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "input_id",
+        "sha256"
+      ],
+      "title": "InputHash",
+      "type": "object"
+    },
+    "NullDistributionSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "draws": {
+          "exclusiveMinimum": 0,
+          "title": "Draws",
+          "type": "integer"
+        },
+        "mean": {
+          "title": "Mean",
+          "type": "number"
+        },
+        "standard_deviation": {
+          "minimum": 0,
+          "title": "Standard Deviation",
+          "type": "number"
+        },
+        "null_hypothesis": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Null Hypothesis",
+          "type": "string"
+        },
+        "exchangeability_assumptions": {
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Exchangeability Assumptions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "draws",
+        "mean",
+        "standard_deviation",
+        "null_hypothesis",
+        "exchangeability_assumptions"
+      ],
+      "title": "NullDistributionSummary",
+      "type": "object"
+    },
+    "NumericMeasure": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "title": "NumericMeasure",
+      "type": "object"
+    },
+    "SoftwareVersion": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "title": "SoftwareVersion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "result_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Result Id",
+      "type": "string"
+    },
+    "control_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Control Id",
+      "type": "string"
+    },
+    "execution_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Execution Id",
+      "type": "string"
+    },
+    "execution_status": {
+      "enum": [
+        "NOT_RUN",
+        "PLANNED",
+        "RUNNING",
+        "COMPLETED",
+        "FAILED",
+        "BLOCKED"
+      ],
+      "title": "Execution Status",
+      "type": "string"
+    },
+    "started_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Started At"
+    },
+    "completed_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Completed At"
+    },
+    "test_statistic": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/NumericMeasure"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "effect_estimate": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/NumericMeasure"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "confidence_interval": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ConfidenceInterval"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "p_value": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "P Value"
+    },
+    "null_distribution_summary": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/NullDistributionSummary"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "software_versions": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/SoftwareVersion"
+      },
+      "title": "Software Versions",
+      "type": "array"
+    },
+    "random_seed": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Random Seed"
+    },
+    "input_hashes": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/InputHash"
+      },
+      "title": "Input Hashes",
+      "type": "array"
+    },
+    "warnings": {
+      "default": [],
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    },
+    "errors": {
+      "default": [],
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Errors",
+      "type": "array"
+    },
+    "interpretive_metadata": {
+      "default": [],
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Interpretive Metadata",
+      "type": "array"
+    },
+    "outcome": {
+      "anyOf": [
+        {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "INDETERMINATE"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Outcome"
+    },
+    "decision_rule_id": {
+      "anyOf": [
+        {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Decision Rule Id"
+    },
+    "interpretation": {
+      "anyOf": [
+        {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Interpretation"
+    }
+  },
+  "required": [
+    "result_id",
+    "control_id",
+    "execution_id",
+    "execution_status"
+  ],
+  "title": "ControlResult",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:controlomics:schema:0.1.0:ControlResult"
+}
