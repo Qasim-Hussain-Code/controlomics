@@ -23,3 +23,7 @@ Parsing never executes imported or generated code. Local computation invokes onl
 This is local fixed execution under the user's account, not an operating-system sandbox for arbitrary code. Review dispatched scripts before running them. A replaced runner or manifest cannot be secured by its own self-check. Arbitrary scripts, dynamic plugins, and primary-analysis orchestration are outside scope.
 
 Do not commit keys, clinical identifiers, private sequences, raw datasets, or research projects. Development dependencies are recorded in `requirements-dev.lock`. No independent security audit or vulnerability-free claim is made. Public release requires an owner-selected license and private reporting channel. Until then, report concerns privately to the owner through an available private channel.
+
+## Review archive boundary
+
+Review ZIP imports use a fixed member allowlist and bounded in-memory reads. Duplicate names, traversal, symbolic links, encryption, unsupported compression, oversize contents, hash mismatches, and inconsistent records are rejected. Imported HTML is never executed or opened; reports are regenerated. Archive manifests and reviewer names remain unauthenticated. These checks apply to review archives, not arbitrary ZIP files.

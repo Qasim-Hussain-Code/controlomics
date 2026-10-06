@@ -48,6 +48,26 @@ def selected_claim(project, identifier):
 
 
 def handle_action(path, data):
+    if path in ("/api/annotation-template", "/api/annotate"):
+        from controlomics.evaluation import AnnotationSubmission, EvaluationBundle, apply_annotations, bundle_hash
+        bundle = EvaluationBundle.model_validate_json(json.dumps(data["bundle"]))
+        if path.endswith("template"):
+            return {"bundle": bundle.model_dump(mode="json"), "bundle_sha256": bundle_hash(bundle)}
+        updated, revision = apply_annotations(bundle, AnnotationSubmission.model_validate_json(json.dumps(data["submission"])))
+        return {"bundle": updated.model_dump(mode="json"), "bundle_sha256": bundle_hash(updated), "revision": revision.model_dump(mode="json")}
+    if path == "/api/specify-paired":
+        from controlomics.execution import specify_paired_control
+        return workspace(audit_project(specify_paired_control(project_from(data), data["claim_id"], data["rationale"], data["assumptions"])))
+    if path == "/api/review-bundle":
+        from controlomics.artifacts import create_review_bundle
+        from controlomics.evaluation import EvaluationBundle
+        evaluation = EvaluationBundle.model_validate_json(json.dumps(data["evaluation_bundle"])) if data.get("evaluation_bundle") is not None else None
+        return create_review_bundle(project_from(data), data.get("network_audit", ()), evaluation, data.get("annotation_revisions", ())), "application/zip", "controlomics.review.zip"
+    if path == "/api/open-bundle":
+        from controlomics.artifacts import open_review_bundle
+        project, ledger, evaluation, revisions, manifest = open_review_bundle(base64.b64decode(data["archive_base64"], validate=True))
+        return {**workspace(project), "network_audit_restored": ledger, "evaluation_bundle": evaluation.model_dump(mode="json") if evaluation else None,
+            "annotation_revisions": revisions, "bundle_limitations": manifest.limitations}
     if path == "/api/evaluate":
         from controlomics.evaluation import EvaluationBundle, evaluate
         bundle = EvaluationBundle.model_validate_json(json.dumps(data["bundle"]))

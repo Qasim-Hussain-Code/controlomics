@@ -21,3 +21,7 @@ The ledger records purpose, destination, public fields, time, request and respon
 Numeric execution writes a bounded input snapshot in an owned temporary directory and removes it on normal completion. Crashes can leave local temporary files. Dispatched packages omit raw inputs. Human review retains statement records, locators, and source hashes, not full source text. Hashes reveal equality and can permit guesses of low-entropy content; they are not anonymization.
 
 CLI and server errors redact values, credentials, and paths. Library users should not log raw validation structures. Store research files in ignored `local_projects/` or outside Git; ignore rules are convenience controls. Export projects and network records before closing the browser. Trusted local software can access the loopback service. See [SECURITY.md](SECURITY.md).
+
+## Review archives
+
+Local review bundles exclude raw CSV inputs, full supplied source texts, authorization credentials, and outbound bodies. They include potentially sensitive project descriptions and selected public query text, so inspect them before sharing. Network events are typed and screened. Saved hashes and empty ledgers do not authenticate completeness. See [review bundle limits](docs/REVIEW_BUNDLES.md).

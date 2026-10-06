@@ -1,0 +1,201 @@
+{
+  "$defs": {
+    "EvidenceDecision": {
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Case Id",
+          "type": "string"
+        },
+        "layer": {
+          "enum": [
+            "CITATION_IDENTITY",
+            "STATEMENT_ENTAILMENT",
+            "CONTEXT_COMPATIBILITY"
+          ],
+          "title": "Layer",
+          "type": "string"
+        },
+        "predicted_decision": {
+          "title": "Predicted Decision",
+          "type": "boolean"
+        },
+        "rationale": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Rationale",
+          "type": "string"
+        },
+        "reference_decision": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reference Decision"
+        },
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "unit_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Unit Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "unit_id",
+        "case_id",
+        "layer",
+        "predicted_decision",
+        "reference_decision",
+        "rationale"
+      ],
+      "title": "EvidenceDecision",
+      "type": "object"
+    },
+    "RecommendationJudgment": {
+      "additionalProperties": false,
+      "properties": {
+        "appropriate": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Appropriate"
+        },
+        "case_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Case Id",
+          "type": "string"
+        },
+        "control_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Control Id",
+          "type": "string"
+        },
+        "matched_reference_ids": {
+          "default": [],
+          "items": {
+            "maxLength": 100,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+            "type": "string"
+          },
+          "title": "Matched Reference Ids",
+          "type": "array"
+        },
+        "rationale": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Rationale",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "unsupported": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Unsupported"
+        }
+      },
+      "required": [
+        "case_id",
+        "control_id",
+        "appropriate",
+        "unsupported",
+        "rationale"
+      ],
+      "title": "RecommendationJudgment",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "annotator": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Annotator",
+      "type": "string"
+    },
+    "bundle_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Bundle Sha256",
+      "type": "string"
+    },
+    "evidence_decisions": {
+      "items": {
+        "$ref": "#/$defs/EvidenceDecision"
+      },
+      "title": "Evidence Decisions",
+      "type": "array"
+    },
+    "human_attested": {
+      "title": "Human Attested",
+      "type": "boolean"
+    },
+    "judgment_origin": {
+      "enum": [
+        "DEVELOPMENT_FIXTURE",
+        "EXPERT_ATTESTATION"
+      ],
+      "title": "Judgment Origin",
+      "type": "string"
+    },
+    "judgments": {
+      "items": {
+        "$ref": "#/$defs/RecommendationJudgment"
+      },
+      "title": "Judgments",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "bundle_sha256",
+    "judgment_origin",
+    "annotator",
+    "human_attested",
+    "judgments",
+    "evidence_decisions"
+  ],
+  "title": "AnnotationSubmission",
+  "type": "object"
+}

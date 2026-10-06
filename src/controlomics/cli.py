@@ -74,7 +74,7 @@ def main(argv=None):
     design = commands.add_parser("design", help="Export inspectable local design cues and questions")
     design.add_argument("project", type=Path)
     design.add_argument("--output", type=Path, required=True)
-    for name in ("add-claim", "specify-control"):
+    for name in ("add-claim", "specify-control", "specify-paired"):
         command = commands.add_parser(name, help="Add an explicit local scientific specification")
         command.add_argument("project", type=Path)
         command.add_argument("submission", type=Path)
@@ -127,8 +127,61 @@ def main(argv=None):
     benchmark.add_argument("--seed", type=int, default=827)
     serve = commands.add_parser("serve", help="Start the local memory-only research interface")
     serve.add_argument("--port", type=int, default=8765)
+    bundle_export = commands.add_parser("bundle-export", help="Save a bounded local review archive")
+    bundle_export.add_argument("project", type=Path)
+    bundle_export.add_argument("--network-audit", type=Path)
+    bundle_export.add_argument("--evaluation", type=Path)
+    bundle_export.add_argument("--revisions", type=Path)
+    bundle_export.add_argument("--output", type=Path, required=True)
+    bundle_import = commands.add_parser("bundle-import", help="Validate a review archive and write known local records")
+    bundle_import.add_argument("archive", type=Path)
+    bundle_import.add_argument("--directory", type=Path, required=True)
+    annotate = commands.add_parser("annotate", help="Apply researcher-supplied judgments to an exact evaluation snapshot")
+    annotate.add_argument("bundle", type=Path)
+    annotate.add_argument("submission", type=Path)
+    annotate.add_argument("--output", type=Path, required=True)
+    annotate.add_argument("--revision-output", type=Path, required=True)
     args = parser.parse_args(argv)
     try:
+        if args.command == "specify-paired":
+            from controlomics.execution import PairedSubmission, specify_paired_control
+            submission = read_typed(args.submission, PairedSubmission)
+            project = specify_paired_control(load_project(args.project), submission.claim_id, submission.rationale, submission.assumptions)
+            save_project(audit_project(project), args.output)
+            print("Specified a complete-pair statistical control; applicability remains researcher-supplied.")
+            return 0
+        if args.command == "annotate":
+            from controlomics.evaluation import AnnotationSubmission, EvaluationBundle, apply_annotations
+            updated, revision = apply_annotations(read_typed(args.bundle, EvaluationBundle), read_typed(args.submission, AnnotationSubmission))
+            write_json(args.output, updated.model_dump(mode="json"))
+            write_json(args.revision_output, revision.model_dump(mode="json"))
+            print("Saved supplied annotation judgments and their revision hashes. Identities are not authenticated.")
+            return 0
+        if args.command == "bundle-export":
+            from controlomics.artifacts import create_review_bundle
+            from controlomics.evaluation import EvaluationBundle
+            content = create_review_bundle(load_project(args.project), read_json(args.network_audit) if args.network_audit else (),
+                read_typed(args.evaluation, EvaluationBundle) if args.evaluation else None, read_json(args.revisions) if args.revisions else ())
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            args.output.write_bytes(content)
+            print("Saved a local review archive. Review project descriptions and public query text before sharing.")
+            return 0
+        if args.command == "bundle-import":
+            from controlomics.artifacts import MAX_ARCHIVE, open_review_bundle
+            with args.archive.open("rb") as stream:
+                project, ledger, evaluation, revisions, manifest = open_review_bundle(stream.read(MAX_ARCHIVE + 1))
+            if args.directory.exists() and any(args.directory.iterdir()):
+                raise ValueError("review import directory must be new or empty")
+            args.directory.mkdir(parents=True, exist_ok=True)
+            save_project(project, args.directory / "project.json")
+            write_json(args.directory / "network_audit.json", ledger)
+            write_json(args.directory / "manifest.json", manifest.model_dump(mode="json"))
+            write_report(project, args.directory / "report.html", ledger)
+            if evaluation is not None:
+                write_json(args.directory / "evaluation.json", evaluation.model_dump(mode="json"))
+                write_json(args.directory / "annotation_revisions.json", revisions)
+            print("Validated review records and regenerated the local report. Hashes are not authenticated provenance.")
+            return 0
         if args.command == "serve":
             from controlomics.server import serve_local
             serve_local(args.port)

@@ -14,12 +14,13 @@ One lightweight Python package represents a scientific claim attached to an anal
 | `evidence.py` | Europe PMC and Crossref metadata, resolution, connected alias consolidation |
 | `statistics.py`, `execution.py` | Fixed numeric procedures, packages, local execution, result import |
 | `reports.py` | Escaped self-contained HTML |
+| `artifacts.py` | Bounded review archives, typed ledger, integrity checks, safe in-memory restore |
 | `server.py`, `web/` | Loopback interface, session authorization, browser-memory projects |
 | `benchmark.py` | Labeled development cases and synthetic permutation checks |
 
 The workflow is intake, proposal, separate identity and statement review, context assessment, reviewed specification, execution, import, and audit. Each stage can retain uncertainty. Providers never receive entire projects implicitly. Parsing never executes imported text or code.
 
-Claims share an analysis but retain individual proposals and audits. Hosted completion targets one known claim. Candidate edits retain an earlier snapshot hash and cannot overwrite reviewed specifications. Source re-review requires the current reviewed snapshot hash. A repeat retrieval retains the earlier verified identity snapshot that existing statement reviews depend on; later response hashes remain in the separate network ledger. Thirteen auxiliary workflow schemas cover intake, review, proposals, reasoning, execution configuration, and evaluation.
+Claims share an analysis but retain individual proposals and audits. Hosted completion targets one known claim. Candidate edits retain an earlier snapshot hash and cannot overwrite reviewed specifications. Source re-review requires the current reviewed snapshot hash. A repeat retrieval retains the earlier verified identity snapshot that existing statement reviews depend on; later response hashes remain in the separate network ledger. Eighteen auxiliary workflow schemas cover intake, review, proposals, reasoning, execution configuration, evaluation, annotation revisions, and review manifests.
 
 ## Evidence and execution
 
@@ -29,7 +30,7 @@ The human workflow requires support for both exact statements, matching supplied
 
 Outbound objects bind selected SAFE fields to fixed literature URLs or a structured model body. Complete-request hashes govern approval. HTTPS connects to checked public addresses with hostname validation, no redirects, and bounded responses. Private institutional addresses need a separately assessed transport.
 
-Execution packages record plans, configuration, seeds, environment, artifact hashes, fixed scripts, and result schemas. Local execution uses an owned temporary directory. The adapter supports technical positive and negative references using small independent-unit two-group values. Other levels and control classes are rejected before package creation; general generated code and specialist primary-analysis designs are outside its scope.
+Execution packages record plans, configuration, seeds, environment, artifact hashes, fixed scripts, and result schemas. Local execution uses an owned temporary directory. The independent-group adapter supports technical positive and negative references. A separate adapter accepts only the explicit complete-pair statistical null specification and a supplied applicability rationale. Unsupported mappings are rejected before package creation; general generated code and specialist primary-analysis designs are outside its scope.
 
 ## Resources and deployment
 
@@ -37,4 +38,4 @@ Pydantic is the sole runtime dependency, supplying [strict validation](https://d
 
 The server binds to `127.0.0.1`, logs no requests, and stores no project database. It processes transient request snapshots; the browser retains work until export. Input and numerical budgets constrain ordinary operations. This is a local application rather than an internet-facing service.
 
-The design respects the supplied 16 GB RAM and approximately 10 GB free-storage limits. No model weights, containers, large datasets, GPU software, or scientific stack were installed. Measurements appear in [VALIDATION.md](VALIDATION.md). See [ADR 0001](docs/adr/0001_local_scientific_core.md), [ADR 0002](docs/adr/0002_retrieval_and_execution_boundaries.md), and [ADR 0003](docs/adr/0003_design_reasoning_and_evaluation.md).
+The design respects the supplied 16 GB RAM and approximately 10 GB free-storage limits. No model weights, containers, large datasets, GPU software, or scientific stack were installed. Measurements appear in [VALIDATION.md](VALIDATION.md). See [ADR 0001](docs/adr/0001_local_scientific_core.md), [ADR 0002](docs/adr/0002_retrieval_and_execution_boundaries.md), [ADR 0003](docs/adr/0003_design_reasoning_and_evaluation.md), and [ADR 0004](docs/adr/0004_paired_and_review_artifacts.md).

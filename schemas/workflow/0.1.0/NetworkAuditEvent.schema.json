@@ -1,0 +1,172 @@
+{
+  "$defs": {
+    "PublicAuditField": {
+      "additionalProperties": false,
+      "properties": {
+        "classification": {
+          "const": "SAFE",
+          "title": "Classification",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "value": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "value",
+        "classification"
+      ],
+      "title": "PublicAuditField",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "body": {
+      "default": null,
+      "title": "Body",
+      "type": "null"
+    },
+    "body_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Body Sha256"
+    },
+    "credential_supplied": {
+      "title": "Credential Supplied",
+      "type": "boolean"
+    },
+    "fields": {
+      "items": {
+        "$ref": "#/$defs/PublicAuditField"
+      },
+      "maxItems": 7,
+      "minItems": 1,
+      "title": "Fields",
+      "type": "array"
+    },
+    "method": {
+      "enum": [
+        "GET",
+        "POST"
+      ],
+      "title": "Method",
+      "type": "string"
+    },
+    "payload_transmission": {
+      "enum": [
+        "NOT_STARTED",
+        "ATTEMPTED",
+        "COMPLETED"
+      ],
+      "title": "Payload Transmission",
+      "type": "string"
+    },
+    "purpose": {
+      "enum": [
+        "LITERATURE",
+        "MODEL"
+      ],
+      "title": "Purpose",
+      "type": "string"
+    },
+    "request_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Request Sha256",
+      "type": "string"
+    },
+    "response_bytes": {
+      "anyOf": [
+        {
+          "maximum": 2097152,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Response Bytes"
+    },
+    "response_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Response Sha256"
+    },
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "sent_at": {
+      "format": "date-time",
+      "title": "Sent At",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "BLOCKED",
+        "FAILED",
+        "COMPLETED"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "url": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Url",
+      "type": "string"
+    }
+  },
+  "required": [
+    "purpose",
+    "method",
+    "url",
+    "fields",
+    "request_sha256",
+    "sent_at",
+    "status",
+    "credential_supplied",
+    "payload_transmission"
+  ],
+  "title": "NetworkAuditEvent",
+  "type": "object"
+}

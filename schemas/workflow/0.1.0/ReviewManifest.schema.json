@@ -1,0 +1,92 @@
+{
+  "$defs": {
+    "ArtifactHash": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "maximum": 4194304,
+          "minimum": 0,
+          "title": "Bytes",
+          "type": "integer"
+        },
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sha256",
+        "bytes"
+      ],
+      "title": "ArtifactHash",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "artifacts": {
+      "additionalProperties": {
+        "$ref": "#/$defs/ArtifactHash"
+      },
+      "title": "Artifacts",
+      "type": "object"
+    },
+    "controlomics_version": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Controlomics Version",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "format": {
+      "const": "controlomics.review_bundle.v0.1",
+      "default": "controlomics.review_bundle.v0.1",
+      "title": "Format",
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "project_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Project Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "controlomics_version",
+    "created_at",
+    "project_id",
+    "artifacts",
+    "limitations"
+  ],
+  "title": "ReviewManifest",
+  "type": "object"
+}

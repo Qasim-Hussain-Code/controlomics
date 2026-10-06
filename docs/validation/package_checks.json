@@ -1,11 +1,11 @@
 {
-  "recorded_at": "2026-10-06T03:12:27.808286+00:00",
-  "wheel": "controlomics-0.3.0.dev0-py3-none-any.whl",
-  "wheel_sha256": "fea9a8009552931b01903bf82c67731bf036026bc6a73b7f2e1e6d812b18173e",
-  "wheel_bytes": 75314,
+  "recorded_at": "2026-10-06T05:30:16.332606+00:00",
+  "wheel": "controlomics-0.4.0.dev0-py3-none-any.whl",
+  "wheel_sha256": "a5e76886e44e1d1ba680055b8531bd6201a358c3c3e3adf0a2780061cf171a39",
+  "wheel_bytes": 85290,
   "metadata": {
     "name": "controlomics",
-    "version": "0.3.0.dev0"
+    "version": "0.4.0.dev0"
   },
   "assets": [
     "controlomics/web/index.html",
@@ -13,11 +13,13 @@
     "controlomics/web/style.css"
   ],
   "smoke": {
-    "version": "0.3.0.dev0",
+    "version": "0.4.0.dev0",
     "imported_extracted_wheel": true,
     "local_draft": true,
     "browser_assets": true,
-    "evaluation_import": true
+    "evaluation_import": true,
+    "paired_arithmetic": true,
+    "review_archive_roundtrip": true
   },
   "scope": "Extracted package import and local interface smoke check using the existing Python/Pydantic environment. No external request, new dependency, or scientific validation.",
   "privacy_redaction": {

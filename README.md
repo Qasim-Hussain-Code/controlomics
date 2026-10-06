@@ -8,7 +8,7 @@ Models reason. Sources provide evidence. Deterministic software calculates. Cont
 
 ## Working research alpha
 
-Version `0.3.0.dev0` includes local description drafting, multiple claims, inspectable design rules, editable unreviewed controls, Europe PMC and Crossref retrieval, identifier consolidation, human statement review and re-review, conservative context comparison, three fixed numerical procedures, execution packages, result import, provenance, scientific reports, and a six-tab local workspace. Evaluation tools accept supplied annotations, retain missing judgments, and compare offline baselines. Optional hosted reasoning uses an interchangeable Messages interface. Project schema and ontology versions remain `0.1.0`.
+Version `0.4.0.dev0` includes local description drafting, multiple claims, inspectable design rules, editable unreviewed controls, Europe PMC and Crossref retrieval, human statement and context review, independent-group technical references, complete-pair statistical execution, reproducible packages, reports, and a six-tab local workspace. A judgment workbench records supplied annotations and revision hashes. Review archives save and restore the project, report, network ledger, and optional evaluation together. Optional hosted reasoning uses an interchangeable Messages interface. Project schema and ontology versions remain `0.1.0`.
 
 The default reasoner adds operation-specific null, specificity, robustness, confounder, and falsification specifications when stated design cues apply. These are provisional review questions, with inspectable triggers and limitations. The original two-reference baseline remains available. Both abstain from choosing biological entities without reviewed evidence. METHOD_BASED is specification review, not empirical validation. Hosted candidates cannot supply citations or promote their evidence status.
 
@@ -22,7 +22,7 @@ The existing Windows environment is ready. Double-click `Start_Controlomics.cmd`
 .\.venv\Scripts\python.exe scripts/run_demo.py
 ```
 
-Follow [the usage guide](docs/USAGE.md) for retrieval, human review, execution, and model configuration. Projects stay in browser memory until exported. Export your project and network ledger before closing the page. The generated demonstration report is `local_projects/demo/report.html`.
+Follow [the usage guide](docs/USAGE.md) for retrieval, human review, execution, and model configuration. Projects stay in browser memory until exported. Save a review bundle before closing the page. The generated demonstration report is `local_projects/demo/report.html`.
 
 Review [the design rules](docs/DESIGN_RULES.md) and [evaluation protocol](docs/EVALUATION.md). Included benchmark judgment sheets are UNASSESSED; they deliberately yield no scientific recommendation-quality score. Development expectations and source motivation are distinct from independent expert annotations.
 
@@ -45,9 +45,9 @@ Publication identity, statement support, context applicability, execution succes
 
 External requests require selected public fields and approval of the exact payload. Projects and raw inputs are never automatically serialized for providers. Credentials are excluded from previews, audit values, and reports. Pattern screening cannot identify every confidential fact. Review selected public fields and exports yourself. See [PRIVACY.md](PRIVACY.md) and [SECURITY.md](SECURITY.md).
 
-Numeric execution supports reviewed technical positive and negative references using small independent-unit two-group calculations, permutation tests, and percentile bootstrap intervals. PASS and FAIL apply only to prespecified technical references. Inferential results receive no automatic scientific pass. Design challenges, biological controls, specialist primary analyses, and paired or clustered designs require applicable adapters.
+Numeric execution supports reviewed technical positive and negative references using small independent-unit two-group calculations, permutation tests, and percentile bootstrap intervals. PASS and FAIL apply only to prespecified technical references. Inferential results receive no automatic scientific pass. A separate complete-pair mean-difference adapter requires an explicit specification and applicability rationale. It implements sign-flip permutation and whole-pair percentile bootstrap. Independence across pairs and sign invariance require justification. Other design challenges, biological controls, clustered and adjusted designs, and specialist primary analyses require applicable adapters.
 
-Software tests, eight current live identity checks, synthetic numerical observations, offline development comparisons, and interface review are recorded in [VALIDATION.md](VALIDATION.md). The six-case development fixtures test planted review-question codes. They are not an expert-grounded benchmark or evidence of agent generalization. No live hosted model or biological control was evaluated. See [METHODS.md](METHODS.md) and [ROADMAP.md](ROADMAP.md).
+Software tests, eight retained live identity checks, synthetic numerical observations, offline development comparisons, and interface review are recorded in [VALIDATION.md](VALIDATION.md). The six-case development fixtures test planted review-question codes. They are not an expert-grounded benchmark or evidence of agent generalization. No live hosted model or biological control was evaluated. See [METHODS.md](METHODS.md) and [ROADMAP.md](ROADMAP.md).
 
 ## Citation and license
 

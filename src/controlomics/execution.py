@@ -1,4 +1,4 @@
-"""Reviewed fixed templates for small, local, independent-unit numeric controls."""
+"""Reviewed fixed templates for small local numeric controls with explicit adapters."""
 
 from __future__ import annotations
 
@@ -20,13 +20,15 @@ from controlomics.privacy import canonical_json, digest
 from controlomics.project import decode_json, save_project
 from controlomics.schemas import (
     ControlResult, DecisionRule, ExecutionPlan, InputRequirement, PrivacyPolicy, PrivacyRequirements,
-    Record, SoftwareVersion, Text,
+    Identifier, Record, SoftwareVersion, Text,
 )
 from controlomics.workflow import event, now, replace_project
 
 
 class ExecutionConfig(Record):
     kind: Literal["REFERENCE", "PERMUTATION", "BOOTSTRAP"]
+    adapter: Literal["INDEPENDENT_REFERENCE", "PAIRED_DIFFERENCE"] = "INDEPENDENT_REFERENCE"
+    adapter_rationale: Text | None = None
     assumptions: Annotated[tuple[Text, ...], Field(min_length=1)]
     random_seed: Annotated[int, Field(ge=0)] = 0
     draws: Annotated[int, Field(ge=100, le=10000)] = 999
@@ -36,11 +38,37 @@ class ExecutionConfig(Record):
 
     @model_validator(mode="after")
     def reference_value(self):
+        if self.adapter == "PAIRED_DIFFERENCE" and (self.kind == "REFERENCE" or self.adapter_rationale is None):
+            raise ValueError("paired inference requires an applicability rationale and permutation or bootstrap kind")
         if self.kind == "REFERENCE" and self.expected_difference is None:
             raise ValueError("a reference check requires an independently prespecified expected difference")
         if self.kind != "REFERENCE" and self.expected_difference is not None:
             raise ValueError("inferential controls do not use an automatic reference pass rule")
         return self
+
+
+PAIRED_BASIS = "Complete-pair mean differences; independent pairs; sign-invariant differences for the permutation null; whole-pair resampling for the bootstrap."
+
+
+class PairedSubmission(Record):
+    claim_id: Identifier
+    rationale: Text
+    assumptions: Annotated[tuple[Text, ...], Field(min_length=1)]
+
+
+def specify_paired_control(project, claim_id, rationale, assumptions):
+    submission = PairedSubmission.model_validate_json(json.dumps({"claim_id": claim_id, "rationale": rationale, "assumptions": assumptions}))
+    from controlomics.models import DraftControl
+    from controlomics.workflow import CandidateSubmission, specify_candidate, review_methods
+    draft = DraftControl(name="Complete-pair difference control", control_class="NULL", scientific_level="STATISTICAL",
+        rationale=submission.rationale, expected_behavior="Under the specified sign-invariant null, within-pair sign flips generate the reference distribution of the absolute mean difference. Resampling complete pairs estimates uncertainty in the observed mean difference under the supplied sampling assumptions.",
+        failure_interpretation="A small p value challenges the specified sign-invariant null. A bootstrap interval describes estimated uncertainty under its assumptions. Neither establishes causality or biological validity.",
+        evidence_required=False, method_basis=PAIRED_BASIS,
+        uncertainties=submission.assumptions, limitations=("Pair completeness does not establish independence or sign invariance. A zero mean alone does not justify sign flips.",
+            "The percentile bootstrap resamples complete pairs; its population coverage is not established by this calculation.",
+            "Nested, temporal, covariate-adjusted, and primary analyses require other adapters."))
+    updated = specify_candidate(project, CandidateSubmission(claim_id=submission.claim_id, control=draft))
+    return review_methods(updated, control_ids=(updated.candidates[-1].control_id,))
 
 
 RUNNER = '''"""Local fixed-template control runner. No network or dynamic code execution."""
@@ -63,12 +91,17 @@ def main():
     for name, expected in manifest["artifact_hashes"].items():
         if hashlib.sha256((base / name).read_bytes()).hexdigest() != expected:
             raise ValueError("execution artifact hash differs from the reviewed package")
-    from stats import read_numeric_bytes, mean_difference, permutation_test, bootstrap_difference
+    from stats import read_numeric_bytes, mean_difference, permutation_test, bootstrap_difference, read_paired_bytes, paired_mean, paired_permutation, paired_bootstrap
     started = datetime.now(timezone.utc).isoformat()
     with args.input.open("rb") as stream:
         raw_input = stream.read(2 * 1024 * 1024 + 1)
-    values, labels = read_numeric_bytes(raw_input)
-    effect = mean_difference(values, labels)
+    paired = config.get("adapter") == "PAIRED_DIFFERENCE"
+    if paired:
+        differences = read_paired_bytes(raw_input)
+        effect = paired_mean(differences)
+    else:
+        values, labels = read_numeric_bytes(raw_input)
+        effect = mean_difference(values, labels)
     output = {
         "schema_version": "0.1.0", "result_id": plan["execution_id"] + ".result",
         "control_id": plan["control_id"], "execution_id": plan["execution_id"],
@@ -76,8 +109,8 @@ def main():
         "software_versions": [{"name": "Python", "version": platform.python_version()},
                               {"name": "controlomics_fixed_runner", "version": manifest["code_sha256"]}],
         "random_seed": plan["random_seed"],
-        "input_hashes": [{"input_id": "numeric_units", "sha256": hashlib.sha256(raw_input).hexdigest()}],
-        "effect_estimate": {"name": "mean(label=1)-mean(label=0)", "value": effect},
+        "input_hashes": [{"input_id": "paired_units" if paired else "numeric_units", "sha256": hashlib.sha256(raw_input).hexdigest()}],
+        "effect_estimate": {"name": "mean of within-pair condition 1 minus condition 0" if paired else "mean(label=1)-mean(label=0)", "value": effect},
         "outcome": "INDETERMINATE", "warnings": ["Sampling independence and applicability are researcher-supplied assumptions."],
         "interpretive_metadata": config["assumptions"],
         "interpretation": "The numeric result alone does not establish biological validity or absence of an effect.",
@@ -87,18 +120,18 @@ def main():
         output.update(outcome="PASS" if passed else "FAIL", decision_rule_id=plan["decision_rule"]["rule_id"],
                       interpretation="Prespecified technical reference calculation " + ("matched" if passed else "did not match") + " its expected output. This does not establish the biological claim.")
     elif config["kind"] == "PERMUTATION":
-        result = permutation_test(values, labels, seed=config["random_seed"], draws=config["draws"])
+        result = paired_permutation(differences, seed=config["random_seed"], draws=config["draws"]) if paired else permutation_test(values, labels, seed=config["random_seed"], draws=config["draws"])
         output.update(p_value=result["p_value"],
             test_statistic={"name": "absolute mean difference", "value": abs(effect)},
             null_distribution_summary={"draws": result["draws"], "mean": result["null_mean"],
-                "standard_deviation": result["null_sd"], "null_hypothesis": "Group labels are exchangeable for the tested mean-difference null.",
+                "standard_deviation": result["null_sd"], "null_hypothesis": "Independent pair differences are invariant under independent sign flips." if paired else "Group labels are exchangeable for the tested mean-difference null.",
                 "exchangeability_assumptions": config["assumptions"]})
         output["warnings"].append("Exact enumeration" if result["exact"] else "Monte Carlo p value uses the plus-one correction.")
         output["warnings"].append("Numerical tail comparisons use a relative tolerance of 1e-12 with zero absolute tolerance.")
     else:
-        result = bootstrap_difference(values, labels, seed=config["random_seed"], draws=config["draws"], coverage=config["coverage"])
+        result = paired_bootstrap(differences, seed=config["random_seed"], draws=config["draws"], coverage=config["coverage"]) if paired else bootstrap_difference(values, labels, seed=config["random_seed"], draws=config["draws"], coverage=config["coverage"])
         output["confidence_interval"] = {"lower": result["lower"], "upper": result["upper"],
-            "coverage": result["coverage"], "method": "Within-group percentile bootstrap with linear quantile interpolation"}
+            "coverage": result["coverage"], "method": "Complete-pair percentile bootstrap with linear quantile interpolation" if paired else "Within-group percentile bootstrap with linear quantile interpolation"}
         output["warnings"].append("Percentile intervals can have poor coverage for small, biased, or dependent samples.")
     output["completed_at"] = datetime.now(timezone.utc).isoformat()
     args.output.write_text(json.dumps(output, indent=2, allow_nan=False) + "\\n", encoding="utf-8")
@@ -153,7 +186,10 @@ def build_package(project, control_id: str, config: ExecutionConfig, directory: 
     control = next((item for item in project.controls if item.control_id == control_id), None)
     if control is None or control.evidence_status not in ("METHOD_BASED", "EVIDENCE_BACKED"):
         raise ValueError("execution requires a reviewed, justified control specification")
-    if control.scientific_level != "TECHNICAL" or control.control_class not in ("POSITIVE", "NEGATIVE"):
+    paired = config.adapter == "PAIRED_DIFFERENCE"
+    if paired and (control.scientific_level != "STATISTICAL" or control.control_class != "NULL" or control.method_basis != PAIRED_BASIS):
+        raise ValueError("paired adapter requires the explicit complete-pair control specification")
+    if not paired and (control.scientific_level != "TECHNICAL" or control.control_class not in ("POSITIVE", "NEGATIVE")):
         raise ValueError("this numeric adapter only executes technical positive and negative reference specifications; other controls require an applicable adapter")
     if directory.exists() and any(directory.iterdir()):
         raise ValueError("execution package directory must be new or empty")
@@ -162,8 +198,9 @@ def build_package(project, control_id: str, config: ExecutionConfig, directory: 
     directory.mkdir(parents=True, exist_ok=True)
     stats_code = Path(statistics.__file__).read_text(encoding="utf-8").replace("\r\n", "\n")
     code_hash = digest(RUNNER.encode() + stats_code.encode())
-    inputs = (InputRequirement(input_id="numeric_units", description="Independent numeric units with group labels; raw data remain local.",
-                               format="UTF-8 CSV with columns unit,label,value; labels 0 or 1", privacy_class="RESTRICTED"),)
+    inputs = (InputRequirement(input_id="paired_units" if paired else "numeric_units",
+        description="Complete pairs, independent across pair identifiers; raw data remain local." if paired else "Independent numeric units with group labels; raw data remain local.",
+        format="UTF-8 CSV with columns pair,condition,value; exactly one condition 0 and 1 per pair" if paired else "UTF-8 CSV with columns unit,label,value; labels 0 or 1", privacy_class="RESTRICTED"),)
     control = control.model_copy(update={"required_inputs": inputs, "execution_status": "PLANNED",
         "privacy_requirements": PrivacyRequirements(rationale="Numeric input data must be executed where they reside.")})
     rule = None
@@ -175,9 +212,10 @@ def build_package(project, control_id: str, config: ExecutionConfig, directory: 
         required_inputs=inputs, software_versions=(SoftwareVersion(name="Python", version=platform.python_version()),),
         randomness="DETERMINISTIC" if config.kind == "REFERENCE" else "SEEDED",
         random_seed=None if config.kind == "REFERENCE" else config.random_seed, code_sha256=code_hash,
-        decision_rule=rule, parameters=("Configuration sha256: " + digest(canonical_json(config.model_dump(mode="json"))),),
-        instructions="Run the fixed local runner on independent-unit numeric input, verify the result, then import it into the saved project.",
-        limitations=("Only small, two-group independent-unit numeric controls are executable by this adapter. Paired, clustered, covariate-adjusted, and full primary analyses are outside this adapter.",))
+        decision_rule=rule, parameters=("Configuration sha256: " + digest(canonical_json(config.model_dump(mode="json"))), "Adapter: " + config.adapter) + (("Applicability rationale: " + config.adapter_rationale,) if config.adapter_rationale else ()),
+        instructions="Run the fixed local runner on the specified CSV layout, verify the result, then import it into the saved project.",
+        limitations=("This adapter handles complete pairs only; independence across pairs and sign invariance require researcher justification." if paired else "This adapter handles independent-unit technical references only.",
+            "Clustered, temporal, covariate-adjusted, and full primary analyses require other adapters.",))
     updated = replace_project(project, controls=tuple(control if item.control_id == control_id else item for item in project.controls),
         privacy=PrivacyPolicy(rationale="Project includes restricted numeric input requirements; data remain local."),
         execution_plans=project.execution_plans + (plan,),
@@ -196,7 +234,7 @@ def build_package(project, control_id: str, config: ExecutionConfig, directory: 
         "artifact_hashes": hashes, "controlomics_version": __version__}) + b"\n")
     (directory / "README.md").write_text(
         "# Local control execution\n\nReview control.json, config.json, assumptions, and code before execution. "
-        "Rows must represent independent units; this runner does not correct dependence or justify exchangeability. "
+        "Review the selected adapter and required CSV layout. Pair identifiers do not establish independence across pairs. This runner does not justify exchangeability. "
         "The numeric input stays local. No model-generated code is executed.\n\n"
         "Run: `python run_control.py --input input.csv --output results.json`.\n\n"
         "Verify with the installed package: `python verify_results.py results.json`.\n\n"
@@ -222,7 +260,7 @@ def import_result(project, result: ControlResult):
 
 def execute_local(project, control_id, config, raw_input: bytes):
     # Only this fixed, hash-checked template is executable. Model text is never code.
-    statistics.read_numeric_bytes(raw_input)
+    (statistics.read_paired_bytes if config.adapter == "PAIRED_DIFFERENCE" else statistics.read_numeric_bytes)(raw_input)
     with TemporaryDirectory(prefix="controlomics_execution_") as temporary:
         folder = Path(temporary) / "package"
         updated = build_package(project, control_id, config, folder, pathway="LOCAL")

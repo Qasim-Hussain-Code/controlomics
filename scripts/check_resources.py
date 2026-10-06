@@ -7,7 +7,8 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from controlomics.project import export_json_schemas, load_project
-from controlomics.execution import ExecutionConfig, execute_local
+from controlomics.execution import ExecutionConfig, execute_local, specify_paired_control
+from controlomics.artifacts import create_review_bundle, open_review_bundle
 from controlomics.reports import render_report
 from controlomics.workflow import audit_project, propose, replace_project, review_methods
 from controlomics.formats import export_workflow_schemas
@@ -51,7 +52,12 @@ def main():
     with TemporaryDirectory() as temporary:
         export_json_schemas(Path(temporary))
         export_workflow_schemas(Path(temporary) / "workflow")
-    evaluate(EvaluationBundle.model_validate_json((root / "examples" / "benchmark.design.unassessed.json").read_bytes()))
+    evaluation = EvaluationBundle.model_validate_json((root / "examples" / "benchmark.design.unassessed.json").read_bytes())
+    evaluate(evaluation)
+    project = specify_paired_control(project, project.claims[0].claim_id, "Hypothetical complete pairs for resource measurement.", ("Synthetic independent pairs and sign-invariant null.",))
+    project = execute_local(project, project.controls[-1].control_id, ExecutionConfig.model_validate_json((root / "examples" / "paired_execution.json").read_bytes()),
+        (root / "examples" / "paired_reference.csv").read_bytes())
+    open_review_bundle(create_review_bundle(project, evaluation=evaluation))
     project_bytes = 0
     for path in root.rglob("*"):
         parts = path.relative_to(root).parts
@@ -61,7 +67,7 @@ def main():
             project_bytes += path.stat().st_size
     environment_bytes = sum(path.stat().st_size for path in (root / ".venv").rglob("*") if path.is_file())
     print(json.dumps({
-        "workload": "Two local project validations, method reviews, fixed synthetic reference executions, audits and reports, ten core and thirteen workflow schema exports, and a six-case unassessed evaluation",
+        "workload": "Two local project validations, method reviews, fixed synthetic reference executions, audits and reports, ten core and eighteen workflow schema exports, six-case unassessed evaluation, paired sign-flip execution, and review archive roundtrip",
         "project_file_bytes": project_bytes,
         "virtual_environment_file_bytes": environment_bytes,
         "peak_python_working_set_bytes": peak_memory_bytes(),

@@ -1,4 +1,4 @@
-"""Small independent-unit statistics. This module is copied into execution packages."""
+"""Small independent-group and complete-pair statistics copied into fixed packages."""
 
 import csv
 import itertools
@@ -96,3 +96,65 @@ def bootstrap_difference(values, labels, seed=0, draws=999, coverage=0.95):
     tail = (1 - coverage) / 2
     return {"effect": mean_difference(values, labels), "lower": quantile(distribution, tail),
             "upper": quantile(distribution, 1 - tail), "coverage": coverage}
+
+
+def read_paired_bytes(raw):
+    if len(raw) > 2 * 1024 * 1024:
+        raise ValueError("paired input exceeds its size limit")
+    pairs = {}
+    with io.StringIO(raw.decode("utf-8"), newline="") as stream:
+        reader = csv.DictReader(stream)
+        if reader.fieldnames != ["pair", "condition", "value"]:
+            raise ValueError("CSV columns must be pair,condition,value")
+        for index, row in enumerate(reader):
+            if index >= MAX_ROWS or None in row or any(value is None for value in row.values()):
+                raise ValueError("paired input is malformed or exceeds its row limit")
+            if not row["pair"].strip() or row["pair"] != row["pair"].strip() or row["condition"] not in ("0", "1"):
+                raise ValueError("pair identifiers and conditions zero or one are required")
+            pair = pairs.setdefault(row["pair"], {})
+            if row["condition"] in pair:
+                raise ValueError("each pair must have exactly one value per condition")
+            value = float(row["value"])
+            if not math.isfinite(value):
+                raise ValueError("paired values must be finite")
+            pair[row["condition"]] = value
+    if len(pairs) < 2 or any(set(pair) != {"0", "1"} for pair in pairs.values()):
+        raise ValueError("at least two complete pairs are required")
+    differences = [pairs[key]["1"] - pairs[key]["0"] for key in sorted(pairs)]
+    if not all(math.isfinite(value) for value in differences):
+        raise ValueError("paired differences must be finite")
+    return differences
+
+
+def paired_mean(differences):
+    if not 2 <= len(differences) <= MAX_ROWS // 2 or not all(math.isfinite(value) for value in differences):
+        raise ValueError("two to one thousand finite pair differences are required")
+    return math.fsum(value / len(differences) for value in differences)
+
+
+def paired_permutation(differences, seed=0, draws=999, exact_limit=5000):
+    observed = paired_mean(differences)
+    if not 1 <= draws <= 10000 or not 1 <= exact_limit <= 5000:
+        raise ValueError("paired permutation budget is invalid")
+    exact = 2 ** len(differences) <= exact_limit
+    generator = random.Random(seed)
+    signs = itertools.product((-1, 1), repeat=len(differences)) if exact else (
+        [generator.choice((-1, 1)) for _ in differences] for _ in range(draws))
+    null = [paired_mean([sign * value for sign, value in zip(assignment, differences)]) for assignment in signs]
+    extreme = sum(abs(value) >= abs(observed) or math.isclose(abs(value), abs(observed), rel_tol=1e-12, abs_tol=0.0) for value in null)
+    average = math.fsum(value / len(null) for value in null)
+    # Scaling avoids overflow when finite values have a large magnitude.
+    scale = max(abs(value) for value in null)
+    sd = 0.0 if scale == 0 else scale * math.sqrt(math.fsum(((value / scale) - (average / scale)) ** 2 / len(null) for value in null))
+    return {"effect": observed, "p_value": extreme / len(null) if exact else (extreme + 1) / (len(null) + 1),
+            "draws": len(null), "exact": exact, "null_mean": average, "null_sd": sd}
+
+
+def paired_bootstrap(differences, seed=0, draws=999, coverage=0.95):
+    observed = paired_mean(differences)
+    if not 100 <= draws <= 10000 or not 0 < coverage < 1:
+        raise ValueError("paired bootstrap budget or coverage is invalid")
+    generator = random.Random(seed)
+    distribution = [paired_mean(generator.choices(differences, k=len(differences))) for _ in range(draws)]
+    tail = (1 - coverage) / 2
+    return {"effect": observed, "lower": quantile(distribution, tail), "upper": quantile(distribution, 1 - tail), "coverage": coverage}

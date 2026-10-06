@@ -3,17 +3,18 @@
 from __future__ import annotations
 
 import math
+import json
 from hashlib import sha256
 from collections import Counter
 from datetime import datetime, timezone
 from typing import Annotated, Literal
 
-from pydantic import Field, model_validator
+from pydantic import AwareDatetime, Field, model_validator
 
 from controlomics import __version__
 from controlomics.benchmark import wilson
 from controlomics.schemas import (ControlClass, EvidenceIdentifier, Identifier, Probability,
-    Record, ScientificLevel, Text)
+    Record, ScientificLevel, Text, Sha256, LocalOnly)
 from controlomics.workflow import Intake
 
 Origin = Literal["UNASSESSED", "DEVELOPMENT_FIXTURE", "EXPERT_ATTESTATION"]
@@ -162,6 +163,54 @@ class EvaluationBundle(Record):
         if self.judgment_origin == "EXPERT_ATTESTATION" and self.annotator is None:
             raise ValueError("expert judgments require an explicitly supplied annotator")
         return self
+
+
+class AnnotationSubmission(Record):
+    bundle_sha256: Sha256
+    judgment_origin: Literal["DEVELOPMENT_FIXTURE", "EXPERT_ATTESTATION"]
+    annotator: Text
+    human_attested: bool
+    judgments: tuple[RecommendationJudgment, ...]
+    evidence_decisions: tuple[EvidenceDecision, ...]
+
+    @model_validator(mode="after")
+    def actual_reviewer(self):
+        if not self.human_attested:
+            raise ValueError("recording judgments requires an explicit human attestation")
+        return self
+
+
+class AnnotationRevision(Record):
+    previous_sha256: Sha256
+    updated_sha256: Sha256
+    recorded_at: AwareDatetime
+    judgment_origin: Literal["DEVELOPMENT_FIXTURE", "EXPERT_ATTESTATION"]
+    annotator: Text
+    human_attested: LocalOnly
+
+
+def bundle_hash(bundle):
+    from controlomics.privacy import canonical_json, digest
+    return digest(canonical_json(bundle.model_dump(mode="json")))
+
+
+def apply_annotations(bundle: EvaluationBundle, submission: AnnotationSubmission):
+    if submission.bundle_sha256 != bundle_hash(bundle):
+        raise ValueError("annotations target a different evaluation snapshot")
+    before = {(item.layer, item.unit_id): (item.case_id, item.predicted_decision) for item in bundle.evidence_decisions}
+    after = {(item.layer, item.unit_id): (item.case_id, item.predicted_decision) for item in submission.evidence_decisions}
+    if before != after:
+        raise ValueError("annotation cannot alter predicted evidence decisions")
+    # Revalidation retains all case/reference/partition gates. Predictions and references are immutable here.
+    value = bundle.model_dump(mode="json")
+    value.update(judgment_origin=submission.judgment_origin, annotator=submission.annotator,
+        judgments=[item.model_dump(mode="json") for item in submission.judgments],
+        evidence_decisions=[item.model_dump(mode="json") for item in submission.evidence_decisions])
+    updated = EvaluationBundle.model_validate_json(json.dumps(value))
+    revision = AnnotationRevision(previous_sha256=bundle_hash(bundle), updated_sha256=bundle_hash(updated),
+        recorded_at=datetime.now(timezone.utc), judgment_origin=submission.judgment_origin,
+        annotator=submission.annotator, human_attested=True)
+    return updated, revision
 
 
 def ratio(numerator, denominator, definition):

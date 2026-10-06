@@ -3,7 +3,8 @@
 import argparse
 from pathlib import Path
 
-from controlomics.execution import ExecutionConfig, execute_local
+from controlomics.execution import ExecutionConfig, execute_local, specify_paired_control
+from controlomics.artifacts import create_review_bundle
 from controlomics.project import load_project, save_project
 from controlomics.reports import write_report
 from controlomics.workflow import Intake, audit_project, new_project, propose, review_methods
@@ -44,7 +45,17 @@ def main():
             write_report(project, args.output / "report.html")
         outcomes = ", ".join(result.outcome for result in project.results)
         print(example + ": synthetic technical references " + outcomes + "; biological claim remains unvalidated.")
-    print("Saved two projects and scientific reports. No external requests were made.")
+    project = demonstration("transcriptomics", root)
+    project = specify_paired_control(project, project.claims[0].claim_id,
+        "Hypothetical complete pairs demonstrate a separate fixed statistical adapter.",
+        ("Hand-constructed independent pairs with a sign-invariant null for software demonstration only.",))
+    config = ExecutionConfig.model_validate_json((root / "examples" / "paired_execution.json").read_bytes())
+    project = audit_project(execute_local(project, project.controls[-1].control_id, config, (root / "examples" / "paired_reference.csv").read_bytes()))
+    save_project(project, args.output / "paired.project.json")
+    write_report(project, args.output / "paired.report.html")
+    (args.output / "controlomics.review.zip").write_bytes(create_review_bundle(project))
+    print("paired: synthetic exact sign-flip p value " + str(project.results[-1].p_value) + "; no automatic scientific pass.")
+    print("Saved local projects, reports, and a review archive. No external requests were made.")
 
 
 if __name__ == "__main__":

@@ -53,7 +53,7 @@ Run locally to use a fixed, hash-checked template in a temporary directory. Down
 .\.venv\Scripts\controlomics.exe report local_projects/completed.json --output local_projects/report.html
 ```
 
-Each control receives one execution plan per snapshot. Keep a separate original project for reruns. Paired, clustered, covariate-adjusted, GPU, and specialist primary-analysis workflows require other adapters or external execution.
+Each control receives one execution plan per snapshot. Keep a separate original project for reruns. Clustered, temporal, covariate-adjusted, GPU, and specialist primary-analysis workflows require other adapters or external execution.
 
 The original project examples contain hypothetical statistical specifications that remain readable but are not mapped to this runner. The explicit intake example above creates supported technical references. Preserve the distinction between a count-model or predictive-pipeline challenge and a generic mean-difference reference.
 
@@ -82,3 +82,19 @@ The Evaluation tab calculates a locally supplied evaluation bundle, showing orig
 Claim submissions contain statement, category, computational_support, and optional assumptions. Candidate submissions contain claim_id, a DraftControl, and control_id only when editing an existing unreviewed candidate. The workflow JSON schemas define exact required fields. Untrusted JSON uses bounded duplicate-key-aware parsing; an imported record is not authenticated merely because it parses.
 
 The CLI description limit is 12,000 UTF-8 bytes and rejects larger files without truncation. The browser limits description text to 12,000 characters inside the normal local request budget. CLI model-context and network-ledger files use bounded 2 MiB JSON reads.
+
+## Complete-pair execution
+
+In Execution, expand Specify a complete-pair statistical control. Choose its claim and provide the applicability rationale and assumptions. Select the Complete-pair mean difference adapter, choose permutation or bootstrap, and provide a separate adapter rationale. The method review checks the specification; it does not establish assumptions.
+
+Inputs have `pair,condition,value` columns, exactly one finite value for condition 0 and 1 in every pair, 2 to 1,000 complete pairs, and a 2 MiB limit. No incomplete-pair deletion is performed. The effect is the mean of condition 1 minus condition 0 within pairs. Under an independently justified sign-invariant null, sign flips preserve each pair. Bootstrap resampling preserves complete pairs. Neither procedure produces an automatic scientific PASS or FAIL. `examples/paired_reference.csv` and `examples/paired_execution.json` are hypothetical software examples.
+
+The CLI `specify-paired PROJECT SUBMISSION --output OUTPUT` accepts a JSON submission with `claim_id`, `rationale`, and nonempty `assumptions`. It creates the explicit paired specification. Then use its control ID with `execute` or `package` and the paired execution configuration. The independent-reference adapter does not accept that control; the paired adapter does not accept unrelated reviewed statistical challenges.
+
+## Judgment workbench and review archives
+
+Choose an evaluation file and Open judgment workbench in Evaluation. Inspect case descriptions, reference definitions, recommendations, and any imported evidence predictions. Unknown is the default. Select appropriate and unsupported judgments independently, explain them, and match reference controls only when appropriate. Case switching retains draft edits. Recording judgments requires the actual reviewer's name, declared origin, and explicit attestation. The recorded snapshot preserves dataset references and predictions. Calculate metrics again after editing. Development fixture labels are not independent expert validation.
+
+Export annotated bundle and Export annotation revisions retain the recorded snapshot and revision hash chain. Earlier snapshot content must be saved separately. CLI `annotate BUNDLE SUBMISSION --output OUTPUT --revision-output REVISION` applies the same binding and validation. AnnotationSubmission requires the exact canonical bundle hash; the `/api/annotation-template` local action returns it. Python `bundle_hash` provides the equivalent for scripts. Predictions and reference definitions cannot be changed through annotation submission.
+
+Save review bundle captures the current project, regenerated report, network ledger, and any loaded recorded evaluation. Open review bundle restores validated local records. See [review bundle format and limits](REVIEW_BUNDLES.md). Save before closing the workspace.

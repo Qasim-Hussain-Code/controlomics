@@ -1,0 +1,56 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "annotator": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Annotator",
+      "type": "string"
+    },
+    "human_attested": {
+      "const": true,
+      "title": "Human Attested",
+      "type": "boolean"
+    },
+    "judgment_origin": {
+      "enum": [
+        "DEVELOPMENT_FIXTURE",
+        "EXPERT_ATTESTATION"
+      ],
+      "title": "Judgment Origin",
+      "type": "string"
+    },
+    "previous_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Previous Sha256",
+      "type": "string"
+    },
+    "recorded_at": {
+      "format": "date-time",
+      "title": "Recorded At",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "updated_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Updated Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "previous_sha256",
+    "updated_sha256",
+    "recorded_at",
+    "judgment_origin",
+    "annotator",
+    "human_attested"
+  ],
+  "title": "AnnotationRevision",
+  "type": "object"
+}

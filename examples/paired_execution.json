@@ -1,0 +1,11 @@
+{
+  "kind": "PERMUTATION",
+  "adapter": "PAIRED_DIFFERENCE",
+  "adapter_rationale": "The hypothetical input consists of complete pairs and the specified control targets their mean difference.",
+  "assumptions": [
+    "This is a hand-constructed software example, not an observed biological dataset.",
+    "Pairs are independent and pair differences are invariant under independent sign flips under the tested null."
+  ],
+  "random_seed": 7,
+  "draws": 999
+}

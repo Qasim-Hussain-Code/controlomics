@@ -1,7 +1,8 @@
 "use strict";
-const state = {project: null, audit: [], token: null, pending: null, busy: false, profiles: [], narrative: null, reviewTemplate: null, evaluation: null};
+const state = {project: null, audit: [], token: null, pending: null, busy: false, profiles: [], narrative: null, reviewTemplate: null, evaluation: null, evaluationBundle: null, annotationHash: null, annotationDraft: null, annotationCase: null, revisions: []};
 const $ = id => document.getElementById(id);
 const lines = text => text.split(/\r?\n/).map(value => value.trim()).filter(Boolean);
+const pairedBasis = "Complete-pair mean differences; independent pairs; sign-invariant differences for the permutation null; whole-pair resampling for the bootstrap.";
 function message(text, error = false) { $("status").textContent = text; $("status").className = error ? "status error" : "status"; }
 async function action(work) { if (state.busy) return; state.busy = true; message("Processing the requested operation..."); try { await work(); } catch (error) { message(error.message || "Operation failed.", true); } finally { state.busy = false; } }
 async function api(path, body, binary = false) {
@@ -23,14 +24,14 @@ function accept(data, notice) { if (data.project) state.project = data.project; 
 function options(select, entries) { const prior = select.value; select.replaceChildren(); for (const [value, label] of entries) { const option = node("option", label); option.value = value; select.append(option); } if (entries.some(entry => entry[0] === prior)) select.value = prior; }
 function render() {
   const project = state.project;
-  $("export-project").disabled = $("export-report").disabled = !project;
+  $("export-project").disabled = $("export-report").disabled = $("export-bundle").disabled = !project;
   for (const id of ["control-list", "evidence-list", "result-list", "audit-list", "execution-control", "claim-list", "design-profiles"]) $(id).replaceChildren();
   $("additional-claims").hidden = !project;
   $("add-control").disabled = $("check-methods").disabled = !project;
   if (!project) { for (const id of ["control-list", "evidence-list", "result-list", "audit-list"]) $(id).append(empty("Create or open a local project to inspect this section.")); return; }
   const controls = [...project.controls, ...project.candidates];
   const claims = project.claims.map(claim => [claim.claim_id, claim.statement]);
-  for (const id of ["candidate-claim", "model-claim"]) options($(id), claims);
+  for (const id of ["candidate-claim", "model-claim", "paired-claim"]) options($(id), claims);
   options($("review-control"), controls.map(control => [control.control_id, control.control_name + " / " + control.evidence_status]));
   for (const claim of project.claims) $("claim-list").append(field(claim.category + " / support " + claim.computational_support, claim.statement));
   for (const control of controls) {
@@ -47,7 +48,8 @@ function render() {
     card.append(details, actions, node("div", control.scientific_level + " / " + control.execution_status, "card-foot")); $("control-list").append(card);
   }
   if (!controls.length) $("control-list").append(empty("No appropriate control was specified. Review the analysis context and recorded abstentions."));
-  for (const control of project.controls.filter(item => item.scientific_level === "TECHNICAL" && ["POSITIVE", "NEGATIVE"].includes(item.control_class) && ["METHOD_BASED", "EVIDENCE_BACKED"].includes(item.evidence_status) && !project.execution_plans.some(plan => plan.control_id === item.control_id))) {
+  const paired = $("execution-adapter").value === "PAIRED_DIFFERENCE";
+  for (const control of project.controls.filter(item => (paired ? item.scientific_level === "STATISTICAL" && item.control_class === "NULL" && item.method_basis === pairedBasis : item.scientific_level === "TECHNICAL" && ["POSITIVE", "NEGATIVE"].includes(item.control_class)) && ["METHOD_BASED", "EVIDENCE_BACKED"].includes(item.evidence_status) && !project.execution_plans.some(plan => plan.control_id === item.control_id))) {
     const option = node("option", control.control_class + ": " + control.control_name); option.value = control.control_id; $("execution-control").append(option);
   }
   for (const evidence of project.evidence) {
@@ -100,10 +102,12 @@ function example(kind) {
 }
 $("example-rna").addEventListener("click", () => example("rna")); $("example-ml").addEventListener("click", () => example("ml"));
 async function fileJSON(input) { const file = input.files[0]; if (!file) return null; if (file.size > 2 * 1024 * 1024) throw new Error("Local JSON exceeds the 2 MiB limit."); return (await api("/api/parse-json", {content: await file.text()})).value; }
-$("project-file").addEventListener("change", () => action(async () => { const project = await fileJSON($("project-file")); if (!project) return; state.audit = []; accept(await api("/api/analyze", {project}), "Opened and audited a local project. Review its evidence receipts before relying on them."); switchView("controls"); $("project-file").value = ""; }));
+$("project-file").addEventListener("change", () => action(async () => { const project = await fileJSON($("project-file")); if (!project) return; const data = await api("/api/analyze", {project}); state.audit = []; accept(data, "Opened and audited a local project. Review its evidence receipts before relying on them."); switchView("controls"); $("project-file").value = ""; }));
 $("export-project").addEventListener("click", () => { if (state.project) download(JSON.stringify(state.project, null, 2), "project.controlomics.json"); });
 $("export-audit").addEventListener("click", () => download(JSON.stringify(state.audit, null, 2), "network_audit.json"));
 $("export-report").addEventListener("click", () => action(async () => { const report = await api("/api/report", {project: requireProject(), network_audit: state.audit}, true); download(report, "controlomics.report.html"); message("Downloaded the local report. Review it before sharing."); }));
+$("export-bundle").addEventListener("click", () => action(async () => { const archive = await api("/api/review-bundle", {project: requireProject(), network_audit: state.audit, evaluation_bundle: state.evaluationBundle, annotation_revisions: state.revisions}, true); download(archive, "controlomics.review.zip"); message("Saved project, report, network ledger, and any loaded evaluation. Review descriptions before sharing."); }));
+$("bundle-file").addEventListener("change", () => action(async () => { const file = $("bundle-file").files[0]; if (!file) return; if (file.size > 1024 * 1024) throw new Error("Review archives have a 1 MiB limit."); const bytes = new Uint8Array(await file.arrayBuffer()); let encoded = ""; for (let start = 0; start < bytes.length; start += 16384) encoded += String.fromCharCode(...bytes.subarray(start, start + 16384)); const data = await api("/api/open-bundle", {archive_base64: btoa(encoded)}); if ((state.project || state.evaluationBundle) && !window.confirm("Replace the current workspace with this validated bundle? Save the current review bundle first if needed.")) return; state.audit = data.network_audit_restored; state.revisions = data.annotation_revisions; state.evaluation = null; $("evaluation-result").replaceChildren(empty("No evaluation has been calculated.")); $("export-evaluation").disabled = true; await loadAnnotationBundle(data.evaluation_bundle, false); accept(data, "Restored validated local records. Hashes and reviewer identities are not authenticated; the ledger may be incomplete."); $("bundle-file").value = ""; switchView("controls"); }));
 async function preview(kind, settings) { requireProject(); const result = await api("/api/" + kind + "/preview", settings); state.pending = {kind, settings, hash: result.approve_hash}; $("request-preview").textContent = JSON.stringify(result, null, 2); $("request-dialog").showModal(); message("No external request has been sent. Review the displayed payload."); }
 $("literature-form").addEventListener("submit", event => { event.preventDefault(); action(() => preview("literature", {provider: $("literature-provider").value, query: $("literature-query").value.trim(), limit: 5, public_confirmed: $("literature-public").checked})); });
 $("model-form").addEventListener("submit", event => { event.preventDefault(); action(async () => preview("model", {endpoint: $("model-endpoint").value.trim(), model: $("model-id").value.trim(), claim_id: $("model-claim").value, fields: (await api("/api/parse-json", {content: $("model-context").value})).value, public_confirmed: $("model-public").checked})); });
@@ -115,7 +119,8 @@ function executionSettings() {
   requireProject(); const kind = $("execution-kind").value; const assumptions = lines($("execution-assumptions").value);
   if (!assumptions.length) throw new Error("Specify the scientific assumptions before building or running a control.");
   if (!$("execution-control").value) throw new Error("No unexecuted reviewed control is available. Open a new project snapshot for another run.");
-  const config = {kind, assumptions, random_seed: Number($("execution-seed").value), draws: Number($("execution-draws").value)};
+  const config = {kind, assumptions, adapter: $("execution-adapter").value, random_seed: Number($("execution-seed").value), draws: Number($("execution-draws").value)};
+  if (config.adapter === "PAIRED_DIFFERENCE") { config.adapter_rationale = $("adapter-rationale").value.trim(); if (!config.adapter_rationale) throw new Error("Explain why the paired adapter applies to this specification."); }
   if (kind === "REFERENCE") { if (!$("execution-expected").value.trim()) throw new Error("Specify the independently expected difference before execution."); config.expected_difference = Number($("execution-expected").value); }
   return {project: state.project, control_id: $("execution-control").value, config};
 }
@@ -162,8 +167,9 @@ $("human-review-form").addEventListener("submit", event => { event.preventDefaul
   accept(await api("/api/review", {project: requireProject(), review}), "Recorded a researcher attestation with explicit evidence and context outcomes."); state.reviewTemplate = null; $("statement-reviews").replaceChildren(); $("human-attestation").checked = false; $("review-panel").open = false; switchView("controls");
 }); });
 $("evaluation-form").addEventListener("submit", event => { event.preventDefault(); action(async () => {
-  const bundle = await fileJSON($("evaluation-file")); if (!bundle) throw new Error("Choose a local evaluation bundle first.");
-  const data = await api("/api/evaluate", {bundle, partition: $("evaluation-partition").value || null}); state.evaluation = data.evaluation;
+  if ($("evaluation-file").files[0]) await loadAnnotationBundle(await fileJSON($("evaluation-file")));
+  if (!state.evaluationBundle) throw new Error("Choose a local evaluation bundle first.");
+  const data = await api("/api/evaluate", {bundle: state.evaluationBundle, partition: $("evaluation-partition").value || null}); state.evaluation = data.evaluation;
   const report = data.evaluation, container = $("evaluation-result"); container.replaceChildren();
   const overview = node("article", undefined, "panel"); overview.append(node("h3", report.dataset_id), field("Provider and partition", report.provider + " / " + report.partition), field("Annotation origins", "References: " + report.reference_origin + "; judgments: " + report.judgment_origin), field("Coverage", report.coverage.cases + " cases, " + report.coverage.recommendations + " recommendations, " + report.coverage.appropriateness_assessed + " assessed for appropriateness, " + report.coverage.uncertain_or_missing_appropriateness + " uncertain or missing.")); container.append(overview);
   const panel = node("div", undefined, "panel metric-panel"), table = node("table"), head = node("thead"), header = node("tr"); for (const label of ["Metric", "Result", "Denominator", "Definition"]) header.append(node("th", label)); head.append(header); table.append(head);
@@ -172,7 +178,52 @@ $("evaluation-form").addEventListener("submit", event => { event.preventDefault(
   $("export-evaluation").disabled = false; message("Calculated local metrics with explicit denominators. Unassessed scientific quality remains unavailable.");
 }); });
 $("export-evaluation").addEventListener("click", () => { if (state.evaluation) download(JSON.stringify(state.evaluation, null, 2), "controlomics.evaluation.json"); });
-window.addEventListener("beforeunload", event => { if (state.project || state.evaluation) { event.preventDefault(); event.returnValue = ""; } });
+$("execution-adapter").addEventListener("change", () => { const paired = $("execution-adapter").value === "PAIRED_DIFFERENCE"; $("adapter-rationale-label").hidden = !paired; $("adapter-rationale").required = paired; $("execution-kind").options[0].disabled = paired; if (paired && $("execution-kind").value === "REFERENCE") $("execution-kind").value = "PERMUTATION"; $("csv-layout").textContent = paired ? "CSV columns: pair,condition,value. Exactly one value for condition 0 and 1 per pair, 2 to 1,000 complete pairs. Pair identifiers do not establish independence across pairs." : "CSV columns: unit,label,value. Unique unit IDs, labels 0 or 1, at least two units per group, maximum 2,000 rows. Input remains on this computer."; render(); });
+$("paired-form").addEventListener("submit", event => { event.preventDefault(); action(async () => { accept(await api("/api/specify-paired", {project: requireProject(), claim_id: $("paired-claim").value, rationale: $("paired-rationale").value.trim(), assumptions: lines($("paired-assumptions").value)}), "Specified a paired statistical control. Researcher-supplied assumptions still need justification."); $("execution-adapter").value = "PAIRED_DIFFERENCE"; $("execution-adapter").dispatchEvent(new Event("change")); }); });
+async function loadAnnotationBundle(bundle, resetRevisions = true) {
+  const data = bundle ? await api("/api/annotation-template", {bundle}) : null;
+  state.evaluationBundle = data?.bundle || null; state.annotationHash = data?.bundle_sha256 || null;
+  state.annotationDraft = data ? structuredClone(data.bundle) : null; state.annotationCase = null;
+  if (resetRevisions) state.revisions = [];
+  $("annotation-panel").hidden = !data; $("export-evaluation-bundle").disabled = !data; $("export-revisions").disabled = !data;
+  $("annotation-attestation").checked = false; $("annotation-reviewer").value = ""; $("annotation-origin").value = ""; $("evaluation-file").value = "";
+  if (!data) return;
+  for (const prediction of state.annotationDraft.predictions.cases) for (const control of prediction.controls) {
+    if (!state.annotationDraft.judgments.some(item => item.case_id === prediction.case_id && item.control_id === control.control_id)) state.annotationDraft.judgments.push({case_id: prediction.case_id, control_id: control.control_id, appropriate: null, unsupported: null, matched_reference_ids: [], rationale: "No judgment recorded."});
+  }
+  options($("annotation-case"), data.bundle.dataset.cases.map(item => [item.case_id, item.case_id + ": " + item.description]));
+  renderAnnotationCase();
+}
+function annotationBoolean(label, id, value, parent) { const wrapper = node("label", label), select = node("select"); select.id = id; options(select, [["", "Unknown"], ["true", "Yes"], ["false", "No"]]); select.value = value === null ? "" : String(value); wrapper.append(select); parent.append(wrapper); return select; }
+function annotationText(label, id, value, parent) { const wrapper = node("label", label), input = node("textarea"); input.id = id; input.rows = 2; input.required = true; input.maxLength = 12000; input.value = value; wrapper.append(input); parent.append(wrapper); }
+function saveAnnotationCase() {
+  if (!state.annotationCase || !state.annotationDraft) return;
+  const bool = id => $(id).value === "" ? null : $(id).value === "true";
+  const judgments = state.annotationDraft.judgments.filter(item => item.case_id === state.annotationCase);
+  judgments.forEach((item, index) => { item.appropriate = bool("ann-appropriate-" + index); item.unsupported = bool("ann-unsupported-" + index); item.rationale = $("ann-rationale-" + index).value.trim(); item.matched_reference_ids = item.appropriate === true ? [...$("ann-matches-" + index).querySelectorAll("input:checked")].map(input => input.value) : []; });
+  state.annotationDraft.evidence_decisions.filter(item => item.case_id === state.annotationCase).forEach((item, index) => { item.reference_decision = bool("ann-evidence-" + index); item.rationale = $("ann-evidence-rationale-" + index).value.trim(); });
+}
+function renderAnnotationCase() {
+  const bundle = state.annotationDraft; if (!bundle) return;
+  state.annotationCase = $("annotation-case").value;
+  const current = bundle.dataset.cases.find(item => item.case_id === state.annotationCase), prediction = bundle.predictions.cases.find(item => item.case_id === current.case_id);
+  $("annotation-case-info").replaceChildren(field("Case and partition", current.description + " / " + current.partition), field("Reference origin", bundle.dataset.annotation_origin), field("Reference definitions", current.references.map(item => item.reference_id + ": " + item.description + (item.essential ? " (essential)" : "")).join("; ") || "No references supplied"), field("Prediction", prediction.abstained ? "Explicit abstention" : prediction.findings.join("; ") || "No finding codes supplied"));
+  $("annotation-controls").replaceChildren(); $("annotation-evidence").replaceChildren();
+  bundle.judgments.filter(item => item.case_id === current.case_id).forEach((item, index) => {
+    const control = prediction.controls.find(control => control.control_id === item.control_id), panel = node("fieldset", undefined, "statement-panel"); panel.append(node("legend", control.control_class + " / " + control.scientific_level), field("Recommendation", control.description));
+    const grid = node("div", undefined, "grid"), appropriate = annotationBoolean("Appropriate for this case", "ann-appropriate-" + index, item.appropriate, grid); annotationBoolean("Unsupported recommendation", "ann-unsupported-" + index, item.unsupported, grid); panel.append(grid);
+    const matches = node("div"); matches.id = "ann-matches-" + index; matches.append(node("p", "References covered, only for appropriate recommendations"));
+    for (const reference of current.references) { const label = node("label", undefined, "check"), checkbox = node("input"); checkbox.type = "checkbox"; checkbox.value = reference.reference_id; checkbox.checked = item.matched_reference_ids.includes(reference.reference_id); checkbox.disabled = appropriate.value !== "true"; label.append(checkbox, node("span", reference.reference_id + ": " + reference.description)); matches.append(label); }
+    appropriate.addEventListener("change", () => matches.querySelectorAll("input").forEach(input => { input.disabled = appropriate.value !== "true"; if (input.disabled) input.checked = false; })); panel.append(matches); annotationText("Reason for the supplied judgments", "ann-rationale-" + index, item.rationale, panel); $("annotation-controls").append(panel);
+  });
+  bundle.evidence_decisions.filter(item => item.case_id === current.case_id).forEach((item, index) => { const panel = node("fieldset", undefined, "statement-panel"); panel.append(node("legend", item.layer), field("Imported prediction", item.unit_id + ": " + item.predicted_decision)); annotationBoolean("Reference decision", "ann-evidence-" + index, item.reference_decision, panel); annotationText("Reason for the evidence reference judgment", "ann-evidence-rationale-" + index, item.rationale, panel); $("annotation-evidence").append(panel); });
+}
+$("annotation-case").addEventListener("change", () => { saveAnnotationCase(); renderAnnotationCase(); });
+$("open-annotations").addEventListener("click", () => action(async () => { if ($("evaluation-file").files[0]) await loadAnnotationBundle(await fileJSON($("evaluation-file"))); if (!state.evaluationBundle) throw new Error("Choose a local evaluation bundle first."); $("annotation-panel").open = true; $("annotation-panel").scrollIntoView({block: "start"}); message("Opened imported recommendations and reference definitions. No new judgments have been recorded."); }));
+$("annotation-form").addEventListener("submit", event => { event.preventDefault(); action(async () => { saveAnnotationCase(); if (!$("annotation-attestation").checked) throw new Error("A real reviewer must attest the judgments."); const submission = {bundle_sha256: state.annotationHash, judgment_origin: $("annotation-origin").value, annotator: $("annotation-reviewer").value.trim(), human_attested: true, judgments: state.annotationDraft.judgments, evidence_decisions: state.annotationDraft.evidence_decisions}; const data = await api("/api/annotate", {bundle: state.evaluationBundle, submission}); state.revisions.push(data.revision); await loadAnnotationBundle(data.bundle, false); state.evaluation = null; $("evaluation-result").replaceChildren(empty("Judgments changed. Calculate the current snapshot to see updated metrics.")); $("export-evaluation").disabled = true; message("Recorded supplied judgments and snapshot hashes. Export this bundle and revisions; identities remain unauthenticated."); }); });
+$("export-evaluation-bundle").addEventListener("click", () => { if (state.evaluationBundle) download(JSON.stringify(state.evaluationBundle, null, 2), "controlomics.annotations.json"); });
+$("export-revisions").addEventListener("click", () => download(JSON.stringify(state.revisions, null, 2), "controlomics.annotation_revisions.json"));
+window.addEventListener("beforeunload", event => { if (state.project || state.evaluationBundle) { event.preventDefault(); event.returnValue = ""; } });
 fetch("/api/session").then(response => response.json()).then(data => {
   state.token = data.token; render();
   if (location.hash === "#demo=transcriptomics" || location.hash === "#demo=microscopy") {

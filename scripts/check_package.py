@@ -36,6 +36,9 @@ sys.path.insert(0,sys.argv[1])
 import controlomics
 from controlomics.server import handle_action
 from controlomics.evaluation import EvaluationBundle, evaluate
+from controlomics.statistics import paired_permutation
+from controlomics.artifacts import create_review_bundle, open_review_bundle
+from controlomics.project import parse_project_json
 assert Path(controlomics.__file__).is_relative_to(Path(sys.argv[1]))
 draft=handle_action('/api/interpret',{'description':'Question: A synthetic wheel check\\nClaim: A stated claim'})['draft']
 assert draft['fields']['claim']=='A stated claim'
@@ -43,9 +46,14 @@ assert 'observed_result' in draft['missing_fields']
 assets=Path(controlomics.__file__).parent/'web'
 assert all((assets/name).is_file() for name in ('index.html','app.js','style.css'))
 assert 'evaluation-form' in (assets/'index.html').read_text(encoding='utf-8')
-print(json.dumps({'version':controlomics.__version__,'imported_extracted_wheel':True,'local_draft':True,'browser_assets':True,'evaluation_import':True}))
+assert 'annotation-form' in (assets/'index.html').read_text(encoding='utf-8')
+assert paired_permutation([1.0,2.0,3.0])['p_value']==0.25
+project=parse_project_json(Path(sys.argv[2]).read_bytes())
+assert open_review_bundle(create_review_bundle(project))[0]==project
+print(json.dumps({'version':controlomics.__version__,'imported_extracted_wheel':True,'local_draft':True,'browser_assets':True,'evaluation_import':True,'paired_arithmetic':True,'review_archive_roundtrip':True}))
 """
-        result = subprocess.run([sys.executable, "-I", "-c", script, temporary], capture_output=True, text=True, timeout=20, check=True)
+        example = Path(__file__).resolve().parents[1] / "examples" / "transcriptomics.project.json"
+        result = subprocess.run([sys.executable, "-I", "-c", script, temporary, str(example)], capture_output=True, text=True, timeout=20, check=True)
         smoke = json.loads(result.stdout)
     record = {"recorded_at": datetime.now(timezone.utc).isoformat(), "wheel": args.wheel.name,
         "wheel_sha256": hashlib.sha256(args.wheel.read_bytes()).hexdigest(), "wheel_bytes": args.wheel.stat().st_size,

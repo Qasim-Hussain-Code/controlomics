@@ -34,6 +34,13 @@
     "externalRequests": 0,
     "unsupportedControlsExcluded": true
   },
+  "controlomicsVersion": "0.4.0.dev0",
+  "pairedExecution": {
+    "outcome": "INDETERMINATE",
+    "p": 0.25,
+    "input": "paired_units",
+    "remaining": 0
+  },
   "report": {
     "html": true,
     "hasInputHashes": true,
@@ -49,13 +56,13 @@
     "claims": 2,
     "profiles": 2,
     "controlsByClaim": [
-      3,
+      4,
       5
     ]
   },
   "candidate": {
     "status": "UNVERIFIED",
-    "id": "control.11f47b7b340d49beae00ba2a6800fb2b",
+    "id": "control.1a5ee9578d904a968c42d40de86ca4c1",
     "revisionRecorded": true
   },
   "duplicateImportRejected": true,
@@ -65,11 +72,26 @@
     "unavailableDisplayed": true,
     "cases": 6
   },
+  "annotations": {
+    "origin": "",
+    "reviewer": "",
+    "attested": false,
+    "unknown": true,
+    "matchesDisabled": true,
+    "savedOrigin": "UNASSESSED"
+  },
+  "reviewBundle": {
+    "bytes": 16257,
+    "sameProject": true,
+    "sameEvaluation": true,
+    "networkEvents": 0,
+    "revisions": 0
+  },
   "reviewForm": {
     "statements": 2,
     "attested": false,
     "reviewer": ""
   },
-  "run_at": "2026-10-06T03:08:23.021Z",
-  "scope": "Local synthetic workflow, description drafting, candidate editing, multi-claim and unassessed evaluation checks. Recorded public identity metadata was used only to display the review form; no human review was submitted, and no external request was made."
+  "run_at": "2026-10-06T05:27:03.906Z",
+  "scope": "Local synthetic reference and paired execution, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, and review archive roundtrip. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external request was made."
 }

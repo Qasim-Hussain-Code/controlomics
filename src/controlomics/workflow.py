@@ -108,10 +108,13 @@ def propose(project, provider: ModelProvider | None = None, proposal=None, claim
     ))
 
 
-def review_methods(project):
+def review_methods(project, control_ids=None):
+    selected = set(control_ids) if control_ids is not None else None
+    if selected is not None and not selected <= {item.control_id for item in project.candidates}:
+        raise ValueError("method review must target known candidates")
     remaining, reviewed = [], list(project.controls)
     for candidate in project.candidates:
-        if candidate.evidence_required or candidate.method_basis is None or candidate.scientific_level not in ("TECHNICAL", "STATISTICAL"):
+        if (selected is not None and candidate.control_id not in selected) or candidate.evidence_required or candidate.method_basis is None or candidate.scientific_level not in ("TECHNICAL", "STATISTICAL"):
             remaining.append(candidate)
             continue
         data = candidate.model_dump()

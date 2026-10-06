@@ -6,12 +6,12 @@ The delivered software is an operational local research alpha. This milestone do
 | --- | --- | --- |
 | 0 | Specification and plans | Implemented and updated |
 | 1 | Scientific records and ontology | Implemented, format 0.1.0 |
-| 2 | Retrieval and identity | Europe PMC and Crossref implemented; eight current live checks across four publications |
+| 2 | Retrieval and identity | Europe PMC and Crossref implemented; eight retained live checks across four publications |
 | 3 | Structured reasoning | Inspectable design rules, description drafts, multiple claims, reference baseline, hosted interface; live model evaluation pending |
 | 4 | Reviewed controls | Editable unreviewed specifications, method gate, direct human source/context review and explicit re-review; independent biological review pending |
-| 5 | Local and dispatched execution | Three fixed numeric procedures; specialist adapters pending |
-| 6 | Reports and provenance | Implemented, including network sidecar |
-| 7 | ControlomicsBench | Dataset contracts, partition checks, offline runner, annotation templates, metrics and agreement; independent expert benchmark pending |
+| 5 | Local and dispatched execution | Independent-group references and explicitly mapped complete-pair sign flips/bootstrap; specialist adapters pending |
+| 6 | Reports and provenance | Reports, typed network sidecar, bounded review archive save/restore |
+| 7 | ControlomicsBench | Dataset contracts, partition checks, offline runner, judgment workbench, snapshot revisions, metrics and agreement; independent expert benchmark pending |
 | 8 | Cross-domain evaluation and ablations | Development reference/design comparison recorded; independent cases, expert judgments and model comparisons pending |
 | 9 | Web application | Six-tab local interface with initial hardening; remote deployment requires separate assessment |
 | 10 | Public release | Pending owner license, reporting channel, and release review; no remote configured |
