@@ -38,7 +38,7 @@ Priority is ESSENTIAL, RECOMMENDED, or EXPLORATORY with an inspectable rationale
 
 Numerical quantities must be computed by deterministic software, with recorded seeds when randomness is appropriate. Execution records represent estimates, intervals, null distributions, versions, and input hashes without requiring a binary decision. PASS or FAIL requires a decision rule specified before execution began, a completed result, and an interpretation. A syntactically correct decision rule still requires scientific justification.
 
-The current version specifies execution records but performs no calculations or execution. No synthetic fixture result may be described as an observed Controlomics result.
+The research alpha executes a narrow independent-unit numeric adapter and creates fixed execution packages. Reference checks compare a mean difference against a prespecified expected value and tolerance. Permutation tests and percentile bootstrap intervals remain INDETERMINATE for scientific pass or fail. Synthetic numerical observations must be labeled as synthetic and distinguished from biological validation.
 
 ## Unresolved scientific questions
 

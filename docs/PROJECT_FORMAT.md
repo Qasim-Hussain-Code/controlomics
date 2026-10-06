@@ -6,7 +6,7 @@ Required top-level records are `manifest`, `analysis`, `claims`, and `privacy`. 
 
 All project, analysis, claim, evidence, control, execution, result, audit, and provenance IDs must be globally unique. References must resolve locally. A reviewed control replaces the corresponding candidate record in a project snapshot rather than duplicating its control ID in both arrays. Preserve the candidate snapshot separately when needed. Claim relations may describe scientific dependencies, but there is no causal inference algorithm or graph-cycle interpretation.
 
-Evidence identifiers are typed by namespace and issuing authority. DOI comparison is case-insensitive. Identical DOI, PMID, PMCID, or authority-scoped accession keys across records require consolidation. Disjoint aliases cannot yet be recognized as the same publication. Identity checks are distinct from statement-specific evidence links. A review receipt is an attestation, not authenticated proof.
+Evidence identifiers are typed by namespace and issuing authority. DOI comparison is case-insensitive. Identical DOI, PMID, PMCID, or authority-scoped accession keys across records require consolidation. Disjoint aliases cannot be recognized from syntax alone; retrieval imports consolidate records when official metadata supplies connecting identifiers. Identity checks are distinct from statement-specific evidence links. A review receipt is an attestation, not authenticated proof.
 
 Checked identities must follow retrieval, entailment checks must follow recorded identity checks, and control review must follow its entailment checks. Control input IDs must be unique. Privacy classification cannot understate declared input or control requirements. Timestamp and classification consistency do not establish the underlying scientific facts.
 
@@ -18,4 +18,8 @@ The local loader limits input to 2 MiB and rejects duplicate JSON keys, nonfinit
 
 The checked-in `schemas/0.1.0/*.schema.json` files describe structure using JSON Schema draft 2020-12. Python post-validation additionally checks evidence gates, context summaries, ID uniqueness, relationships, and timing. Third-party JSON Schema acceptance alone does not establish these invariants. The ontology is a separate versioned vocabulary file under `ontology/`.
 
-Future formats may split a project into manifest, claim, evidence, control, execution, results, audit, provenance, and report files. That layout is not implemented here. Any change requires an explicit migration policy and security review.
+The package version is now 0.2.0.dev0 while the project and ontology formats remain 0.1.0. Intake, hosted proposals, human reviews, and execution configurations are separately typed workflow inputs. The ten checked-in schemas cover the original nine core records and project container. Network events are a separately exported sidecar rather than part of the project schema. Project privacy flags still prohibit transmission of the project; separately selected public fields require their own exact-request approval.
+
+Execution packages use `controlomics.execution.v0.1` manifests with configuration, a plan, control, result schema, environment, fixed scripts, and artifact hashes. The saved project snapshot records one plan per control for that run. Results bind to the control, plan, input hashes, seed, prespecified rule, and runner hash. These bindings do not prove that execution occurred. Retain separate snapshots for reruns. Human review retains source hashes and locators, not full supplied source text.
+
+Future changes to the project format require an explicit migration policy and security review.

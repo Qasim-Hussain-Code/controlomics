@@ -1,0 +1,127 @@
+{
+  "benchmark": "ControlomicsBench development harness",
+  "run_at": "2026-10-06T02:15:39.482695+00:00",
+  "controlomics_version": "0.2.0.dev0",
+  "python_version": "3.14.0",
+  "seed": 827,
+  "scope": "Six manually specified software cases and independent Gaussian synthetic permutation checks. No expert annotations or biological datasets.",
+  "cases": [
+    {
+      "case_id": "transcriptomic_association",
+      "method": "Transcriptomic comparison",
+      "expected_finding": "causal_overreach",
+      "detected": true,
+      "findings": [
+        "biological_evidence_absent",
+        "causal_overreach"
+      ],
+      "control_classes": [
+        "POSITIVE",
+        "NEGATIVE"
+      ],
+      "assessment": "INSUFFICIENT_EVIDENCE"
+    },
+    {
+      "case_id": "microscopy_units",
+      "method": "Microscopy classification",
+      "expected_finding": "sampling_unit_missing",
+      "detected": true,
+      "findings": [
+        "biological_evidence_absent",
+        "sampling_unit_missing"
+      ],
+      "control_classes": [
+        "POSITIVE",
+        "NEGATIVE"
+      ],
+      "assessment": "INSUFFICIENT_EVIDENCE"
+    },
+    {
+      "case_id": "phylogenetic_evidence",
+      "method": "Phylogenetic comparison",
+      "expected_finding": "biological_evidence_absent",
+      "detected": true,
+      "findings": [
+        "biological_evidence_absent"
+      ],
+      "control_classes": [
+        "POSITIVE",
+        "NEGATIVE"
+      ],
+      "assessment": "INSUFFICIENT_EVIDENCE"
+    },
+    {
+      "case_id": "structural_evidence",
+      "method": "Structural similarity comparison",
+      "expected_finding": "biological_evidence_absent",
+      "detected": true,
+      "findings": [
+        "biological_evidence_absent"
+      ],
+      "control_classes": [
+        "POSITIVE",
+        "NEGATIVE"
+      ],
+      "assessment": "INSUFFICIENT_EVIDENCE"
+    },
+    {
+      "case_id": "genomic_units",
+      "method": "Hypothetical variant summary",
+      "expected_finding": "sampling_unit_missing",
+      "detected": true,
+      "findings": [
+        "biological_evidence_absent",
+        "sampling_unit_missing"
+      ],
+      "control_classes": [
+        "POSITIVE",
+        "NEGATIVE"
+      ],
+      "assessment": "INSUFFICIENT_EVIDENCE"
+    },
+    {
+      "case_id": "unlisted_method",
+      "method": "A previously unlisted computational biological method",
+      "expected_finding": "causal_overreach",
+      "detected": true,
+      "findings": [
+        "biological_evidence_absent",
+        "causal_overreach"
+      ],
+      "control_classes": [
+        "POSITIVE",
+        "NEGATIVE"
+      ],
+      "assessment": "INSUFFICIENT_EVIDENCE"
+    }
+  ],
+  "planted_software_findings": {
+    "detected": 6,
+    "total": 6
+  },
+  "synthetic_numerical_experiment": {
+    "trials": 100,
+    "units_per_group": 4,
+    "alpha": 0.05,
+    "null_rejections": 4,
+    "null_rejection_rate": 0.04,
+    "null_rate_wilson_95_interval": [
+      0.01566330399154762,
+      0.0983707143588792
+    ],
+    "injected_shift": 3.0,
+    "signal_rejections": 79,
+    "signal_rejection_rate": 0.79,
+    "signal_rate_wilson_95_interval": [
+      0.7002003116591013,
+      0.858343459380847
+    ],
+    "method": "Exact two-sided mean-difference permutation test over 70 assignments. Labels are exchangeable in the synthetic null."
+  },
+  "limitations": [
+    "The cases test predefined software rules, not scientific control precision or generalization.",
+    "The numerical experiment evaluates a narrow independent-unit statistical adapter, not an agent.",
+    "Small exact tests have discrete and potentially conservative rejection probabilities.",
+    "Expert-grounded benchmark cases, domain-held-out evaluation, model comparisons, and ablations remain pending."
+  ]
+}

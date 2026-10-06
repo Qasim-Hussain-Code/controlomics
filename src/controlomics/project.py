@@ -22,6 +22,14 @@ def _reject_constant(value):
     raise ValueError("nonfinite JSON numbers are not permitted")
 
 
+def decode_json(content: bytes | str):
+    if isinstance(content, str):
+        content = content.encode("utf-8")
+    if len(content) > MAX_PROJECT_BYTES:
+        raise ValueError("JSON exceeds the local size limit")
+    return json.loads(content, object_pairs_hook=_unique_keys, parse_constant=_reject_constant)
+
+
 def parse_project_json(content: bytes | str) -> ControlomicsProject:
     """Validate local input. No evidence is retrieved or scientifically verified."""
 
@@ -29,8 +37,18 @@ def parse_project_json(content: bytes | str) -> ControlomicsProject:
         content = content.encode("utf-8")
     if len(content) > MAX_PROJECT_BYTES:
         raise ValueError("project exceeds the local size limit")
-    json.loads(content, object_pairs_hook=_unique_keys, parse_constant=_reject_constant)
+    decode_json(content)
     return ControlomicsProject.model_validate_json(content)
+
+
+def save_project(project: ControlomicsProject, path: Path):
+    validated = parse_project_json(project.model_dump_json())
+    content = validated.model_dump_json(indent=2) + "\n"
+    if len(content.encode("utf-8")) > MAX_PROJECT_BYTES:
+        content = validated.model_dump_json() + "\n"
+    parse_project_json(content)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(content, encoding="utf-8", newline="\n")
 
 
 def load_project(path: Path) -> ControlomicsProject:

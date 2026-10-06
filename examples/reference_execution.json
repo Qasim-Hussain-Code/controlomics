@@ -1,0 +1,5 @@
+{
+  "kind": "REFERENCE",
+  "expected_difference": 2.0,
+  "assumptions": ["This is a synthetic technical calculation fixture with prespecified expected group means."]
+}

@@ -1,47 +1,52 @@
 # Controlomics
 
-Controlomics is a research software project for specifying and auditing positive and negative controls around computational biology analyses. The primary analysis remains in the researcher's environment. The project owner and primary author is Private attribution removed.
+Controlomics specifies and audits positive and negative controls around computational biology claims. Primary analyses and raw datasets remain in the researcher's environment. Private attribution removed is the project owner and primary author.
 
-The research question is whether an evidence-grounded agent can derive scientifically appropriate controls from analysis descriptions and claims across heterogeneous computational biology domains. This question has not yet been evaluated.
+The research question is whether an evidence-grounded agent can derive scientifically appropriate controls across heterogeneous domains. Independent evaluation of that question remains pending.
 
-The working principle is: Models reason. Sources provide evidence. Deterministic software calculates. Controlomics verifies. Researchers decide.
+Models reason. Sources provide evidence. Deterministic software calculates. Controlomics verifies. Researchers decide.
 
-## Current status
+## Working research alpha
 
-Stage 0 and Stage 1 establish the scientific specification and a local Python schema package. Implemented capabilities are typed records, explicit evidence states, claim categories, consistency checks, a versioned ontology, local project validation, and JSON Schema export. The command line interface performs no network requests.
+Version `0.2.0.dev0` includes explicit claim intake, methodological control specifications, Europe PMC and Crossref retrieval, identifier consolidation, human statement review, conservative context comparison, three fixed numerical procedures, execution packages, result import, provenance, scientific reports, and a local browser workspace. Optional hosted reasoning uses an interchangeable Messages interface. Schema and ontology versions remain `0.1.0`.
 
-The two examples contain manually specified, hypothetical controls for transcriptomic analysis and microscopy classification. They exercise the representation. They are not agent output, experimental results, biological validation, or evidence of cross-domain generalization.
+The local baseline specifies positive known-signal and negative signal-absent technical references. It abstains from choosing biological entities without reviewed evidence. METHOD_BASED is a justified specification, not empirical validation. Hosted candidates cannot supply citations or promote their evidence status.
 
-Control generation, claim extraction, literature retrieval, independent citation verification, automated context matching, execution packages, scientific reports, model providers, and ControlomicsBench remain planned. No domain is scientifically validated.
+## Start locally
 
-## Installation and use
+The existing Windows environment is ready. Double-click `Start_Controlomics.cmd` and open [the local workspace](http://127.0.0.1:8765). The [hypothetical transcriptomics demo](http://127.0.0.1:8765/#demo=transcriptomics) creates a local example without external requests.
 
-Use Python 3.11 or newer. On Windows, select a Python 3 interpreter explicitly if `python` points to an older scientific installation. If `py -3` cannot find that interpreter, use its executable to create the environment instead. The project was initially checked with CPython 3.14.0.
+```powershell
+.\.venv\Scripts\python.exe -m controlomics serve
+# In another terminal, create an executed synthetic demonstration:
+.\.venv\Scripts\python.exe scripts/run_demo.py
+```
+
+Follow [the usage guide](docs/USAGE.md) for retrieval, human review, execution, and model configuration. Projects stay in browser memory until exported. Export your project and network ledger before closing the page. The generated demonstration report is `local_projects/demo/report.html`.
+
+For a new installation, use Python 3.11 or newer. Select a Python 3 executable explicitly if `python` or `py` resolves to an older scientific installation. Development was checked with CPython 3.14.0 on Windows.
 
 ```powershell
 py -3 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements-dev.lock
 .\.venv\Scripts\python.exe -m pip install --no-build-isolation --no-deps -e .
-.\.venv\Scripts\controlomics.exe validate examples/transcriptomics.project.json
-.\.venv\Scripts\controlomics.exe validate examples/microscopy_ml.project.json
-.\.venv\Scripts\controlomics.exe export-schemas schemas/0.1.0
+.\.venv\Scripts\python.exe -m controlomics validate examples/transcriptomics.project.json
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe scripts/export_schemas.py --check
 ```
 
-The editable install uses setuptools already installed by the lock file. A normal `pip install .` resolves the compatible dependency ranges in `pyproject.toml`; the lock file records the initial development environment and is not a claim of multi-platform testing. Python module invocation, `python -m controlomics`, exposes the same commands.
+Pydantic is the sole runtime dependency. No weights, GPU, database, containers, provider SDKs, or frontend build tools are required. The lock file records the development environment rather than multi-platform qualification.
 
-`validate` checks structure, identifiers, references, evidence-state prerequisites, and specified result consistency. Success does not establish that a publication exists, that its text supports a statement, that a reviewer is authentic, or that a control is appropriate. Validation failures omit input content and paths from the CLI output. Library exceptions should also be handled without logging raw records.
+## Evidence, privacy, and limitations
 
-JSON Schema files describe structure. Python validators additionally enforce relational checks that JSON Schema does not express. See [the project format](docs/PROJECT_FORMAT.md).
+Publication identity, statement support, context applicability, execution success, and claim validity are separate checks. Official metadata confirms recorded identities; human review supplies entailment attestations. Imported receipts and reviewer names are not authenticated proof. JSON Schema acceptance is structural; Python also checks relationships. See [the project format](docs/PROJECT_FORMAT.md) and [scientific specification](SCIENTIFIC_SPECIFICATION.md).
 
-## Privacy, evidence, and limitations
+External requests require selected public fields and approval of the exact payload. Projects and raw inputs are never automatically serialized for providers. Credentials are excluded from previews, audit values, and reports. Pattern screening cannot identify every confidential fact. Review selected public fields and exports yourself. See [PRIVACY.md](PRIVACY.md) and [SECURITY.md](SECURITY.md).
 
-Projects are local files. This version has no network clients, model integration, server storage, or data upload. Privacy flags reject network-enabled projects. This does not classify free text automatically or prevent other software from reading local files. Keep confidential projects outside the repository or in the ignored `local_projects/` directory. See [PRIVACY.md](PRIVACY.md) and [SECURITY.md](SECURITY.md).
+Numeric execution supports small independent-unit two-group reference calculations, permutation tests, and percentile bootstrap intervals. PASS and FAIL apply only to prespecified technical references. Inferential results receive no automatic scientific pass. Specialist primary analyses, paired and clustered designs require other adapters.
 
-A candidate cannot declare itself evidence-backed. Reviewed records distinguish publication existence, statement-specific entailment, and context compatibility. Review receipts are attestations supplied by callers; they are not independent verification. Software cannot infer scientific truth from a well-formed record. Known publication aliases sharing an identifier are rejected as duplicates; resolving disjoint PMID, PMCID, and DOI records remains future work.
-
-No benchmark, statistical evaluation, expert review, public release, or empirical generalization result exists. See [VALIDATION.md](VALIDATION.md) for the scope of checks and [ROADMAP.md](ROADMAP.md) for subsequent stages.
+Software tests, four live identity checks, synthetic numerical observations, and interface review are recorded in [VALIDATION.md](VALIDATION.md). The six-case development harness tests planted software findings. It is not an expert-grounded benchmark or evidence of agent generalization. No live hosted model or biological control was evaluated. See [METHODS.md](METHODS.md) and [ROADMAP.md](ROADMAP.md).
 
 ## Citation and license
 
-[CITATION.cff](CITATION.cff) contains project authorship without a DOI or publication claim. The software license has not yet been selected. Public release is deferred until Private attribution removed selects a license and the publication readiness checks are complete. MIT, BSD-3-Clause, and Apache-2.0 are candidates for that decision; no license is granted by this list.
+[CITATION.cff](CITATION.cff) records human authorship without a DOI or publication claim. License selection and public release remain Private attribution removed's decisions. No license is granted and no repository has been published. MIT, BSD-3-Clause, and Apache-2.0 remain possible owner choices.

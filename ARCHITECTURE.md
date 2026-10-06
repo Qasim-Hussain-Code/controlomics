@@ -1,40 +1,37 @@
 # Architecture
 
-## Implemented boundary
+## Local scientific pipeline
 
-The initial implementation is a single `src/controlomics` Python package. `schemas.py` defines the scientific records and consistency rules. `project.py` parses bounded local JSON and exports JSON Schemas. `cli.py` exposes validation and export. `ontology/` contains the scientific vocabulary. `examples/` contains two hypothetical local projects. `tests/` separates software, scientific invariants, privacy, and adversarial input checks.
+One lightweight Python package represents a scientific claim attached to an analysis and biological context. Methods are descriptive fields rather than fixed domain dispatch. Researchers supply claimed category and computational support; software flags overstatement without inferring causality.
 
-The fundamental object is a scientific claim attached to an analysis and context. Analysis methods are free descriptive fields, not a fixed dispatch list. Claim relationships describe proposed dependencies and associations; a proposed causal relationship does not establish causation. Computational support and claimed category remain separate.
+| Module | Responsibility |
+| --- | --- |
+| `schemas.py`, `project.py` | Strict immutable records, bounded JSON, relational checks, ten core schema exports |
+| `workflow.py` | Claim intake, transitions, human review, context comparison, conservative audit |
+| `models.py` | Methodological baseline and interchangeable structured proposals |
+| `privacy.py` | Explicit public fields, exact approval, HTTPS transport, network ledger |
+| `evidence.py` | Europe PMC and Crossref metadata, resolution, connected alias consolidation |
+| `statistics.py`, `execution.py` | Fixed numeric procedures, packages, local execution, result import |
+| `reports.py` | Escaped self-contained HTML |
+| `server.py`, `web/` | Loopback interface, session authorization, browser-memory projects |
+| `benchmark.py` | Labeled development cases and synthetic permutation checks |
 
-Collections are immutable tuples in frozen models. Fields reject unknown keys, implicit scalar coercion, nonfinite numerical results, and unsupported schema versions. JSON input represents tuples as arrays and timestamps as timezone-aware strings. Library calls with Python objects use strict Python types. Nested records are revalidated.
+The workflow is intake, proposal, separate identity and statement review, context assessment, reviewed specification, execution, import, and audit. Each stage can retain uncertainty. Providers never receive entire projects implicitly. Parsing never executes imported text or code.
 
-## Planned scientific pipeline
+## Evidence and execution
 
-1. Receive a minimized analysis description and researcher claim locally.
-2. Interpret the claim into validated records and retain uncertainties.
-3. Obtain candidate controls through a provider-independent reasoning interface.
-4. Retrieve entities and publications through interchangeable evidence providers.
-5. Check publication identity, statement entailment, conflicting findings, and context compatibility separately.
-6. Record a reviewed control with an inspectable evidence state and prioritization rationale.
-7. Construct a local or dispatched execution package when feasible.
-8. Import structured results, critique interpretations, and write provenance and a report.
+Reviewed controls retain METHOD_BASED, EVIDENCE_BACKED, INSUFFICIENT_EVIDENCE, or CONFLICTING_EVIDENCE. `VerifiedControl` means a completed review record, including unsuccessful reviews. Identity does not imply entailment. Human review checks excerpt presence and records entailment attestations and source hashes without retaining full supplied text. Names and receipts are not authenticated.
 
-Stages after structured input are design commitments, not working capabilities. Future model and evidence interfaces must receive a minimized outbound request object created by a privacy boundary. Providers must not receive an entire project implicitly. Statistical calculations belong to deterministic execution adapters. Imported or generated code must never execute during validation.
+The human workflow requires support for both exact statements, matching supplied context, and no contradiction. Missing values stay unknown; normalized text comparison does not resolve synonyms. The core representation also allows explicitly justified partial context, which this workflow does not automatically promote. Method review concerns technical or statistical specifications with a method basis, not biological empirical validation. Audits never automatically declare a claim ROBUST.
 
-## Evidence boundary
+Outbound objects bind selected SAFE fields to fixed literature URLs or a structured model body. Complete-request hashes govern approval. HTTPS connects to checked public addresses with hostname validation, no redirects, and bounded responses. Private institutional addresses need a separately assessed transport.
 
-`ControlCandidate` accepts proposed or unverified states. `VerifiedControl` adds an explicit review receipt, including reviews that find insufficient or conflicting evidence. The type name denotes a completed review record, not unconditional scientific support.
+Execution packages record plans, configuration, seeds, environment, artifact hashes, fixed scripts, and result schemas. Local execution uses an owned temporary directory. The adapter supports small independent-unit two-group values; general generated code and specialist primary-analysis designs are outside its scope.
 
-Evidence-backed records require checked support for both the exact rationale statement and expected-behavior statement, a compatible or explicitly partial context assessment, and no recorded contradiction. Each assessed evidence link must reference an evidence item with a recorded identity check. These requirements block inconsistent declarations. They do not establish that the supplied checks are authentic or scientifically correct.
+## Resources and deployment
 
-METHOD_BASED is reserved for controls whose specified justification does not require biological evidence. A method basis remains a documented argument with assumptions. It is not empirical biological validation. Biological negative controls and statistical null procedures have distinct class and level fields.
+Pydantic is the sole runtime dependency, supplying [strict validation](https://docs.pydantic.dev/latest/concepts/strict_mode/) and [JSON Schema generation](https://docs.pydantic.dev/latest/concepts/json_schema/). Other modules and tests use the standard library. The browser uses plain HTML, CSS, and JavaScript.
 
-Context summaries must agree with dimension comparisons. A MATCH applies only to the listed assessed dimensions. Relevance and completeness of those dimensions require scientific review. Automatic matching of comparison values to source context is deferred.
+The server binds to `127.0.0.1`, logs no requests, and stores no project database. It processes transient request snapshots; the browser retains work until export. Input and numerical budgets constrain ordinary operations. This is a local application rather than an internet-facing service.
 
-## Resource and dependency plan
-
-Pydantic is the sole runtime dependency. It supplies [strict validation](https://docs.pydantic.dev/latest/concepts/strict_mode/) and [JSON Schema export](https://docs.pydantic.dev/latest/concepts/json_schema/). Standard-library `unittest` provides the initial checks. Setuptools builds and installs the package. No provider SDK, scientific numerical stack, database, vector store, agent framework, container, model weights, GPU, or raw research dataset is required.
-
-The initial target was less than 150 MB of additional local disk space and comfortably below 1 GB of RAM for routine development checks. The observed local environment occupied approximately 31.3 MB, with about 0.26 MB of project files and a 36.1 MB Python process peak for the measured local workload. Measurement scope and limitations are recorded in VALIDATION.md. Total machine RAM and free disk could not be inspected through the restricted system interfaces; the supplied 16 GB RAM and approximately 10 GB free-storage constraints govern the design.
-
-No persistent server architecture is introduced. Any later persistence, model runtime, statistical dependency, or execution sandbox requires a specific scientific need and an architectural decision record. See [ADR 0001](docs/adr/0001_local_scientific_core.md).
+The design respects the supplied 16 GB RAM and approximately 10 GB free-storage limits. No model weights, containers, large datasets, GPU software, or scientific stack were installed. Measurements appear in [VALIDATION.md](VALIDATION.md). See [ADR 0001](docs/adr/0001_local_scientific_core.md) and [ADR 0002](docs/adr/0002_retrieval_and_execution_boundaries.md).

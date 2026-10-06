@@ -1,0 +1,6 @@
+{
+  "kind": "PERMUTATION",
+  "random_seed": 41,
+  "draws": 999,
+  "assumptions": ["Rows represent independent synthetic units; labels are exchangeable under the tested null."]
+}

@@ -1,25 +1,31 @@
 # Roadmap
 
-| Stage | Deliverable | Current state |
+The delivered software is an operational local research alpha. This milestone does not complete independent research evaluation.
+
+| Stage | Deliverable | State |
 | --- | --- | --- |
-| 0 | Scientific specification, architecture, privacy and validation plans | Initial documents implemented |
-| 1 | Typed records, claim representation, ontology and local validation | Initial implementation; checks recorded in VALIDATION.md |
-| 2 | Modular evidence retrieval, identifier resolution, verification receipts | Planned |
-| 3 | Provider-independent structured candidate reasoning | Planned |
-| 4 | Evidence-reviewed positive and negative control specifications | Planned |
-| 5 | Reproducible local and dispatched execution packages | Planned |
-| 6 | Provenance ledger and human-readable scientific reporting | Planned |
-| 7 | ControlomicsBench design and independently grounded cases | Planned |
-| 8 | Predefined cross-domain evaluation and ablations | Planned |
-| 9 | Privacy-hardened web application | Planned; requires a demonstrated core |
-| 10 | Reviewed open-source public release | Planned; license selection required |
+| 0 | Specification and plans | Implemented and updated |
+| 1 | Scientific records and ontology | Implemented, format 0.1.0 |
+| 2 | Retrieval and identity | Europe PMC and Crossref implemented; four live checks |
+| 3 | Structured reasoning | Method baseline and optional hosted interface; live model evaluation pending |
+| 4 | Reviewed controls | Method gate and human statement/context review; independent biological review pending |
+| 5 | Local and dispatched execution | Three fixed numeric procedures; specialist adapters pending |
+| 6 | Reports and provenance | Implemented, including network sidecar |
+| 7 | ControlomicsBench | Six-case development harness; independent expert benchmark pending |
+| 8 | Cross-domain evaluation and ablations | Pending independent cases, experts, metrics, models, and resources |
+| 9 | Web application | Local interface with initial hardening; remote deployment requires separate assessment |
+| 10 | Public release | Pending owner license, reporting channel, and release review; no remote configured |
 
-## First vertical slice
+## Delivered slice
 
-Start with the two development contexts represented by the schema examples: a transcriptomic comparison and a microscopy classification analysis. They are fixtures rather than the boundaries of the framework. Record a researcher-confirmed claim, then obtain typed positive and negative candidates through a provider-independent interface. Retain a manual candidate baseline so retrieval and evidence review can be evaluated independently of model reasoning.
+Hypothetical transcriptomics and microscopy examples exercise intake, primary control classes, audit, reporting, and synthetic reference calculations. Retrieval preserves aliases without converting identity into statement support. Human review records support, contradiction, incomplete context, and limitations. Hosted proposals remain separately reviewable.
 
-Add a literature-provider protocol and one official API adapter, followed by a second adapter or independent identifier resolver to avoid a permanent single-provider dependency. Only a reviewed, minimized query may leave the machine. Preserve retrieved identifiers, timestamps, permitted content hashes, source context, and source licensing. Verify identity separately from statement support. Handle missing full text, ambiguity, conflict, and failed retrieval explicitly.
+Four further method descriptions expand the development harness. Those cases test planted software findings, not scientific generalization. They are neither the domain boundaries of the representation nor an independent benchmark.
 
-A deterministic gate should reject unsupported promotion and flag context mismatches. A human-reviewed entailment path should be available initially; model entailment may later assist and must itself be evaluated. The result should contain at least one reviewed positive candidate and one reviewed negative candidate, or explicit abstentions with reasons. Generate a local report exposing evidence, expected behavior, failure meaning, uncertainty, and provenance without executing primary analyses.
+## Next research work
 
-Acceptance requires traceable evidence, failure cases for nonexistent or irrelevant citations, context mismatch cases, privacy tests on exact outbound payloads, offline reproducibility, and successful representation of both contexts. Representation across two examples does not demonstrate scientific generalization. Execution, benchmark experiments, and frontend expansion remain separate milestones.
+Build an independently sourced benchmark with verified identities, expert annotations, adjudication, negative cases, domain-held-out partitions, and explicit abstentions. Predefine denominators for recall, precision, unsupported recommendations, citation and entailment accuracy, context compatibility, flaw detection, execution success, and uncertainty calibration.
+
+Evaluate configured reasoning providers against method checklists and retrieval-only baselines. Separate numerical adapter behavior from agent performance. Include retrieval, representation, review, and execution ablations. Extend execution when independently specified scientific expectations justify an adapter.
+
+License selection and public release remain owner decisions. Public hosting, external expert recruitment, and manuscript Results require their own completed work and authorization. No dates or outcomes are invented.

@@ -7,6 +7,9 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from controlomics.project import export_json_schemas, load_project
+from controlomics.execution import ExecutionConfig, execute_local
+from controlomics.reports import render_report
+from controlomics.workflow import audit_project, review_methods
 
 
 def peak_memory_bytes():
@@ -37,23 +40,27 @@ def peak_memory_bytes():
 def main():
     root = Path(__file__).resolve().parents[1]
     for name in ("transcriptomics.project.json", "microscopy_ml.project.json"):
-        load_project(root / "examples" / name)
+        project = review_methods(load_project(root / "examples" / name))
+        project = execute_local(project, project.controls[0].control_id,
+            ExecutionConfig(kind="REFERENCE", expected_difference=2.0, assumptions=("Synthetic resource measurement only.",)),
+            (root / "examples" / "positive_reference.csv").read_bytes())
+        render_report(audit_project(project))
     with TemporaryDirectory() as temporary:
         export_json_schemas(Path(temporary))
     project_bytes = 0
     for path in root.rglob("*"):
         parts = path.relative_to(root).parts
-        if any(part in (".venv", ".git", "__pycache__") or part.endswith(".egg-info") for part in parts):
+        if any(part in (".venv", ".git", "__pycache__", "build", "dist", "local_projects", "data", "cache") or part.endswith(".egg-info") for part in parts):
             continue
         if path.is_file():
             project_bytes += path.stat().st_size
     environment_bytes = sum(path.stat().st_size for path in (root / ".venv").rglob("*") if path.is_file())
     print(json.dumps({
-        "workload": "Two local example validations and ten schema exports",
+        "workload": "Two local project validations, method reviews, fixed synthetic reference executions, audits and reports, plus ten schema exports",
         "project_file_bytes": project_bytes,
         "virtual_environment_file_bytes": environment_bytes,
         "peak_python_working_set_bytes": peak_memory_bytes(),
-        "notes": "File sizes exclude Git and bytecode; peak memory describes this process only.",
+        "notes": "Project file sizes exclude Git, bytecode, builds and local research artifacts; peak memory describes this parent Python process only, not subprocesses or the browser.",
     }, indent=2))
 
 

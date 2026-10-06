@@ -1,0 +1,7 @@
+{
+  "workload": "Two local project validations, method reviews, fixed synthetic reference executions, audits and reports, plus ten schema exports",
+  "project_file_bytes": 623742,
+  "virtual_environment_file_bytes": 31392097,
+  "peak_python_working_set_bytes": 43876352,
+  "notes": "Project file sizes exclude Git, bytecode, builds and local research artifacts; peak memory describes this parent Python process only, not subprocesses or the browser."
+}

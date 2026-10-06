@@ -1,0 +1,260 @@
+{
+  "scope": "Public publication identity only; entailment and biological applicability were not reviewed.",
+  "checks": [
+    {
+      "provider": "EuropePMC",
+      "doi": "10.1186/s13059-014-0550-8",
+      "status": "IDENTITY_VERIFIED",
+      "title": "Moderated estimation of fold change and  dispersion for RNA-seq data with DESeq2."
+    },
+    {
+      "provider": "Crossref",
+      "doi": "10.1186/s13059-014-0550-8",
+      "status": "IDENTITY_VERIFIED",
+      "title": "Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2"
+    },
+    {
+      "provider": "EuropePMC",
+      "doi": "10.1186/1471-2105-7-91",
+      "status": "IDENTITY_VERIFIED",
+      "title": "Bias in error estimation when using cross-validation for model selection."
+    },
+    {
+      "provider": "Crossref",
+      "doi": "10.1186/1471-2105-7-91",
+      "status": "IDENTITY_VERIFIED",
+      "title": "Bias in error estimation when using cross-validation for model selection"
+    }
+  ],
+  "evidence": [
+    {
+      "schema_version": "0.1.0",
+      "evidence_id": "evidence.7c04bb6a380dc0fe569fd812",
+      "source": "Crossref; EuropePMC",
+      "identifiers": [
+        {
+          "schema_version": "0.1.0",
+          "namespace": "DOI",
+          "value": "10.1186/s13059-014-0550-8",
+          "authority": "doi.org"
+        },
+        {
+          "schema_version": "0.1.0",
+          "namespace": "PMID",
+          "value": "25516281",
+          "authority": "PubMed"
+        },
+        {
+          "schema_version": "0.1.0",
+          "namespace": "PMCID",
+          "value": "PMC4302049",
+          "authority": "PMC"
+        }
+      ],
+      "title": "Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2",
+      "authors": [
+        "Michael I Love",
+        "Wolfgang Huber",
+        "Simon Anders"
+      ],
+      "year": 2014,
+      "retrieved_at": "2026-10-06T01:59:36.476819Z",
+      "publication_type": "journal-article",
+      "evidence_type": "Publication metadata",
+      "biological_context": {
+        "schema_version": "0.1.0",
+        "organism": null,
+        "strain": null,
+        "cell_type": null,
+        "tissue": null,
+        "disease_state": null,
+        "experimental_condition": null,
+        "molecular_target": null,
+        "assay_type": null,
+        "computational_method": null,
+        "data_modality": null,
+        "biological_scale": null,
+        "intervention": null,
+        "time_point": null,
+        "reference_database": null,
+        "software_assumptions": []
+      },
+      "experimental_context": null,
+      "licensing_restrictions": "https://creativecommons.org/licenses/by/4.0; https://creativecommons.org/licenses/by/4.0",
+      "existence_status": "VERIFIED",
+      "existence_check": {
+        "schema_version": "0.1.0",
+        "reviewer_kind": "PROGRAMMATIC",
+        "reviewer": "controlomics.evidence.Crossref",
+        "method": "Parsed identifiers and publication metadata from the official provider response. No statement entailment was assessed.",
+        "checked_at": "2026-10-06T01:59:36.476819Z",
+        "artifact_sha256": "4232f51ffe1897395808edf69b7a47d916ec63558ea36e0bce2ea853bbae0156",
+        "limitations": [
+          "Provider metadata can be incomplete or incorrect."
+        ]
+      },
+      "content_sha256": "4232f51ffe1897395808edf69b7a47d916ec63558ea36e0bce2ea853bbae0156",
+      "limitations": [
+        "Identity verification does not establish support for a scientific statement.",
+        "Provider titles disagree; inspect publication metadata before scientific use."
+      ]
+    },
+    {
+      "schema_version": "0.1.0",
+      "evidence_id": "evidence.f2ec4b99594c218805583b10",
+      "source": "Crossref; EuropePMC",
+      "identifiers": [
+        {
+          "schema_version": "0.1.0",
+          "namespace": "DOI",
+          "value": "10.1186/1471-2105-7-91",
+          "authority": "doi.org"
+        },
+        {
+          "schema_version": "0.1.0",
+          "namespace": "PMID",
+          "value": "16504092",
+          "authority": "PubMed"
+        },
+        {
+          "schema_version": "0.1.0",
+          "namespace": "PMCID",
+          "value": "PMC1397873",
+          "authority": "PMC"
+        }
+      ],
+      "title": "Bias in error estimation when using cross-validation for model selection",
+      "authors": [
+        "Sudhir Varma",
+        "Richard Simon"
+      ],
+      "year": 2006,
+      "retrieved_at": "2026-10-06T01:59:54.402088Z",
+      "publication_type": "journal-article",
+      "evidence_type": "Publication metadata",
+      "biological_context": {
+        "schema_version": "0.1.0",
+        "organism": null,
+        "strain": null,
+        "cell_type": null,
+        "tissue": null,
+        "disease_state": null,
+        "experimental_condition": null,
+        "molecular_target": null,
+        "assay_type": null,
+        "computational_method": null,
+        "data_modality": null,
+        "biological_scale": null,
+        "intervention": null,
+        "time_point": null,
+        "reference_database": null,
+        "software_assumptions": []
+      },
+      "experimental_context": null,
+      "licensing_restrictions": "Source text rights must be checked separately; abstract and full text are not exported.",
+      "existence_status": "VERIFIED",
+      "existence_check": {
+        "schema_version": "0.1.0",
+        "reviewer_kind": "PROGRAMMATIC",
+        "reviewer": "controlomics.evidence.Crossref",
+        "method": "Parsed identifiers and publication metadata from the official provider response. No statement entailment was assessed.",
+        "checked_at": "2026-10-06T01:59:54.402088Z",
+        "artifact_sha256": "bd2e7cd6720ac8359c617cb03fdc6bf1eb3edd72f828a95fc60d880c6f273bfd",
+        "limitations": [
+          "Provider metadata can be incomplete or incorrect."
+        ]
+      },
+      "content_sha256": "bd2e7cd6720ac8359c617cb03fdc6bf1eb3edd72f828a95fc60d880c6f273bfd",
+      "limitations": [
+        "Identity verification does not establish support for a scientific statement.",
+        "Provider titles disagree; inspect publication metadata before scientific use."
+      ]
+    }
+  ],
+  "network_audit": [
+    {
+      "purpose": "LITERATURE",
+      "method": "GET",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1186%2Fs13059-014-0550-8%22&format=json&resultType=core&pageSize=5",
+      "fields": [
+        {
+          "name": "public_query",
+          "value": "DOI:\"10.1186/s13059-014-0550-8\"",
+          "classification": "SAFE"
+        }
+      ],
+      "body": null,
+      "request_sha256": "4d4aa6904dcfa73646bd99fd8e930beb4d9cc51d942cb307f3fc2e92738f65b0",
+      "sent_at": "2026-10-06T01:59:25.968934+00:00",
+      "status": "COMPLETED",
+      "body_sha256": null,
+      "credential_supplied": false,
+      "payload_transmission": "COMPLETED",
+      "response_sha256": "c739af977d76700ee50f19d5af623479188214c31d5be3f92d820907c94cd033",
+      "response_bytes": 5690
+    },
+    {
+      "purpose": "LITERATURE",
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.1186%2Fs13059-014-0550-8",
+      "fields": [
+        {
+          "name": "public_identifier",
+          "value": "10.1186/s13059-014-0550-8",
+          "classification": "SAFE"
+        }
+      ],
+      "body": null,
+      "request_sha256": "76fb8aeb2168d045e0b78e4e8ec88233df5bea9ab37b47174bff1fc222c522b9",
+      "sent_at": "2026-10-06T01:59:29.668667+00:00",
+      "status": "COMPLETED",
+      "body_sha256": null,
+      "credential_supplied": false,
+      "payload_transmission": "COMPLETED",
+      "response_sha256": "154adc58f0a642b541ed350fd121cc8b53db585a3fdc660905996f6595bb84fb",
+      "response_bytes": 29323
+    },
+    {
+      "purpose": "LITERATURE",
+      "method": "GET",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1186%2F1471-2105-7-91%22&format=json&resultType=core&pageSize=5",
+      "fields": [
+        {
+          "name": "public_query",
+          "value": "DOI:\"10.1186/1471-2105-7-91\"",
+          "classification": "SAFE"
+        }
+      ],
+      "body": null,
+      "request_sha256": "b847749122a672d8cba709fa077ccb3fc6c1562bd37e728f032aee854ff51903",
+      "sent_at": "2026-10-06T01:59:36.485406+00:00",
+      "status": "COMPLETED",
+      "body_sha256": null,
+      "credential_supplied": false,
+      "payload_transmission": "COMPLETED",
+      "response_sha256": "0ccbab6db85d287a05f75e4a484c932549ae97d346f454363821846526483d9b",
+      "response_bytes": 6489
+    },
+    {
+      "purpose": "LITERATURE",
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.1186%2F1471-2105-7-91",
+      "fields": [
+        {
+          "name": "public_identifier",
+          "value": "10.1186/1471-2105-7-91",
+          "classification": "SAFE"
+        }
+      ],
+      "body": null,
+      "request_sha256": "6cee6038272cd4880c60e5d01854514af235879f96f81e48cd6e3b57c862fd0e",
+      "sent_at": "2026-10-06T01:59:43.699098+00:00",
+      "status": "COMPLETED",
+      "body_sha256": null,
+      "credential_supplied": false,
+      "payload_transmission": "COMPLETED",
+      "response_sha256": "9da0517c137a9692d018633bbb2ffe2481bc57ce5b4e0279c648225d90527266",
+      "response_bytes": 9565
+    }
+  ]
+}
