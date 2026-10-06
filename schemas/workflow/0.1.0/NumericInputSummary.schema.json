@@ -1,0 +1,88 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "adapter": {
+      "enum": [
+        "INDEPENDENT_REFERENCE",
+        "PAIRED_DIFFERENCE"
+      ],
+      "title": "Adapter",
+      "type": "string"
+    },
+    "complete_pairs": {
+      "anyOf": [
+        {
+          "maximum": 1000,
+          "minimum": 2,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Complete Pairs"
+    },
+    "group_one_units": {
+      "maximum": 2000,
+      "minimum": 0,
+      "title": "Group One Units",
+      "type": "integer"
+    },
+    "group_zero_units": {
+      "maximum": 2000,
+      "minimum": 0,
+      "title": "Group Zero Units",
+      "type": "integer"
+    },
+    "input_bytes": {
+      "maximum": 2097152,
+      "minimum": 1,
+      "title": "Input Bytes",
+      "type": "integer"
+    },
+    "input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Sha256",
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "rows": {
+      "maximum": 2000,
+      "minimum": 4,
+      "title": "Rows",
+      "type": "integer"
+    },
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "utf8_bom": {
+      "title": "Utf8 Bom",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "adapter",
+    "input_sha256",
+    "input_bytes",
+    "rows",
+    "group_zero_units",
+    "group_one_units",
+    "complete_pairs",
+    "utf8_bom",
+    "limitations"
+  ],
+  "title": "NumericInputSummary",
+  "type": "object"
+}

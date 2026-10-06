@@ -1,9 +1,10 @@
 import csv
 import io
 import itertools
+import math
 import unittest
 
-from controlomics.statistics import bootstrap_difference, mean_difference, permutation_test, quantile, read_numeric_bytes
+from controlomics.statistics import bootstrap_difference, finite_mean, mean_difference, permutation_test, quantile, read_numeric_bytes
 
 
 class StatisticsTests(unittest.TestCase):
@@ -47,3 +48,43 @@ class StatisticsTests(unittest.TestCase):
         ):
             with self.assertRaises(ValueError):
                 read_numeric_bytes(raw)
+
+    def test_finite_large_group_means_do_not_overflow(self):
+        self.assertEqual(mean_difference([1e308] * 4, [0, 0, 1, 1]), 0.0)
+        result = bootstrap_difference([0.0, 0.0, 1e308, 1e308], [0, 0, 1, 1], draws=100)
+        self.assertEqual((result['effect'], result['lower'], result['upper']), (1e308,) * 3)
+
+    def test_permutation_summary_preserves_large_and_small_scales(self):
+        for scale in (1e-200, 1e200, 1e307):
+            with self.subTest(scale=scale):
+                result = permutation_test([value * scale for value in (0, 1, 2, 3)], [0, 0, 1, 1])
+                self.assertAlmostEqual(result['p_value'], 1 / 3)
+                self.assertTrue(math.isfinite(result['null_sd']))
+                self.assertAlmostEqual(result['null_sd'] / scale, math.sqrt(10 / 6))
+
+    def test_overflowing_intermediate_sum_preserves_small_cancellation_residual(self):
+        values = [1e308, 1e308, -1e308, -1e308, 1e-200]
+        # The four large values cancel exactly; normalizing by 1e308 would
+        # underflow the fifth value to zero before their cancellation.
+        self.assertEqual(finite_mean(values), 1e-200 / 5)
+        self.assertEqual(finite_mean(values[::-1]), 1e-200 / 5)
+
+    def test_quantile_midpoint_does_not_overflow(self):
+        for fraction, expected in ((0.25, -5e307), (0.5, 0.0), (0.75, 5e307)):
+            self.assertEqual(quantile([-1e308, 1e308], fraction), expected)
+        with self.assertRaises(ValueError):
+            quantile([0.0, float('inf')], 0.5)
+
+    def test_invalid_labels_and_unrepresentable_effect_are_rejected(self):
+        for values, labels in (([0.0, 1.0, 2.0], [0, 1, 2]), ([-1e308, -1e308, 1e308, 1e308], [0, 0, 1, 1])):
+            with self.assertRaises(ValueError):
+                mean_difference(values, labels)
+            with self.assertRaises(ValueError):
+                bootstrap_difference(values, labels, draws=100)
+
+    def test_utf8_bom_and_ambiguous_unit_identifiers(self):
+        raw = b'unit,label,value\na,0,1\nb,0,1\nc,1,3\nd,1,3\n'
+        self.assertEqual(read_numeric_bytes(b'\xef\xbb\xbf' + raw), read_numeric_bytes(raw))
+        for identifier in (b' a', b'a ', b' '):
+            with self.assertRaises(ValueError):
+                read_numeric_bytes(raw.replace(b'a,0,1', identifier + b',0,1'))

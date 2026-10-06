@@ -4,9 +4,9 @@
 
 Run `Start_Controlomics.cmd` from the repository or use `.venv/Scripts/python.exe -m controlomics serve`. Open `http://127.0.0.1:8765`. The server binds only to this computer. Use the hypothetical transcriptomics or microscopy buttons to inspect an example, then create a control audit. A direct hypothetical demonstration is available at `http://127.0.0.1:8765/#demo=transcriptomics`.
 
-Choose a section in the left navigation or select a project summary card. The summaries count claims, all control specifications, publication records, and completed executions; they are not scientific performance scores. In Controls, search by name, rationale, expected behavior, identifier, or linked claim, and narrow the collection by control class. Filtering changes the display only. Open project JSON and review bundles through Open; Export offers project JSON and a scientific report. Save review bundle captures the current review records together.
+Choose a section in the left navigation or select a project summary card. The summaries count claims, all control specifications, publication records, and completed executions; they are not scientific performance scores. In Controls, search by name, rationale, expected behavior, identifier, or linked claim, and narrow the collection by control class or scientific claim. Filtering changes the display only. Result and audit panels show their scientific target. Open project JSON and review bundles through Open; Export offers project JSON and a scientific report. Save review bundle captures the current review records together.
 
-Use Tab to reach the selected navigation section, arrow keys to change sections, and Home or End to select the first or last section. On a narrow screen, the menu button opens navigation; Escape or the shaded backdrop closes it. Selecting a section returns focus to the workspace. Escape also closes file menus. Motion follows the system's reduced-motion preference. See [the interface guide](INTERFACE.md).
+Use Tab to reach the selected navigation section, arrow keys to change sections, and Home or End to select the first or last section. On a narrow screen, the menu button opens navigation; the close button, Escape, or the shaded backdrop closes it. Selecting a section returns focus to the workspace. Escape also closes file menus. Motion follows the system's reduced-motion preference. See [the interface guide](INTERFACE.md).
 
 Enter the research question, analysis description, methods, observed result, scientific claim, claim category, and computational support category. The category choices are researcher input, not automated causal inference. Biological context and independent sampling units improve interpretability. Raw primary-analysis datasets are not required.
 
@@ -15,6 +15,10 @@ The local reasoner specifies positive known-signal and negative signal-absent te
 Use Draft fields from a local description to extract explicitly stated input, then confirm each field and choose the claim and support categories. Claims in this analysis adds a separately categorized claim and its own controls. Specify a control creates a researcher candidate; Edit specification revises an unreviewed candidate without promoting it. Reviewed specifications require a separate retained snapshot for content changes.
 
 Inspect Controls and Scientific audit. Projects remain in browser memory. Save a review bundle or export the project, report, and network audit before closing the page. Opening a project performs structural checks and a new conservative audit. Receipts in imported files are not authenticated merely because parsing succeeds.
+
+The workspace shows Export needed for recorded changes, Unrecorded inputs for edited form values, and Bundle prepared after preparing a complete review download. Reverting a form removes its draft indicator. Retain the actual downloaded file; preparation does not verify disk storage. Unrecorded edits, full source text, and raw CSV files are excluded from bundles. A browser close warning helps protect work but supplies no recovery mechanism.
+
+Open > Start empty workspace clears the project and its inputs after confirmation. Opening another project, restoring a review bundle, or creating a replacement analysis also asks before discarding current work. Incoming records are validated first. Accepted replacement clears earlier review and judgment forms, evaluations, raw input selection, credentials, request previews, and ledger displays. Opening another candidate or source-review control asks before discarding that form's unrecorded edits. Applying an example or description draft also protects edited analysis fields. Judgment edits remain tracked across case switches; navigating cases alone does not change a judgment.
 
 ## Literature
 
@@ -40,9 +44,20 @@ After retrieving a publication identity, choose Review evidence on a control. Th
 
 ## Numeric execution
 
-The Execution tab accepts reviewed technical positive and negative reference specifications and three fixed procedures: a prespecified reference calculation, a two-sided mean-difference permutation test, and a within-group percentile bootstrap interval. Other classes and scientific levels require an applicable adapter and are excluded from this runner. Inputs are small CSV files with `unit,label,value` columns, unique units, binary group labels, and at least two units per group. There is a 2 MiB and 2,000-row limit. Rows must represent independent units; unique names alone do not establish independence.
+The Execution tab accepts reviewed technical positive and negative reference specifications and three fixed procedures: a prespecified reference calculation, a two-sided mean-difference permutation test, and a within-group percentile bootstrap interval. Other classes and scientific levels require an applicable adapter and are excluded from this runner. Inputs are small CSV files with `unit,label,value` columns, unique units without outer whitespace, binary group labels, and at least two units per group. UTF-8 with an optional byte-order mark is accepted. There is a 2 MiB and 2,000-row limit. Rows must represent independent units; unique names alone do not establish independence.
 
-For a reference calculation, specify the expected group mean difference before execution. The difference is mean(label=1) minus mean(label=0). PASS or FAIL refers to this technical calculation only. A nonsignificant permutation p value is not proof of a valid biological negative. Bootstrap intervals require assumptions and may have poor small-sample coverage.
+For a reference calculation, specify the expected group mean difference and absolute tolerance before execution. The difference is mean(label=1) minus mean(label=0). PASS or FAIL refers to this technical calculation only. Permutation and bootstrap procedures display seed and draw fields; bootstrap also displays the requested interval coverage. A nonsignificant permutation p value is not proof of a valid biological negative. Bootstrap intervals require assumptions and may have poor small-sample coverage.
+
+Select a CSV and choose Inspect local CSV to check structure, finite values, dimensions, and limits before running. The summary records the original byte count and SHA-256, including any byte-order mark and line endings. It contains no identifiers or measurements, and performs no control execution or external request. Sampling assumptions still need justification. Changing the file or adapter clears the earlier summary. Export input summary downloads its JSON separately; it is not included in a review bundle.
+
+The same inspection is available without a project:
+
+```powershell
+.\.venv\Scripts\controlomics.exe inspect-input examples/positive_reference.csv --adapter INDEPENDENT_REFERENCE --output local_projects/input_summary.json
+.\.venv\Scripts\controlomics.exe inspect-input examples/paired_reference.csv --adapter PAIRED_DIFFERENCE --output local_projects/paired_summary.json
+```
+
+Browser imports reject invalid UTF-8. The local request limit includes JSON formatting and the project snapshot, so a file near the size limit may require CLI use. Summary hashes are neither anonymization nor authenticated provenance.
 
 Run locally to use a fixed, hash-checked template in a temporary directory. Download an execution package to move computation to another environment. The package contains scripts, configuration, environment information, schemas, artifact hashes, and a planned project snapshot. Running it requires Python 3.11 or newer; schema verification requires the installed Controlomics package. It performs no external requests.
 
@@ -91,7 +106,7 @@ The CLI description limit is 12,000 UTF-8 bytes and rejects larger files without
 
 In Execution, expand Specify a complete-pair statistical control. Choose its claim and provide the applicability rationale and assumptions. Select the Complete-pair mean difference adapter, choose permutation or bootstrap, and provide a separate adapter rationale. The method review checks the specification; it does not establish assumptions.
 
-Inputs have `pair,condition,value` columns, exactly one finite value for condition 0 and 1 in every pair, 2 to 1,000 complete pairs, and a 2 MiB limit. No incomplete-pair deletion is performed. The effect is the mean of condition 1 minus condition 0 within pairs. Under an independently justified sign-invariant null, sign flips preserve each pair. Bootstrap resampling preserves complete pairs. Neither procedure produces an automatic scientific PASS or FAIL. `examples/paired_reference.csv` and `examples/paired_execution.json` are hypothetical software examples.
+Inputs have `pair,condition,value` columns, pair identifiers without outer whitespace, exactly one finite value for condition 0 and 1 in every pair, 2 to 1,000 complete pairs, and a 2 MiB limit. UTF-8 with an optional byte-order mark is accepted. No incomplete-pair deletion is performed. The effect is the mean of condition 1 minus condition 0 within pairs. Under an independently justified sign-invariant null, sign flips preserve each pair. Bootstrap resampling preserves complete pairs. Neither procedure produces an automatic scientific PASS or FAIL. `examples/paired_reference.csv` and `examples/paired_execution.json` are hypothetical software examples.
 
 The CLI `specify-paired PROJECT SUBMISSION --output OUTPUT` accepts a JSON submission with `claim_id`, `rationale`, and nonempty `assumptions`. It creates the explicit paired specification. Then use its control ID with `execute` or `package` and the paired execution configuration. The independent-reference adapter does not accept that control; the paired adapter does not accept unrelated reviewed statistical challenges.
 

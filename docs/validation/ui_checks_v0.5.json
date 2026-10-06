@@ -1,0 +1,251 @@
+{
+  "browser": "Chrome/154.0.8037.95",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1200,
+      "name": "controls",
+      "viewport": 1440,
+      "document": 1425,
+      "cards": 3,
+      "status": "Local design controls specified. Biological support and applicability remain unvalidated."
+    },
+    {
+      "width": 430,
+      "height": 1100,
+      "name": "mobile",
+      "viewport": 430,
+      "document": 415,
+      "cards": 3,
+      "status": "Local design controls specified. Biological support and applicability remain unvalidated."
+    }
+  ],
+  "exceptions": [],
+  "emptyWorkspace": {
+    "zeroCounts": true,
+    "savingDisabled": true,
+    "searchDisabled": true,
+    "view": "analysis"
+  },
+  "recordCounts": true,
+  "controlSearch": {
+    "nameMatched": true,
+    "noMatch": true,
+    "classMatched": true,
+    "restored": true,
+    "unchanged": true
+  },
+  "keyboardNavigation": {
+    "arrow": true,
+    "end": true,
+    "home": true
+  },
+  "responsiveViews": [
+    {
+      "width": 375,
+      "document": 360,
+      "view": "analysis"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "controls"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "evidence"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "execution"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "audit"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "evaluation"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "analysis"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "controls"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "evidence"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "execution"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "audit"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "evaluation"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "analysis"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "controls"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "evidence"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "execution"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "audit"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "evaluation"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "analysis"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "controls"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "evidence"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "execution"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "audit"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "evaluation"
+    }
+  ],
+  "mobileNavigation": {
+    "modal": true,
+    "trapped": true,
+    "reverseTrapped": true,
+    "escaped": true,
+    "selected": true,
+    "metricNavigation": true
+  },
+  "fileMenus": true,
+  "reducedMotion": true,
+  "textRendering": true,
+  "execution": {
+    "outcomes": [
+      "PASS",
+      "PASS"
+    ],
+    "pathways": [
+      "LOCAL",
+      "LOCAL"
+    ],
+    "audit": "INSUFFICIENT_EVIDENCE",
+    "externalRequests": 0,
+    "unsupportedControlsExcluded": true
+  },
+  "controlomicsVersion": "0.5.0.dev0",
+  "pairedExecution": {
+    "outcome": "INDETERMINATE",
+    "p": 0.25,
+    "input": "paired_units",
+    "remaining": 0
+  },
+  "executedRecordCounts": true,
+  "report": {
+    "html": true,
+    "hasInputHashes": true,
+    "hasWarnings": true,
+    "hasConservativeAssessment": true
+  },
+  "narrative": {
+    "claim": "Features predict labels",
+    "category": "",
+    "support": ""
+  },
+  "claims": {
+    "claims": 2,
+    "profiles": 2,
+    "controlsByClaim": [
+      4,
+      5
+    ]
+  },
+  "candidate": {
+    "status": "UNVERIFIED",
+    "id": "control.9ce156df810943d29e1130354321f046",
+    "revisionRecorded": true
+  },
+  "duplicateImportRejected": true,
+  "evaluation": {
+    "origin": "UNASSESSED",
+    "precision": null,
+    "unavailableDisplayed": true,
+    "cases": 6
+  },
+  "metricHeadingVisible": true,
+  "annotations": {
+    "origin": "",
+    "reviewer": "",
+    "attested": false,
+    "unknown": true,
+    "matchesDisabled": true,
+    "savedOrigin": "UNASSESSED"
+  },
+  "reviewBundle": {
+    "bytes": 16256,
+    "sameProject": true,
+    "sameEvaluation": true,
+    "networkEvents": 0,
+    "revisions": 0
+  },
+  "reviewForm": {
+    "statements": 2,
+    "attested": false,
+    "reviewer": ""
+  },
+  "run_at": "2026-10-06T13:22:08.216Z",
+  "scope": "Responsive workspace, actual record counts, search and class filters, keyboard tabs, mobile focus boundaries, file menus, reduced motion, text-only rendering, local synthetic reference and paired execution, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, visible review headings, and review archive roundtrip. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external request was made. This is browser integration coverage, not a screen-reader, full accessibility, or scientific validation."
+}

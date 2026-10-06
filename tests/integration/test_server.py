@@ -49,6 +49,23 @@ class ServerTests(unittest.TestCase):
         headers["Origin"] = "https://attacker.example"
         self.assertEqual(self.request("/api/analyze", {"project": payload()}, headers)[0], 403)
 
+    def test_nonascii_token_rejected_and_server_remains_usable(self):
+        headers = self.headers()
+        headers['X-Controlomics-Token'] = '\u00e9'
+        self.assertEqual(self.request('/api/inspect-input', {'csv': 'private_sentinel', 'adapter': 'INDEPENDENT_REFERENCE'}, headers)[0], 403)
+        self.assertEqual(self.request('/api/session')[0], 200)
+
+    def test_unauthorized_request_rejected_before_body_read(self):
+        connection = http.client.HTTPConnection('127.0.0.1', self.server.server_port, timeout=2)
+        connection.putrequest('POST', '/api/analyze')
+        connection.putheader('Content-Length', '1000')
+        connection.putheader('Content-Type', 'application/json')
+        connection.endheaders()
+        response = connection.getresponse()
+        self.assertEqual(response.status, 403)
+        response.read()
+        connection.close()
+
     def test_local_analyze_and_report_end_to_end(self):
         status, content, headers = self.request("/api/analyze", {"project": payload()}, self.headers())
         self.assertEqual(status, 200)

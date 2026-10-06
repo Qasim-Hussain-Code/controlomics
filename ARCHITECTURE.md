@@ -13,14 +13,15 @@ One lightweight Python package represents a scientific claim attached to an anal
 | `privacy.py` | Explicit public fields, exact approval, HTTPS transport, network ledger |
 | `evidence.py` | Europe PMC and Crossref metadata, resolution, connected alias consolidation |
 | `statistics.py`, `execution.py` | Fixed numeric procedures, packages, local execution, result import |
-| `reports.py` | Escaped self-contained HTML |
+| `inputs.py` | Local CSV structure, dimensions, original-byte hashes; no retained measurements or execution |
+| `reports.py` | Escaped self-contained HTML, linked scientific records, typed ledger, print styles |
 | `artifacts.py` | Bounded review archives, typed ledger, integrity checks, safe in-memory restore |
 | `server.py`, `web/` | Loopback interface, session authorization, browser-memory projects |
 | `benchmark.py` | Labeled development cases and synthetic permutation checks |
 
 The workflow is intake, proposal, separate identity and statement review, context assessment, reviewed specification, execution, import, and audit. Each stage can retain uncertainty. Providers never receive entire projects implicitly. Parsing never executes imported text or code.
 
-Claims share an analysis but retain individual proposals and audits. Hosted completion targets one known claim. Candidate edits retain an earlier snapshot hash and cannot overwrite reviewed specifications. Source re-review requires the current reviewed snapshot hash. A repeat retrieval retains the earlier verified identity snapshot that existing statement reviews depend on; later response hashes remain in the separate network ledger. Eighteen auxiliary workflow schemas cover intake, review, proposals, reasoning, execution configuration, evaluation, annotation revisions, and review manifests.
+Claims share an analysis but retain individual proposals and audits. Hosted completion targets one known claim. Candidate edits retain an earlier snapshot hash and cannot overwrite reviewed specifications. Source re-review requires the current reviewed snapshot hash. A repeat retrieval retains the earlier verified identity snapshot that existing statement reviews depend on; later response hashes remain in the separate network ledger. Nineteen auxiliary workflow schemas cover intake, review, proposals, reasoning, execution configuration, evaluation, annotation revisions, review manifests, and numeric input summaries.
 
 ## Evidence and execution
 
@@ -38,6 +39,8 @@ Pydantic is the sole runtime dependency, supplying [strict validation](https://d
 
 The server binds to `127.0.0.1`, logs no requests, and stores no project database. It processes transient request snapshots; the browser retains work until export. Input and numerical budgets constrain ordinary operations. This is a local application rather than an internet-facing service.
 
-The interface uses one responsive navigation shell around the six existing workflow sections. Summary counts derive from the current validated project. Control search and class filters affect rendering only. Project text is inserted through text nodes. Icons and the conceptual review motif are local inline SVG; system fonts avoid font downloads. A mobile modal navigation boundary uses inert content, keyboard focus handling, and explicit selected-tab semantics. Design details and the limits of accessibility checks appear in [INTERFACE.md](docs/INTERFACE.md).
+The interface uses one responsive navigation shell around the six existing workflow sections. Summary counts derive from the current validated project. Control search, class, and claim filters affect rendering only. Project text is inserted through text nodes. Icons and the conceptual review motif are local inline SVG; system fonts avoid font downloads. A mobile modal navigation boundary uses inert content, keyboard focus handling, and explicit selected-tab semantics. Design details and the limits of accessibility checks appear in [INTERFACE.md](docs/INTERFACE.md).
 
-The design respects the supplied 16 GB RAM and approximately 10 GB free-storage limits. No model weights, containers, large datasets, GPU software, or scientific stack were installed. Measurements appear in [VALIDATION.md](VALIDATION.md). See [ADR 0001](docs/adr/0001_local_scientific_core.md), [ADR 0002](docs/adr/0002_retrieval_and_execution_boundaries.md), [ADR 0003](docs/adr/0003_design_reasoning_and_evaluation.md), and [ADR 0004](docs/adr/0004_paired_and_review_artifacts.md).
+In-memory form signatures detect edits and reversions; record revisions track whether a complete bundle download was prepared. Passwords are excluded from signatures. No automatic persistence is introduced. Replacement validates the incoming records before asking to discard the current workspace, then resets prior forms, evidence reviews, evaluations, inputs, credentials, and previews. A prepared download is not proof that a file was retained on disk.
+
+The design respects the supplied 16 GB RAM and approximately 10 GB free-storage limits. No model weights, containers, large datasets, GPU software, or scientific stack were installed. Measurements appear in [VALIDATION.md](VALIDATION.md). See [ADR 0001](docs/adr/0001_local_scientific_core.md), [ADR 0002](docs/adr/0002_retrieval_and_execution_boundaries.md), [ADR 0003](docs/adr/0003_design_reasoning_and_evaluation.md), [ADR 0004](docs/adr/0004_paired_and_review_artifacts.md), and [ADR 0005](docs/adr/0005_local_inspection_and_workspace.md).

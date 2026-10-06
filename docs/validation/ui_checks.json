@@ -27,7 +27,27 @@
     "searchDisabled": true,
     "view": "analysis"
   },
+  "emptyDraftProtection": {
+    "tracked": true,
+    "retained": true,
+    "cleared": true
+  },
+  "programmaticDraftProtection": {
+    "tracked": true,
+    "retained": true,
+    "cleared": true
+  },
   "recordCounts": true,
+  "preparedDownload": true,
+  "draftReversion": {
+    "changed": true,
+    "reverted": true
+  },
+  "executionFields": {
+    "reference": true,
+    "bootstrap": true,
+    "permutation": true
+  },
   "controlSearch": {
     "nameMatched": true,
     "noMatch": true,
@@ -168,11 +188,22 @@
     "reverseTrapped": true,
     "escaped": true,
     "selected": true,
-    "metricNavigation": true
+    "metricNavigation": true,
+    "closeButton": true
   },
   "fileMenus": true,
   "reducedMotion": true,
   "textRendering": true,
+  "inputInspection": {
+    "rows": 4,
+    "zero": 2,
+    "one": 2,
+    "bom": true,
+    "sha256": "d065f0234a007ac927a1e7a8f0cacee0a13bf3e672871d7579612928753eeb96",
+    "results": 0,
+    "externalRequests": 0
+  },
+  "invalidUTF8": true,
   "execution": {
     "outcomes": [
       "PASS",
@@ -186,7 +217,7 @@
     "externalRequests": 0,
     "unsupportedControlsExcluded": true
   },
-  "controlomicsVersion": "0.5.0.dev0",
+  "controlomicsVersion": "0.6.0.dev0",
   "pairedExecution": {
     "outcome": "INDETERMINATE",
     "p": 0.25,
@@ -194,12 +225,33 @@
     "remaining": 0
   },
   "executedRecordCounts": true,
+  "pairedBootstrap": {
+    "outcome": "INDETERMINATE",
+    "coverage": 0.9,
+    "seed": 17,
+    "method": "Complete-pair percentile bootstrap with linear quantile interpolation"
+  },
   "report": {
     "html": true,
     "hasInputHashes": true,
     "hasWarnings": true,
     "hasConservativeAssessment": true
   },
+  "reportLayout": [
+    {
+      "width": 1440,
+      "document": 1425,
+      "links": true,
+      "noScripts": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "links": true,
+      "noScripts": true
+    }
+  ],
+  "reportPrintStyles": true,
   "narrative": {
     "claim": "Features predict labels",
     "category": "",
@@ -209,14 +261,52 @@
     "claims": 2,
     "profiles": 2,
     "controlsByClaim": [
-      4,
+      5,
       5
     ]
   },
+  "claimFilter": {
+    "selected": true,
+    "combined": true,
+    "unchanged": true,
+    "visible": true
+  },
+  "multiClaimLayout": [
+    {
+      "width": 375,
+      "document": 360
+    },
+    {
+      "width": 430,
+      "document": 415
+    },
+    {
+      "width": 768,
+      "document": 753
+    },
+    {
+      "width": 1024,
+      "document": 1009
+    },
+    {
+      "width": 1440,
+      "document": 1425
+    }
+  ],
+  "recordBindings": {
+    "results": true,
+    "audits": true,
+    "resultCount": true,
+    "auditCount": true
+  },
   "candidate": {
     "status": "UNVERIFIED",
-    "id": "control.9ce156df810943d29e1130354321f046",
+    "id": "control.0ae14480f4104bc3940a49e2d1f7fd69",
     "revisionRecorded": true
+  },
+  "candidateDraftProtection": {
+    "retained": true,
+    "reverted": true
   },
   "duplicateImportRejected": true,
   "evaluation": {
@@ -234,8 +324,15 @@
     "matchesDisabled": true,
     "savedOrigin": "UNASSESSED"
   },
+  "annotationDraftProtection": true,
+  "judgmentCaseProtection": {
+    "navigationOnly": true,
+    "hiddenCaseProtected": true,
+    "reverted": true,
+    "unrecorded": true
+  },
   "reviewBundle": {
-    "bytes": 16256,
+    "bytes": 19709,
     "sameProject": true,
     "sameEvaluation": true,
     "networkEvents": 0,
@@ -246,6 +343,24 @@
     "attested": false,
     "reviewer": ""
   },
-  "run_at": "2026-10-06T13:22:08.216Z",
-  "scope": "Responsive workspace, actual record counts, search and class filters, keyboard tabs, mobile focus boundaries, file menus, reduced motion, text-only rendering, local synthetic reference and paired execution, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, visible review headings, and review archive roundtrip. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external request was made. This is browser integration coverage, not a screen-reader, full accessibility, or scientific validation."
+  "sourceReviewDraftProtection": true,
+  "replacementCancelled": true,
+  "replacementCoherence": {
+    "formMatches": true,
+    "oldEvaluationCleared": true,
+    "oldReviewCleared": true,
+    "oldLedgerCleared": true,
+    "oldInputCleared": true,
+    "draftsCleared": true
+  },
+  "emptyReplacementClears": {
+    "project": true,
+    "ledger": true,
+    "preview": true,
+    "credential": true,
+    "zeroCounts": true,
+    "unrecorded": true
+  },
+  "run_at": "2026-10-06T16:06:22.902Z",
+  "scope": "Responsive workspace, actual record counts, search and combined claim/class filters, scientific result and audit bindings, keyboard tabs, mobile focus boundaries, file menus, reduced motion, text-only rendering, unsaved input protection and reversion, prepared downloads, cancelled and coherent project replacement, complete workspace reset, candidate, source and multi-case annotation draft protection, programmatic field tracking, procedure-specific fields, exact-byte UTF-8/BOM input inspection, reference and paired execution, explicit bootstrap coverage/seed recording, linked responsive reports and print styles, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, visible review headings, and review archive roundtrip. All computations and edited inputs were hypothetical software fixtures. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external request was made. This is browser integration coverage, not a screen-reader, full accessibility, print-pagination, or scientific validation."
 }

@@ -121,6 +121,10 @@ def main(argv=None):
     result.add_argument("project", type=Path)
     result.add_argument("result", type=Path)
     result.add_argument("--output", type=Path, required=True)
+    inspect_input = commands.add_parser("inspect-input", help="Check a bounded local CSV without executing a control")
+    inspect_input.add_argument("input", type=Path)
+    inspect_input.add_argument("--adapter", choices=("INDEPENDENT_REFERENCE", "PAIRED_DIFFERENCE"), default="INDEPENDENT_REFERENCE")
+    inspect_input.add_argument("--output", type=Path, required=True)
     benchmark = commands.add_parser("benchmark", help="Run the labeled development benchmark")
     benchmark.add_argument("--output", type=Path, required=True)
     benchmark.add_argument("--trials", type=int, default=100)
@@ -143,6 +147,13 @@ def main(argv=None):
     annotate.add_argument("--revision-output", type=Path, required=True)
     args = parser.parse_args(argv)
     try:
+        if args.command == "inspect-input":
+            from controlomics.inputs import MAX_INPUT, inspect_numeric_input
+            with args.input.open("rb") as stream:
+                raw = stream.read(MAX_INPUT + 1)
+            write_json(args.output, inspect_numeric_input(raw, args.adapter).model_dump(mode="json"))
+            print("Saved input dimensions and the exact byte hash. No control was executed or scientific validity assigned.")
+            return 0
         if args.command == "specify-paired":
             from controlomics.execution import PairedSubmission, specify_paired_control
             submission = read_typed(args.submission, PairedSubmission)

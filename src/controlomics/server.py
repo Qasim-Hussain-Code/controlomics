@@ -48,6 +48,9 @@ def selected_claim(project, identifier):
 
 
 def handle_action(path, data):
+    if path == "/api/inspect-input":
+        from controlomics.inputs import inspect_numeric_input
+        return {"input_summary": inspect_numeric_input(data["csv"].encode("utf-8"), data["adapter"]).model_dump(mode="json")}
     if path in ("/api/annotation-template", "/api/annotate"):
         from controlomics.evaluation import AnnotationSubmission, EvaluationBundle, apply_annotations, bundle_hash
         bundle = EvaluationBundle.model_validate_json(json.dumps(data["bundle"]))
@@ -205,19 +208,22 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         self.connection.settimeout(10)
+        origins = (f"http://127.0.0.1:{self.server.server_port}", f"http://localhost:{self.server.server_port}")
+        try:
+            token = self.headers.get("X-Controlomics-Token", "").encode("ascii")
+        except UnicodeError:
+            token = b""
+        if not self.allowed_host() or self.headers.get("Origin") not in origins or not hmac.compare_digest(token, self.server.session_token.encode("ascii")):
+            self.reply(403, {"error": "Local request authorization failed."})
+            return
         try:
             length = int(self.headers.get("Content-Length", "0"))
             raw = self.rfile.read(length) if 0 < length <= MAX_BODY else b""
         except (ValueError, OSError):
             self.reply(400, {"error": "Invalid local request body."})
             return
-        origins = (f"http://127.0.0.1:{self.server.server_port}", f"http://localhost:{self.server.server_port}")
-        token = self.headers.get("X-Controlomics-Token", "")
-        if not self.allowed_host() or self.headers.get("Origin") not in origins or not hmac.compare_digest(token, self.server.session_token):
-            self.reply(403, {"error": "Local request authorization failed."})
-            return
         try:
-            if not 0 < length <= MAX_BODY or self.headers.get("Content-Type", "").split(";")[0] != "application/json":
+            if not 0 < length <= MAX_BODY or len(raw) != length or self.headers.get("Content-Type", "").split(";")[0] != "application/json":
                 raise ValueError("invalid request size or content type")
             data = decode_json(raw)
             result = handle_action(self.path, data)

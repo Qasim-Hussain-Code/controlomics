@@ -8,13 +8,14 @@ def export_workflow_schemas(directory: Path):
     from controlomics.evaluation import AnnotationSubmission, AnnotationRevision, EvaluationBundle, EvaluationDataset, PredictionRun
     from controlomics.artifacts import NetworkAuditEvent, ReviewManifest
     from controlomics.execution import ExecutionConfig, PairedSubmission
+    from controlomics.inputs import NumericInputSummary
     from controlomics.models import DraftControl, Proposal
     from controlomics.reasoning import InterpretationDraft, NarrativeInput, ReasoningProfile
     from controlomics.workflow import CandidateSubmission, HumanReview, Intake, NewClaim
     models = (Intake, NewClaim, CandidateSubmission, HumanReview, DraftControl, Proposal,
         ExecutionConfig, NarrativeInput, InterpretationDraft, ReasoningProfile,
         EvaluationDataset, PredictionRun, EvaluationBundle, AnnotationSubmission, AnnotationRevision,
-        NetworkAuditEvent, ReviewManifest, PairedSubmission)
+        NetworkAuditEvent, ReviewManifest, PairedSubmission, NumericInputSummary)
     directory.mkdir(parents=True, exist_ok=True)
     paths = []
     for model in models:

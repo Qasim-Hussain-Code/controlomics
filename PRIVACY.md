@@ -4,6 +4,8 @@ Projects, primary datasets, source text, and numeric inputs remain local. There 
 
 Description drafting, design profiles, additional claims, researcher specifications, source re-review, and evaluation use local processing. Evaluation bundles and annotations can themselves contain confidential research descriptions; they receive no implicit outbound authorization. Adding or selecting a claim does not serialize it into hosted context. Full source text entered in review forms is not retained in project or report exports.
 
+Form edit detection keeps temporary signatures, including entered text and selected-file metadata, in browser memory only. Password inputs are excluded. There is no autosave. Replacing or clearing the workspace resets the previous project, review and evaluation forms, numeric selection, credential, request preview, and visible ledger. Closing the page discards unexported work; the browser's warning does not guarantee recovery.
+
 ## Classification and approval
 
 Classes are SAFE, SENSITIVE_SCIENTIFIC, and RESTRICTED. Project and input defaults are RESTRICTED. Labels cannot understate declared input requirements. Project flags remain `network_enabled=false`, `external_transmission_allowed=false`, and `raw_data_must_remain_local=true`: they prohibit transmitting projects or raw data. Independently selected public fields use a separate approval boundary.
@@ -19,6 +21,8 @@ Optional model keys are passed in a separate authorization header and omitted fr
 The ledger records purpose, destination, public fields, time, request and response hashes, status, size, credential presence, and transmission phase. Public queries may disclose research interests. Failed ATTEMPTED requests may already have transmitted content. NOT_STARTED, ATTEMPTED, and COMPLETED distinguish this explicitly.
 
 Numeric execution writes a bounded input snapshot in an owned temporary directory and removes it on normal completion. Crashes can leave local temporary files. Dispatched packages omit raw inputs. Human review retains statement records, locators, and source hashes, not full source text. Hashes reveal equality and can permit guesses of low-entropy content; they are not anonymization.
+
+Explicit CSV inspection reads only the selected local file and returns dimensions, adapter, original-byte hash, byte count, and limitations. It exports no unit identifiers or measurements, performs no execution, and sends nothing to an external service. Input summaries and their hashes can still reveal research information; inspect them before sharing. Raw inputs and unrecorded form edits are excluded from review bundles. The Bundle prepared label means a download was prepared for the recorded revision; retain it separately.
 
 CLI and server errors redact values, credentials, and paths. Library users should not log raw validation structures. Store research files in ignored `local_projects/` or outside Git; ignore rules are convenience controls. Export projects and network records before closing the browser. Trusted local software can access the loopback service. See [SECURITY.md](SECURITY.md).
 

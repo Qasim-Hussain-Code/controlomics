@@ -8,6 +8,8 @@ Bounded JSON rejects duplicate keys, nonfinite values, extra fields, unsupported
 
 The server binds only to `127.0.0.1`. Mutating requests require exact local Host, Origin, and an unpredictable session token. Fixed asset routes prevent arbitrary file serving. Responses disable caching, external scripts and assets, framing, and referrer leakage. UI content uses text nodes and reports escape HTML. Request logging, persistent browser storage, and project databases are absent. Remote multiuser deployment is not qualified.
 
+POST authorization is checked before waiting for the body; non-ASCII tokens are rejected and truncated bodies cannot be parsed. Browser imports reject invalid UTF-8 instead of silently replacing bytes. CSV decoding accepts an optional UTF-8 byte-order mark while hashes retain the original bytes. The local JSON request budget includes formatting and the project snapshot, so files near the 2 MiB limit may require CLI use.
+
 ## External transport
 
 HTTPS URLs cannot include credentials, fragments, or nonstandard ports. Provider preparation binds selected public fields to URLs or messages, and exact approval is checked before connection. DNS addresses must be globally routable; TLS uses a checked address and the original hostname. Redirects are rejected. Responses are bounded to 2 MiB with socket timeouts. Errors omit private input and response content.
@@ -27,3 +29,5 @@ Do not commit keys, clinical identifiers, private sequences, raw datasets, or re
 ## Review archive boundary
 
 Review ZIP imports use a fixed member allowlist and bounded in-memory reads. Duplicate names, traversal, symbolic links, encryption, unsupported compression, oversize contents, hash mismatches, and inconsistent records are rejected. Imported HTML is never executed or opened; reports are regenerated. Archive manifests and reviewer names remain unauthenticated. These checks apply to review archives, not arbitrary ZIP files.
+
+Standalone report generation applies the same typed network-ledger checks as review archives. Raw request bodies, authorization headers, and inconsistent public-field bindings cannot enter a report through that parameter. Escaping, structural validation, and retained hashes do not establish the truth of a consistent imported record.

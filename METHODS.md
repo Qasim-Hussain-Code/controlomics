@@ -16,7 +16,9 @@ Researchers supply local source text, a short excerpt and locator, an exact cont
 
 ## Numerical procedures
 
-The effect is mean(group 1) minus mean(group 0), using `math.fsum`. Prespecified reference rules compare absolute effect error to a tolerance recorded before execution. Inferential outputs receive no automatic scientific PASS or FAIL.
+The effect is mean(group 1) minus mean(group 0), using `math.fsum`. When a finite mean has an overflowing intermediate total, an exact rational fallback accumulates the finite input floats before division. This preserves small residuals after cancellation of extreme values. Null population standard deviations use scaled variance to avoid overflow of squared effects and underflow at small measurement scales. Quantile interpolation uses a weighted-endpoint fallback when the endpoint span overflows. Effects and resampled differences that exceed finite floating-point representation are rejected. These are arithmetic corrections, with synthetic regression checks, rather than new statistical methods or a calibration study.
+
+Prespecified reference rules compare absolute effect error to a tolerance recorded before execution. Inferential outputs receive no automatic scientific PASS or FAIL.
 
 Permutation tests enumerate all assignments up to 5,000; otherwise seeded sampled assignments use `(extreme + 1) / (draws + 1)`, following the nonzero Monte Carlo correction described by [Phipson and Smyth](https://pubmed.ncbi.nlm.nih.gov/21044043/). Two-sided tails compare absolute effects with a `1e-12` relative tolerance and zero absolute tolerance, preserving measurement-scale invariance. Exchangeability requires independent justification. Exact small tests are discrete, and nonsignificance does not establish equivalence or a biological negative.
 
@@ -25,6 +27,8 @@ Within-group bootstrap resampling yields percentile intervals with linear interp
 The complete-pair adapter calculates the mean within-pair difference. It independently flips each pair difference, enumerating all 2^n assignments when at most 5,000; larger inputs use the stated seeded plus-one Monte Carlo convention. The absolute-tail definition is explicit and may differ from twice the smaller one-sided tail. [SciPy's permutation documentation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.permutation_test.html) describes this paired swap/sign-flip construction. Pair differences must be independent and sign-invariant under the tested null; zero mean alone is insufficient. The paired percentile bootstrap resamples complete-pair indices, equivalent to resampling their differences for this statistic, as in [SciPy's paired bootstrap description](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html). Controlomics implements these narrow procedures with the standard library; SciPy is not a dependency. Population coverage and general scientific applicability were not established.
 
 Packages retain fixed code, configuration, assumptions, seeds, environment, hashes, schemas, and a planned project snapshot. Results record observed versions and input hashes. Reproduction requires compatible retained artifacts; seeds alone do not guarantee identical output across changing algorithms or environments. See [Python reproducibility notes](https://docs.python.org/3/library/random.html#notes-on-reproducibility).
+
+Both CSV adapters accept UTF-8 with an optional byte-order mark. Unit and pair identifiers cannot be blank or have outer whitespace. Exact input hashes include the byte-order mark and original line endings. A local inspection action checks dimensions, finite values, and adapter shape without running a control; it does not establish independence, exchangeability, sign invariance, or scientific suitability. Numeric limits and sampling requirements remain unchanged.
 
 ## Development evaluation
 

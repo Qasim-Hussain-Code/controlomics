@@ -271,3 +271,18 @@ dialog::backdrop { background: rgba(18,39,52,.52); }
 .icon-button:hover { background: #edf5f2; color: var(--ink); border-color: #adcabd; }
 
 .workspace-overview:not(.has-project) h1 { max-width: 18ch; }
+
+#save-state[data-state=pending] { color: #8c7045; }
+.mobile-save-state { display: none; font-size: 10px; color: var(--muted); }
+.mobile-save-state[data-state=pending] { color: #8c7045; }
+@media(max-width:1250px) { .mobile-save-state { display: inline-flex; } }
+@media(max-width:1100px) { .control-toolbar:has(#claim-filter-label:not([hidden])) { flex-wrap: wrap; } .control-toolbar:has(#claim-filter-label:not([hidden])) .search-field { flex-basis: 100%; } .control-toolbar:has(#claim-filter-label:not([hidden])) .class-filter { flex: 1; min-width: 0; } }
+.nav-close { display: none; }
+.input-actions { margin: 12px 0 19px; }
+.input-inspection { border: 1px solid #cddfd9; background: #f5faf8; padding: 21px; border-radius: 8px; margin-bottom: 23px; scroll-margin-top: 90px; }
+.input-inspection h3 { font-size: 14px; margin-bottom: 14px; }
+.input-dimensions { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 15px; }
+.input-dimensions .field { margin: 0; }
+.input-dimensions .field p { font-size: 21px; font-variant-numeric: tabular-nums; }
+.control-card:not([data-control-class=POSITIVE]):not([data-control-class=NEGATIVE]) .badge { background: #eef1f7; color: #61738c; }
+@media(max-width:760px) { .nav-close { display: inline-flex; position: absolute; top: 100px; right: 19px; min-width: 29px; padding: 5px; color: #bdd6dd; border-color: #415664; } .nav-close:hover { background: #26414c; color: #fff; } .input-dimensions { grid-template-columns: repeat(2,minmax(0,1fr)); } }

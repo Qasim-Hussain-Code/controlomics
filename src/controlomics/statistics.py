@@ -5,6 +5,7 @@ import itertools
 import io
 import math
 import random
+from fractions import Fraction
 
 MAX_ROWS = 2000
 
@@ -19,14 +20,14 @@ def read_numeric_bytes(raw):
     if len(raw) > 2 * 1024 * 1024:
         raise ValueError("numeric input exceeds its size limit")
     units, values, labels = set(), [], []
-    with io.StringIO(raw.decode("utf-8"), newline="") as stream:
+    with io.StringIO(raw.decode("utf-8-sig"), newline="") as stream:
         reader = csv.DictReader(stream)
         if reader.fieldnames != ["unit", "label", "value"]:
             raise ValueError("CSV columns must be unit,label,value")
         for row in reader:
             if len(values) >= MAX_ROWS or None in row or any(value is None for value in row.values()):
                 raise ValueError("numeric input is malformed or exceeds its row limit")
-            if not row["unit"] or row["unit"] in units or row["label"] not in ("0", "1"):
+            if not row["unit"].strip() or row["unit"] != row["unit"].strip() or row["unit"] in units or row["label"] not in ("0", "1"):
                 raise ValueError("units must be unique and group labels must be zero or one")
             value = float(row["value"])
             if not math.isfinite(value):
@@ -39,22 +40,59 @@ def read_numeric_bytes(raw):
     return values, labels
 
 
-def mean_difference(values, labels):
+def finite_mean(values):
+    """Preserve ordinary summation and avoid overflowing an intermediate total."""
+    if not values or not all(math.isfinite(value) for value in values):
+        raise ValueError("a nonempty finite sequence is required")
+    try:
+        return math.fsum(values) / len(values)
+    except OverflowError:
+        # Scaling can erase small residuals after cancellation of extreme values.
+        # Exact rational accumulation is bounded by the finite input floats and
+        # used only when the ordinary floating-point total overflows.
+        return float(sum((Fraction(value) for value in values), Fraction()) / len(values))
+
+
+def population_summary(values):
+    average = finite_mean(values)
+    scale = max(abs(value) for value in values)
+    if scale == 0:
+        return average, 0.0
+    variance = finite_mean([(value / scale - average / scale) ** 2 for value in values])
+    # Values bounded by scale have population standard deviation at most scale.
+    return average, scale * min(1.0, math.sqrt(variance))
+
+
+def independent_groups(values, labels):
+    if len(values) != len(labels) or any(label not in (0, 1) for label in labels):
+        raise ValueError("matching finite values and binary group labels are required")
     left = [value for value, label in zip(values, labels) if label == 0]
     right = [value for value, label in zip(values, labels) if label == 1]
-    if not left or not right or len(values) != len(labels):
+    if not left or not right or not all(math.isfinite(value) for value in values):
         raise ValueError("two nonempty groups of matching length are required")
-    return math.fsum(right) / len(right) - math.fsum(left) / len(left)
+    return left, right
+
+
+def mean_difference(values, labels):
+    left, right = independent_groups(values, labels)
+    difference = finite_mean(right) - finite_mean(left)
+    if not math.isfinite(difference):
+        raise ValueError("the mean difference exceeds finite numeric representation")
+    return difference
 
 
 def quantile(values, fraction):
-    if not values or not 0 <= fraction <= 1:
+    if not values or not all(math.isfinite(value) for value in values) or not 0 <= fraction <= 1:
         raise ValueError("invalid quantile request")
     ordered = sorted(values)
     position = fraction * (len(ordered) - 1)
     lower = math.floor(position)
     upper = math.ceil(position)
-    return ordered[lower] + (ordered[upper] - ordered[lower]) * (position - lower)
+    weight = position - lower
+    span = ordered[upper] - ordered[lower]
+    if math.isfinite(span):
+        return ordered[lower] + span * weight
+    return (1 - weight) * ordered[lower] + weight * ordered[upper]
 
 
 def permutation_test(values, labels, seed=0, draws=999, exact_limit=5000):
@@ -74,25 +112,26 @@ def permutation_test(values, labels, seed=0, draws=999, exact_limit=5000):
         abs(value), abs(observed), rel_tol=1e-12, abs_tol=0.0) for value in null)
     exact = combinations <= exact_limit
     probability = extreme / len(null) if exact else (extreme + 1) / (len(null) + 1)
-    average = math.fsum(null) / len(null)
-    variance = math.fsum((value - average) ** 2 for value in null) / len(null)
+    average, sd = population_summary(null)
     return {"effect": observed, "p_value": probability, "draws": len(null), "exact": exact,
-            "null_mean": average, "null_sd": math.sqrt(variance)}
+            "null_mean": average, "null_sd": sd}
 
 
 def bootstrap_difference(values, labels, seed=0, draws=999, coverage=0.95):
     if not 100 <= draws <= 10000 or not 0 < coverage < 1:
         raise ValueError("bootstrap budget or coverage is invalid")
-    left = [value for value, label in zip(values, labels) if label == 0]
-    right = [value for value, label in zip(values, labels) if label == 1]
+    left, right = independent_groups(values, labels)
     if min(len(left), len(right)) < 2:
         raise ValueError("bootstrap requires two independent groups")
     generator = random.Random(seed)
     distribution = []
     for _ in range(draws):
-        left_mean = math.fsum(generator.choices(left, k=len(left))) / len(left)
-        right_mean = math.fsum(generator.choices(right, k=len(right))) / len(right)
-        distribution.append(right_mean - left_mean)
+        left_mean = finite_mean(generator.choices(left, k=len(left)))
+        right_mean = finite_mean(generator.choices(right, k=len(right)))
+        difference = right_mean - left_mean
+        if not math.isfinite(difference):
+            raise ValueError("a resampled difference exceeds finite numeric representation")
+        distribution.append(difference)
     tail = (1 - coverage) / 2
     return {"effect": mean_difference(values, labels), "lower": quantile(distribution, tail),
             "upper": quantile(distribution, 1 - tail), "coverage": coverage}
@@ -102,7 +141,7 @@ def read_paired_bytes(raw):
     if len(raw) > 2 * 1024 * 1024:
         raise ValueError("paired input exceeds its size limit")
     pairs = {}
-    with io.StringIO(raw.decode("utf-8"), newline="") as stream:
+    with io.StringIO(raw.decode("utf-8-sig"), newline="") as stream:
         reader = csv.DictReader(stream)
         if reader.fieldnames != ["pair", "condition", "value"]:
             raise ValueError("CSV columns must be pair,condition,value")
@@ -129,7 +168,7 @@ def read_paired_bytes(raw):
 def paired_mean(differences):
     if not 2 <= len(differences) <= MAX_ROWS // 2 or not all(math.isfinite(value) for value in differences):
         raise ValueError("two to one thousand finite pair differences are required")
-    return math.fsum(value / len(differences) for value in differences)
+    return finite_mean(differences)
 
 
 def paired_permutation(differences, seed=0, draws=999, exact_limit=5000):
@@ -142,10 +181,7 @@ def paired_permutation(differences, seed=0, draws=999, exact_limit=5000):
         [generator.choice((-1, 1)) for _ in differences] for _ in range(draws))
     null = [paired_mean([sign * value for sign, value in zip(assignment, differences)]) for assignment in signs]
     extreme = sum(abs(value) >= abs(observed) or math.isclose(abs(value), abs(observed), rel_tol=1e-12, abs_tol=0.0) for value in null)
-    average = math.fsum(value / len(null) for value in null)
-    # Scaling avoids overflow when finite values have a large magnitude.
-    scale = max(abs(value) for value in null)
-    sd = 0.0 if scale == 0 else scale * math.sqrt(math.fsum(((value / scale) - (average / scale)) ** 2 / len(null) for value in null))
+    average, sd = population_summary(null)
     return {"effect": observed, "p_value": extreme / len(null) if exact else (extreme + 1) / (len(null) + 1),
             "draws": len(null), "exact": exact, "null_mean": average, "null_sd": sd}
 

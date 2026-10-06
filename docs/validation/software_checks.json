@@ -1,14 +1,14 @@
 {
-  "recorded_at": "2026-10-06T13:24:37.473211+00:00",
-  "controlomics_version": "0.5.0.dev0",
+  "recorded_at": "2026-10-06T15:58:55.244001+00:00",
+  "controlomics_version": "0.6.0.dev0",
   "python": "3.14.0",
   "pydantic": "2.12.4",
   "platform": "Windows",
-  "tests_run": 121,
+  "tests_run": 139,
   "failures": 0,
   "errors": 0,
   "skips": 0,
-  "elapsed_seconds": 5.23,
+  "elapsed_seconds": 5.953,
   "includes_discovery": true,
-  "scope": "Software invariants and explicitly synthetic numerical, annotation and source-review fixtures. No independent expert or biological validation."
+  "scope": "Software invariants and explicitly synthetic numerical, annotation and source-review fixtures. Includes extreme-scale arithmetic, original-byte CSV inspection, linked reports and local HTTP regressions. No independent expert or biological validation."
 }

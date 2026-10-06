@@ -6,7 +6,7 @@ from tempfile import TemporaryDirectory
 
 from controlomics.execution import ExecutionConfig, build_package, execute_local, specify_paired_control
 from controlomics.project import parse_project_json
-from controlomics.statistics import read_paired_bytes, paired_permutation, paired_bootstrap
+from controlomics.statistics import read_paired_bytes, paired_mean, paired_permutation, paired_bootstrap
 from controlomics.workflow import propose, review_methods
 from tests.fixtures import payload
 
@@ -29,6 +29,11 @@ class PairedTests(unittest.TestCase):
         self.assertEqual(read_paired_bytes(CSV), [1.0, 2.0, 3.0])
         rows = CSV.decode().splitlines()
         self.assertEqual(read_paired_bytes((rows[0] + '\n' + '\n'.join(reversed(rows[1:]))).encode()), [1.0, 2.0, 3.0])
+        self.assertEqual(read_paired_bytes(b'\xef\xbb\xbf' + CSV), [1.0, 2.0, 3.0])
+
+    def test_pair_mean_retains_representable_subnormal_values(self):
+        self.assertEqual(paired_mean([5e-324, 5e-324]), 5e-324)
+        self.assertEqual(paired_permutation([5e-324, 5e-324])['p_value'], 0.5)
 
     def test_incomplete_duplicate_nonfinite_and_oversized_pairs_rejected(self):
         for raw in (CSV.replace(b'c,1,33\n', b''), CSV + b'a,0,10\n', CSV.replace(b'11', b'nan'),

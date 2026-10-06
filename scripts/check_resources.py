@@ -13,6 +13,7 @@ from controlomics.reports import render_report
 from controlomics.workflow import audit_project, propose, replace_project, review_methods
 from controlomics.formats import export_workflow_schemas
 from controlomics.evaluation import EvaluationBundle, evaluate
+from controlomics.inputs import inspect_numeric_input
 
 
 def peak_memory_bytes():
@@ -58,6 +59,7 @@ def main():
     project = execute_local(project, project.controls[-1].control_id, ExecutionConfig.model_validate_json((root / "examples" / "paired_execution.json").read_bytes()),
         (root / "examples" / "paired_reference.csv").read_bytes())
     open_review_bundle(create_review_bundle(project, evaluation=evaluation))
+    inspect_numeric_input((root / "examples" / "paired_reference.csv").read_bytes(), "PAIRED_DIFFERENCE")
     project_bytes = 0
     for path in root.rglob("*"):
         parts = path.relative_to(root).parts
@@ -67,7 +69,7 @@ def main():
             project_bytes += path.stat().st_size
     environment_bytes = sum(path.stat().st_size for path in (root / ".venv").rglob("*") if path.is_file())
     print(json.dumps({
-        "workload": "Two local project validations, method reviews, fixed synthetic reference executions, audits and reports, ten core and eighteen workflow schema exports, six-case unassessed evaluation, paired sign-flip execution, and review archive roundtrip",
+        "workload": "Two local project validations, method reviews, fixed synthetic reference executions, audits and reports, ten core and nineteen workflow schema exports, six-case unassessed evaluation, paired sign-flip execution, review archive roundtrip, and local input inspection",
         "project_file_bytes": project_bytes,
         "virtual_environment_file_bytes": environment_bytes,
         "peak_python_working_set_bytes": peak_memory_bytes(),
