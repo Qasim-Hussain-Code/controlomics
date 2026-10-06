@@ -11,3 +11,9 @@ Context fields follow `BiologicalContext`: organism, strain, cell type, tissue, 
 Apply with `controlomics review PROJECT REVIEW.json --output UPDATED.json`, or import the JSON in the Evidence tab. Full support and matching supplied context can yield EVIDENCE_BACKED. Both support and contradiction yield CONFLICTING_EVIDENCE. Incomplete, mismatched, or unsupported submissions yield INSUFFICIENT_EVIDENCE. A missing identity, unrelated statement, or excerpt absent from supplied text is rejected.
 
 This is an attestation workflow. Source text and reviewer identity supplied by a caller can be false. Stored receipts and hashes are not signatures, verified human identities, evidence-quality scores, or proof that independent review occurred. Expert annotation and authentication requirements remain unresolved for public scientific deployment.
+
+The interface also offers Review evidence on each control when verified publication identities are available. It displays the exact statements and leaves the researcher name and attestation empty. Enter separate assessments for rationale and expected behavior; the form does not invent source context or select SUPPORTS automatically.
+
+To replace an existing reviewed record, supply `supersedes_review_sha256` equal to the current reviewed snapshot hash. The interface obtains this hash locally and requires an explicit replacement choice. The previous hash is recorded in provenance. Retain old project exports to inspect prior content, including contradictory evidence; the hash alone cannot reconstruct it. Re-review can reduce the evidence state and does not alter the specified rationale or expected behavior.
+
+Later retrieval of the same publication retains the earlier verified identity snapshot that prior statement receipts depend on. Later network responses and hashes remain in the ledger. This preserves temporal consistency without turning a later retrieval into proof of the earlier review.

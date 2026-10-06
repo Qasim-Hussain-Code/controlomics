@@ -1,0 +1,200 @@
+{
+  "scope": "Public publication identity only; entailment and biological applicability were not reviewed.",
+  "checks": [
+    {
+      "provider": "EuropePMC",
+      "doi": "10.1186/s13059-014-0550-8",
+      "status": "FAILED"
+    },
+    {
+      "provider": "Crossref",
+      "doi": "10.1186/s13059-014-0550-8",
+      "status": "FAILED"
+    },
+    {
+      "provider": "EuropePMC",
+      "doi": "10.1186/1471-2105-7-91",
+      "status": "FAILED"
+    },
+    {
+      "provider": "Crossref",
+      "doi": "10.1186/1471-2105-7-91",
+      "status": "FAILED"
+    },
+    {
+      "provider": "EuropePMC",
+      "doi": "10.1038/s41467-021-21038-1",
+      "status": "FAILED"
+    },
+    {
+      "provider": "Crossref",
+      "doi": "10.1038/s41467-021-21038-1",
+      "status": "FAILED"
+    },
+    {
+      "provider": "EuropePMC",
+      "doi": "10.1073/pnas.0506580102",
+      "status": "FAILED"
+    },
+    {
+      "provider": "Crossref",
+      "doi": "10.1073/pnas.0506580102",
+      "status": "FAILED"
+    }
+  ],
+  "evidence": [],
+  "network_audit": [
+    {
+      "purpose": "LITERATURE",
+      "method": "GET",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1186%2Fs13059-014-0550-8%22&format=json&resultType=core&pageSize=5",
+      "fields": [
+        {
+          "name": "public_query",
+          "value": "DOI:\"10.1186/s13059-014-0550-8\"",
+          "classification": "SAFE"
+        }
+      ],
+      "body": null,
+      "request_sha256": "4d4aa6904dcfa73646bd99fd8e930beb4d9cc51d942cb307f3fc2e92738f65b0",
+      "sent_at": "2026-10-06T02:54:49.495973+00:00",
+      "status": "FAILED",
+      "body_sha256": null,
+      "credential_supplied": false,
+      "payload_transmission": "NOT_STARTED"
+    },
+    {
+      "purpose": "LITERATURE",
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.1186%2Fs13059-014-0550-8",
+      "fields": [
+        {
+          "name": "public_identifier",
+          "value": "10.1186/s13059-014-0550-8",
+          "classification": "SAFE"
+        }
+      ],
+      "body": null,
+      "request_sha256": "76fb8aeb2168d045e0b78e4e8ec88233df5bea9ab37b47174bff1fc222c522b9",
+      "sent_at": "2026-10-06T02:54:49.880636+00:00",
+      "status": "FAILED",
+      "body_sha256": null,
+      "credential_supplied": false,
+      "payload_transmission": "NOT_STARTED"
+    },
+    {
+      "purpose": "LITERATURE",
+      "method": "GET",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1186%2F1471-2105-7-91%22&format=json&resultType=core&pageSize=5",
+      "fields": [
+        {
+          "name": "public_query",
+          "value": "DOI:\"10.1186/1471-2105-7-91\"",
+          "classification": "SAFE"
+        }
+      ],
+      "body": null,
+      "request_sha256": "b847749122a672d8cba709fa077ccb3fc6c1562bd37e728f032aee854ff51903",
+      "sent_at": "2026-10-06T02:54:49.938508+00:00",
+      "status": "FAILED",
+      "body_sha256": null,
+      "credential_supplied": false,
+      "payload_transmission": "NOT_STARTED"
+    },
+    {
+      "purpose": "LITERATURE",
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.1186%2F1471-2105-7-91",
+      "fields": [
+        {
+          "name": "public_identifier",
+          "value": "10.1186/1471-2105-7-91",
+          "classification": "SAFE"
+        }
+      ],
+      "body": null,
+      "request_sha256": "6cee6038272cd4880c60e5d01854514af235879f96f81e48cd6e3b57c862fd0e",
+      "sent_at": "2026-10-06T02:54:49.986795+00:00",
+      "status": "FAILED",
+      "body_sha256": null,
+      "credential_supplied": false,
+      "payload_transmission": "NOT_STARTED"
+    },
+    {
+      "purpose": "LITERATURE",
+      "method": "GET",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1038%2Fs41467-021-21038-1%22&format=json&resultType=core&pageSize=5",
+      "fields": [
+        {
+          "name": "public_query",
+          "value": "DOI:\"10.1038/s41467-021-21038-1\"",
+          "classification": "SAFE"
+        }
+      ],
+      "body": null,
+      "request_sha256": "22c69a0497e57efa5f05fe834d3c0ffb47e878a60dbfc20598fcded4c87c8f70",
+      "sent_at": "2026-10-06T02:54:50.038315+00:00",
+      "status": "FAILED",
+      "body_sha256": null,
+      "credential_supplied": false,
+      "payload_transmission": "NOT_STARTED"
+    },
+    {
+      "purpose": "LITERATURE",
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.1038%2Fs41467-021-21038-1",
+      "fields": [
+        {
+          "name": "public_identifier",
+          "value": "10.1038/s41467-021-21038-1",
+          "classification": "SAFE"
+        }
+      ],
+      "body": null,
+      "request_sha256": "c739a5459d923fc58a3263289a93697b3d5ca57d7b7a025f87d49d4d485aebbc",
+      "sent_at": "2026-10-06T02:54:50.087995+00:00",
+      "status": "FAILED",
+      "body_sha256": null,
+      "credential_supplied": false,
+      "payload_transmission": "NOT_STARTED"
+    },
+    {
+      "purpose": "LITERATURE",
+      "method": "GET",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1073%2Fpnas.0506580102%22&format=json&resultType=core&pageSize=5",
+      "fields": [
+        {
+          "name": "public_query",
+          "value": "DOI:\"10.1073/pnas.0506580102\"",
+          "classification": "SAFE"
+        }
+      ],
+      "body": null,
+      "request_sha256": "58928e6963580ecf9d6efa62efbbe23146ec86c0f843816c3ecb82dff0f890cd",
+      "sent_at": "2026-10-06T02:54:50.138017+00:00",
+      "status": "FAILED",
+      "body_sha256": null,
+      "credential_supplied": false,
+      "payload_transmission": "NOT_STARTED"
+    },
+    {
+      "purpose": "LITERATURE",
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.1073%2Fpnas.0506580102",
+      "fields": [
+        {
+          "name": "public_identifier",
+          "value": "10.1073/pnas.0506580102",
+          "classification": "SAFE"
+        }
+      ],
+      "body": null,
+      "request_sha256": "3e7df3317bf82fab1a22a98410c278ad2265fb8a8369e853d4efe657852c0ff3",
+      "sent_at": "2026-10-06T02:54:50.170155+00:00",
+      "status": "FAILED",
+      "body_sha256": null,
+      "credential_supplied": false,
+      "payload_transmission": "NOT_STARTED"
+    }
+  ]
+}

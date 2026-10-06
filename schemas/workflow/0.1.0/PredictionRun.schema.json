@@ -1,0 +1,185 @@
+{
+  "$defs": {
+    "CasePrediction": {
+      "additionalProperties": false,
+      "properties": {
+        "abstained": {
+          "title": "Abstained",
+          "type": "boolean"
+        },
+        "case_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Case Id",
+          "type": "string"
+        },
+        "controls": {
+          "items": {
+            "$ref": "#/$defs/PredictedControl"
+          },
+          "title": "Controls",
+          "type": "array"
+        },
+        "execution_states": {
+          "default": [],
+          "items": {
+            "enum": [
+              "COMPLETED",
+              "FAILED",
+              "BLOCKED",
+              "NOT_RUN"
+            ],
+            "type": "string"
+          },
+          "title": "Execution States",
+          "type": "array"
+        },
+        "findings": {
+          "default": [],
+          "items": {
+            "maxLength": 100,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+            "type": "string"
+          },
+          "title": "Findings",
+          "type": "array"
+        },
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "case_id",
+        "controls",
+        "abstained"
+      ],
+      "title": "CasePrediction",
+      "type": "object"
+    },
+    "PredictedControl": {
+      "additionalProperties": false,
+      "properties": {
+        "control_class": {
+          "enum": [
+            "POSITIVE",
+            "NEGATIVE",
+            "NULL",
+            "SPECIFICITY",
+            "ROBUSTNESS",
+            "CONFOUNDER",
+            "FALSIFICATION"
+          ],
+          "title": "Control Class",
+          "type": "string"
+        },
+        "control_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+          "title": "Control Id",
+          "type": "string"
+        },
+        "description": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Description",
+          "type": "string"
+        },
+        "probability_appropriate": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Probability Appropriate"
+        },
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "scientific_level": {
+          "enum": [
+            "TECHNICAL",
+            "STATISTICAL",
+            "BIOLOGICAL",
+            "MECHANISTIC"
+          ],
+          "title": "Scientific Level",
+          "type": "string"
+        }
+      },
+      "required": [
+        "control_id",
+        "control_class",
+        "scientific_level",
+        "description"
+      ],
+      "title": "PredictedControl",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "cases": {
+      "items": {
+        "$ref": "#/$defs/CasePrediction"
+      },
+      "minItems": 1,
+      "title": "Cases",
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "provider": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Provider",
+      "type": "string"
+    },
+    "run_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:]*$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id",
+    "provider",
+    "cases",
+    "limitations"
+  ],
+  "title": "PredictionRun",
+  "type": "object"
+}

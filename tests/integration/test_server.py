@@ -67,7 +67,9 @@ class ServerTests(unittest.TestCase):
         self.assertNotIn(b"private_sentinel", content)
 
     def test_local_execution_and_package_are_explicit_actions(self):
-        data = handle_action("/api/analyze", {"project": payload()})
+        raw = payload()
+        raw["candidates"] = []
+        data = handle_action("/api/analyze", {"project": raw})
         project = data["project"]
         from tests.fixtures import ROOT
         settings = {"project": project, "control_id": project["controls"][0]["control_id"],

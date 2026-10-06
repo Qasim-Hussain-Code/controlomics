@@ -1,0 +1,48 @@
+{
+  "schema_version": "0.1.0",
+  "question": "Does a hypothetical treatment change transcript abundance in cultured yeast?",
+  "analysis_description": "A hypothetical between-culture differential abundance comparison.",
+  "methods": [
+    "A researcher-specified count-based differential abundance method"
+  ],
+  "observed_result": "Hypothetical reported abundance differences; no measurements are included.",
+  "claim": "Transcript abundance differs between the hypothetical conditions.",
+  "claim_category": "COMPARATIVE",
+  "computational_support": "COMPARATIVE",
+  "biological_context": {
+    "schema_version": "0.1.0",
+    "organism": "Saccharomyces cerevisiae",
+    "strain": null,
+    "cell_type": null,
+    "tissue": null,
+    "disease_state": null,
+    "experimental_condition": null,
+    "molecular_target": null,
+    "assay_type": null,
+    "computational_method": null,
+    "data_modality": "bulk transcript counts",
+    "biological_scale": null,
+    "intervention": null,
+    "time_point": null,
+    "reference_database": null,
+    "software_assumptions": []
+  },
+  "design": {
+    "schema_version": "0.1.0",
+    "sampling_unit": "Independent culture",
+    "independence_assumptions": [
+      "Cultures, rather than individual counts, are the independent units."
+    ],
+    "contrasts": [
+      "Hypothetical treatment versus reference"
+    ],
+    "covariates": [],
+    "data_partition": null,
+    "missing_information": [
+      "Replication, normalization, batch structure, and model specification are not supplied."
+    ]
+  },
+  "assumptions": [
+    "The sampling units and stated contrasts represent the intended comparison."
+  ]
+}

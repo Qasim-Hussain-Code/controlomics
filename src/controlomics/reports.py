@@ -3,6 +3,7 @@
 import html
 from pathlib import Path
 from urllib.parse import quote
+from controlomics.reasoning import describe_design
 
 
 def esc(value):
@@ -35,6 +36,9 @@ def render_report(project, network_audit=()):
             blocks.append(paragraph("Context: " + dimension.replace("_", " "), "; ".join(value) if isinstance(value, tuple) else value))
     for claim in project.claims:
         blocks.append(paragraph("Claim", claim.statement) + paragraph("Category and support", claim.category + "; " + claim.computational_support))
+        profile = describe_design(project.analysis, claim)
+        blocks.append(paragraph("Provisional design cues", "; ".join(cue.facet + ": " + cue.basis for cue in profile.cues) or "No analytical operation recognized."))
+        blocks.append(paragraph("Reasoning limits", "; ".join(profile.limitations)))
         for warning in claim.interpretation_warnings:
             blocks.append(paragraph("Interpretation warning", warning))
     blocks.append("<h2>Control recommendations</h2>")

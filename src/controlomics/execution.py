@@ -153,6 +153,8 @@ def build_package(project, control_id: str, config: ExecutionConfig, directory: 
     control = next((item for item in project.controls if item.control_id == control_id), None)
     if control is None or control.evidence_status not in ("METHOD_BASED", "EVIDENCE_BACKED"):
         raise ValueError("execution requires a reviewed, justified control specification")
+    if control.scientific_level != "TECHNICAL" or control.control_class not in ("POSITIVE", "NEGATIVE"):
+        raise ValueError("this numeric adapter only executes technical positive and negative reference specifications; other controls require an applicable adapter")
     if directory.exists() and any(directory.iterdir()):
         raise ValueError("execution package directory must be new or empty")
     if any(plan.control_id == control_id for plan in project.execution_plans):

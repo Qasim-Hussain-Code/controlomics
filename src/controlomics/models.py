@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from typing import Annotated, Literal, Protocol
 
-from pydantic import Field
+from pydantic import Field, model_validator
 
 from controlomics.privacy import PreparedRequest, SafeField, SafeTransport, canonical_json
 from controlomics.project import decode_json
@@ -23,6 +23,14 @@ class DraftControl(Record):
     method_basis: Text | None = None
     uncertainties: tuple[Text, ...]
     limitations: Annotated[tuple[Text, ...], Field(min_length=1)]
+    priority: Literal["ESSENTIAL", "RECOMMENDED", "EXPLORATORY"] = "RECOMMENDED"
+    priority_rationale: Text = "Applicability must be assessed against the claim and design."
+
+    @model_validator(mode="after")
+    def biological_evidence(self):
+        if self.scientific_level in ("BIOLOGICAL", "MECHANISTIC") and not self.evidence_required:
+            raise ValueError("biological and mechanistic proposals require an external evidence review")
+        return self
 
 
 class Proposal(Record):
@@ -75,6 +83,76 @@ class MethodBaseline:
                 method_basis="Define absence independently of the tested output, justify the null construction, and preserve sampling units and dependencies.", **shared,
             ),
         ), abstentions=("No experimentally validated biological positive or negative entity was identified by the local method baseline.",))
+
+
+class DesignReasoner:
+    identifier = "local_design_reasoner_v1"
+
+    def health(self):
+        return "LOCAL"
+
+    def propose(self, analysis, claim):
+        from controlomics.reasoning import describe_design
+        profile = describe_design(analysis, claim)
+        facets = {cue.facet for cue in profile.cues}
+        baseline = MethodBaseline().propose(analysis, claim)
+        controls = list(baseline.controls)
+        def add(name, control_class, rationale, expected, failure, basis, essential=False):
+            controls.append(DraftControl(name=name, control_class=control_class, scientific_level="STATISTICAL",
+                rationale=rationale, expected_behavior=expected, failure_interpretation=failure,
+                evidence_required=False, method_basis=basis,
+                uncertainties=("This is a design-dependent specification. Its assumptions and applicability require researcher review.",),
+                limitations=("No biological entity or experimental validation is established by this local rule.",),
+                priority="ESSENTIAL" if essential else "RECOMMENDED",
+                priority_rationale="Targets an assumption linking the stated analytical operation to the claim; priority is provisional."))
+        if "PREDICTION" in facets:
+            add("Training-partition leakage challenge", "FALSIFICATION",
+                "Prediction estimates can be distorted when selection, tuning, or preprocessing use evaluation information.",
+                "Evaluate a prespecified pipeline with all fitted transformations confined to training units and an untouched assessment partition.",
+                "A large change may indicate selection leakage or a changed evaluation target; investigate before claiming prediction performance.",
+                "Specify independent units, nested selection where needed, and a fixed assessment metric before comparing pipelines.", True)
+            add("Label-information null challenge", "NULL",
+                "A label-information null can test whether a predictive pipeline produces apparent performance without the intended relation.",
+                "Compare the prespecified metric with a null that preserves independent units and justified nuisance constraints.",
+                "Unexpected performance may reflect leakage, an invalid null, class imbalance, or nuisance information rather than useful prediction.",
+                "Resample or replace labels only under a defensible exchangeability design; do not permute dependent rows independently.")
+        if facets & {"GROUP_COMPARISON", "ASSOCIATION"}:
+            add("Design-preserving contrast null", "NULL",
+                "A null with the contrast absent can challenge false signal while retaining relevant nuisance and dependence structure.",
+                "Characterize the chosen statistic under a prespecified no-contrast construction at the independent-unit level.",
+                "Departures may reflect false signal, invalid exchangeability, confounding, or incorrect null construction.",
+                "State the null hypothesis, independent units, nuisance restrictions, and multiplicity plan before computation.")
+        if facets & {"DEPENDENT_UNITS", "TIME_DEPENDENCE"}:
+            add("Independent-unit sensitivity analysis", "ROBUSTNESS",
+                "Uncertainty may be understated when repeated or nested observations are treated as independent units.",
+                "Compare the interpretation with a scientifically justified unit-aware analysis that preserves paired, nested, or temporal structure.",
+                "A change can indicate dependence sensitivity or a changed estimand; it does not identify one analysis as correct automatically.",
+                "Identify independent units and the estimand; use aggregation, pairing, or an appropriate dependence model rather than counting rows as replication.", True)
+        if "BATCH_STRUCTURE" in facets:
+            add("Nuisance-structure challenge", "CONFOUNDER",
+                "Batch or other nuisance structure can explain an apparent contrast when it is associated with the condition of interest.",
+                "Inspect balance and compare prespecified sensitivity analyses that distinguish the intended contrast from nuisance variation.",
+                "Nonidentifiability or strong sensitivity limits interpretation; batch correction does not repair a fully confounded design by itself.",
+                "Record nuisance factors, contrast balance, and estimability; avoid selecting correction settings to maximize the preferred result.", True)
+        if "SET_OVERLAP" in facets:
+            add("Matched-background enrichment challenge", "SPECIFICITY",
+                "Set overlap can reflect the tested universe, annotation coverage, or set size rather than the intended specific association.",
+                "Compare against a prespecified background and null preserving the relevant eligibility and set-size constraints.",
+                "Sensitivity may indicate background or annotation bias; it does not establish a biological mechanism.",
+                "Define the eligible universe, annotation version, multiplicity handling, and dependence-preserving null independently of the observed overlap.")
+        if facets & {"RANKING", "SIMILARITY"}:
+            add("Matched reference discrimination challenge", "SPECIFICITY",
+                "Ranking or similarity may depend on trivial size, composition, or reference-selection differences.",
+                "Assess prespecified independently established positive and negative references with relevant nuisance properties matched.",
+                "Loss of discrimination may indicate nonspecific scoring, reference selection, or mismatched nuisance properties.",
+                "Define matching criteria and assessment before selecting references. Biological reference identities need a separate evidence-reviewed candidate.")
+        if "CAUSAL_INTERPRETATION" in facets:
+            add("Alternative-explanation falsification", "FALSIFICATION",
+                "A causal or mechanistic interpretation needs assumptions that exclude relevant alternative explanations.",
+                "State a testable alternative and an independently justified contrast that could distinguish it from the claim.",
+                "An unresolved alternative limits the causal interpretation even if a computational association is reproducible.",
+                "Record the causal assumptions, plausible confounders, temporal ordering, and the scope of evidence; no intervention is inferred from observational text.", True)
+        return Proposal(controls=tuple(controls), abstentions=baseline.abstentions + profile.limitations)
 
 
 class MessagesProvider:

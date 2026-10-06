@@ -14,7 +14,7 @@ class WorkflowTests(unittest.TestCase):
         for name in ("transcriptomics.project.json", "microscopy_ml.project.json"):
             data = payload(name)
             data["candidates"] = []
-            project = propose(parse_project_json(json.dumps(data)))
+            project = propose(parse_project_json(json.dumps(data)), MethodBaseline())
             self.assertEqual({item.control_class for item in project.candidates}, {"POSITIVE", "NEGATIVE"})
             self.assertTrue(all(item.evidence_status == "AGENT_PROPOSED" for item in project.candidates))
             project = audit_project(review_methods(project))

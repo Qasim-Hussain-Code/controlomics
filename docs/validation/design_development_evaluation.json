@@ -1,0 +1,266 @@
+{
+  "reference": {
+    "format": "controlomics.evaluation_report.v0.1",
+    "run_at": "2026-10-06T02:50:49.943989+00:00",
+    "controlomics_version": "0.3.0.dev0",
+    "dataset_id": "development_design.v0.1",
+    "run_id": "run.reference",
+    "provider": "local_method_baseline_v1",
+    "partition": "ALL",
+    "reference_origin": "DEVELOPMENT_FIXTURE",
+    "judgment_origin": "UNASSESSED",
+    "annotators": {
+      "references": null,
+      "judgments": null
+    },
+    "metrics": {
+      "recommendation_precision": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "wilson_95_interval": null,
+        "definition": "Appropriate / recommendations with a definite appropriateness judgment; uncertain and missing judgments excluded."
+      },
+      "reference_control_recall": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "wilson_95_interval": null,
+        "definition": "Distinct covered / reference controls, restricted to completely judged cases with supplied reference annotations; abstained cases remain in recall."
+      },
+      "critical_control_recall": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "wilson_95_interval": null,
+        "definition": "Distinct covered essential / essential references in the same completely judged cases."
+      },
+      "unsupported_recommendation_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "wilson_95_interval": null,
+        "definition": "Unsupported / recommendations with a definite unsupported judgment; unknowns excluded."
+      },
+      "flaw_detection_recall": {
+        "numerator": 2,
+        "denominator": 10,
+        "value": 0.2,
+        "wilson_95_interval": [
+          0.05668215145437519,
+          0.5098375284633583
+        ],
+        "definition": "Matched / expected finding codes in cases with supplied finding annotations."
+      },
+      "flaw_detection_precision": {
+        "numerator": 2,
+        "denominator": 2,
+        "value": 1.0,
+        "wilson_95_interval": [
+          0.34238022750665303,
+          1
+        ],
+        "definition": "Matched / reported finding codes in those annotated cases."
+      },
+      "execution_success": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "wilson_95_interval": null,
+        "definition": "Completed / completed-or-failed attempts; BLOCKED and NOT_RUN excluded and counted separately."
+      },
+      "abstention_rate": {
+        "numerator": 0,
+        "denominator": 6,
+        "value": 0.0,
+        "wilson_95_interval": [
+          2.7755575615628914e-17,
+          0.3903342879021653
+        ],
+        "definition": "Cases with no recommendations and explicit full abstention / selected cases."
+      },
+      "citation_identity_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "wilson_95_interval": null,
+        "definition": "Correct predicted binary decisions / supplied definite reference decisions for this evidence layer."
+      },
+      "statement_entailment_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "wilson_95_interval": null,
+        "definition": "Correct predicted binary decisions / supplied definite reference decisions for this evidence layer."
+      },
+      "context_compatibility_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "wilson_95_interval": null,
+        "definition": "Correct predicted binary decisions / supplied definite reference decisions for this evidence layer."
+      },
+      "binary_quadratic_score": {
+        "value": null,
+        "denominator": 0,
+        "definition": "Mean squared error of supplied probability of appropriateness versus definite judgments, on the binary 0-to-1 convention. Lower is better; this alone is not calibration."
+      }
+    },
+    "coverage": {
+      "cases": 6,
+      "recommendations": 12,
+      "appropriateness_assessed": 0,
+      "unsupported_assessed": 0,
+      "uncertain_or_missing_appropriateness": 12,
+      "completely_judged_cases": 0,
+      "reference_recall_cases": 0,
+      "finding_annotated_cases": 6,
+      "blocked_executions": 0,
+      "not_run": 0
+    },
+    "limitations": [
+      "Development expectations concern review-question codes, not independently expert-validated control truth.",
+      "Public method papers motivate scenarios; they are not entailment receipts or annotations of the generated controls.",
+      "All cases are development cases. No held-out scientific evaluation is claimed.",
+      "Offline software development baseline; no hosted model or biological validation.",
+      "Findings are provisional review questions. Reference-label agreement is not diagnosis accuracy.",
+      "The reference ablation retains only explicit causal-support mismatch and missing-unit checks.",
+      "Annotations and reviewer names are supplied attestations, not authenticated independent ground truth.",
+      "Development fixture metrics do not establish scientific control quality or agent generalization.",
+      "Wilson intervals are descriptive binomial summaries; correlated cases, controls, or sources require a separate inferential design.",
+      "No absent, uncertain, or unassessed annotation was silently treated as a correct recommendation."
+    ]
+  },
+  "design": {
+    "format": "controlomics.evaluation_report.v0.1",
+    "run_at": "2026-10-06T02:50:49.946790+00:00",
+    "controlomics_version": "0.3.0.dev0",
+    "dataset_id": "development_design.v0.1",
+    "run_id": "run.design",
+    "provider": "local_design_reasoner_v1",
+    "partition": "ALL",
+    "reference_origin": "DEVELOPMENT_FIXTURE",
+    "judgment_origin": "UNASSESSED",
+    "annotators": {
+      "references": null,
+      "judgments": null
+    },
+    "metrics": {
+      "recommendation_precision": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "wilson_95_interval": null,
+        "definition": "Appropriate / recommendations with a definite appropriateness judgment; uncertain and missing judgments excluded."
+      },
+      "reference_control_recall": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "wilson_95_interval": null,
+        "definition": "Distinct covered / reference controls, restricted to completely judged cases with supplied reference annotations; abstained cases remain in recall."
+      },
+      "critical_control_recall": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "wilson_95_interval": null,
+        "definition": "Distinct covered essential / essential references in the same completely judged cases."
+      },
+      "unsupported_recommendation_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "wilson_95_interval": null,
+        "definition": "Unsupported / recommendations with a definite unsupported judgment; unknowns excluded."
+      },
+      "flaw_detection_recall": {
+        "numerator": 10,
+        "denominator": 10,
+        "value": 1.0,
+        "wilson_95_interval": [
+          0.7224672001371107,
+          0.9999999999999999
+        ],
+        "definition": "Matched / expected finding codes in cases with supplied finding annotations."
+      },
+      "flaw_detection_precision": {
+        "numerator": 10,
+        "denominator": 12,
+        "value": 0.8333333333333334,
+        "wilson_95_interval": [
+          0.5519691377470266,
+          0.9530348578161463
+        ],
+        "definition": "Matched / reported finding codes in those annotated cases."
+      },
+      "execution_success": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "wilson_95_interval": null,
+        "definition": "Completed / completed-or-failed attempts; BLOCKED and NOT_RUN excluded and counted separately."
+      },
+      "abstention_rate": {
+        "numerator": 0,
+        "denominator": 6,
+        "value": 0.0,
+        "wilson_95_interval": [
+          2.7755575615628914e-17,
+          0.3903342879021653
+        ],
+        "definition": "Cases with no recommendations and explicit full abstention / selected cases."
+      },
+      "citation_identity_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "wilson_95_interval": null,
+        "definition": "Correct predicted binary decisions / supplied definite reference decisions for this evidence layer."
+      },
+      "statement_entailment_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "wilson_95_interval": null,
+        "definition": "Correct predicted binary decisions / supplied definite reference decisions for this evidence layer."
+      },
+      "context_compatibility_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "wilson_95_interval": null,
+        "definition": "Correct predicted binary decisions / supplied definite reference decisions for this evidence layer."
+      },
+      "binary_quadratic_score": {
+        "value": null,
+        "denominator": 0,
+        "definition": "Mean squared error of supplied probability of appropriateness versus definite judgments, on the binary 0-to-1 convention. Lower is better; this alone is not calibration."
+      }
+    },
+    "coverage": {
+      "cases": 6,
+      "recommendations": 22,
+      "appropriateness_assessed": 0,
+      "unsupported_assessed": 0,
+      "uncertain_or_missing_appropriateness": 22,
+      "completely_judged_cases": 0,
+      "reference_recall_cases": 0,
+      "finding_annotated_cases": 6,
+      "blocked_executions": 0,
+      "not_run": 0
+    },
+    "limitations": [
+      "Development expectations concern review-question codes, not independently expert-validated control truth.",
+      "Public method papers motivate scenarios; they are not entailment receipts or annotations of the generated controls.",
+      "All cases are development cases. No held-out scientific evaluation is claimed.",
+      "Offline software development baseline; no hosted model or biological validation.",
+      "Findings are provisional review questions. Reference-label agreement is not diagnosis accuracy.",
+      "The reference ablation retains only explicit causal-support mismatch and missing-unit checks.",
+      "Annotations and reviewer names are supplied attestations, not authenticated independent ground truth.",
+      "Development fixture metrics do not establish scientific control quality or agent generalization.",
+      "Wilson intervals are descriptive binomial summaries; correlated cases, controls, or sources require a separate inferential design.",
+      "No absent, uncertain, or unassessed annotation was silently treated as a correct recommendation."
+    ]
+  }
+}

@@ -20,7 +20,8 @@ def main():
     providers = (EuropePMC(transport), Crossref(transport))
     records, checks = [], []
     # Public method DOIs, checked against provider responses before being used.
-    for doi in ("10.1186/s13059-014-0550-8", "10.1186/1471-2105-7-91"):
+    for doi in ("10.1186/s13059-014-0550-8", "10.1186/1471-2105-7-91",
+                "10.1038/s41467-021-21038-1", "10.1073/pnas.0506580102"):
         identifier = EvidenceIdentifier(namespace="DOI", value=doi, authority="doi.org")
         for provider in providers:
             prepared = provider.prepare_resolve(identifier)

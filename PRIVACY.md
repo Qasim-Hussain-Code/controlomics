@@ -2,6 +2,8 @@
 
 Projects, primary datasets, source text, and numeric inputs remain local. There is no telemetry, persistent project database, browser storage, or automatic upload. The browser holds work in memory and the local server processes transient snapshots. Exports may contain confidential descriptions; review them before sharing.
 
+Description drafting, design profiles, additional claims, researcher specifications, source re-review, and evaluation use local processing. Evaluation bundles and annotations can themselves contain confidential research descriptions; they receive no implicit outbound authorization. Adding or selecting a claim does not serialize it into hosted context. Full source text entered in review forms is not retained in project or report exports.
+
 ## Classification and approval
 
 Classes are SAFE, SENSITIVE_SCIENTIFIC, and RESTRICTED. Project and input defaults are RESTRICTED. Labels cannot understate declared input requirements. Project flags remain `network_enabled=false`, `external_transmission_allowed=false`, and `raw_data_must_remain_local=true`: they prohibit transmitting projects or raw data. Independently selected public fields use a separate approval boundary.

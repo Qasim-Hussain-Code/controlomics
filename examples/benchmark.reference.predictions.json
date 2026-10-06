@@ -1,0 +1,166 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "run.reference",
+  "provider": "local_method_baseline_v1",
+  "cases": [
+    {
+      "schema_version": "0.1.0",
+      "case_id": "prediction_partition",
+      "controls": [
+        {
+          "schema_version": "0.1.0",
+          "control_id": "prediction.5dfa3ebfeb6f9f5d.1",
+          "control_class": "POSITIVE",
+          "scientific_level": "TECHNICAL",
+          "description": "Prespecified known-signal reference",
+          "probability_appropriate": null
+        },
+        {
+          "schema_version": "0.1.0",
+          "control_id": "prediction.5dfa3ebfeb6f9f5d.2",
+          "control_class": "NEGATIVE",
+          "scientific_level": "TECHNICAL",
+          "description": "Prespecified signal-absent reference",
+          "probability_appropriate": null
+        }
+      ],
+      "abstained": false,
+      "findings": [],
+      "execution_states": []
+    },
+    {
+      "schema_version": "0.1.0",
+      "case_id": "nested_comparison",
+      "controls": [
+        {
+          "schema_version": "0.1.0",
+          "control_id": "prediction.8e6f56c974d3b58e.1",
+          "control_class": "POSITIVE",
+          "scientific_level": "TECHNICAL",
+          "description": "Prespecified known-signal reference",
+          "probability_appropriate": null
+        },
+        {
+          "schema_version": "0.1.0",
+          "control_id": "prediction.8e6f56c974d3b58e.2",
+          "control_class": "NEGATIVE",
+          "scientific_level": "TECHNICAL",
+          "description": "Prespecified signal-absent reference",
+          "probability_appropriate": null
+        }
+      ],
+      "abstained": false,
+      "findings": [],
+      "execution_states": []
+    },
+    {
+      "schema_version": "0.1.0",
+      "case_id": "enrichment_background",
+      "controls": [
+        {
+          "schema_version": "0.1.0",
+          "control_id": "prediction.9c684ad0c9df85ec.1",
+          "control_class": "POSITIVE",
+          "scientific_level": "TECHNICAL",
+          "description": "Prespecified known-signal reference",
+          "probability_appropriate": null
+        },
+        {
+          "schema_version": "0.1.0",
+          "control_id": "prediction.9c684ad0c9df85ec.2",
+          "control_class": "NEGATIVE",
+          "scientific_level": "TECHNICAL",
+          "description": "Prespecified signal-absent reference",
+          "probability_appropriate": null
+        }
+      ],
+      "abstained": false,
+      "findings": [],
+      "execution_states": []
+    },
+    {
+      "schema_version": "0.1.0",
+      "case_id": "new_modality_rank",
+      "controls": [
+        {
+          "schema_version": "0.1.0",
+          "control_id": "prediction.0ac1a20c71f1cb5c.1",
+          "control_class": "POSITIVE",
+          "scientific_level": "TECHNICAL",
+          "description": "Prespecified known-signal reference",
+          "probability_appropriate": null
+        },
+        {
+          "schema_version": "0.1.0",
+          "control_id": "prediction.0ac1a20c71f1cb5c.2",
+          "control_class": "NEGATIVE",
+          "scientific_level": "TECHNICAL",
+          "description": "Prespecified signal-absent reference",
+          "probability_appropriate": null
+        }
+      ],
+      "abstained": false,
+      "findings": [],
+      "execution_states": []
+    },
+    {
+      "schema_version": "0.1.0",
+      "case_id": "causal_interpretation",
+      "controls": [
+        {
+          "schema_version": "0.1.0",
+          "control_id": "prediction.f8dd0ed9582422b0.1",
+          "control_class": "POSITIVE",
+          "scientific_level": "TECHNICAL",
+          "description": "Prespecified known-signal reference",
+          "probability_appropriate": null
+        },
+        {
+          "schema_version": "0.1.0",
+          "control_id": "prediction.f8dd0ed9582422b0.2",
+          "control_class": "NEGATIVE",
+          "scientific_level": "TECHNICAL",
+          "description": "Prespecified signal-absent reference",
+          "probability_appropriate": null
+        }
+      ],
+      "abstained": false,
+      "findings": [
+        "causal_overreach"
+      ],
+      "execution_states": []
+    },
+    {
+      "schema_version": "0.1.0",
+      "case_id": "unspecified_operation",
+      "controls": [
+        {
+          "schema_version": "0.1.0",
+          "control_id": "prediction.a1fc87e9d9a5476a.1",
+          "control_class": "POSITIVE",
+          "scientific_level": "TECHNICAL",
+          "description": "Prespecified known-signal reference",
+          "probability_appropriate": null
+        },
+        {
+          "schema_version": "0.1.0",
+          "control_id": "prediction.a1fc87e9d9a5476a.2",
+          "control_class": "NEGATIVE",
+          "scientific_level": "TECHNICAL",
+          "description": "Prespecified signal-absent reference",
+          "probability_appropriate": null
+        }
+      ],
+      "abstained": false,
+      "findings": [
+        "sampling_unit_missing"
+      ],
+      "execution_states": []
+    }
+  ],
+  "limitations": [
+    "Offline software development baseline; no hosted model or biological validation.",
+    "Findings are provisional review questions. Reference-label agreement is not diagnosis accuracy.",
+    "The reference ablation retains only explicit causal-support mismatch and missing-unit checks."
+  ]
+}

@@ -14,7 +14,9 @@ class CLITests(unittest.TestCase):
         with TemporaryDirectory() as directory, contextlib.redirect_stdout(io.StringIO()):
             folder = Path(directory)
             project = folder / "project.json"
-            self.assertEqual(main(["analyze", str(ROOT / "examples" / "transcriptomics.project.json"), "--output", str(project)]), 0)
+            intake_project = folder / "intake.project.json"
+            self.assertEqual(main(["new", str(ROOT / "examples" / "hypothetical_intake.json"), "--output", str(intake_project)]), 0)
+            self.assertEqual(main(["analyze", str(intake_project), "--output", str(project)]), 0)
             payload = json.loads(project.read_bytes())
             self.assertEqual(main(["execute", str(project), "--control-id", payload["controls"][0]["control_id"],
                 "--config", str(ROOT / "examples" / "reference_execution.json"), "--input", str(ROOT / "examples" / "positive_reference.csv"),

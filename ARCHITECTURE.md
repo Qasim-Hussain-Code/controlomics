@@ -8,7 +8,8 @@ One lightweight Python package represents a scientific claim attached to an anal
 | --- | --- |
 | `schemas.py`, `project.py` | Strict immutable records, bounded JSON, relational checks, ten core schema exports |
 | `workflow.py` | Claim intake, transitions, human review, context comparison, conservative audit |
-| `models.py` | Methodological baseline and interchangeable structured proposals |
+| `models.py`, `reasoning.py` | Inspectable operation rules, literal description draft, reference baseline, and interchangeable proposals |
+| `evaluation.py`, `formats.py` | Supplied annotations, partition checks, denominator-aware metrics, agreement, and workflow schemas |
 | `privacy.py` | Explicit public fields, exact approval, HTTPS transport, network ledger |
 | `evidence.py` | Europe PMC and Crossref metadata, resolution, connected alias consolidation |
 | `statistics.py`, `execution.py` | Fixed numeric procedures, packages, local execution, result import |
@@ -18,6 +19,8 @@ One lightweight Python package represents a scientific claim attached to an anal
 
 The workflow is intake, proposal, separate identity and statement review, context assessment, reviewed specification, execution, import, and audit. Each stage can retain uncertainty. Providers never receive entire projects implicitly. Parsing never executes imported text or code.
 
+Claims share an analysis but retain individual proposals and audits. Hosted completion targets one known claim. Candidate edits retain an earlier snapshot hash and cannot overwrite reviewed specifications. Source re-review requires the current reviewed snapshot hash. A repeat retrieval retains the earlier verified identity snapshot that existing statement reviews depend on; later response hashes remain in the separate network ledger. Thirteen auxiliary workflow schemas cover intake, review, proposals, reasoning, execution configuration, and evaluation.
+
 ## Evidence and execution
 
 Reviewed controls retain METHOD_BASED, EVIDENCE_BACKED, INSUFFICIENT_EVIDENCE, or CONFLICTING_EVIDENCE. `VerifiedControl` means a completed review record, including unsuccessful reviews. Identity does not imply entailment. Human review checks excerpt presence and records entailment attestations and source hashes without retaining full supplied text. Names and receipts are not authenticated.
@@ -26,7 +29,7 @@ The human workflow requires support for both exact statements, matching supplied
 
 Outbound objects bind selected SAFE fields to fixed literature URLs or a structured model body. Complete-request hashes govern approval. HTTPS connects to checked public addresses with hostname validation, no redirects, and bounded responses. Private institutional addresses need a separately assessed transport.
 
-Execution packages record plans, configuration, seeds, environment, artifact hashes, fixed scripts, and result schemas. Local execution uses an owned temporary directory. The adapter supports small independent-unit two-group values; general generated code and specialist primary-analysis designs are outside its scope.
+Execution packages record plans, configuration, seeds, environment, artifact hashes, fixed scripts, and result schemas. Local execution uses an owned temporary directory. The adapter supports technical positive and negative references using small independent-unit two-group values. Other levels and control classes are rejected before package creation; general generated code and specialist primary-analysis designs are outside its scope.
 
 ## Resources and deployment
 
@@ -34,4 +37,4 @@ Pydantic is the sole runtime dependency, supplying [strict validation](https://d
 
 The server binds to `127.0.0.1`, logs no requests, and stores no project database. It processes transient request snapshots; the browser retains work until export. Input and numerical budgets constrain ordinary operations. This is a local application rather than an internet-facing service.
 
-The design respects the supplied 16 GB RAM and approximately 10 GB free-storage limits. No model weights, containers, large datasets, GPU software, or scientific stack were installed. Measurements appear in [VALIDATION.md](VALIDATION.md). See [ADR 0001](docs/adr/0001_local_scientific_core.md) and [ADR 0002](docs/adr/0002_retrieval_and_execution_boundaries.md).
+The design respects the supplied 16 GB RAM and approximately 10 GB free-storage limits. No model weights, containers, large datasets, GPU software, or scientific stack were installed. Measurements appear in [VALIDATION.md](VALIDATION.md). See [ADR 0001](docs/adr/0001_local_scientific_core.md), [ADR 0002](docs/adr/0002_retrieval_and_execution_boundaries.md), and [ADR 0003](docs/adr/0003_design_reasoning_and_evaluation.md).

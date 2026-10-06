@@ -18,6 +18,8 @@ def demonstration(example, root):
         biological_context=analysis.biological_context, design=analysis.design, assumptions=claim.assumptions)
     project = review_methods(propose(new_project(intake)))
     for control in project.controls:
+        if control.control_class not in ("POSITIVE", "NEGATIVE"):
+            continue
         positive = control.control_class == "POSITIVE"
         config = ExecutionConfig(kind="REFERENCE", expected_difference=2.0 if positive else 0.0,
             assumptions=("The supplied CSV is a hand-constructed synthetic independent-unit numeric reference.",

@@ -1,0 +1,134 @@
+{
+  "$defs": {
+    "DesignCue": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Basis",
+          "type": "string"
+        },
+        "facet": {
+          "enum": [
+            "PREDICTION",
+            "GROUP_COMPARISON",
+            "ASSOCIATION",
+            "RANKING",
+            "SET_OVERLAP",
+            "SIMILARITY",
+            "DEPENDENT_UNITS",
+            "TIME_DEPENDENCE",
+            "BATCH_STRUCTURE",
+            "CAUSAL_INTERPRETATION"
+          ],
+          "title": "Facet",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "facet",
+        "basis"
+      ],
+      "title": "DesignCue",
+      "type": "object"
+    },
+    "DesignFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Code",
+          "type": "string"
+        },
+        "interpretation": {
+          "enum": [
+            "MISSING_INFORMATION",
+            "REVIEW_REQUIRED",
+            "STATED_MISMATCH"
+          ],
+          "title": "Interpretation",
+          "type": "string"
+        },
+        "message": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Message",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "interpretation"
+      ],
+      "title": "DesignFinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "cues": {
+      "items": {
+        "$ref": "#/$defs/DesignCue"
+      },
+      "title": "Cues",
+      "type": "array"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/DesignFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "limitations": {
+      "default": [
+        "Lexical cues and supplied categories are provisional; they do not establish the actual design.",
+        "Rules cover analytical operations, not an exhaustive biological domain list or validated general reasoning."
+      ],
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "rules_version": {
+      "const": "design_rules.v0.1",
+      "default": "design_rules.v0.1",
+      "title": "Rules Version",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "cues",
+    "findings"
+  ],
+  "title": "ReasoningProfile",
+  "type": "object"
+}

@@ -4,3 +4,10 @@
 @media(max-width:700px){header{height:72px;padding:0 20px}.header-note{display:none}main{padding:28px 20px 45px}.intro{grid-template-columns:1fr;gap:22px}.intro h1{font-size:35px}.intro aside{display:none}.toolbar{display:block}.exports{margin-top:15px;flex-wrap:wrap}.grid,.grid.three,.control-list{grid-template-columns:1fr;gap:0}.panel,.control-card{padding:20px}.control-card{margin-bottom:18px}.section-head{display:block}.examples{justify-content:flex-start;margin-top:16px}.form-end{display:block}.form-end button{width:100%;margin-top:18px}footer{display:block;padding:20px}footer span{display:block;margin-top:7px}}
 
 .intro>*,.grid>*,.control-list>*{min-width:0}h1,h2,h3,.status{overflow-wrap:anywhere}
+.metric-panel {overflow-x:auto}
+.metric-panel table {width:100%;border-collapse:collapse;font-size:.88rem}
+.metric-panel th,.metric-panel td {padding:.75rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+.metric-panel th {font-weight:600;color:var(--muted)}
+@media(max-width:700px){.metric-panel table,.metric-panel tbody,.metric-panel tr,.metric-panel td{display:block}.metric-panel thead{display:none}.metric-panel tr{padding:14px 0;border-bottom:1px solid var(--line)}.metric-panel td{padding:4px 0;border:0;overflow-wrap:anywhere}.metric-panel td:first-child{font-weight:600;margin-bottom:8px}.metric-panel td:not(:first-child)::before{content:attr(data-label) ": ";font-weight:600}}
+
+.workspace-actions{margin:0 0 22px}.card-actions{margin-top:18px}.statement-panel{border:1px solid var(--line);border-radius:6px;padding:22px;margin:24px 0;min-width:0}.statement-panel legend{font-size:14px;font-weight:600;padding:0 8px}input[type=hidden]{display:none}

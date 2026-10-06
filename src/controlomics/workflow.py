@@ -11,14 +11,15 @@ from pydantic import Field
 
 from controlomics import __version__
 from controlomics.evidence import consolidate
-from controlomics.models import MethodBaseline, ModelProvider
+from controlomics.models import DesignReasoner, DraftControl, ModelProvider
+from controlomics.reasoning import describe_design
 from controlomics.privacy import canonical_json, digest
 from controlomics.project import parse_project_json
 from controlomics.schemas import (
     AnalysisContext, AnalyticalDesign, AuditOutcome, BiologicalContext, ClaimCategory,
     ContextCompatibility, ContextComparison, ControlCandidate, ControlomicsProject,
     EvidenceLink, PrivacyPolicy, PrivacyRequirements, ProjectManifest, ProvenanceRecord,
-    ModelProvenance, Record, ScientificClaim, Text, VerificationRecord, VerifiedControl,
+    Identifier, ModelProvenance, Record, ScientificClaim, Sha256, Text, VerificationRecord, VerifiedControl,
 )
 
 
@@ -65,28 +66,37 @@ def new_project(intake: Intake):
     )
 
 
-def propose(project, provider: ModelProvider | None = None, proposal=None):
-    provider = provider or MethodBaseline()
-    if (project.candidates or project.controls) and proposal is None:
-        return project
+def propose(project, provider: ModelProvider | None = None, proposal=None, claim_id=None):
+    provider = provider or DesignReasoner()
+    if proposal is not None and claim_id is None and len(project.claims) > 1:
+        raise ValueError("a hosted proposal must target one explicitly selected claim")
+    selected = [claim for claim in project.claims if claim_id is None or claim.claim_id == claim_id]
+    if not selected:
+        raise ValueError("unknown proposal claim")
     candidates = list(project.candidates)
-    model_run = ".proposal" + uuid.uuid4().hex[:12] if proposal is not None else ""
-    for claim in project.claims:
+    added = []
+    for claim in selected:
+        if proposal is None and any(item.claim_tested == claim.claim_id for item in project.candidates + project.controls):
+            continue
         result = proposal if proposal is not None else provider.propose(project.analysis, claim)
-        for index, draft in enumerate(result.controls):
-            candidates.append(ControlCandidate(
-                control_id=f"{claim.claim_id}{model_run}.control{index + 1}", control_name=draft.name,
+        for draft in result.controls:
+            candidate = ControlCandidate(
+                control_id="control." + uuid.uuid4().hex, control_name=draft.name,
                 control_class=draft.control_class, scientific_level=draft.scientific_level,
                 analysis_context=project.analysis.analysis_id, claim_tested=claim.claim_id,
                 scientific_rationale=draft.rationale, expected_behavior=draft.expected_behavior,
                 failure_interpretation=draft.failure_interpretation, evidence_required=draft.evidence_required,
                 privacy_requirements=PrivacyRequirements(classification=project.privacy.classification,
                     rationale="Descriptions and input data remain local."),
-                priority="RECOMMENDED", priority_rationale="An inspectable reference is relevant to method calibration; applicability needs review.",
+                priority=draft.priority, priority_rationale=draft.priority_rationale,
                 method_basis=draft.method_basis, uncertainties=draft.uncertainties + result.abstentions,
                 limitations=draft.limitations,
-            ))
-    ids = tuple(item.control_id for item in candidates) or tuple(item.claim_id for item in project.claims)
+            )
+            candidates.append(candidate)
+            added.append(candidate.control_id)
+    if not added and proposal is None:
+        return project
+    ids = tuple(added) or tuple(item.claim_id for item in selected)
     model = None
     if proposal is not None and hasattr(provider, "endpoint"):
         from urllib.parse import urlsplit
@@ -118,6 +128,18 @@ def review_methods(project):
 def import_evidence(project, records):
     originals = project.evidence + tuple(records)
     merged = consolidate(originals)
+    # An existing identity snapshot anchors prior entailment receipts. A later
+    # retrieval must not move that prerequisite after the earlier human review.
+    stable = []
+    for item in merged:
+        keys = {identifier.normalized_key for identifier in item.identifiers}
+        matches = [old for old in project.evidence if old.existence_status == "VERIFIED" and
+            keys & {identifier.normalized_key for identifier in old.identifiers}]
+        existing = min(matches, key=lambda old: old.existence_check.checked_at) if matches else None
+        stable.append(existing.model_copy(update={"identifiers": item.identifiers, "source": item.source,
+            "limitations": tuple(dict.fromkeys(existing.limitations + item.limitations +
+                ("The retained identity snapshot anchors earlier reviews; repeat retrieval does not authenticate them.",)))}) if existing else item)
+    merged = tuple(stable)
     aliases = {}
     for old in originals:
         keys = {identifier.normalized_key for identifier in old.identifiers}
@@ -174,12 +196,74 @@ class HumanReview(Record):
     reviewer: Text
     statements: Annotated[tuple[StatementReview, ...], Field(min_length=1)]
     limitations: Annotated[tuple[Text, ...], Field(min_length=1)]
+    supersedes_review_sha256: Sha256 | None = None
+
+
+class NewClaim(Record):
+    statement: Text
+    category: ClaimCategory
+    computational_support: ClaimCategory
+    assumptions: tuple[Text, ...] = ()
+
+
+def add_claim(project, submission: NewClaim):
+    claim = ScientificClaim(claim_id="claim." + uuid.uuid4().hex, analysis_id=project.analysis.analysis_id,
+        statement=submission.statement, category=submission.category, computational_support=submission.computational_support,
+        assumptions=submission.assumptions, origin="RESEARCHER")
+    return replace_project(project, claims=project.claims + (claim,), provenance=project.provenance + (
+        event("CLAIM_REVIEW", [claim.claim_id], warnings=("Added an explicit researcher statement; scientific support remains unreviewed.",)),))
+
+
+class CandidateSubmission(Record):
+    claim_id: Identifier
+    control: DraftControl
+    control_id: Identifier | None = None
+
+
+def specify_candidate(project, submission: CandidateSubmission):
+    if submission.claim_id not in {claim.claim_id for claim in project.claims}:
+        raise ValueError("control must target a known claim")
+    previous = next((item for item in project.candidates if item.control_id == submission.control_id), None)
+    if submission.control_id and previous is None:
+        raise ValueError("only unreviewed candidates can be edited; retain a separate snapshot for revised reviewed specifications")
+    if previous and any(item.control_id == previous.control_id for item in project.execution_plans):
+        raise ValueError("an execution-bound specification cannot be edited")
+    draft = submission.control
+    control = ControlCandidate(control_id=previous.control_id if previous else "control." + uuid.uuid4().hex,
+        control_name=draft.name, control_class=draft.control_class, scientific_level=draft.scientific_level,
+        analysis_context=project.analysis.analysis_id, claim_tested=submission.claim_id,
+        scientific_rationale=draft.rationale, expected_behavior=draft.expected_behavior,
+        failure_interpretation=draft.failure_interpretation, evidence_required=draft.evidence_required,
+        method_basis=draft.method_basis, priority=draft.priority, priority_rationale=draft.priority_rationale,
+        uncertainties=draft.uncertainties, limitations=draft.limitations, evidence_status="UNVERIFIED",
+        privacy_requirements=PrivacyRequirements(classification=project.privacy.classification,
+            rationale="Researcher-authored control specification remains local."))
+    warnings = ("Unreviewed researcher-authored specification; no evidence state was promoted.",)
+    if previous:
+        warnings += ("Superseded candidate snapshot sha256: " + digest(canonical_json(previous.model_dump(mode="json"))),)
+    return replace_project(project, candidates=tuple(item for item in project.candidates if item.control_id != control.control_id) + (control,),
+        provenance=project.provenance + (event("CONTROL_REVIEW", [control.control_id], warnings=warnings),))
+
+
+def review_template(project, control_id):
+    control = next((item for item in project.candidates + project.controls if item.control_id == control_id), None)
+    if control is None:
+        raise ValueError("unknown review control")
+    return {"control_id": control_id, "statements": [control.scientific_rationale, control.expected_behavior],
+        "supersedes_review_sha256": digest(canonical_json(control.model_dump(mode="json"))) if isinstance(control, VerifiedControl) else None,
+        "context_fields": [name for name in BiologicalContext.model_fields if name != "schema_version"]}
 
 
 def apply_review(project, review: HumanReview):
-    candidate = next((item for item in project.candidates if item.control_id == review.control_id), None)
+    candidate = next((item for item in project.candidates + project.controls if item.control_id == review.control_id), None)
     if candidate is None:
-        raise ValueError("human review must reference an unreviewed candidate")
+        raise ValueError("human review must reference a known control")
+    if isinstance(candidate, VerifiedControl):
+        expected = digest(canonical_json(candidate.model_dump(mode="json")))
+        if review.supersedes_review_sha256 != expected:
+            raise ValueError("re-review requires explicit approval of the current reviewed snapshot")
+    elif review.supersedes_review_sha256 is not None:
+        raise ValueError("an unreviewed candidate has no review to supersede")
     identities = {item.evidence_id: item for item in project.evidence}
     links, contexts = [], []
     for item in review.statements:
@@ -216,7 +300,9 @@ def apply_review(project, review: HumanReview):
         limitations=candidate.limitations + review.limitations)
     control = VerifiedControl(**data)
     return replace_project(project, candidates=tuple(item for item in project.candidates if item.control_id != candidate.control_id),
-        controls=project.controls + (control,), provenance=project.provenance + (event("CONTROL_REVIEW", [control.control_id]),))
+        controls=tuple(item for item in project.controls if item.control_id != candidate.control_id) + (control,),
+        provenance=project.provenance + (event("CONTROL_REVIEW", [control.control_id],
+            warnings=("Superseded reviewed snapshot sha256: " + review.supersedes_review_sha256,) if review.supersedes_review_sha256 else ()),))
 
 
 def audit_project(project):
@@ -230,11 +316,13 @@ def audit_project(project):
             uncertainties.append("At least one primary control class is missing.")
         if not project.analysis.design.sampling_unit:
             uncertainties.append("The independent sampling unit is unspecified; dependence and pseudoreplication require review.")
-        if not any(item.evidence_status == "EVIDENCE_BACKED" for item in controls):
+        if not any(item.evidence_status == "EVIDENCE_BACKED" and item.scientific_level in ("BIOLOGICAL", "MECHANISTIC") for item in controls):
             uncertainties.append("No biological recommendation has completed the evidence gate.")
         for control in controls:
             if control.context_compatibility.status in ("MISMATCH", "UNKNOWN", "PARTIAL"):
                 uncertainties.append("Context applicability remains limited for control " + control.control_id + ".")
+        profile = describe_design(project.analysis, claim)
+        uncertainties.extend(finding.message for finding in profile.findings)
         assessment = "CONTROL_FAILURE" if failures else "INSUFFICIENT_EVIDENCE"
         audits.append(AuditOutcome(audit_id="audit." + uuid.uuid4().hex, claim_id=claim.claim_id,
             assessment=assessment, rationale="The recorded controls and evidence do not establish the full biological claim. " +
@@ -245,4 +333,5 @@ def audit_project(project):
             uncertainties=tuple(dict.fromkeys(uncertainties)),
             limitations=("This audit is a conservative software assessment, not expert adjudication or a demonstration of generalization.",)))
     return replace_project(project, audits=tuple(audits), provenance=tuple(
-        item for item in project.provenance if item.action != "AUDIT") + (event("AUDIT", [item.audit_id for item in audits]),))
+        item for item in project.provenance if item.action != "AUDIT") + (event("AUDIT", [item.audit_id for item in audits],
+            warnings=("Design diagnostics: design_rules.v0.1; heuristic findings require researcher interpretation.",)),))

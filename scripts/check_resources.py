@@ -9,7 +9,9 @@ from tempfile import TemporaryDirectory
 from controlomics.project import export_json_schemas, load_project
 from controlomics.execution import ExecutionConfig, execute_local
 from controlomics.reports import render_report
-from controlomics.workflow import audit_project, review_methods
+from controlomics.workflow import audit_project, propose, replace_project, review_methods
+from controlomics.formats import export_workflow_schemas
+from controlomics.evaluation import EvaluationBundle, evaluate
 
 
 def peak_memory_bytes():
@@ -40,13 +42,16 @@ def peak_memory_bytes():
 def main():
     root = Path(__file__).resolve().parents[1]
     for name in ("transcriptomics.project.json", "microscopy_ml.project.json"):
-        project = review_methods(load_project(root / "examples" / name))
+        original = load_project(root / "examples" / name)
+        project = review_methods(propose(replace_project(original, candidates=())))
         project = execute_local(project, project.controls[0].control_id,
             ExecutionConfig(kind="REFERENCE", expected_difference=2.0, assumptions=("Synthetic resource measurement only.",)),
             (root / "examples" / "positive_reference.csv").read_bytes())
         render_report(audit_project(project))
     with TemporaryDirectory() as temporary:
         export_json_schemas(Path(temporary))
+        export_workflow_schemas(Path(temporary) / "workflow")
+    evaluate(EvaluationBundle.model_validate_json((root / "examples" / "benchmark.design.unassessed.json").read_bytes()))
     project_bytes = 0
     for path in root.rglob("*"):
         parts = path.relative_to(root).parts
@@ -56,7 +61,7 @@ def main():
             project_bytes += path.stat().st_size
     environment_bytes = sum(path.stat().st_size for path in (root / ".venv").rglob("*") if path.is_file())
     print(json.dumps({
-        "workload": "Two local project validations, method reviews, fixed synthetic reference executions, audits and reports, plus ten schema exports",
+        "workload": "Two local project validations, method reviews, fixed synthetic reference executions, audits and reports, ten core and thirteen workflow schema exports, and a six-case unassessed evaluation",
         "project_file_bytes": project_bytes,
         "virtual_environment_file_bytes": environment_bytes,
         "peak_python_working_set_bytes": peak_memory_bytes(),

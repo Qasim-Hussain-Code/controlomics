@@ -4,7 +4,9 @@
 
 Researchers explicitly supply analysis, claim, category, support, context, and design. Immutable records retain control class, level, behavior, failure interpretation, uncertainty, privacy, evidence, and provenance. Method descriptions are unrestricted rather than domain dispatch. A rule flags causal claims whose support is associational, comparative, descriptive, predictive, or statistical.
 
-The baseline specifies known-signal positive and signal-absent negative technical references, with abstention from unsupported biological selection. Optional Messages-compatible providers produce constrained proposals from selected public fields. Citation and verification fields are unavailable to proposals. No hosted model was evaluated.
+The reference baseline specifies known-signal positive and signal-absent negative technical references, with abstention from unsupported biological selection. The default reasoner adds conditional specifications based on textual operation cues, supplied categories, and design fields. Cues and findings remain inspectable, provisional, and versioned; rules cannot establish actual design or biological relevance. Literal local description drafts preserve missing fields for researcher confirmation. See [the design rules](docs/DESIGN_RULES.md).
+
+Optional Messages-compatible providers produce constrained proposals from selected public fields, attached to one known claim. Citation and verification fields are unavailable to proposals. No hosted model was evaluated.
 
 ## Evidence and review
 
@@ -24,6 +26,8 @@ Packages retain fixed code, configuration, assumptions, seeds, environment, hash
 
 ## Development evaluation
 
-Synthetic provider and source fixtures test software gates. Live checks resolve two public papers through two providers without assessing entailment. Six manually specified cases test planted software findings. A seeded 100-trial independent Gaussian experiment checks the exact permutation adapter under null and shifted inputs. Observations are in [VALIDATION.md](VALIDATION.md).
+Synthetic provider and source fixtures test software gates. The initial identity run resolved two public papers through two providers without assessing entailment. Six manually specified cases test planted software findings. A seeded 100-trial independent Gaussian experiment checks the exact permutation adapter under null and shifted inputs. Observations are in [VALIDATION.md](VALIDATION.md).
 
-No independent expert annotation, biological experiment, domain-held-out agent evaluation, model comparison, or ablation was performed. Development observations do not support a validated domain-general control-generation claim.
+The current identity run resolves four public papers through two providers. Six explicit development scenarios separately compare reference and design-rule outputs against supplied review-question codes. Unassessed judgment sheets yield no recommendation-quality or evidence-accuracy score. Evaluation tools calculate conditional precision, reference and critical recall, unsupported rates, finding-code metrics, execution success, abstention, evidence-layer accuracy, optional binary quadratic scores, and paired nominal agreement. See [definitions and denominators](docs/EVALUATION.md). These tools do not create independent annotations.
+
+No independent expert annotation, biological experiment, domain-held-out agent evaluation, or hosted-model comparison was performed. The development reference/design comparison is a software ablation, not a scientific validation study. Development observations do not support a validated domain-general control-generation claim.

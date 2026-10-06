@@ -10,12 +10,14 @@ from urllib.parse import urlsplit
 from controlomics import __version__
 from controlomics.evidence import Crossref, EuropePMC, resolved_match
 from controlomics.execution import ExecutionConfig, build_package, execute_local, import_result
-from controlomics.models import MessagesProvider
+from controlomics.models import MessagesProvider, MethodBaseline
+from controlomics.reasoning import NarrativeInput, describe_design, interpret_narrative
 from controlomics.privacy import SafeField, SafeTransport
 from controlomics.project import decode_json, export_json_schemas, load_project, save_project
 from controlomics.reports import write_report
 from controlomics.schemas import ControlResult, EvidenceIdentifier
-from controlomics.workflow import HumanReview, Intake, apply_review, audit_project, import_evidence, new_project, propose, review_methods
+from controlomics.workflow import (CandidateSubmission, HumanReview, Intake, NewClaim, add_claim, apply_review,
+    audit_project, import_evidence, new_project, propose, review_methods, specify_candidate)
 
 
 def read_typed(path, model):
@@ -23,6 +25,11 @@ def read_typed(path, model):
         content = stream.read(2 * 1024 * 1024 + 1)
     decode_json(content)
     return model.model_validate_json(content)
+
+
+def read_json(path):
+    with path.open("rb") as stream:
+        return decode_json(stream.read(2 * 1024 * 1024 + 1))
 
 
 def write_json(path, value):
@@ -44,6 +51,34 @@ def main(argv=None):
     analyze = commands.add_parser("analyze", help="Propose technical references, review, and audit")
     analyze.add_argument("project", type=Path)
     analyze.add_argument("--output", type=Path, required=True)
+    analyze.add_argument("--reasoner", choices=("design", "reference"), default="design")
+    interpret = commands.add_parser("interpret", help="Draft local intake fields for researcher confirmation")
+    interpret.add_argument("description", type=Path)
+    interpret.add_argument("--output", type=Path, required=True)
+    dataset_run = commands.add_parser("run-dataset", help="Run an offline benchmark baseline on explicit cases")
+    dataset_run.add_argument("dataset", type=Path)
+    dataset_run.add_argument("--reasoner", choices=("design", "reference"), default="design")
+    dataset_run.add_argument("--output", type=Path, required=True)
+    annotation = commands.add_parser("annotation-template", help="Prepare an unassessed judgment sheet")
+    annotation.add_argument("dataset", type=Path)
+    annotation.add_argument("predictions", type=Path)
+    annotation.add_argument("--output", type=Path, required=True)
+    evaluation = commands.add_parser("evaluate", help="Compute metrics from supplied reference annotations")
+    evaluation.add_argument("bundle", type=Path)
+    evaluation.add_argument("--partition", choices=("DEVELOPMENT", "VALIDATION", "TEST"))
+    evaluation.add_argument("--output", type=Path, required=True)
+    agreement = commands.add_parser("compare-annotations", help="Compare paired supplied annotation sheets")
+    agreement.add_argument("first", type=Path)
+    agreement.add_argument("second", type=Path)
+    agreement.add_argument("--output", type=Path, required=True)
+    design = commands.add_parser("design", help="Export inspectable local design cues and questions")
+    design.add_argument("project", type=Path)
+    design.add_argument("--output", type=Path, required=True)
+    for name in ("add-claim", "specify-control"):
+        command = commands.add_parser(name, help="Add an explicit local scientific specification")
+        command.add_argument("project", type=Path)
+        command.add_argument("submission", type=Path)
+        command.add_argument("--output", type=Path, required=True)
     report = commands.add_parser("report", help="Write a self-contained local scientific report")
     report.add_argument("project", type=Path)
     report.add_argument("--output", type=Path, required=True)
@@ -68,6 +103,7 @@ def main(argv=None):
     model.add_argument("--context", type=Path, required=True)
     model.add_argument("--endpoint", required=True)
     model.add_argument("--model", required=True)
+    model.add_argument("--claim-id")
     model.add_argument("--approve-hash")
     model.add_argument("--output", type=Path, required=True)
     model.add_argument("--audit-output", type=Path, required=True)
@@ -109,19 +145,50 @@ def main(argv=None):
             save_project(new_project(read_typed(args.intake, Intake)), args.output)
             print("Created a local project from the supplied claim and category.")
             return 0
+        if args.command in ("run-dataset", "annotation-template", "evaluate", "compare-annotations"):
+            from controlomics.evaluation import (EvaluationBundle, EvaluationDataset, PredictionRun,
+                annotation_template, compare_annotations, evaluate, run_dataset)
+            if args.command == "run-dataset":
+                value = run_dataset(read_typed(args.dataset, EvaluationDataset), args.reasoner).model_dump(mode="json")
+            elif args.command == "annotation-template":
+                value = annotation_template(read_typed(args.dataset, EvaluationDataset), read_typed(args.predictions, PredictionRun)).model_dump(mode="json")
+            elif args.command == "evaluate":
+                value = evaluate(read_typed(args.bundle, EvaluationBundle), args.partition)
+            else:
+                value = compare_annotations(read_typed(args.first, EvaluationBundle), read_typed(args.second, EvaluationBundle))
+            write_json(args.output, value)
+            print("Wrote local evaluation records. Supplied annotations are not authenticated independent validation.")
+            return 0
+        if args.command == "interpret":
+            with args.description.open("rb") as stream:
+                content = stream.read(12001)
+            if len(content) > 12000:
+                raise ValueError("description exceeds the local UTF-8 byte budget")
+            draft = interpret_narrative(NarrativeInput(description=content.decode("utf-8")))
+            write_json(args.output, draft.model_dump(mode="json"))
+            print("Wrote provisional local fields. Researcher confirmation is required; no request was sent.")
+            return 0
         project = load_project(args.project)
+        if args.command == "design":
+            write_json(args.output, [{"claim_id": claim.claim_id, **describe_design(project.analysis, claim).model_dump(mode="json")} for claim in project.claims])
+            print("Wrote heuristic design cues and review questions; scientific validity remains unestablished.")
+            return 0
         if args.command == "validate":
             print("Project structure and references are valid. Scientific validity has not been established.")
             if any(claim.interpretation_warnings for claim in project.claims):
                 print("Claim interpretation warning: computational support does not establish the stated causation.")
             return 0
         if args.command == "report":
-            audit = decode_json(args.network_audit.read_bytes()) if args.network_audit else ()
+            audit = read_json(args.network_audit) if args.network_audit else ()
             write_report(audit_project(project), args.output, audit)
             print("Wrote a local scientific report. Review its contents before sharing.")
             return 0
         if args.command == "analyze":
-            updated = audit_project(review_methods(propose(project)))
+            updated = audit_project(review_methods(propose(project, MethodBaseline() if args.reasoner == "reference" else None)))
+        elif args.command == "add-claim":
+            updated = audit_project(review_methods(propose(add_claim(project, read_typed(args.submission, NewClaim)))))
+        elif args.command == "specify-control":
+            updated = audit_project(specify_candidate(project, read_typed(args.submission, CandidateSubmission)))
         elif args.command == "review":
             updated = audit_project(apply_review(project, read_typed(args.review, HumanReview)))
         elif args.command in ("retrieve", "model-propose"):
@@ -137,7 +204,9 @@ def main(argv=None):
                         authority="doi.org" if args.doi else "PubMed")
                     prepared = provider.prepare_resolve(identifier)
             else:
-                context = decode_json(args.context.read_bytes())
+                if (args.claim_id is None and len(project.claims) > 1) or (args.claim_id is not None and args.claim_id not in {claim.claim_id for claim in project.claims}):
+                    raise ValueError("select one known claim before hosted reasoning")
+                context = read_json(args.context)
                 if not isinstance(context, dict):
                     raise ValueError("model context must be a named public-field object")
                 fields = tuple(SafeField(name, value, "SAFE") for name, value in context.items())
@@ -155,7 +224,7 @@ def main(argv=None):
                         records = (resolved_match(records, identifier),)
                     updated = import_evidence(project, records) if records else project
                 else:
-                    updated = propose(project, provider=provider, proposal=provider.complete(prepared, args.approve_hash))
+                    updated = propose(project, provider=provider, proposal=provider.complete(prepared, args.approve_hash), claim_id=args.claim_id)
             finally:
                 write_json(args.audit_output, transport.audit)
             updated = audit_project(updated)

@@ -1,0 +1,441 @@
+{
+  "schema_version": "0.1.0",
+  "format": "controlomics.evaluation_dataset.v0.1",
+  "dataset_id": "development_design.v0.1",
+  "annotation_origin": "DEVELOPMENT_FIXTURE",
+  "annotator": null,
+  "cases": [
+    {
+      "schema_version": "0.1.0",
+      "case_id": "prediction_partition",
+      "description": "Manually specified software development scenario: Feature classification with tuning and selection",
+      "partition": "DEVELOPMENT",
+      "source_group": "prediction_partition",
+      "intake": {
+        "schema_version": "0.1.0",
+        "question": "Hypothetical development question",
+        "analysis_description": "Feature classification with tuning and selection",
+        "methods": [
+          "Feature classification with tuning and selection"
+        ],
+        "observed_result": "Hypothetical reported result; no biological observation.",
+        "claim": "A hypothetical predictive statement.",
+        "claim_category": "PREDICTIVE",
+        "computational_support": "PREDICTIVE",
+        "biological_context": {
+          "schema_version": "0.1.0",
+          "organism": null,
+          "strain": null,
+          "cell_type": null,
+          "tissue": null,
+          "disease_state": null,
+          "experimental_condition": null,
+          "molecular_target": null,
+          "assay_type": null,
+          "computational_method": null,
+          "data_modality": null,
+          "biological_scale": null,
+          "intervention": null,
+          "time_point": null,
+          "reference_database": null,
+          "software_assumptions": []
+        },
+        "design": {
+          "schema_version": "0.1.0",
+          "sampling_unit": "Independent sample",
+          "independence_assumptions": [],
+          "contrasts": [],
+          "covariates": [],
+          "data_partition": null,
+          "missing_information": []
+        },
+        "assumptions": []
+      },
+      "source_identifiers": [
+        {
+          "schema_version": "0.1.0",
+          "namespace": "DOI",
+          "value": "10.1186/1471-2105-7-91",
+          "authority": "doi.org"
+        }
+      ],
+      "references": [
+        {
+          "schema_version": "0.1.0",
+          "reference_id": "positive",
+          "description": "Prespecified known-signal methodological reference",
+          "control_class": "POSITIVE",
+          "essential": true
+        },
+        {
+          "schema_version": "0.1.0",
+          "reference_id": "negative",
+          "description": "Prespecified signal-absent methodological reference",
+          "control_class": "NEGATIVE",
+          "essential": true
+        }
+      ],
+      "expected_findings": [
+        "partition_missing",
+        "selection_leakage_review"
+      ]
+    },
+    {
+      "schema_version": "0.1.0",
+      "case_id": "nested_comparison",
+      "description": "Manually specified software development scenario: Group comparison with repeated measurements within donor",
+      "partition": "DEVELOPMENT",
+      "source_group": "nested_comparison",
+      "intake": {
+        "schema_version": "0.1.0",
+        "question": "Hypothetical development question",
+        "analysis_description": "Group comparison with repeated measurements within donor",
+        "methods": [
+          "Group comparison with repeated measurements within donor"
+        ],
+        "observed_result": "Hypothetical reported result; no biological observation.",
+        "claim": "A hypothetical comparative statement.",
+        "claim_category": "COMPARATIVE",
+        "computational_support": "COMPARATIVE",
+        "biological_context": {
+          "schema_version": "0.1.0",
+          "organism": null,
+          "strain": null,
+          "cell_type": null,
+          "tissue": null,
+          "disease_state": null,
+          "experimental_condition": null,
+          "molecular_target": null,
+          "assay_type": null,
+          "computational_method": null,
+          "data_modality": null,
+          "biological_scale": null,
+          "intervention": null,
+          "time_point": null,
+          "reference_database": null,
+          "software_assumptions": []
+        },
+        "design": {
+          "schema_version": "0.1.0",
+          "sampling_unit": "Donor",
+          "independence_assumptions": [],
+          "contrasts": [],
+          "covariates": [],
+          "data_partition": null,
+          "missing_information": []
+        },
+        "assumptions": []
+      },
+      "source_identifiers": [
+        {
+          "schema_version": "0.1.0",
+          "namespace": "DOI",
+          "value": "10.1038/s41467-021-21038-1",
+          "authority": "doi.org"
+        }
+      ],
+      "references": [
+        {
+          "schema_version": "0.1.0",
+          "reference_id": "positive",
+          "description": "Prespecified known-signal methodological reference",
+          "control_class": "POSITIVE",
+          "essential": true
+        },
+        {
+          "schema_version": "0.1.0",
+          "reference_id": "negative",
+          "description": "Prespecified signal-absent methodological reference",
+          "control_class": "NEGATIVE",
+          "essential": true
+        }
+      ],
+      "expected_findings": [
+        "dependent_units_review",
+        "exchangeability_review"
+      ]
+    },
+    {
+      "schema_version": "0.1.0",
+      "case_id": "enrichment_background",
+      "description": "Manually specified software development scenario: Gene set enrichment and overlap",
+      "partition": "DEVELOPMENT",
+      "source_group": "enrichment_background",
+      "intake": {
+        "schema_version": "0.1.0",
+        "question": "Hypothetical development question",
+        "analysis_description": "Gene set enrichment and overlap",
+        "methods": [
+          "Gene set enrichment and overlap"
+        ],
+        "observed_result": "Hypothetical reported result; no biological observation.",
+        "claim": "A hypothetical associational statement.",
+        "claim_category": "ASSOCIATIONAL",
+        "computational_support": "ASSOCIATIONAL",
+        "biological_context": {
+          "schema_version": "0.1.0",
+          "organism": null,
+          "strain": null,
+          "cell_type": null,
+          "tissue": null,
+          "disease_state": null,
+          "experimental_condition": null,
+          "molecular_target": null,
+          "assay_type": null,
+          "computational_method": null,
+          "data_modality": null,
+          "biological_scale": null,
+          "intervention": null,
+          "time_point": null,
+          "reference_database": null,
+          "software_assumptions": []
+        },
+        "design": {
+          "schema_version": "0.1.0",
+          "sampling_unit": "Independent sample",
+          "independence_assumptions": [],
+          "contrasts": [],
+          "covariates": [],
+          "data_partition": null,
+          "missing_information": []
+        },
+        "assumptions": []
+      },
+      "source_identifiers": [
+        {
+          "schema_version": "0.1.0",
+          "namespace": "DOI",
+          "value": "10.1073/pnas.0506580102",
+          "authority": "doi.org"
+        }
+      ],
+      "references": [
+        {
+          "schema_version": "0.1.0",
+          "reference_id": "positive",
+          "description": "Prespecified known-signal methodological reference",
+          "control_class": "POSITIVE",
+          "essential": true
+        },
+        {
+          "schema_version": "0.1.0",
+          "reference_id": "negative",
+          "description": "Prespecified signal-absent methodological reference",
+          "control_class": "NEGATIVE",
+          "essential": true
+        }
+      ],
+      "expected_findings": [
+        "background_review",
+        "exchangeability_review"
+      ]
+    },
+    {
+      "schema_version": "0.1.0",
+      "case_id": "new_modality_rank",
+      "description": "Manually specified software development scenario: Previously unlisted measurement ranking with a similarity score",
+      "partition": "DEVELOPMENT",
+      "source_group": "new_modality_rank",
+      "intake": {
+        "schema_version": "0.1.0",
+        "question": "Hypothetical development question",
+        "analysis_description": "Previously unlisted measurement ranking with a similarity score",
+        "methods": [
+          "Previously unlisted measurement ranking with a similarity score"
+        ],
+        "observed_result": "Hypothetical reported result; no biological observation.",
+        "claim": "A hypothetical comparative statement.",
+        "claim_category": "COMPARATIVE",
+        "computational_support": "COMPARATIVE",
+        "biological_context": {
+          "schema_version": "0.1.0",
+          "organism": null,
+          "strain": null,
+          "cell_type": null,
+          "tissue": null,
+          "disease_state": null,
+          "experimental_condition": null,
+          "molecular_target": null,
+          "assay_type": null,
+          "computational_method": null,
+          "data_modality": null,
+          "biological_scale": null,
+          "intervention": null,
+          "time_point": null,
+          "reference_database": null,
+          "software_assumptions": []
+        },
+        "design": {
+          "schema_version": "0.1.0",
+          "sampling_unit": "Independent reference",
+          "independence_assumptions": [],
+          "contrasts": [],
+          "covariates": [],
+          "data_partition": null,
+          "missing_information": []
+        },
+        "assumptions": []
+      },
+      "source_identifiers": [],
+      "references": [
+        {
+          "schema_version": "0.1.0",
+          "reference_id": "positive",
+          "description": "Prespecified known-signal methodological reference",
+          "control_class": "POSITIVE",
+          "essential": true
+        },
+        {
+          "schema_version": "0.1.0",
+          "reference_id": "negative",
+          "description": "Prespecified signal-absent methodological reference",
+          "control_class": "NEGATIVE",
+          "essential": true
+        }
+      ],
+      "expected_findings": [
+        "reference_selection_review"
+      ]
+    },
+    {
+      "schema_version": "0.1.0",
+      "case_id": "causal_interpretation",
+      "description": "Manually specified software development scenario: An observational association",
+      "partition": "DEVELOPMENT",
+      "source_group": "causal_interpretation",
+      "intake": {
+        "schema_version": "0.1.0",
+        "question": "Hypothetical development question",
+        "analysis_description": "An observational association",
+        "methods": [
+          "An observational association"
+        ],
+        "observed_result": "Hypothetical reported result; no biological observation.",
+        "claim": "A hypothetical causal statement.",
+        "claim_category": "CAUSAL",
+        "computational_support": "ASSOCIATIONAL",
+        "biological_context": {
+          "schema_version": "0.1.0",
+          "organism": null,
+          "strain": null,
+          "cell_type": null,
+          "tissue": null,
+          "disease_state": null,
+          "experimental_condition": null,
+          "molecular_target": null,
+          "assay_type": null,
+          "computational_method": null,
+          "data_modality": null,
+          "biological_scale": null,
+          "intervention": null,
+          "time_point": null,
+          "reference_database": null,
+          "software_assumptions": []
+        },
+        "design": {
+          "schema_version": "0.1.0",
+          "sampling_unit": "Independent sample",
+          "independence_assumptions": [],
+          "contrasts": [],
+          "covariates": [],
+          "data_partition": null,
+          "missing_information": []
+        },
+        "assumptions": []
+      },
+      "source_identifiers": [],
+      "references": [
+        {
+          "schema_version": "0.1.0",
+          "reference_id": "positive",
+          "description": "Prespecified known-signal methodological reference",
+          "control_class": "POSITIVE",
+          "essential": true
+        },
+        {
+          "schema_version": "0.1.0",
+          "reference_id": "negative",
+          "description": "Prespecified signal-absent methodological reference",
+          "control_class": "NEGATIVE",
+          "essential": true
+        }
+      ],
+      "expected_findings": [
+        "causal_overreach"
+      ]
+    },
+    {
+      "schema_version": "0.1.0",
+      "case_id": "unspecified_operation",
+      "description": "Manually specified software development scenario: Unrecognized operation",
+      "partition": "DEVELOPMENT",
+      "source_group": "unspecified_operation",
+      "intake": {
+        "schema_version": "0.1.0",
+        "question": "Hypothetical development question",
+        "analysis_description": "Unrecognized operation",
+        "methods": [
+          "Unrecognized operation"
+        ],
+        "observed_result": "Hypothetical reported result; no biological observation.",
+        "claim": "A hypothetical descriptive statement.",
+        "claim_category": "DESCRIPTIVE",
+        "computational_support": "DESCRIPTIVE",
+        "biological_context": {
+          "schema_version": "0.1.0",
+          "organism": null,
+          "strain": null,
+          "cell_type": null,
+          "tissue": null,
+          "disease_state": null,
+          "experimental_condition": null,
+          "molecular_target": null,
+          "assay_type": null,
+          "computational_method": null,
+          "data_modality": null,
+          "biological_scale": null,
+          "intervention": null,
+          "time_point": null,
+          "reference_database": null,
+          "software_assumptions": []
+        },
+        "design": {
+          "schema_version": "0.1.0",
+          "sampling_unit": null,
+          "independence_assumptions": [],
+          "contrasts": [],
+          "covariates": [],
+          "data_partition": null,
+          "missing_information": []
+        },
+        "assumptions": []
+      },
+      "source_identifiers": [],
+      "references": [
+        {
+          "schema_version": "0.1.0",
+          "reference_id": "positive",
+          "description": "Prespecified known-signal methodological reference",
+          "control_class": "POSITIVE",
+          "essential": true
+        },
+        {
+          "schema_version": "0.1.0",
+          "reference_id": "negative",
+          "description": "Prespecified signal-absent methodological reference",
+          "control_class": "NEGATIVE",
+          "essential": true
+        }
+      ],
+      "expected_findings": [
+        "operation_uncertain",
+        "sampling_unit_missing"
+      ]
+    }
+  ],
+  "limitations": [
+    "Development expectations concern review-question codes, not independently expert-validated control truth.",
+    "Public method papers motivate scenarios; they are not entailment receipts or annotations of the generated controls.",
+    "All cases are development cases. No held-out scientific evaluation is claimed."
+  ]
+}

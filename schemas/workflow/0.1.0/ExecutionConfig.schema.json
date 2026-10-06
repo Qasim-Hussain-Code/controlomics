@@ -1,0 +1,75 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "absolute_tolerance": {
+      "default": 1e-09,
+      "minimum": 0,
+      "title": "Absolute Tolerance",
+      "type": "number"
+    },
+    "assumptions": {
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Assumptions",
+      "type": "array"
+    },
+    "coverage": {
+      "default": 0.95,
+      "exclusiveMaximum": 1,
+      "exclusiveMinimum": 0,
+      "title": "Coverage",
+      "type": "number"
+    },
+    "draws": {
+      "default": 999,
+      "maximum": 10000,
+      "minimum": 100,
+      "title": "Draws",
+      "type": "integer"
+    },
+    "expected_difference": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expected Difference"
+    },
+    "kind": {
+      "enum": [
+        "REFERENCE",
+        "PERMUTATION",
+        "BOOTSTRAP"
+      ],
+      "title": "Kind",
+      "type": "string"
+    },
+    "random_seed": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Random Seed",
+      "type": "integer"
+    },
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "kind",
+    "assumptions"
+  ],
+  "title": "ExecutionConfig",
+  "type": "object"
+}

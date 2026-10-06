@@ -1,0 +1,63 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "fields": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Fields",
+      "type": "object"
+    },
+    "limitations": {
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "missing_fields": {
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Missing Fields",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "suggested_categories": {
+      "items": {
+        "enum": [
+          "DESCRIPTIVE",
+          "ASSOCIATIONAL",
+          "COMPARATIVE",
+          "PREDICTIVE",
+          "STATISTICAL",
+          "FUNCTIONAL",
+          "MECHANISTIC",
+          "CAUSAL"
+        ],
+        "type": "string"
+      },
+      "title": "Suggested Categories",
+      "type": "array"
+    }
+  },
+  "required": [
+    "fields",
+    "suggested_categories",
+    "missing_fields",
+    "limitations"
+  ],
+  "title": "InterpretationDraft",
+  "type": "object"
+}

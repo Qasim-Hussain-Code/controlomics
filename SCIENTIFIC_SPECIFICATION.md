@@ -36,11 +36,15 @@ Priority is ESSENTIAL, RECOMMENDED, or EXPLORATORY with an inspectable rationale
 
 ## Execution and falsifiability
 
+The local design rules expose conditional control specifications and review questions for analytical operations, unit dependence, nuisance structure, reference selection, and causal interpretation. Textual cues and categories are provisional. Unknown operations preserve uncertainty. Neither method-state promotion nor provisional priority establishes biological validity or permits a specialist procedure to be run by an unrelated numeric adapter. See [DESIGN_RULES.md](docs/DESIGN_RULES.md).
+
 Numerical quantities must be computed by deterministic software, with recorded seeds when randomness is appropriate. Execution records represent estimates, intervals, null distributions, versions, and input hashes without requiring a binary decision. PASS or FAIL requires a decision rule specified before execution began, a completed result, and an interpretation. A syntactically correct decision rule still requires scientific justification.
 
-The research alpha executes a narrow independent-unit numeric adapter and creates fixed execution packages. Reference checks compare a mean difference against a prespecified expected value and tolerance. Permutation tests and percentile bootstrap intervals remain INDETERMINATE for scientific pass or fail. Synthetic numerical observations must be labeled as synthetic and distinguished from biological validation.
+The research alpha executes a narrow independent-unit numeric adapter for reviewed technical positive and negative reference specifications and creates fixed execution packages. Other scientific levels and classes require an applicable adapter; a method-reviewed design challenge cannot be attached to this generic runner. Reference checks compare a mean difference against a prespecified expected value and tolerance. Permutation tests and percentile bootstrap intervals remain INDETERMINATE for scientific pass or fail. Synthetic numerical observations must be labeled as synthetic and distinguished from biological validation.
 
 ## Unresolved scientific questions
+
+Evaluation records separate references, predictions, actual supplied judgments, and evidence-layer decisions. Unknown annotations yield unavailable metrics rather than invented performance. Source groups and normalized identifiers cannot cross declared partitions, but curators must still resolve scientific overlap and contamination. Development expected findings and generic reference specifications are implementation fixtures. Independent annotations and predefined study design remain prerequisites for claims about scientific appropriateness and generalization. See [EVALUATION.md](docs/EVALUATION.md).
 
 - What minimum context suffices to propose a useful control without leaking sensitive information?
 - Which controls are essential across methods, and which require domain-specific review?

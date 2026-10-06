@@ -1,0 +1,23 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "description": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Description",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "description"
+  ],
+  "title": "NarrativeInput",
+  "type": "object"
+}

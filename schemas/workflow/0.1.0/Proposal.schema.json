@@ -1,0 +1,170 @@
+{
+  "$defs": {
+    "DraftControl": {
+      "additionalProperties": false,
+      "properties": {
+        "control_class": {
+          "enum": [
+            "POSITIVE",
+            "NEGATIVE",
+            "NULL",
+            "SPECIFICITY",
+            "ROBUSTNESS",
+            "CONFOUNDER",
+            "FALSIFICATION"
+          ],
+          "title": "Control Class",
+          "type": "string"
+        },
+        "evidence_required": {
+          "title": "Evidence Required",
+          "type": "boolean"
+        },
+        "expected_behavior": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Expected Behavior",
+          "type": "string"
+        },
+        "failure_interpretation": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Failure Interpretation",
+          "type": "string"
+        },
+        "limitations": {
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Limitations",
+          "type": "array"
+        },
+        "method_basis": {
+          "anyOf": [
+            {
+              "maxLength": 12000,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Method Basis"
+        },
+        "name": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "priority": {
+          "default": "RECOMMENDED",
+          "enum": [
+            "ESSENTIAL",
+            "RECOMMENDED",
+            "EXPLORATORY"
+          ],
+          "title": "Priority",
+          "type": "string"
+        },
+        "priority_rationale": {
+          "default": "Applicability must be assessed against the claim and design.",
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Priority Rationale",
+          "type": "string"
+        },
+        "rationale": {
+          "maxLength": 12000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Rationale",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "scientific_level": {
+          "enum": [
+            "TECHNICAL",
+            "STATISTICAL",
+            "BIOLOGICAL",
+            "MECHANISTIC"
+          ],
+          "title": "Scientific Level",
+          "type": "string"
+        },
+        "uncertainties": {
+          "items": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Uncertainties",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "control_class",
+        "scientific_level",
+        "rationale",
+        "expected_behavior",
+        "failure_interpretation",
+        "evidence_required",
+        "uncertainties",
+        "limitations"
+      ],
+      "title": "DraftControl",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "abstentions": {
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Abstentions",
+      "type": "array"
+    },
+    "controls": {
+      "items": {
+        "$ref": "#/$defs/DraftControl"
+      },
+      "maxItems": 12,
+      "title": "Controls",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "controls",
+    "abstentions"
+  ],
+  "title": "Proposal",
+  "type": "object"
+}

@@ -7,8 +7,8 @@
       "name": "controls",
       "viewport": 1440,
       "document": 1425,
-      "cards": 2,
-      "status": "Local method controls specified. Biological support and applicability remain unvalidated."
+      "cards": 3,
+      "status": "Local design controls specified. Biological support and applicability remain unvalidated."
     },
     {
       "width": 430,
@@ -16,8 +16,8 @@
       "name": "mobile",
       "viewport": 430,
       "document": 415,
-      "cards": 2,
-      "status": "Local method controls specified. Biological support and applicability remain unvalidated."
+      "cards": 3,
+      "status": "Local design controls specified. Biological support and applicability remain unvalidated."
     }
   ],
   "exceptions": [],
@@ -31,7 +31,8 @@
       "LOCAL"
     ],
     "audit": "INSUFFICIENT_EVIDENCE",
-    "externalRequests": 0
+    "externalRequests": 0,
+    "unsupportedControlsExcluded": true
   },
   "report": {
     "html": true,
@@ -39,6 +40,36 @@
     "hasWarnings": true,
     "hasConservativeAssessment": true
   },
-  "run_at": "2026-10-06T02:16:55.559Z",
-  "scope": "Local synthetic browser demonstration only; no biological data or external requests."
+  "narrative": {
+    "claim": "Features predict labels",
+    "category": "",
+    "support": ""
+  },
+  "claims": {
+    "claims": 2,
+    "profiles": 2,
+    "controlsByClaim": [
+      3,
+      5
+    ]
+  },
+  "candidate": {
+    "status": "UNVERIFIED",
+    "id": "control.11f47b7b340d49beae00ba2a6800fb2b",
+    "revisionRecorded": true
+  },
+  "duplicateImportRejected": true,
+  "evaluation": {
+    "origin": "UNASSESSED",
+    "precision": null,
+    "unavailableDisplayed": true,
+    "cases": 6
+  },
+  "reviewForm": {
+    "statements": 2,
+    "attested": false,
+    "reviewer": ""
+  },
+  "run_at": "2026-10-06T03:08:23.021Z",
+  "scope": "Local synthetic workflow, description drafting, candidate editing, multi-claim and unassessed evaluation checks. Recorded public identity metadata was used only to display the review form; no human review was submitted, and no external request was made."
 }

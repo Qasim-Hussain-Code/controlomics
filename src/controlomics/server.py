@@ -16,12 +16,14 @@ from urllib.parse import urlsplit
 
 from controlomics.evidence import Crossref, EuropePMC
 from controlomics.execution import ExecutionConfig, build_package, execute_local, import_result
-from controlomics.models import MessagesProvider
+from controlomics.models import MessagesProvider, MethodBaseline
+from controlomics.reasoning import NarrativeInput, describe_design, interpret_narrative
 from controlomics.privacy import SafeField, SafeTransport
 from controlomics.project import decode_json, parse_project_json, save_project
 from controlomics.reports import render_report
 from controlomics.schemas import ControlResult
-from controlomics.workflow import HumanReview, Intake, apply_review, audit_project, import_evidence, new_project, propose, review_methods
+from controlomics.workflow import (CandidateSubmission, HumanReview, Intake, NewClaim, add_claim, apply_review,
+    audit_project, import_evidence, new_project, propose, review_methods, review_template, specify_candidate)
 
 ASSETS = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "text/javascript"), "/style.css": ("style.css", "text/css")}
 MAX_BODY = 2 * 1024 * 1024
@@ -31,14 +33,47 @@ def project_from(data):
     return parse_project_json(json.dumps(data["project"]))
 
 
+def workspace(project):
+    return {"project": project.model_dump(mode="json"), "design_profiles": [
+        {"claim_id": claim.claim_id, **describe_design(project.analysis, claim).model_dump(mode="json")}
+        for claim in project.claims]}
+
+
+def selected_claim(project, identifier):
+    if identifier is None and len(project.claims) == 1:
+        return project.claims[0].claim_id
+    if identifier not in {claim.claim_id for claim in project.claims}:
+        raise ValueError("select one known claim before hosted reasoning")
+    return identifier
+
+
 def handle_action(path, data):
+    if path == "/api/evaluate":
+        from controlomics.evaluation import EvaluationBundle, evaluate
+        bundle = EvaluationBundle.model_validate_json(json.dumps(data["bundle"]))
+        return {"evaluation": evaluate(bundle, data.get("partition"))}
+    if path == "/api/parse-json":
+        return {"value": decode_json(data["content"])}
+    if path == "/api/interpret":
+        return {"draft": interpret_narrative(NarrativeInput.model_validate_json(json.dumps(data))).model_dump(mode="json")}
     if path == "/api/analyze":
         if "project" in data:
             project = project_from(data)
         else:
             intake = Intake.model_validate_json(json.dumps(data["intake"]))
             project = new_project(intake)
-        return {"project": audit_project(review_methods(propose(project))).model_dump(mode="json")}
+        provider = MethodBaseline() if data.get("reasoner") == "reference" else None
+        return workspace(audit_project(review_methods(propose(project, provider))))
+    if path == "/api/add-claim":
+        submission = NewClaim.model_validate_json(json.dumps(data["claim"]))
+        return workspace(audit_project(review_methods(propose(add_claim(project_from(data), submission)))))
+    if path == "/api/specify-control":
+        submission = CandidateSubmission.model_validate_json(json.dumps(data["specification"]))
+        return workspace(audit_project(specify_candidate(project_from(data), submission)))
+    if path == "/api/method-review":
+        return workspace(audit_project(review_methods(project_from(data))))
+    if path == "/api/review-template":
+        return {"template": review_template(project_from(data), data["control_id"])}
     if path == "/api/report":
         return render_report(audit_project(project_from(data)), data.get("network_audit", ())).encode(), "text/html", "controlomics.report.html"
     if path in ("/api/literature/preview", "/api/literature/retrieve"):
@@ -54,7 +89,7 @@ def handle_action(path, data):
         try:
             records = provider.search(prepared, data.get("approve_hash"))
             project = import_evidence(project, records) if records else project
-            return {"project": audit_project(project).model_dump(mode="json"), "network_audit": transport.audit}
+            return {**workspace(audit_project(project)), "network_audit": transport.audit}
         except ValueError:
             return {"error": "External retrieval failed; research input and provider response content are omitted.", "network_audit": transport.audit}
     if path in ("/api/model/preview", "/api/model/run"):
@@ -70,23 +105,24 @@ def handle_action(path, data):
         if path.endswith("preview"):
             return {"request": prepared.preview(), "approve_hash": prepared.approval_hash}
         project = project_from(data)
+        claim_id = selected_claim(project, data.get("claim_id"))
         try:
             proposal = provider.complete(prepared, data.get("approve_hash"))
-            project = propose(project, provider=provider, proposal=proposal)
-            return {"project": audit_project(project).model_dump(mode="json"), "network_audit": transport.audit}
+            project = propose(project, provider=provider, proposal=proposal, claim_id=claim_id)
+            return {**workspace(audit_project(project)), "network_audit": transport.audit}
         except (ValueError, KeyError, TypeError, IndexError):
             return {"error": "Hosted reasoning failed or returned invalid structured content. Credentials and response text are omitted.", "network_audit": transport.audit}
     if path == "/api/review":
         review = HumanReview.model_validate_json(json.dumps(data["review"]))
-        return {"project": audit_project(apply_review(project_from(data), review)).model_dump(mode="json")}
+        return workspace(audit_project(apply_review(project_from(data), review)))
     if path == "/api/import-results":
         result = ControlResult.model_validate_json(json.dumps(data["result"]))
-        return {"project": audit_project(import_result(project_from(data), result)).model_dump(mode="json")}
+        return workspace(audit_project(import_result(project_from(data), result)))
     if path in ("/api/package", "/api/execute"):
         project = project_from(data)
         config = ExecutionConfig.model_validate_json(json.dumps(data["config"]))
         if path == "/api/execute":
-            return {"project": audit_project(execute_local(project, data["control_id"], config, data["csv"].encode())).model_dump(mode="json")}
+            return workspace(audit_project(execute_local(project, data["control_id"], config, data["csv"].encode())))
         with TemporaryDirectory(prefix="controlomics_package_") as temporary:
             folder = Path(temporary) / "package"
             updated = build_package(project, data["control_id"], config, folder)

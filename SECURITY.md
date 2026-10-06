@@ -14,6 +14,8 @@ HTTPS URLs cannot include credentials, fragments, or nonstandard ports. Provider
 
 Model policy and context remain separate. Strict proposals cannot supply citations, verification, or executable fields. These gates reduce malformed-output and injection consequences; they do not establish correct or harmless model reasoning. Hosted models remain unevaluated.
 
+Browser JSON imports and context entries use the same duplicate-key-aware local parser before subsequent validation. Model completion requires one known target claim before sending. Editing cannot erase a reviewed specification, and re-review requires the current snapshot hash. These consistency boundaries do not authenticate the caller, source text, or researcher name. Evaluation origin labels are also unauthenticated caller attestations.
+
 ## Execution
 
 Parsing never executes imported or generated code. Local computation invokes only a fixed template with explicit arguments and no shell. Artifact hashes are checked before importing the copied helper. The same bounded input bytes supply computation and hashing. Execution has a timeout and uses an owned temporary directory.

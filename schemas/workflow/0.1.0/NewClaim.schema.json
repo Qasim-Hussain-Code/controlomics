@@ -1,0 +1,64 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "assumptions": {
+      "default": [],
+      "items": {
+        "maxLength": 12000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Assumptions",
+      "type": "array"
+    },
+    "category": {
+      "enum": [
+        "DESCRIPTIVE",
+        "ASSOCIATIONAL",
+        "COMPARATIVE",
+        "PREDICTIVE",
+        "STATISTICAL",
+        "FUNCTIONAL",
+        "MECHANISTIC",
+        "CAUSAL"
+      ],
+      "title": "Category",
+      "type": "string"
+    },
+    "computational_support": {
+      "enum": [
+        "DESCRIPTIVE",
+        "ASSOCIATIONAL",
+        "COMPARATIVE",
+        "PREDICTIVE",
+        "STATISTICAL",
+        "FUNCTIONAL",
+        "MECHANISTIC",
+        "CAUSAL"
+      ],
+      "title": "Computational Support",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "statement": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Statement",
+      "type": "string"
+    }
+  },
+  "required": [
+    "statement",
+    "category",
+    "computational_support"
+  ],
+  "title": "NewClaim",
+  "type": "object"
+}

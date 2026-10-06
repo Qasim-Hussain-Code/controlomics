@@ -1,13 +1,13 @@
 {
-  "recorded_at": "2026-10-06T02:22:26.166082+00:00",
-  "controlomics_version": "0.2.0.dev0",
+  "recorded_at": "2026-10-06T03:10:11.577434+00:00",
+  "controlomics_version": "0.3.0.dev0",
   "python_version": "3.14.0",
   "pydantic_version": "2.12.4",
   "platform": "Windows",
-  "tests_run": 74,
+  "tests_run": 99,
   "failures": 0,
   "errors": 0,
   "skipped": 0,
-  "elapsed_seconds": 4.683,
-  "scope": "Software, synthetic scientific invariants, privacy and adversarial checks. No biological or expert validation."
+  "elapsed_seconds": 5.71,
+  "scope": "Software, synthetic scientific invariants, privacy, adversarial checks, supplied-annotation arithmetic and local workflow integration. No biological or expert validation."
 }
