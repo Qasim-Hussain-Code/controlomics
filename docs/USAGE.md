@@ -4,13 +4,17 @@
 
 Run `Start_Controlomics.cmd` from the repository or use `.venv/Scripts/python.exe -m controlomics serve`. Open `http://127.0.0.1:8765`. The server binds only to this computer. Use the hypothetical transcriptomics or microscopy buttons to inspect an example, then create a control audit. A direct hypothetical demonstration is available at `http://127.0.0.1:8765/#demo=transcriptomics`.
 
+Choose a section in the left navigation or select a project summary card. The summaries count claims, all control specifications, publication records, and completed executions; they are not scientific performance scores. In Controls, search by name, rationale, expected behavior, identifier, or linked claim, and narrow the collection by control class. Filtering changes the display only. Open project JSON and review bundles through Open; Export offers project JSON and a scientific report. Save review bundle captures the current review records together.
+
+Use Tab to reach the selected navigation section, arrow keys to change sections, and Home or End to select the first or last section. On a narrow screen, the menu button opens navigation; Escape or the shaded backdrop closes it. Selecting a section returns focus to the workspace. Escape also closes file menus. Motion follows the system's reduced-motion preference. See [the interface guide](INTERFACE.md).
+
 Enter the research question, analysis description, methods, observed result, scientific claim, claim category, and computational support category. The category choices are researcher input, not automated causal inference. Biological context and independent sampling units improve interpretability. Raw primary-analysis datasets are not required.
 
 The local reasoner specifies positive known-signal and negative signal-absent technical references, then adds design-dependent challenges with inspectable cues. All remain provisional specifications with explicit assumptions and limitations. It abstains from naming experimentally validated biological entities. Their METHOD_BASED state is not empirical validation. Inspect Design interpretation in Audit and [DESIGN_RULES.md](DESIGN_RULES.md).
 
 Use Draft fields from a local description to extract explicitly stated input, then confirm each field and choose the claim and support categories. Claims in this analysis adds a separately categorized claim and its own controls. Specify a control creates a researcher candidate; Edit specification revises an unreviewed candidate without promoting it. Reviewed specifications require a separate retained snapshot for content changes.
 
-Inspect the Controls and Audit tabs. Projects remain in browser memory. Export a project, report, and network audit before closing the page. Opening a project performs structural checks and a new conservative audit. Receipts in imported files are not authenticated merely because parsing succeeds.
+Inspect Controls and Scientific audit. Projects remain in browser memory. Save a review bundle or export the project, report, and network audit before closing the page. Opening a project performs structural checks and a new conservative audit. Receipts in imported files are not authenticated merely because parsing succeeds.
 
 ## Literature
 

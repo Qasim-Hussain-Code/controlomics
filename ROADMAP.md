@@ -13,7 +13,7 @@ The delivered software is an operational local research alpha. This milestone do
 | 6 | Reports and provenance | Reports, typed network sidecar, bounded review archive save/restore |
 | 7 | ControlomicsBench | Dataset contracts, partition checks, offline runner, judgment workbench, snapshot revisions, metrics and agreement; independent expert benchmark pending |
 | 8 | Cross-domain evaluation and ablations | Development reference/design comparison recorded; independent cases, expert judgments and model comparisons pending |
-| 9 | Web application | Six-tab local interface with initial hardening; remote deployment requires separate assessment |
+| 9 | Web application | Responsive six-section workspace, record summaries, control search, keyboard navigation, and local hardening; remote deployment requires separate assessment |
 | 10 | Public release | Pending owner license, reporting channel, and release review; no remote configured |
 
 ## Delivered slice

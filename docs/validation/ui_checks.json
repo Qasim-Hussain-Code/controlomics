@@ -21,6 +21,158 @@
     }
   ],
   "exceptions": [],
+  "emptyWorkspace": {
+    "zeroCounts": true,
+    "savingDisabled": true,
+    "searchDisabled": true,
+    "view": "analysis"
+  },
+  "recordCounts": true,
+  "controlSearch": {
+    "nameMatched": true,
+    "noMatch": true,
+    "classMatched": true,
+    "restored": true,
+    "unchanged": true
+  },
+  "keyboardNavigation": {
+    "arrow": true,
+    "end": true,
+    "home": true
+  },
+  "responsiveViews": [
+    {
+      "width": 375,
+      "document": 360,
+      "view": "analysis"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "controls"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "evidence"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "execution"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "audit"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "evaluation"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "analysis"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "controls"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "evidence"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "execution"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "audit"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "evaluation"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "analysis"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "controls"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "evidence"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "execution"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "audit"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "evaluation"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "analysis"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "controls"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "evidence"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "execution"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "audit"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "evaluation"
+    }
+  ],
+  "mobileNavigation": {
+    "modal": true,
+    "trapped": true,
+    "reverseTrapped": true,
+    "escaped": true,
+    "selected": true,
+    "metricNavigation": true
+  },
+  "fileMenus": true,
+  "reducedMotion": true,
+  "textRendering": true,
   "execution": {
     "outcomes": [
       "PASS",
@@ -34,13 +186,14 @@
     "externalRequests": 0,
     "unsupportedControlsExcluded": true
   },
-  "controlomicsVersion": "0.4.0.dev0",
+  "controlomicsVersion": "0.5.0.dev0",
   "pairedExecution": {
     "outcome": "INDETERMINATE",
     "p": 0.25,
     "input": "paired_units",
     "remaining": 0
   },
+  "executedRecordCounts": true,
   "report": {
     "html": true,
     "hasInputHashes": true,
@@ -62,7 +215,7 @@
   },
   "candidate": {
     "status": "UNVERIFIED",
-    "id": "control.1a5ee9578d904a968c42d40de86ca4c1",
+    "id": "control.9ce156df810943d29e1130354321f046",
     "revisionRecorded": true
   },
   "duplicateImportRejected": true,
@@ -72,6 +225,7 @@
     "unavailableDisplayed": true,
     "cases": 6
   },
+  "metricHeadingVisible": true,
   "annotations": {
     "origin": "",
     "reviewer": "",
@@ -81,7 +235,7 @@
     "savedOrigin": "UNASSESSED"
   },
   "reviewBundle": {
-    "bytes": 16257,
+    "bytes": 16256,
     "sameProject": true,
     "sameEvaluation": true,
     "networkEvents": 0,
@@ -92,6 +246,6 @@
     "attested": false,
     "reviewer": ""
   },
-  "run_at": "2026-10-06T05:27:03.906Z",
-  "scope": "Local synthetic reference and paired execution, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, and review archive roundtrip. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external request was made."
+  "run_at": "2026-10-06T13:22:08.216Z",
+  "scope": "Responsive workspace, actual record counts, search and class filters, keyboard tabs, mobile focus boundaries, file menus, reduced motion, text-only rendering, local synthetic reference and paired execution, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, visible review headings, and review archive roundtrip. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external request was made. This is browser integration coverage, not a screen-reader, full accessibility, or scientific validation."
 }

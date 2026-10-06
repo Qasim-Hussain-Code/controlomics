@@ -1,9 +1,9 @@
 {
   "workload": "Two local project validations, method reviews, fixed synthetic reference executions, audits and reports, ten core and eighteen workflow schema exports, six-case unassessed evaluation, paired sign-flip execution, and review archive roundtrip",
-  "project_file_bytes": 1427963,
-  "virtual_environment_file_bytes": 31393493,
-  "peak_python_working_set_bytes": 46186496,
+  "project_file_bytes": 1869921,
+  "virtual_environment_file_bytes": 31393494,
+  "peak_python_working_set_bytes": 46137344,
   "notes": "Project file sizes exclude Git, bytecode, builds and local research artifacts; peak memory describes this parent Python process only, not subprocesses or the browser.",
-  "recorded_at": "2026-10-06T05:28:29.850318+00:00",
-  "controlomics_version": "0.4.0.dev0"
+  "recorded_at": "2026-10-06T13:25:14.757719+00:00",
+  "controlomics_version": "0.5.0.dev0"
 }

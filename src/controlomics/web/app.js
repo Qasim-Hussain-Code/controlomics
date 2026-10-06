@@ -1,10 +1,10 @@
 "use strict";
-const state = {project: null, audit: [], token: null, pending: null, busy: false, profiles: [], narrative: null, reviewTemplate: null, evaluation: null, evaluationBundle: null, annotationHash: null, annotationDraft: null, annotationCase: null, revisions: []};
+const state = {project: null, audit: [], token: null, pending: null, busy: false, profiles: [], narrative: null, reviewTemplate: null, evaluation: null, evaluationBundle: null, annotationHash: null, annotationDraft: null, annotationCase: null, revisions: [], view: "analysis"};
 const $ = id => document.getElementById(id);
 const lines = text => text.split(/\r?\n/).map(value => value.trim()).filter(Boolean);
 const pairedBasis = "Complete-pair mean differences; independent pairs; sign-invariant differences for the permutation null; whole-pair resampling for the bootstrap.";
-function message(text, error = false) { $("status").textContent = text; $("status").className = error ? "status error" : "status"; }
-async function action(work) { if (state.busy) return; state.busy = true; message("Processing the requested operation..."); try { await work(); } catch (error) { message(error.message || "Operation failed.", true); } finally { state.busy = false; } }
+function message(text, error = false) { $("status").textContent = text; $("status").className = error ? "status error" : state.busy ? "status busy" : "status"; $("status").setAttribute("role", error ? "alert" : "status"); $("status").setAttribute("aria-live", error ? "assertive" : "polite"); }
+async function action(work) { if (state.busy) return; state.busy = true; $("workspace-main").setAttribute("aria-busy", "true"); message("Processing the requested operation..."); try { await work(); } catch (error) { message(error.message || "Operation failed.", true); } finally { state.busy = false; $("status").classList.remove("busy"); $("workspace-main").setAttribute("aria-busy", "false"); } }
 async function api(path, body, binary = false) {
   if (!state.token) throw new Error("Local session is not ready. Reload the page.");
   const response = await fetch(path, {method: "POST", headers: {"Content-Type": "application/json", "X-Controlomics-Token": state.token}, body: JSON.stringify(body)});
@@ -15,15 +15,57 @@ async function api(path, body, binary = false) {
   return data;
 }
 function requireProject() { if (!state.project) throw new Error("Create or open a project first."); return state.project; }
-function switchView(name) { document.querySelectorAll(".view").forEach(view => { view.hidden = view.id !== "view-" + name; }); document.querySelectorAll(".tab").forEach(tab => { const selected = tab.dataset.view === name; tab.classList.toggle("active", selected); tab.setAttribute("aria-selected", String(selected)); }); }
+const viewNames = {analysis: "Analysis & claims", controls: "Controls", evidence: "Evidence library", execution: "Execution", audit: "Scientific audit", evaluation: "Evaluation"};
+const mobileNavigation = window.matchMedia("(max-width:760px)");
+function syncNavigation() { const open = mobileNavigation.matches && document.body.classList.contains("nav-open"); $("nav-toggle").setAttribute("aria-expanded", String(open)); $("nav-toggle").setAttribute("aria-label", open ? "Close navigation" : "Open navigation"); $("workspace-nav").inert = mobileNavigation.matches && !open; $("workspace-canvas").inert = open; if (mobileNavigation.matches) $("workspace-nav").setAttribute("aria-hidden", String(!open)); else $("workspace-nav").removeAttribute("aria-hidden"); if (open) { $("workspace-nav").setAttribute("role", "dialog"); $("workspace-nav").setAttribute("aria-modal", "true"); } else { $("workspace-nav").removeAttribute("role"); $("workspace-nav").removeAttribute("aria-modal"); } }
+function closeNavigation(returnFocus = false) { document.body.classList.remove("nav-open"); syncNavigation(); if (returnFocus) $("nav-toggle").focus(); }
+function switchView(name, closeMenu = true) { if (!viewNames[name]) return; state.view = name; document.querySelectorAll(".view").forEach(view => { view.hidden = view.id !== "view-" + name; }); document.querySelectorAll(".tab").forEach(tab => { const selected = tab.dataset.view === name; tab.classList.toggle("active", selected); tab.setAttribute("aria-selected", String(selected)); tab.tabIndex = selected ? 0 : -1; }); $("current-section").textContent = viewNames[name]; document.title = viewNames[name] + " | Controlomics"; if (closeMenu && document.body.classList.contains("nav-open")) { closeNavigation(); $("workspace-main").focus({preventScroll: true}); } }
 function node(tag, text, className) { const element = document.createElement(tag); if (text !== undefined) element.textContent = text; if (className) element.className = className; return element; }
 function field(label, value) { const wrapper = node("div", undefined, "field"); wrapper.append(node("strong", label), node("p", value || "Not supplied")); return wrapper; }
 function empty(text) { return node("p", text, "empty"); }
 function download(content, filename, type = "application/json") { const blob = content instanceof Blob ? content : new Blob([content], {type}); const url = URL.createObjectURL(blob); const anchor = node("a"); anchor.href = url; anchor.download = filename; anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
-function accept(data, notice) { if (data.project) state.project = data.project; if (data.design_profiles) state.profiles = data.design_profiles; render(); message(notice); }
+function accept(data, notice) { if (data.project) { if (state.project?.manifest.project_id !== data.project.manifest.project_id) { $("control-search").value = ""; $("control-class-filter").value = ""; } state.project = data.project; } if (data.design_profiles) state.profiles = data.design_profiles; document.querySelectorAll(".workspace-menu[open]").forEach(menu => { menu.open = false; }); render(); message(notice); }
 function options(select, entries) { const prior = select.value; select.replaceChildren(); for (const [value, label] of entries) { const option = node("option", label); option.value = value; select.append(option); } if (entries.some(entry => entry[0] === prior)) select.value = prior; }
+function renderOverview() {
+  const project = state.project, controls = project ? [...project.controls, ...project.candidates] : [];
+  const counts = {claims: project?.claims.length || 0, controls: controls.length, evidence: project?.evidence.length || 0, results: project?.results.filter(item => item.execution_status === "COMPLETED").length || 0};
+  for (const [key, value] of Object.entries(counts)) { $("metric-" + key).textContent = String(value); $("nav-" + key).textContent = String(value); }
+  $("control-search").disabled = $("control-class-filter").disabled = !project;
+  $("control-visible-count").textContent = counts.controls + " specifications";
+  document.querySelector(".workspace-overview").classList.toggle("has-project", Boolean(project));
+  $("project-kicker").textContent = project ? "CURRENT RESEARCH PROJECT" : "SCIENTIFIC CONTROL WORKSPACE";
+  $("project-title").textContent = project ? project.analysis.scientific_question : "Make the claim inspectable.";
+  $("project-title").title = project ? project.analysis.scientific_question : "";
+  $("project-subtitle").textContent = project ? "Specify the controls. Inspect their evidence. Keep the scientific interpretation open to review." : "A considered workspace for scientific controls, evidence, and reproducible review.";
+  $("project-meta").textContent = project ? project.analysis.methods.join(" | ") : "Start with your question. Keep the uncertainty visible.";
+  $("metric-claims-note").textContent = project ? counts.claims === 1 ? project.claims[0].category.toLowerCase() + " claim" : "Claims in the current analysis" : "Awaiting a project";
+  $("metric-controls-note").textContent = project ? project.candidates.length ? project.candidates.length + " unreviewed candidate" + (project.candidates.length === 1 ? "" : "s") : "Review states recorded separately" : "No controls recorded";
+  const identities = project?.evidence.filter(item => item.existence_status === "VERIFIED").length || 0;
+  $("metric-evidence-note").textContent = project?.evidence.length ? identities + " recorded identity check" + (identities === 1 ? "" : "s") : "Identity and support are separate";
+  $("metric-results-note").textContent = counts.results ? "Execution does not establish validity" : "No completed executions";
+}
+function renderControlCards() {
+  const project = state.project; if (!project) return;
+  const controls = [...project.controls, ...project.candidates], term = $("control-search").value.trim().toLocaleLowerCase(), selectedClass = $("control-class-filter").value;
+  const visible = controls.filter(control => (!selectedClass || control.control_class === selectedClass) && (!term || [control.control_name, control.scientific_rationale, control.expected_behavior, control.control_id, project.claims.find(claim => claim.claim_id === control.claim_tested)?.statement || ""].join(" ").toLocaleLowerCase().includes(term)));
+  $("control-list").replaceChildren(); $("control-visible-count").textContent = visible.length === controls.length ? controls.length + " specification" + (controls.length === 1 ? "" : "s") : visible.length + " of " + controls.length + " specifications";
+  for (const control of visible) {
+    const card = node("article", undefined, "control-card"), top = node("div", undefined, "card-top"), evidenceState = node("span", control.evidence_status, "evidence-state");
+    card.dataset.controlClass = control.control_class; evidenceState.dataset.state = control.evidence_status;
+    top.append(node("span", control.control_class, "badge" + (control.control_class === "NEGATIVE" ? " negative" : "")), evidenceState, node("span", "C" + String(controls.indexOf(control) + 1).padStart(2, "0"), "control-index"));
+    card.append(top, node("h3", control.control_name), field("Scientific rationale", control.scientific_rationale), field("Expected behavior", control.expected_behavior), field("Failure interpretation", control.failure_interpretation), field("Limitations", control.limitations.join(" ")));
+    const details = node("details"); details.append(node("summary", "Assumptions & provenance"), field("Control identifier", control.control_id), field("Method basis", control.method_basis), field("Uncertainties", control.uncertainties.join(" ")), field("Claim tested", control.claim_tested), field("Context compatibility", control.context_compatibility.status), field("Priority", control.priority + ": " + control.priority_rationale));
+    const actions = node("div", undefined, "actions card-actions");
+    if (project.candidates.some(item => item.control_id === control.control_id)) { const edit = node("button", "Edit specification", "small secondary"); edit.type = "button"; edit.addEventListener("click", () => editCandidate(control)); actions.append(edit); }
+    const review = node("button", "Review evidence", "small secondary"); review.type = "button"; review.disabled = !project.evidence.some(item => item.existence_status === "VERIFIED"); review.addEventListener("click", () => action(() => openReview(control.control_id))); actions.append(review);
+    const foot = node("div", undefined, "card-foot"), execution = node("span", control.execution_status.replaceAll("_", " "), "execution-chip"); execution.dataset.status = control.execution_status; foot.append(node("span", control.scientific_level + " CONTROL"), execution);
+    card.append(details, actions, foot); $("control-list").append(card);
+  }
+  if (!visible.length) $("control-list").append(empty(controls.length ? "No controls match this search. Try another term or reset the class filter." : "No appropriate control was specified. Review the analysis context and recorded abstentions."));
+}
 function render() {
   const project = state.project;
+  renderOverview();
   $("export-project").disabled = $("export-report").disabled = $("export-bundle").disabled = !project;
   for (const id of ["control-list", "evidence-list", "result-list", "audit-list", "execution-control", "claim-list", "design-profiles"]) $(id).replaceChildren();
   $("additional-claims").hidden = !project;
@@ -34,20 +76,7 @@ function render() {
   for (const id of ["candidate-claim", "model-claim", "paired-claim"]) options($(id), claims);
   options($("review-control"), controls.map(control => [control.control_id, control.control_name + " / " + control.evidence_status]));
   for (const claim of project.claims) $("claim-list").append(field(claim.category + " / support " + claim.computational_support, claim.statement));
-  for (const control of controls) {
-    const card = node("article", undefined, "control-card"); const top = node("div", undefined, "card-top");
-    top.append(node("span", control.control_class, "badge" + (control.control_class === "NEGATIVE" ? " negative" : "")), node("span", control.evidence_status, "evidence-state"));
-    card.append(top, node("h3", control.control_name), field("Scientific rationale", control.scientific_rationale), field("Expected behavior", control.expected_behavior), field("Failure interpretation", control.failure_interpretation), field("Limitations", control.limitations.join(" ")));
-    const details = node("details"); details.append(node("summary", "Inspect assumptions and provenance"), field("Method basis", control.method_basis), field("Uncertainties", control.uncertainties.join(" ")), field("Claim tested", control.claim_tested), field("Context compatibility", control.context_compatibility.status), field("Priority", control.priority + ": " + control.priority_rationale));
-    const actions = node("div", undefined, "actions card-actions");
-    if (project.candidates.some(item => item.control_id === control.control_id)) {
-      const edit = node("button", "Edit specification", "small secondary"); edit.type = "button"; edit.addEventListener("click", () => editCandidate(control)); actions.append(edit);
-    }
-    const review = node("button", "Review evidence", "small secondary"); review.type = "button"; review.disabled = !project.evidence.some(item => item.existence_status === "VERIFIED");
-    review.addEventListener("click", () => action(() => openReview(control.control_id))); actions.append(review);
-    card.append(details, actions, node("div", control.scientific_level + " / " + control.execution_status, "card-foot")); $("control-list").append(card);
-  }
-  if (!controls.length) $("control-list").append(empty("No appropriate control was specified. Review the analysis context and recorded abstentions."));
+  renderControlCards();
   const paired = $("execution-adapter").value === "PAIRED_DIFFERENCE";
   for (const control of project.controls.filter(item => (paired ? item.scientific_level === "STATISTICAL" && item.control_class === "NULL" && item.method_basis === pairedBasis : item.scientific_level === "TECHNICAL" && ["POSITIVE", "NEGATIVE"].includes(item.control_class)) && ["METHOD_BASED", "EVIDENCE_BACKED"].includes(item.evidence_status) && !project.execution_plans.some(plan => plan.control_id === item.control_id))) {
     const option = node("option", control.control_class + ": " + control.control_name); option.value = control.control_id; $("execution-control").append(option);
@@ -67,7 +96,7 @@ function render() {
   }
   if (!project.evidence.length) $("evidence-list").append(empty("No literature has been retrieved for this project. A plausible recommendation is not external evidence."));
   for (const result of project.results) {
-    const article = node("article", undefined, "panel"); article.append(node("h3", "Recorded control result"), field("Status", result.execution_status + " / " + (result.outcome || "No binary interpretation")), field("Interpretation", result.interpretation));
+    const article = node("article", undefined, "panel result-panel"); article.append(node("h3", "Recorded control result"), field("Status", result.execution_status + " / " + (result.outcome || "No binary interpretation")), field("Interpretation", result.interpretation));
     if (result.effect_estimate) article.append(field(result.effect_estimate.name, String(result.effect_estimate.value)));
     if (result.p_value !== null) article.append(field("Permutation p value", String(result.p_value)));
     if (result.confidence_interval) article.append(field("Confidence interval", result.confidence_interval.lower + " to " + result.confidence_interval.upper + " (coverage " + result.confidence_interval.coverage + ")"));
@@ -75,7 +104,7 @@ function render() {
   }
   if (!project.results.length) $("result-list").append(empty("No control has been executed. Download a reproducible package or run a specified numeric control locally."));
   for (const audit of project.audits) {
-    const article = node("article", undefined, "panel"); article.append(node("p", audit.assessment.replaceAll("_", " "), "notice"), field("Assessment rationale", audit.rationale));
+    const article = node("article", undefined, "panel audit-panel"); article.dataset.assessment = audit.assessment; article.append(node("p", audit.assessment.replaceAll("_", " "), "notice"), field("Assessment rationale", audit.rationale));
     for (const finding of audit.uncertainties) article.append(node("div", finding, "finding"));
     article.append(field("Limitations", audit.limitations.join(" "))); $("audit-list").append(article);
   }
@@ -86,7 +115,17 @@ function render() {
   }
   $("ledger").textContent = JSON.stringify({provenance: project.provenance, network_audit: state.audit}, null, 2);
 }
-document.querySelectorAll(".tab").forEach(tab => tab.addEventListener("click", () => switchView(tab.dataset.view)));
+document.querySelectorAll(".tab").forEach(tab => { tab.addEventListener("click", () => switchView(tab.dataset.view)); tab.addEventListener("keydown", event => { const tabs = [...document.querySelectorAll(".tab")], index = tabs.indexOf(tab); let next; if (["ArrowDown", "ArrowRight"].includes(event.key)) next = (index + 1) % tabs.length; else if (["ArrowUp", "ArrowLeft"].includes(event.key)) next = (index + tabs.length - 1) % tabs.length; else if (event.key === "Home") next = 0; else if (event.key === "End") next = tabs.length - 1; else return; event.preventDefault(); switchView(tabs[next].dataset.view, false); tabs[next].focus(); }); });
+document.querySelectorAll(".metric-card").forEach(card => card.addEventListener("click", () => switchView(card.dataset.target)));
+document.querySelector(".brand").addEventListener("click", event => { event.preventDefault(); switchView("analysis"); });
+$("control-search").addEventListener("input", renderControlCards); $("control-class-filter").addEventListener("change", renderControlCards);
+$("nav-toggle").addEventListener("click", () => { document.body.classList.toggle("nav-open"); syncNavigation(); if (document.body.classList.contains("nav-open")) document.querySelector(".tab.active").focus(); });
+$("nav-scrim").addEventListener("click", () => closeNavigation(true));
+mobileNavigation.addEventListener("change", () => { if (!mobileNavigation.matches) document.body.classList.remove("nav-open"); syncNavigation(); });
+document.addEventListener("keydown", event => { if (event.key === "Escape") { document.querySelectorAll(".workspace-menu[open]").forEach(menu => { menu.open = false; menu.querySelector("summary").focus(); }); if (document.body.classList.contains("nav-open")) { event.preventDefault(); closeNavigation(true); } } });
+document.addEventListener("keydown", event => { if (event.key !== "Tab" || !document.body.classList.contains("nav-open")) return; const first = document.querySelector(".brand"), last = document.querySelector(".tab.active"); if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); } else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); } });
+document.addEventListener("click", event => { document.querySelectorAll(".workspace-menu[open]").forEach(menu => { if (!menu.contains(event.target)) menu.open = false; }); });
+syncNavigation();
 $("analysis-form").addEventListener("submit", event => { event.preventDefault(); action(async () => {
   if (state.project && !window.confirm("Create a new project in this page? Export the current project and network ledger first if you want to keep them.")) { message("Kept the current project."); return; }
   const form = new FormData(event.target); const value = name => String(form.get(name) || "").trim();
