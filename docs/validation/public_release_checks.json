@@ -1,0 +1,66 @@
+{
+  "recorded_at": "2026-10-07T11:59:45.286755+00:00",
+  "status": "LOCAL_PUBLIC_SOURCE_PREPARATION_COMPLETE",
+  "version": "0.6.0.dev0",
+  "release_stage": "RESEARCH_ALPHA",
+  "license": "MIT",
+  "distribution_source_commit": "5cf31aefc76ca71b21506f85b5ef5f10ac09c444",
+  "tests": {
+    "passed": 149,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "exported_schemas": {
+    "matched": 29
+  },
+  "static_python_checks": {
+    "tool": "Ruff",
+    "version": "0.14.14",
+    "status": "PASS"
+  },
+  "frontend_javascript_syntax": "PASS",
+  "workflow_lint": {
+    "tool": "actionlint",
+    "version": "1.7.12",
+    "status": "PASS"
+  },
+  "dependency_advisories": {
+    "public_pinned_versions_queried": 9,
+    "matched_advisories": 0
+  },
+  "clean_wheel_install": "PASS",
+  "clean_source_install": "PASS",
+  "distribution_content_screening": "PASS",
+  "source_and_git_history_screening": "PASS",
+  "frozen_numerical_source_hashes": "UNCHANGED",
+  "artifact_records": [
+    {
+      "artifact": "controlomics-0.6.0.dev0-py3-none-any.whl",
+      "sha256": "e3ba98cd2735741dca1f0a4990d69abc7e2340ba2692e69cb267beba517673fe",
+      "members": 28,
+      "bytes": 103330
+    },
+    {
+      "artifact": "controlomics-0.6.0.dev0.tar.gz",
+      "sha256": "6cbba02d3db040764e90edc8476f5480a65a041ef290c10349a0ff118632fd3a",
+      "members": 250,
+      "bytes": 1477698
+    }
+  ],
+  "remaining_external_steps": [
+    "Owner creates the repository and enables GitHub private vulnerability reporting before uploading source.",
+    "Owner authorizes and performs publication; hosted CI and repository protection settings must be verified there."
+  ],
+  "scientific_independent_expert_validation": "PENDING_REAL_CASES_AND_INDEPENDENT_ANNOTATIONS",
+  "public_repository_created": false,
+  "remote_configured": false,
+  "anything_pushed": false,
+  "anything_published": false,
+  "limitations": [
+    "Local software checks and pattern screening are not independent security certification or universal privacy recognition.",
+    "Configured cross-platform hosted jobs have not run.",
+    "Numerical arithmetic comparisons and synthetic trials do not establish biological control appropriateness or expert recommendation accuracy.",
+    "Distribution artifacts identify the clean source commit above; the subsequent handoff commit updates validation records only."
+  ]
+}

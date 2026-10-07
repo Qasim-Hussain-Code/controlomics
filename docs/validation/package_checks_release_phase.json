@@ -1,8 +1,9 @@
 {
-  "recorded_at": "2026-10-07T11:35:30.806048+00:00",
+  "recorded_at": "2026-10-07T11:53:51.728636+00:00",
   "wheel": "controlomics-0.6.0.dev0-py3-none-any.whl",
-  "wheel_sha256": "072c1b49d18b7d8fa13c91fdfacd837a143da1b1f36d35a588b03c3aa7aa8c94",
+  "wheel_sha256": "e3ba98cd2735741dca1f0a4990d69abc7e2340ba2692e69cb267beba517673fe",
   "wheel_bytes": 103330,
+  "extracted_artifact_snapshot_bound_to_hash": true,
   "metadata": {
     "name": "controlomics",
     "version": "0.6.0.dev0",
