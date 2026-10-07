@@ -23,8 +23,12 @@ def main():
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     artifact = (args.wheel or args.sdist).resolve(strict=True)
+    artifact_bytes = artifact.read_bytes()
+    artifact_sha256 = hashlib.sha256(artifact_bytes).hexdigest()
     with TemporaryDirectory(prefix='controlomics_install_check_') as temporary:
         base = Path(temporary)
+        snapshot = base/artifact.name
+        snapshot.write_bytes(artifact_bytes)
         environment = base/'environment'
         print('Creating a clean temporary environment.', flush=True)
         venv.EnvBuilder(with_pip=True).create(environment)
@@ -40,7 +44,7 @@ def main():
                 builder += ['--no-index', '--find-links', str(args.wheelhouse.resolve(strict=True))]
             subprocess.run(builder, cwd=base, capture_output=True, check=True, timeout=120)
             command.append('--no-build-isolation')
-        command.append(str(artifact))
+        command.append(str(snapshot))
         print('Installing our local ' + ('wheel.' if args.wheel else 'source distribution.'), flush=True)
         try:
             subprocess.run(command, cwd=base, capture_output=True, check=True, timeout=180)
@@ -81,7 +85,8 @@ print(json.dumps({'version':controlomics.__version__, 'dependency_version':impor
         cli = subprocess.run([str(python), '-I', '-m', 'controlomics', 'validate', str(root/'examples/transcriptomics.project.json')],
                              cwd=base, capture_output=True, check=True, timeout=20)
         record = {'recorded_at': datetime.now(timezone.utc).isoformat(), 'artifact': artifact.name,
-                  'artifact_sha256': hashlib.sha256(artifact.read_bytes()).hexdigest(),
+                  'artifact_sha256': artifact_sha256,
+                  'installed_artifact_snapshot_bound_to_hash': True,
                   'artifact_type': 'WHEEL' if args.wheel else 'SOURCE_DISTRIBUTION',
                   'clean_environment': True, 'cli_validation': cli.returncode == 0,
                   'dependency_installation': 'LOCAL_WHEELS' if args.wheelhouse else 'PUBLIC_PACKAGE_INDEX',

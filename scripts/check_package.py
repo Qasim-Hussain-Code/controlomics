@@ -8,6 +8,7 @@ import sys
 import zipfile
 from datetime import datetime, timezone
 from email.parser import Parser
+from io import BytesIO
 from pathlib import Path, PurePosixPath
 from tempfile import TemporaryDirectory
 
@@ -20,7 +21,8 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     assets = ["controlomics/web/" + name for name in ("index.html", "app.js", "style.css")]
-    with zipfile.ZipFile(args.wheel) as archive, TemporaryDirectory(prefix="controlomics_wheel_check_") as temporary:
+    wheel_bytes = args.wheel.read_bytes()
+    with zipfile.ZipFile(BytesIO(wheel_bytes)) as archive, TemporaryDirectory(prefix="controlomics_wheel_check_") as temporary:
         names = archive.namelist()
         if any(PurePosixPath(name).is_absolute() or ".." in PurePosixPath(name).parts or "\\" in name or ":" in name for name in names):
             raise ValueError("wheel contains an unsafe extraction path")
@@ -66,7 +68,8 @@ print(json.dumps({'version':controlomics.__version__,'imported_extracted_wheel':
         result = subprocess.run([sys.executable, "-I", "-c", script, temporary, str(example)], capture_output=True, text=True, timeout=20, check=True)
         smoke = json.loads(result.stdout)
     record = {"recorded_at": datetime.now(timezone.utc).isoformat(), "wheel": args.wheel.name,
-        "wheel_sha256": hashlib.sha256(args.wheel.read_bytes()).hexdigest(), "wheel_bytes": args.wheel.stat().st_size,
+        "wheel_sha256": hashlib.sha256(wheel_bytes).hexdigest(), "wheel_bytes": len(wheel_bytes),
+        "extracted_artifact_snapshot_bound_to_hash": True,
         "metadata": {"name": metadata["Name"], "version": metadata["Version"], "license_expression": metadata["License-Expression"], "license_text_matches": True, "personal_attribution_present": False},
         "assets": assets, "smoke": smoke,
         "scope": "Extracted package import and local interface smoke check using the existing Python/Pydantic environment. No external request, new dependency, or scientific validation."}
