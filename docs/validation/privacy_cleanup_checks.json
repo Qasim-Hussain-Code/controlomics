@@ -1,0 +1,14 @@
+{
+  "recorded_at": "2026-10-07T09:41:01.818894+00:00",
+  "scope": "Known private project-owner identity and historical Git author-email terms searched in current workspace files, including local generated artifacts and installed environments. Published bibliographic identities and dependency attribution are retained. Runtime installation paths remain local and are excluded from distributable artifacts. This is a scoped scan, not universal personal-information recognition.",
+  "files_scanned": 7368,
+  "matching_current_files": [],
+  "known_private_identity_terms_exported": false,
+  "frozen_numerical_source_bindings": "UNCHANGED",
+  "dist_contains_only_current_anonymous_wheel": true,
+  "historical_package_observations_redacted": 5,
+  "git_history_status": "AUTHORIZED_PREPARING",
+  "git_history_rewrite_applied": false,
+  "nothing_pushed_or_published": true,
+  "git_history_authorized": true
+}

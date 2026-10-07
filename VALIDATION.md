@@ -110,6 +110,16 @@ The interface and standalone report now label bootstrap coverage as requested co
 
 The wheel was rebuilt offline after these documentation and display changes. [The scientific-phase package record](docs/validation/package_checks_scientific_phase.json) retains its SHA-256 and successful extracted-package smoke observations. The earlier wheel record remains a historical observation of the preceding interface phase.
 
+## Privacy and architecture phase, 2026-10-07
+
+Personal project attribution was removed from current source, package metadata, interface/report footers, citation material, and local demonstration reports. Historical package observations explicitly identify removal of the author field. The owner authorized local history sanitization separately; [the cleanup record](docs/validation/privacy_cleanup_checks.json) distinguishes current-file observations from the history-rewrite result. Published bibliographic attribution and dependency notices remain intact.
+
+[The privacy-phase software suite](docs/validation/software_checks_privacy_phase.json) passed 146 tests with zero failures, errors, or skips in 8.751 seconds. All 29 schema exports match and `pip check` passed. [The rebuilt wheel](docs/validation/package_checks_privacy_phase.json) contains no personal attribution metadata and passed the extracted-package smoke checks. Older generated wheels containing that attribution were removed locally.
+
+The complete Chrome 154 interface check passed again with no recorded JavaScript exceptions or external requests. [Current browser observations](docs/validation/ui_checks.json) label this as the privacy phase. All fourteen current screenshots were re-rendered from the attribution-free interface/report; identical captures remain byte-identical. [The preceding browser observations](docs/validation/ui_checks_v0.6_before_privacy.json) are preserved separately. The frozen numerical source files and their hashes are unchanged.
+
+[The complete architecture walkthrough](docs/AGENT_ARCHITECTURE.md) now documents every implemented component, data flow, human/automatic decision boundary, local memory, optional model interface, privacy transport, fixed execution, provenance, artifacts, evaluation, and scientific limitations.
+
 ## Independent expert and biological evaluation pending
 
 ControlomicsBench still requires independently sourced cases, expert control annotations, adjudication, negative examples, source and domain partitions, and potential training-contamination assessment. A model must not supply its own sole reference answers.

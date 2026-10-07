@@ -27,6 +27,6 @@
     "removed_fields": [
       "metadata.author"
     ],
-    "note": "Personal attribution removed during authorized local-history cleanup. Other observed values and original artifact hash retained."
+    "note": "Personal attribution removed from this historical observation. Numeric and software observations and the original artifact hash are unchanged. Superseded local wheels are removed during privacy cleanup; this is not a newly measured package result."
   }
 }

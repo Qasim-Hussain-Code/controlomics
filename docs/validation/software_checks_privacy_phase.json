@@ -1,0 +1,12 @@
+{
+  "recorded_at": "2026-10-07T09:35:30.995403+00:00",
+  "controlomics_version": "0.6.0.dev0",
+  "python": "3.14.0",
+  "pydantic": "2.12.4",
+  "tests_run": 146,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "elapsed_seconds": 8.751,
+  "scope": "Current privacy-phase software and scientific-invariant checks. No new independent expert validation or numerical experiment."
+}

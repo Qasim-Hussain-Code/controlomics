@@ -1,5 +1,7 @@
 # Architecture
 
+[The complete agent walkthrough](docs/AGENT_ARCHITECTURE.md) explains each implemented component, its inputs and outputs, the workflow diagram, scientific state gates, memory, privacy boundaries, and validation limits.
+
 ## Local scientific pipeline
 
 One lightweight Python package represents a scientific claim attached to an analysis and biological context. Methods are descriptive fields rather than fixed domain dispatch. Researchers supply claimed category and computational support; software flags overstatement without inferring causality.
@@ -43,4 +45,4 @@ The interface uses one responsive navigation shell around the six existing workf
 
 In-memory form signatures detect edits and reversions; record revisions track whether a complete bundle download was prepared. Passwords are excluded from signatures. No automatic persistence is introduced. Replacement validates the incoming records before asking to discard the current workspace, then resets prior forms, evidence reviews, evaluations, inputs, credentials, and previews. A prepared download is not proof that a file was retained on disk.
 
-The design respects the supplied 16 GB RAM and approximately 10 GB free-storage limits. No model weights, containers, large datasets, GPU software, or scientific stack were installed. Measurements appear in [VALIDATION.md](VALIDATION.md). See [ADR 0001](docs/adr/0001_local_scientific_core.md), [ADR 0002](docs/adr/0002_retrieval_and_execution_boundaries.md), [ADR 0003](docs/adr/0003_design_reasoning_and_evaluation.md), [ADR 0004](docs/adr/0004_paired_and_review_artifacts.md), and [ADR 0005](docs/adr/0005_local_inspection_and_workspace.md).
+The application design respects the supplied 16 GB RAM and approximately 10 GB free-storage limits. No model weights, containers, large datasets, or GPU software were installed. The optional isolated NumPy/SciPy comparison environment uses about 200.7 MB of files and is separate from application dependencies. Measurements appear in [VALIDATION.md](VALIDATION.md). See [ADR 0001](docs/adr/0001_local_scientific_core.md), [ADR 0002](docs/adr/0002_retrieval_and_execution_boundaries.md), [ADR 0003](docs/adr/0003_design_reasoning_and_evaluation.md), [ADR 0004](docs/adr/0004_paired_and_review_artifacts.md), and [ADR 0005](docs/adr/0005_local_inspection_and_workspace.md).

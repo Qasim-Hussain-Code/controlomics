@@ -1,6 +1,6 @@
 # Controlomics development guidance
 
-Project owner and primary author: Private attribution removed. Keep the repository, package, and CLI names as Controlomics and controlomics.
+Personal ownership and authorship information is intentionally omitted. Keep the repository, package, and CLI names as Controlomics and controlomics.
 
 Read README.md, SCIENTIFIC_SPECIFICATION.md, ARCHITECTURE.md, PRIVACY.md, SECURITY.md, VALIDATION.md, and ROADMAP.md before substantial changes. The current implementation is a local research alpha covering the scientific core, retrieval, conservative reasoning and review, numeric execution, reporting, a development benchmark, and a local interface. Continue in explicit stages and keep implemented, tested, and scientifically validated capabilities distinct.
 
@@ -12,6 +12,6 @@ Keep raw research data local. Do not introduce outbound requests without impleme
 
 Prefer one small package and dependencies justified by an implemented need. Respect approximately 16 GB RAM and 10 GB free-storage constraints. Avoid model weights, containers, databases, large datasets, or infrastructure without a demonstrated requirement. Keep the interface aligned with scientific capability.
 
-Write restrained professional English. Do not use emojis, em dashes, en dashes, promotional claims, or unnecessary automated-system attribution. Authorship metadata must identify actual humans only. Do not invent an email address, ORCID, DOI, affiliation, or publication status.
+Write restrained professional English. Do not use emojis, em dashes, en dashes, promotional claims, or unnecessary automated-system attribution. Omit personal authorship metadata unless the owner explicitly requests it. Do not invent a person, email address, ORCID, DOI, affiliation, or publication status. Public bibliographic metadata remains distinct from private project ownership. Reviewer identifiers may be pseudonymous; they do not authenticate expertise or independence.
 
-Before a milestone commit, inspect status and the diff, check for credentials and private material, run appropriate tests, check schema-export drift, and update documentation. Commit messages contain at most three concise words joined with underscores. Use the configured Git identity. Public publication and license selection remain decisions for the owner; do not push or select a license implicitly.
+Before a milestone commit, inspect status and the diff, check for credentials and private material, run appropriate tests, check schema-export drift, and update documentation. Commit messages contain at most three concise words joined with underscores. Use project-only local Git attribution with an empty email rather than inherited personal identity. This label is not a claim of human authorship. Rewriting existing history requires a separate scope decision. Public publication and license selection remain decisions for the owner; do not push or select a license implicitly.

@@ -167,7 +167,7 @@ def render_report(project, network_audit=()):
             blocks.append(paragraph("Provenance warnings", "; ".join(event.warnings)))
         if event.input_hashes:
             blocks.append(paragraph("Provenance input hashes", "; ".join(item.input_id + ": " + item.sha256 for item in event.input_hashes)))
-    blocks.append(f"<footer>Controlomics / Private attribution removed. Rendered with {esc(__version__)}. Retain the corresponding project and execution artifacts for reproducibility.</footer>")
+    blocks.append(f"<footer>Controlomics. Rendered with {esc(__version__)}. Retain the corresponding project and execution artifacts for reproducibility.</footer>")
     css = """
 *{box-sizing:border-box}body{max-width:1050px;margin:46px auto;padding:0 28px;background:#f5f7f8;color:#182d3d;font:14px/1.75 'Segoe UI',system-ui,sans-serif}
 .report-header{padding:0 0 18px;border-bottom:1px solid #dce5e7}.eyebrow{font-size:10px;letter-spacing:.16em;color:#627480;margin:0 0 12px}

@@ -25,8 +25,10 @@ def main():
         if any(PurePosixPath(name).is_absolute() or ".." in PurePosixPath(name).parts or "\\" in name or ":" in name for name in names):
             raise ValueError("wheel contains an unsafe extraction path")
         metadata = Parser().parsestr(archive.read(next(name for name in names if name.endswith(".dist-info/METADATA"))).decode())
-        if metadata["Name"] != "controlomics" or metadata["Version"] != __version__ or metadata["Author"] != "Private attribution removed":
+        if metadata["Name"] != "controlomics" or metadata["Version"] != __version__:
             raise ValueError("package identity differs from the development metadata")
+        if any(metadata.get_all(field) for field in ("Author", "Author-email", "Maintainer", "Maintainer-email")):
+            raise ValueError("package contains personal attribution metadata")
         if not all(name in names for name in assets):
             raise ValueError("wheel is missing local browser assets")
         archive.extractall(temporary)
@@ -60,7 +62,7 @@ print(json.dumps({'version':controlomics.__version__,'imported_extracted_wheel':
         smoke = json.loads(result.stdout)
     record = {"recorded_at": datetime.now(timezone.utc).isoformat(), "wheel": args.wheel.name,
         "wheel_sha256": hashlib.sha256(args.wheel.read_bytes()).hexdigest(), "wheel_bytes": args.wheel.stat().st_size,
-        "metadata": {"name": metadata["Name"], "version": metadata["Version"], "author": metadata["Author"]},
+        "metadata": {"name": metadata["Name"], "version": metadata["Version"], "personal_attribution_present": False},
         "assets": assets, "smoke": smoke,
         "scope": "Extracted package import and local interface smoke check using the existing Python/Pydantic environment. No external request, new dependency, or scientific validation."}
     args.output.parent.mkdir(parents=True, exist_ok=True)

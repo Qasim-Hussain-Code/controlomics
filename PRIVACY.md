@@ -1,5 +1,7 @@
 # Privacy
 
+Personal project ownership metadata is omitted from documentation, package attribution, interface footers, and newly generated reports. Review forms suggest pseudonymous reviewer identifiers. Imported descriptions, citations, annotations, and archives can still contain personal or confidential text; the software does not automatically anonymize free text. Published bibliographic attribution and third-party dependency notices remain intact for traceability. See [the cleanup scope](docs/PRIVACY_CLEANUP.md).
+
 Projects, primary datasets, source text, and numeric inputs remain local. There is no telemetry, persistent project database, browser storage, or automatic upload. The browser holds work in memory and the local server processes transient snapshots. Exports may contain confidential descriptions; review them before sharing.
 
 Description drafting, design profiles, additional claims, researcher specifications, source re-review, and evaluation use local processing. Evaluation bundles and annotations can themselves contain confidential research descriptions; they receive no implicit outbound authorization. Adding or selecting a claim does not serialize it into hosted context. Full source text entered in review forms is not retained in project or report exports.

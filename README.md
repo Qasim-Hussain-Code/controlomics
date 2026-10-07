@@ -1,10 +1,10 @@
 # Controlomics
 
-Controlomics specifies and audits positive and negative controls around computational biology claims. Primary analyses and raw datasets remain in the researcher's environment. Private attribution removed is the project owner and primary author.
+Controlomics specifies and audits positive and negative controls around computational biology claims. Primary analyses and raw datasets remain in the researcher's environment. Personal ownership details are omitted.
 
 The research question is whether an evidence-grounded agent can derive scientifically appropriate controls across heterogeneous domains. Independent evaluation of that question remains pending.
 
-Models reason. Sources provide evidence. Deterministic software calculates. Controlomics verifies. Researchers decide.
+Models reason. Sources provide evidence. Deterministic software calculates. Controlomics verifies. Researchers decide. [The complete architecture walkthrough](docs/AGENT_ARCHITECTURE.md) maps the implemented components and their scientific and privacy boundaries.
 
 ## Working research alpha
 
@@ -55,4 +55,4 @@ Software tests, eight retained live identity checks, synthetic numerical observa
 
 ## Citation and license
 
-[CITATION.cff](CITATION.cff) records human authorship without a DOI or publication claim. License selection and public release remain Private attribution removed's decisions. No license is granted and no repository has been published. MIT, BSD-3-Clause, and Apache-2.0 remain possible owner choices.
+[The citation note](docs/CITATION.md) retains software identification without personal authorship metadata, a DOI, or a publication claim. License selection and public release remain owner decisions. No license is granted and no repository has been published. MIT, BSD-3-Clause, and Apache-2.0 remain possible owner choices.
