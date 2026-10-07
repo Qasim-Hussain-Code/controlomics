@@ -1,10 +1,10 @@
 # Controlomics
 
-Controlomics specifies and audits positive and negative controls around computational biology claims. Primary analyses and raw datasets remain in the researcher's environment. Personal ownership details are omitted.
+Controlomics is a local research workspace for specifying, reviewing, executing, and auditing controls around computational biology claims. Primary analyses and raw datasets remain in the researcher's environment.
 
 The research question is whether an evidence-grounded agent can derive scientifically appropriate controls across heterogeneous domains. Independent evaluation of that question remains pending.
 
-Models reason. Sources provide evidence. Deterministic software calculates. Controlomics verifies. Researchers decide. [The complete architecture walkthrough](docs/AGENT_ARCHITECTURE.md) maps the implemented components and their scientific and privacy boundaries.
+[The complete architecture walkthrough](docs/AGENT_ARCHITECTURE.md) maps the implemented components and their scientific and privacy boundaries. The default reasoner uses inspectable rules; an optional hosted model proposes candidates. Researchers review source support and decide what conclusions are justified.
 
 ## Working research alpha
 
@@ -12,17 +12,33 @@ Version `0.6.0.dev0` includes local description drafting, multiple claims, inspe
 
 The interface pairs a navy navigation rail with a light research canvas, restrained teal accents, and serif question headings. Project summaries show actual record counts. Search, class, and claim filters help inspect controls without changing them. Results and audits display the claim they challenge; execution details retain the control, assumptions, runner hash, and prespecified rule. Keyboard navigation, a mobile drawer, and reduced-motion support are included. See [the interface design](docs/INTERFACE.md) and [workspace preview](docs/validation/ui_workspace.png).
 
+![Controlomics workspace showing a hypothetical transcriptomics project](docs/validation/ui_workspace.png)
+
 The default reasoner adds operation-specific null, specificity, robustness, confounder, and falsification specifications when stated design cues apply. These are provisional review questions, with inspectable triggers and limitations. The original two-reference baseline remains available. Both abstain from choosing biological entities without reviewed evidence. METHOD_BASED is specification review, not empirical validation. Hosted candidates cannot supply citations or promote their evidence status.
 
 ## Start locally
 
-The existing Windows environment is ready. Double-click `Start_Controlomics.cmd` and open [the local workspace](http://127.0.0.1:8765). The [hypothetical transcriptomics demo](http://127.0.0.1:8765/#demo=transcriptomics) creates a local example without external requests.
+Download or clone the source, open a terminal in its root, and use Python 3.11 or newer. No GitHub account, model subscription, API credential, or raw dataset is needed for the local synthetic demonstration. Select a Python 3 executable explicitly if your machine also has an older scientific installation.
+
+On Windows:
 
 ```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.lock
+.\.venv\Scripts\python.exe -m pip install --no-build-isolation --no-deps .
 .\.venv\Scripts\python.exe -m controlomics serve
-# In another terminal, create an executed synthetic demonstration:
-.\.venv\Scripts\python.exe scripts/run_demo.py
 ```
+
+On Linux or macOS:
+
+```sh
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-dev.lock
+.venv/bin/python -m pip install --no-build-isolation --no-deps .
+.venv/bin/python -m controlomics serve
+```
+
+Open [the local workspace](http://127.0.0.1:8765). The [hypothetical transcriptomics demo](http://127.0.0.1:8765/#demo=transcriptomics) creates an example without provider requests. Windows users can subsequently start the installed environment with `Start_Controlomics.cmd`. Stop the server with Ctrl+C. Use `--port PORT` if the default port is occupied. Do not expose the server through a reverse proxy or public tunnel.
 
 Follow [the usage guide](docs/USAGE.md) for retrieval, human review, execution, and model configuration. Projects stay in browser memory until exported. The workspace distinguishes recorded changes, unrecorded form inputs, and a prepared bundle download. Retain the downloaded file before closing; raw inputs and unrecorded edits are excluded. Opening another project or starting an empty workspace asks before replacing work. The generated demonstration report is `local_projects/demo/report.html`.
 
@@ -30,18 +46,17 @@ Execution offers an explicit local CSV inspection before computation. It checks 
 
 Review [the design rules](docs/DESIGN_RULES.md) and [evaluation protocol](docs/EVALUATION.md). Included benchmark judgment sheets are UNASSESSED; they deliberately yield no scientific recommendation-quality score. Development expectations and source motivation are distinct from independent expert annotations.
 
-For a new installation, use Python 3.11 or newer. Select a Python 3 executable explicitly if `python` or `py` resolves to an older scientific installation. Development was checked with CPython 3.14.0 on Windows.
+For development, install the package in editable mode and run the checks below. Use `.venv/bin/python` instead of the Windows executable path on Linux or macOS. Recorded local checks use CPython 3.14.0 on Windows; the configured GitHub matrix covers Python 3.11 to 3.14 on Windows and Linux, plus 3.14 on macOS. Those hosted jobs have not run before repository publication.
 
 ```powershell
-py -3 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements-dev.lock
 .\.venv\Scripts\python.exe -m pip install --no-build-isolation --no-deps -e .
 .\.venv\Scripts\python.exe -m controlomics validate examples/transcriptomics.project.json
 .\.venv\Scripts\python.exe -m unittest discover -s tests -t . -v
 .\.venv\Scripts\python.exe scripts/export_schemas.py --check
+.\.venv\Scripts\python.exe scripts/check_release.py
 ```
 
-Pydantic is the sole runtime dependency. No weights, GPU, database, containers, provider SDKs, or frontend build tools are required. The lock file records the development environment rather than multi-platform qualification.
+Pydantic is the sole direct runtime dependency. No weights, GPU, database, containers, provider SDKs, or frontend build tools are required. Installation downloads public Python dependencies; ordinary local use and tests do not contact literature or model providers. The lock file records exact development versions without wheel hashes, rather than multi-platform qualification. See [CONTRIBUTING.md](CONTRIBUTING.md) for package checks and [the public release checklist](docs/PUBLIC_RELEASE.md) for the remaining release gates.
 
 ## Evidence, privacy, and limitations
 
@@ -55,4 +70,4 @@ Software tests, eight retained live identity checks, synthetic numerical observa
 
 ## Citation and license
 
-[The citation note](docs/CITATION.md) retains software identification without personal authorship metadata, a DOI, or a publication claim. License selection and public release remain owner decisions. No license is granted and no repository has been published. MIT, BSD-3-Clause, and Apache-2.0 remain possible owner choices.
+[The citation note](docs/CITATION.md) identifies the software without personal authorship metadata, a DOI, or a publication claim. The source is available under the owner-selected [MIT License](LICENSE). Its notice identifies the copyright holders collectively without disclosing personal names. Public bibliography and third-party dependencies retain their own attribution and terms. This local preparation does not publish a repository, release, package, or research artifact.

@@ -4,7 +4,7 @@ Personal ownership and authorship information is intentionally omitted. Keep the
 
 Read README.md, SCIENTIFIC_SPECIFICATION.md, ARCHITECTURE.md, PRIVACY.md, SECURITY.md, VALIDATION.md, and ROADMAP.md before substantial changes. The current implementation is a local research alpha covering the scientific core, retrieval, conservative reasoning and review, numeric execution, reporting, a development benchmark, and a local interface. Continue in explicit stages and keep implemented, tested, and scientifically validated capabilities distinct.
 
-Use a Python 3 interpreter explicitly. The original machine's default `python` and launcher selection may resolve to Python 2.7. The existing local environment is `.venv`; use `.venv/Scripts/python.exe` on Windows. Do not modify unrelated scientific environments.
+Use a Python 3 interpreter explicitly; scientific workstations may also have legacy installations. Create a project-local `.venv` as described in README.md; use `.venv/Scripts/python.exe` on Windows or `.venv/bin/python` elsewhere. Do not modify unrelated scientific environments.
 
 Scientific integrity takes priority. Do not invent citations, evidence, reviews, results, benchmark scores, or causal support. A candidate is not evidence-backed until identity, human-reviewed statement support, and context checks have been completed. Imported receipts and human identities are not cryptographically authenticated. Biological negatives and statistical nulls remain distinct.
 

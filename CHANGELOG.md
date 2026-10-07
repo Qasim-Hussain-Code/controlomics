@@ -1,5 +1,21 @@
 # Development changes
 
+## 0.6.0.dev0, 2026-10-07
+
+Added local CSV inspection, explicit claim bindings in execution and audit views, consistent workspace replacement and unsaved-input handling, and pseudonymous reviewer labels. Review archives preserve linked records while excluding raw inputs and credentials. Project schema and ontology versions remain 0.1.0.
+
+Completed a frozen synthetic numerical study: 896 scalar comparisons matched independently maintained SciPy, while 7,000 synthetic trials showed substantial small-sample percentile-bootstrap undercoverage. Published the observations and a separate independent expert-study protocol. No expert judgments or biological validation were supplied.
+
+Removed private project ownership attribution from current files, distributable package metadata, generated interface captures, and authorized local Git history. Public source preparation adds portable startup instructions, explicit distribution contents, package installation checks, source hygiene checks, commit-pinned CI, and contribution templates. Updated the build dependency to setuptools 83.0.0 after an advisory lookup identified an exclusion-rule vulnerability in the earlier version. The owner selected MIT and GitHub private vulnerability reporting. This remains an unpublished research preview; hosted CI results and actual repository settings are pending.
+
+## 0.5.0.dev0, 2026-10-06
+
+Refined the six-section research interface, desktop and mobile navigation, keyboard interactions, claim and evidence filtering, and linked execution records. Retained measured browser checks and screenshots for the synthetic workspace. Visual and software checks do not establish scientific recommendation quality.
+
+## 0.4.0.dev0, 2026-10-06
+
+Added the complete-pair mean-difference adapter, sign-flip permutation and whole-pair bootstrap calculations, and bounded review archives with manifests and regenerated reports. Paired execution requires an explicit control specification and applicability rationale. Expanded fixed-execution and archive adversarial checks.
+
 ## 0.3.0.dev0, 2026-10-06
 
 Extended the local workflow with inspectable operation and design rules, literal description drafting, multiple claims, researcher-created and editable unreviewed candidates, direct source-review forms, and explicit evidence re-review with superseded snapshot hashes. Repeated retrieval preserves the earlier identity prerequisite of existing reviews. Hosted responses must target one known claim.

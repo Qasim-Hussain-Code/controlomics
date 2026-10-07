@@ -1,0 +1,60 @@
+{
+  "recorded_at": "2026-10-07T10:09:33.103276+00:00",
+  "service": "https://api.osv.dev/v1/querybatch",
+  "sent_fields": [
+    "public package name",
+    "PyPI ecosystem",
+    "public package version"
+  ],
+  "packages": [
+    {
+      "name": "annotated-types",
+      "version": "0.8.0",
+      "advisory_ids": []
+    },
+    {
+      "name": "numpy",
+      "version": "2.4.6",
+      "advisory_ids": []
+    },
+    {
+      "name": "pydantic",
+      "version": "2.12.4",
+      "advisory_ids": []
+    },
+    {
+      "name": "pydantic-core",
+      "version": "2.41.5",
+      "advisory_ids": []
+    },
+    {
+      "name": "scipy",
+      "version": "1.18.1",
+      "advisory_ids": []
+    },
+    {
+      "name": "setuptools",
+      "version": "80.9.0",
+      "advisory_ids": [
+        "GHSA-h35f-9h28-mq5c",
+        "PYSEC-2026-3447"
+      ]
+    },
+    {
+      "name": "typing-extensions",
+      "version": "4.16.0",
+      "advisory_ids": []
+    },
+    {
+      "name": "typing-inspection",
+      "version": "0.4.4",
+      "advisory_ids": []
+    }
+  ],
+  "response_sha256": "7aff4a1d2ff1b2b6e8e94a6d79c396f02beccac7fc54093f5ae1f8aebd3347de",
+  "status": "ADVISORIES_REQUIRE_REVIEW",
+  "limitations": [
+    "A point-in-time advisory lookup is not a security audit or proof of absence of vulnerabilities.",
+    "Only exact versions in the development and optional validation locks were queried; Python, browsers, operating systems and future dependency resolutions are outside this check."
+  ]
+}

@@ -17,3 +17,12 @@ local_projects/
 data/
 cache/
 *.controlomics.json
+.private/
+.aws/
+.ssh/
+*.p12
+*.pfx
+*.jks
+*.log
+.DS_Store
+Thumbs.db

@@ -2,6 +2,8 @@
 
 ## Scope
 
+Public repository preparation on 2026-10-07 added two release privacy tests and one image-metadata test, bringing the observed suite to 149 passing tests. Exported schemas, dependency consistency, static Python checks, workflow linting, distribution contents, MIT package metadata, and clean wheel and source installations passed locally. [The release handoff](docs/PUBLIC_RELEASE.md) separates these observations from future hosted CI, repository security settings, and independent scientific evaluation.
+
 Version 0.6.0.dev0 is an operational local research alpha with local input inspection, clearer scientific record bindings, and workspace continuity checks. Validation covers software behavior, specified scientific consistency rules, two explicitly mapped numerical adapters, publication identities, design interpretation, supplied-annotation arithmetic, and local interface operation. It does not establish biological control appropriateness, source entailment accuracy, hosted-model performance, or agent generalization.
 
 Software and source-review fixtures are synthetic. Live publication checks, independent-software numerical comparisons, and observed synthetic computations are separately labeled. No expert review or biological experiment was performed.

@@ -1,0 +1,17 @@
+include *.md *.toml *.lock .gitattributes .gitignore Start_Controlomics.cmd
+include LICENSE LICENSE.*
+recursive-include src *.py *.html *.css *.js
+recursive-include schemas *.json
+recursive-include ontology *.json
+recursive-include examples *.json *.csv
+recursive-include scripts *.py *.cjs
+recursive-include tests *.py
+recursive-include docs *.md *.json *.png
+recursive-include .github *.yml *.md
+prune .venv
+prune local_projects
+prune data
+prune cache
+prune build
+prune dist
+global-exclude __pycache__ *.py[cod] *.log

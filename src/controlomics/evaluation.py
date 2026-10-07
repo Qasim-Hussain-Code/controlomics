@@ -241,7 +241,9 @@ def evaluate(bundle: EvaluationBundle, partition: Partition | None = None):
         if case.expected_findings is not None and bundle.dataset.annotation_origin != "UNASSESSED":
             predicted = set(predictions[identifier].findings)
             reference = set(case.expected_findings)
-            tp += len(predicted & reference); expected += len(reference); reported += len(predicted)
+            tp += len(predicted & reference)
+            expected += len(reference)
+            reported += len(predicted)
             finding_cases += 1
     states = [state for prediction in predictions.values() for state in prediction.execution_states]
     metrics = {

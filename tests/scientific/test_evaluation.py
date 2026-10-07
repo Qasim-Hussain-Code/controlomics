@@ -1,6 +1,6 @@
 import unittest
 
-from controlomics.evaluation import (EvaluationBundle, EvaluationDataset, PredictionRun,
+from controlomics.evaluation import (EvaluationBundle, EvaluationDataset,
     annotation_template, compare_annotations, evaluate, run_dataset)
 
 

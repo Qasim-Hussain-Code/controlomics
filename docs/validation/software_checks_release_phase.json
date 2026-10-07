@@ -1,0 +1,14 @@
+{
+  "recorded_at": "2026-10-07T11:31:23.130142+00:00",
+  "python": "3.14.0",
+  "operating_system": "Windows",
+  "pydantic": "2.12.4",
+  "setuptools": "83.0.0",
+  "tests": 149,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "seconds": 35.361,
+  "status": "PASS",
+  "scope": "Software behavior using synthetic fixtures and mocked provider transports; no independent scientific validation."
+}

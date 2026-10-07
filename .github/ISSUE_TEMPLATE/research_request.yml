@@ -1,0 +1,24 @@
+name: Research or feature request
+description: Propose a capability with its scientific assumptions and evaluation needs.
+body:
+  - type: markdown
+    attributes:
+      value: This is a public discussion. Describe public or hypothetical research only. Do not include private project records, unpublished data, or identifying information.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Scientific problem and proposed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: assumptions
+    attributes:
+      label: Assumptions, evidence, and limitations
+      description: Link public primary sources if applicable. Distinguish a proposed method from validated behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: How should this be evaluated?
+      description: Describe appropriate reference behavior, failure cases, and any independent scientific review needed.

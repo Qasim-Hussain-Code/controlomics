@@ -44,7 +44,7 @@ The interface and standalone report label the setting as requested coverage and 
 
 ## Local reproduction
 
-The optional reference environment already exists in ignored `local_projects/validation/reference_env/`. To create a separate environment on a compatible Windows CPython 3.14 installation:
+The retained study used an ignored environment at `local_projects/validation/reference_env/`; source downloads do not include it. Create a separate environment on a compatible Windows CPython 3.14 installation:
 
 ```powershell
 .\.venv\Scripts\python.exe -m venv local_projects/validation/reference_env

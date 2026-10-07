@@ -2,7 +2,6 @@ import json
 import unittest
 from datetime import timedelta
 
-from controlomics.evidence import EuropePMC
 from controlomics.models import DesignReasoner, DraftControl, MethodBaseline
 from controlomics.project import parse_project_json
 from controlomics.reasoning import NarrativeInput, describe_design, interpret_narrative

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import math
 import platform
 import subprocess
 import sys
@@ -17,7 +16,7 @@ from pydantic import Field, model_validator
 from controlomics import __version__
 from controlomics import statistics
 from controlomics.privacy import canonical_json, digest
-from controlomics.project import decode_json, save_project
+from controlomics.project import decode_json
 from controlomics.schemas import (
     ControlResult, DecisionRule, ExecutionPlan, InputRequirement, PrivacyPolicy, PrivacyRequirements,
     Identifier, Record, SoftwareVersion, Text,

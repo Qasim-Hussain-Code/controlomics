@@ -14,7 +14,7 @@ The delivered software is an operational local research alpha. This milestone do
 | 7 | ControlomicsBench | Dataset contracts, partition checks, offline runner, judgment workbench, snapshot revisions, metrics and agreement; independent expert benchmark pending |
 | 8 | Cross-domain evaluation and ablations | Development reference/design comparison, frozen SciPy numerical comparisons and synthetic coverage experiments recorded; independent cases, expert judgments and model comparisons pending |
 | 9 | Web application | Responsive six-section workspace, claim filters, record bindings, local input inspection, export status, draft protection, keyboard navigation, and local hardening; remote deployment requires separate assessment |
-| 10 | Public release | Pending owner license, reporting channel, and release review; no remote configured |
+| 10 | Public release | MIT selected; public source preparation and local checks complete when recorded, owner-enabled GitHub private reporting and hosted CI remain external steps; no remote configured |
 
 ## Delivered slice
 

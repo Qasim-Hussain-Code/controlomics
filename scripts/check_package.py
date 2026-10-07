@@ -29,6 +29,11 @@ def main():
             raise ValueError("package identity differs from the development metadata")
         if any(metadata.get_all(field) for field in ("Author", "Author-email", "Maintainer", "Maintainer-email")):
             raise ValueError("package contains personal attribution metadata")
+        if metadata["License-Expression"] != "MIT" or metadata.get_all("License-File") != ["LICENSE"]:
+            raise ValueError("package license metadata differs from the owner-approved MIT license")
+        license_paths = [name for name in names if name.endswith('.dist-info/licenses/LICENSE')]
+        if len(license_paths) != 1 or archive.read(license_paths[0]) != (Path(__file__).resolve().parents[1]/'LICENSE').read_bytes():
+            raise ValueError("package does not contain the complete owner-approved license text")
         if not all(name in names for name in assets):
             raise ValueError("wheel is missing local browser assets")
         archive.extractall(temporary)
@@ -62,7 +67,7 @@ print(json.dumps({'version':controlomics.__version__,'imported_extracted_wheel':
         smoke = json.loads(result.stdout)
     record = {"recorded_at": datetime.now(timezone.utc).isoformat(), "wheel": args.wheel.name,
         "wheel_sha256": hashlib.sha256(args.wheel.read_bytes()).hexdigest(), "wheel_bytes": args.wheel.stat().st_size,
-        "metadata": {"name": metadata["Name"], "version": metadata["Version"], "personal_attribution_present": False},
+        "metadata": {"name": metadata["Name"], "version": metadata["Version"], "license_expression": metadata["License-Expression"], "license_text_matches": True, "personal_attribution_present": False},
         "assets": assets, "smoke": smoke,
         "scope": "Extracted package import and local interface smoke check using the existing Python/Pydantic environment. No external request, new dependency, or scientific validation."}
     args.output.parent.mkdir(parents=True, exist_ok=True)

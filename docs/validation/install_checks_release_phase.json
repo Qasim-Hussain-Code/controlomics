@@ -1,0 +1,20 @@
+{
+  "recorded_at": "2026-10-07T11:38:06.606592+00:00",
+  "artifact": "controlomics-0.6.0.dev0-py3-none-any.whl",
+  "artifact_sha256": "072c1b49d18b7d8fa13c91fdfacd837a143da1b1f36d35a588b03c3aa7aa8c94",
+  "artifact_type": "WHEEL",
+  "clean_environment": true,
+  "cli_validation": true,
+  "dependency_installation": "LOCAL_WHEELS",
+  "smoke": {
+    "version": "0.6.0.dev0",
+    "dependency_version": "2.12.4",
+    "imported_clean_install": true,
+    "browser_assets": true,
+    "local_drafting": true,
+    "paired_arithmetic": true,
+    "review_bundle_roundtrip": true
+  },
+  "status": "PASS",
+  "scope": "Fresh virtual environment; isolated imports and CLI from outside the source checkout. No provider or research requests."
+}

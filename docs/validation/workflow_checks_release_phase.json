@@ -1,0 +1,11 @@
+{
+    "scope":  "Local workflow syntax, expression and action-input validation. Hosted CI jobs have not run.",
+    "version":  "1.7.12",
+    "official_archive_sha256":  "6e7241b51e6817ea6a047693d8e6fed13b31819c9a0dd6c5a726e1592d22f6e9",
+    "findings":  [
+
+                 ],
+    "recorded_at":  "2026-10-07T11:40:29.4294324+00:00",
+    "tool":  "actionlint",
+    "status":  "PASS"
+}

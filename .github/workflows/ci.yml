@@ -1,0 +1,63 @@
+name: Software checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.12', '3.13', '3.14']
+        include:
+          - os: macos-latest
+            python: '3.14'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install development dependencies
+        run: |
+          python -m pip install -r requirements-dev.lock
+          python -m pip install --no-build-isolation --no-deps -e .
+      - name: Dependency consistency
+        run: python -m pip check
+      - name: Software tests (no research-provider requests)
+        run: python -m unittest discover -s tests -t . -v
+      - name: Exported schemas
+        run: python scripts/export_schemas.py --check
+      - name: Public source hygiene
+        run: python scripts/check_release.py --require-license
+      - name: Static Python checks
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.14'
+        run: |
+          python -m pip install -r requirements-quality.lock
+          ruff check src tests scripts
+      - name: Build wheel and source distribution
+        run: python scripts/build_distributions.py
+      - name: Extracted wheel smoke check
+        run: python scripts/check_package.py dist/controlomics-0.6.0.dev0-py3-none-any.whl --output local_projects/ci_package_checks.json
+      - name: Distribution privacy and contents
+        run: python scripts/check_distribution_contents.py --wheel dist/controlomics-0.6.0.dev0-py3-none-any.whl --sdist dist/controlomics-0.6.0.dev0.tar.gz --output local_projects/ci_distribution_checks.json
+      - name: Installed wheel smoke check
+        run: python scripts/check_install.py --wheel dist/controlomics-0.6.0.dev0-py3-none-any.whl --output local_projects/ci_install_checks.json
+      - name: Installed source distribution smoke check
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.14'
+        run: python scripts/check_install.py --sdist dist/controlomics-0.6.0.dev0.tar.gz --output local_projects/ci_sdist_checks.json

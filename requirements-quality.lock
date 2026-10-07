@@ -1,0 +1,2 @@
+# Optional software linting only; not an application dependency.
+ruff==0.14.14

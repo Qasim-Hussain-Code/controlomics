@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=80.9,<81"]
+requires = ["setuptools>=83,<84"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,8 +7,21 @@ name = "controlomics"
 version = "0.6.0.dev0"
 description = "Structured scientific controls and evidence records for computational biology"
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
 dependencies = ["pydantic>=2.12.4,<3"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
 
 [project.scripts]
 controlomics = "controlomics.cli:main"

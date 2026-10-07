@@ -24,7 +24,15 @@ Parsing never executes imported or generated code. Local computation invokes onl
 
 This is local fixed execution under the user's account, not an operating-system sandbox for arbitrary code. Review dispatched scripts before running them. A replaced runner or manifest cannot be secured by its own self-check. Arbitrary scripts, dynamic plugins, and primary-analysis orchestration are outside scope.
 
-Do not commit keys, clinical identifiers, private sequences, raw datasets, or research projects. Development dependencies are recorded in `requirements-dev.lock`. No independent security audit or vulnerability-free claim is made. Public release requires an owner-selected license and private reporting channel. Until then, report concerns privately to the owner through an available private channel.
+Do not commit keys, clinical identifiers, private sequences, raw datasets, or research projects. Development dependencies are recorded in `requirements-dev.lock`. No independent security audit or vulnerability-free claim is made.
+
+## Vulnerability reporting and supported versions
+
+Only the current `0.6.0.dev0` research preview is maintained. Older development snapshots receive no separate security fixes. There is no response-time guarantee or independent security certification.
+
+Before uploading source, the repository owner must enable GitHub private vulnerability reporting in an empty public repository and verify that its Security page offers **Report a vulnerability**. Use that private channel for suspected vulnerabilities, with a minimal synthetic reproduction and affected version. Do not include credentials, identifying information, or real research data. Do not open a public issue for an undisclosed vulnerability.
+
+The repository has not yet been published, so this private channel is not currently available. SECURITY.md cannot activate it. If the eventual repository lacks the button, its reporting setup is incomplete; do not assume an unlisted email address or invented contact. The owner should keep publication blocked until the channel is configured. See [GitHub's reporting instructions](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/report-privately) and [owner configuration instructions](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/configure-vulnerability-reporting/configure-for-a-repository).
 
 ## Review archive boundary
 
