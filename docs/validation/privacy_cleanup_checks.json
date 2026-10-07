@@ -7,8 +7,11 @@
   "frozen_numerical_source_bindings": "UNCHANGED",
   "dist_contains_only_current_anonymous_wheel": true,
   "historical_package_observations_redacted": 5,
-  "git_history_status": "AUTHORIZED_PREPARING",
-  "git_history_rewrite_applied": false,
+  "git_history_status": "COMPLETED",
+  "git_history_rewrite_applied": true,
   "nothing_pushed_or_published": true,
-  "git_history_authorized": true
+  "git_history_authorized": true,
+  "git_history_completed_at": "2026-10-07T09:50:43.810056+00:00",
+  "git_history_record": "git_history_cleanup_checks.json",
+  "git_history_remaining_private_identity_matches": 0
 }

@@ -1,0 +1,56 @@
+{
+  "prepared_at": "2026-10-07T09:49:01.936892+00:00",
+  "original_tip": "a063b75300387f34d94c82c9e32435c2ec202984",
+  "sanitized_tip": "a26f305b69260b9ce29e5ca7fe45423b15d3cb1e",
+  "commit_count": 8,
+  "sanitized_current_tree_matches_reviewed_tree": true,
+  "changed_text_blobs": 31,
+  "omitted_older_screenshot_occurrences": 32,
+  "omitted_personal_citation_occurrences": 7,
+  "attribution": "Project label Controlomics with empty author and committer email; no human authorship asserted.",
+  "parent_graph_and_dates_preserved": true,
+  "private_identity_terms_exported": false,
+  "mapping": [
+    {
+      "original": "e86712525b8eac93defbe946d76020877425bcac",
+      "sanitized": "dc95a7e4ead2161c4b89c5fd8630d74691901382"
+    },
+    {
+      "original": "faf6c0c4c66262113816725b9dd0bde4a89d9928",
+      "sanitized": "4b37ba77e9b7ebc530b0b0ed60309a18bd88c4ef"
+    },
+    {
+      "original": "042be7d28e0345a7bc1f097576c8e7b8496fd9da",
+      "sanitized": "43c92de8bd88ed808a9f0231c81cbbd3058b3560"
+    },
+    {
+      "original": "31a5279aa9d89bd0dce901a91a882bf9c67339e3",
+      "sanitized": "7faf3c2bdfe23f19e42b36d931cba7e2216c4319"
+    },
+    {
+      "original": "d379b3b65de734edc3edde756810a600f5b14d7a",
+      "sanitized": "1a6dfbb3278db7c794d53f0b17f8acc4b348922b"
+    },
+    {
+      "original": "83931fa73d02383e94e9dbf24e9bcb99c211e524",
+      "sanitized": "2d00960a7c4512dfa5437aff2bbd316dcfee7613"
+    },
+    {
+      "original": "adcf0c5ba19ac031d3bfa0cba667e79ad839a9d6",
+      "sanitized": "589fc05c02b0d607c6c943a125d423ed7cd67a1c"
+    },
+    {
+      "original": "a063b75300387f34d94c82c9e32435c2ec202984",
+      "sanitized": "a26f305b69260b9ce29e5ca7fe45423b15d3cb1e"
+    }
+  ],
+  "completed_at": "2026-10-07T09:50:43.810056+00:00",
+  "history_rewrite_applied": true,
+  "remaining_git_objects_checked": 423,
+  "remaining_git_identity_matches": 0,
+  "remaining_reflog_entries": 0,
+  "working_tree_unchanged_and_clean": true,
+  "frozen_numerical_source_bindings": "UNCHANGED",
+  "remotes_configured": false,
+  "scope": "Authorized local Git history cleanup. All remaining object contents and non-object Git files checked for the former private author identities. Old objects and reflogs pruned. This is ordinary logical removal, not a claim of forensic disk erasure or control of external backups. Published bibliographic attribution remains intact."
+}
