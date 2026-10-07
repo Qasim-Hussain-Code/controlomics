@@ -1,0 +1,14 @@
+{
+  "recorded_at": "2026-10-07T01:42:30.526160+00:00",
+  "controlomics_version": "0.6.0.dev0",
+  "python": "3.14.0",
+  "pydantic": "2.12.4",
+  "platform": "Windows",
+  "tests_run": 146,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "elapsed_seconds": 27.79,
+  "includes_discovery": true,
+  "scope": "Software invariants and synthetic fixtures, including frozen numerical protocol and local study-readiness/privacy checks. Independent SciPy comparisons and prespecified simulations are recorded separately. No independent expert or biological validation."
+}

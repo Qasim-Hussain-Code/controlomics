@@ -1,0 +1,23 @@
+{
+  "observed_at": "2026-10-07T01:33:14.532973+00:00",
+  "versions": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "scipy": "1.18.1"
+  },
+  "packages": {
+    "numpy": {
+      "version": "2.4.6",
+      "wheel_sha256": "b507f5c4c1d508876d1819b6bf9a49d365b96320b5d4993426b33a23ca4b8261"
+    },
+    "scipy": {
+      "version": "1.18.1",
+      "wheel_sha256": "78a0d7c918e74a232394117160e7e3db503377572a45bcef8826e4ab8a35feba"
+    }
+  },
+  "isolated_reference_environment_bytes": 200658482,
+  "application_runtime_dependencies_unchanged": true,
+  "dependency_resolution_note": "The initially selected yanked NumPy 2.4.0 wheel was replaced with verified non-yanked 2.4.6 before comparison or simulation outcomes were calculated.",
+  "network_scope": "Public documentation and pinned PyPI wheel downloads only. Project records and all numerical computations remained local.",
+  "scope": "Optional comparator environment in ignored local_projects. This is not evidence of an independent expert study."
+}

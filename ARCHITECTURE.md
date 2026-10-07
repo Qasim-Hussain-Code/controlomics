@@ -35,7 +35,7 @@ Execution packages record plans, configuration, seeds, environment, artifact has
 
 ## Resources and deployment
 
-Pydantic is the sole runtime dependency, supplying [strict validation](https://docs.pydantic.dev/latest/concepts/strict_mode/) and [JSON Schema generation](https://docs.pydantic.dev/latest/concepts/json_schema/). Other modules and tests use the standard library. The browser uses plain HTML, CSS, and JavaScript.
+Pydantic is the sole runtime dependency, supplying [strict validation](https://docs.pydantic.dev/latest/concepts/strict_mode/) and [JSON Schema generation](https://docs.pydantic.dev/latest/concepts/json_schema/). Application modules and ordinary tests otherwise use the standard library. Optional numerical reference comparisons use pinned NumPy and SciPy in a separate ignored validation environment; they do not alter application dependencies. The browser uses plain HTML, CSS, and JavaScript.
 
 The server binds to `127.0.0.1`, logs no requests, and stores no project database. It processes transient request snapshots; the browser retains work until export. Input and numerical budgets constrain ordinary operations. This is a local application rather than an internet-facing service.
 

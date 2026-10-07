@@ -1,0 +1,4521 @@
+{
+  "format": "controlomics.synthetic_numerical_validation.v0.1",
+  "started_at": "2026-10-07T01:30:50.310368+00:00",
+  "protocol_sha256": "a7b1c5c458a7af1f7a57511bc1e145bbe8501777fa34277d8a98ec3c00dda6cc",
+  "controlomics_version": "0.6.0.dev0",
+  "python": "3.14.0",
+  "numeric_reference_agreement": {
+    "reference_software": {
+      "python": "3.14.0",
+      "numpy": "2.4.6",
+      "scipy": "1.18.1"
+    },
+    "request_sha256": "5b22d5a64a0b9fe60b3a1aa780e82c2ee72c49e9f10e75b22a6a595ba09dd12e",
+    "case_count": 128,
+    "all_matched": true,
+    "native_tail_definition_differences": 36,
+    "cases": [
+      {
+        "case_id": "independent_reference.0",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 2.0,
+          "p_absolute_tail": 0.3333333333333333,
+          "draws": 6,
+          "null_mean": 0.0,
+          "null_sd_population": 1.2909944487358056,
+          "bootstrap_lower": 1.0,
+          "bootstrap_upper": 3.0
+        },
+        "scipy": {
+          "case_id": "independent_reference.0",
+          "effect": 2.0,
+          "p_absolute_tail": 0.3333333333333333,
+          "p_scipy_native_two_sided": 0.3333333333333333,
+          "draws": 6,
+          "null_mean": 0.0,
+          "null_sd_population": 1.2909944487358056,
+          "bootstrap_lower": 1.0,
+          "bootstrap_upper": 3.0
+        }
+      },
+      {
+        "case_id": "independent_reference.1",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 2.0,
+          "p_absolute_tail": 0.1,
+          "draws": 10,
+          "null_mean": -8.881784197001253e-17,
+          "null_sd_population": 1.0,
+          "bootstrap_lower": 2.0,
+          "bootstrap_upper": 2.0
+        },
+        "scipy": {
+          "case_id": "independent_reference.1",
+          "effect": 2.0,
+          "p_absolute_tail": 0.1,
+          "p_scipy_native_two_sided": 0.2,
+          "draws": 10,
+          "null_mean": -8.881784197001253e-17,
+          "null_sd_population": 1.0,
+          "bootstrap_lower": 2.0,
+          "bootstrap_upper": 2.0
+        }
+      },
+      {
+        "case_id": "independent_reference.2",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.0,
+          "p_absolute_tail": 1.0,
+          "draws": 15,
+          "null_mean": 0.0,
+          "null_sd_population": 0.0,
+          "bootstrap_lower": 0.0,
+          "bootstrap_upper": 0.0
+        },
+        "scipy": {
+          "case_id": "independent_reference.2",
+          "effect": 0.0,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 15,
+          "null_mean": 0.0,
+          "null_sd_population": 0.0,
+          "bootstrap_lower": 0.0,
+          "bootstrap_upper": 0.0
+        }
+      },
+      {
+        "case_id": "independent_reference.3",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 3.15,
+          "p_absolute_tail": 0.47619047619047616,
+          "draws": 21,
+          "null_mean": -1.057355261547768e-17,
+          "null_sd_population": 3.8492423496925556,
+          "bootstrap_lower": -2.3,
+          "bootstrap_upper": 9.1
+        },
+        "scipy": {
+          "case_id": "independent_reference.3",
+          "effect": 3.15,
+          "p_absolute_tail": 0.47619047619047616,
+          "p_scipy_native_two_sided": 0.38095238095238093,
+          "draws": 21,
+          "null_mean": 8.458842092382145e-17,
+          "null_sd_population": 3.8492423496925556,
+          "bootstrap_lower": -2.3,
+          "bootstrap_upper": 9.1
+        }
+      },
+      {
+        "case_id": "independent_reference.4",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -2.8333333333333335,
+          "p_absolute_tail": 0.5,
+          "draws": 10,
+          "null_mean": 4.4408920985006264e-17,
+          "null_sd_population": 2.692582403567252,
+          "bootstrap_lower": -6.666666666666667,
+          "bootstrap_upper": 1.0
+        },
+        "scipy": {
+          "case_id": "independent_reference.4",
+          "effect": -2.8333333333333335,
+          "p_absolute_tail": 0.5,
+          "p_scipy_native_two_sided": 0.8,
+          "draws": 10,
+          "null_mean": 0.0,
+          "null_sd_population": 2.6925824035672523,
+          "bootstrap_lower": -6.666666666666667,
+          "bootstrap_upper": 1.0
+        }
+      },
+      {
+        "case_id": "independent_reference.5",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 1.1666666666666667,
+          "p_absolute_tail": 0.7,
+          "draws": 20,
+          "null_mean": 0.0,
+          "null_sd_population": 2.4415386769639986,
+          "bootstrap_lower": -2.8333333333333335,
+          "bootstrap_upper": 4.5
+        },
+        "scipy": {
+          "case_id": "independent_reference.5",
+          "effect": 1.1666666666666667,
+          "p_absolute_tail": 0.7,
+          "p_scipy_native_two_sided": 0.7,
+          "draws": 20,
+          "null_mean": -5.551115123125783e-17,
+          "null_sd_population": 2.441538676963998,
+          "bootstrap_lower": -2.8333333333333335,
+          "bootstrap_upper": 4.5
+        }
+      },
+      {
+        "case_id": "independent_reference.6",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 3.625,
+          "p_absolute_tail": 0.2571428571428571,
+          "draws": 35,
+          "null_mean": 3.7271772969558824e-17,
+          "null_sd_population": 3.0023139224419704,
+          "bootstrap_lower": 0.0,
+          "bootstrap_upper": 7.75
+        },
+        "scipy": {
+          "case_id": "independent_reference.6",
+          "effect": 3.625,
+          "p_absolute_tail": 0.2571428571428571,
+          "p_scipy_native_two_sided": 0.34285714285714286,
+          "draws": 35,
+          "null_mean": 2.5376526277146434e-17,
+          "null_sd_population": 3.0023139224419704,
+          "bootstrap_lower": 0.0,
+          "bootstrap_upper": 7.75
+        }
+      },
+      {
+        "case_id": "independent_reference.7",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -0.26666666666666683,
+          "p_absolute_tail": 1.0,
+          "draws": 56,
+          "null_mean": -3.172065784643304e-17,
+          "null_sd_population": 3.5294677866702306,
+          "bootstrap_lower": -6.273333333333334,
+          "bootstrap_upper": 5.5
+        },
+        "scipy": {
+          "case_id": "independent_reference.7",
+          "effect": -0.26666666666666683,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 0.9642857142857143,
+          "draws": 56,
+          "null_mean": 1.586032892321652e-17,
+          "null_sd_population": 3.5294677866702306,
+          "bootstrap_lower": -6.273333333333334,
+          "bootstrap_upper": 5.5
+        }
+      },
+      {
+        "case_id": "independent_reference.8",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 3.625,
+          "p_absolute_tail": 0.4,
+          "draws": 15,
+          "null_mean": 0.0,
+          "null_sd_population": 3.259601202601324,
+          "bootstrap_lower": 0.0,
+          "bootstrap_upper": 7.25
+        },
+        "scipy": {
+          "case_id": "independent_reference.8",
+          "effect": 3.625,
+          "p_absolute_tail": 0.4,
+          "p_scipy_native_two_sided": 0.6666666666666666,
+          "draws": 15,
+          "null_mean": 0.0,
+          "null_sd_population": 3.2596012026013246,
+          "bootstrap_lower": 0.0,
+          "bootstrap_upper": 7.25
+        }
+      },
+      {
+        "case_id": "independent_reference.9",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.3333333333333335,
+          "p_absolute_tail": 0.6571428571428571,
+          "draws": 35,
+          "null_mean": 3.8064789415719653e-17,
+          "null_sd_population": 3.1446603773522015,
+          "bootstrap_lower": -5.541666666666667,
+          "bootstrap_upper": 3.6499999999999986
+        },
+        "scipy": {
+          "case_id": "independent_reference.9",
+          "effect": -1.3333333333333335,
+          "p_absolute_tail": 0.6571428571428571,
+          "p_scipy_native_two_sided": 0.6285714285714286,
+          "draws": 35,
+          "null_mean": 2.5376526277146434e-17,
+          "null_sd_population": 3.1446603773522015,
+          "bootstrap_lower": -5.541666666666668,
+          "bootstrap_upper": 3.6499999999999986
+        }
+      },
+      {
+        "case_id": "independent_reference.10",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 2.875,
+          "p_absolute_tail": 0.34285714285714286,
+          "draws": 70,
+          "null_mean": 0.0,
+          "null_sd_population": 2.695482331605978,
+          "bootstrap_lower": -0.875,
+          "bootstrap_upper": 6.375
+        },
+        "scipy": {
+          "case_id": "independent_reference.10",
+          "effect": 2.875,
+          "p_absolute_tail": 0.34285714285714286,
+          "p_scipy_native_two_sided": 0.34285714285714286,
+          "draws": 70,
+          "null_mean": 0.0,
+          "null_sd_population": 2.695482331605978,
+          "bootstrap_lower": -0.875,
+          "bootstrap_upper": 6.375
+        }
+      },
+      {
+        "case_id": "independent_reference.11",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -0.95,
+          "p_absolute_tail": 0.7063492063492064,
+          "draws": 126,
+          "null_mean": -5.28677630773884e-18,
+          "null_sd_population": 2.2128883839904803,
+          "bootstrap_lower": -4.75,
+          "bootstrap_upper": 2.05
+        },
+        "scipy": {
+          "case_id": "independent_reference.11",
+          "effect": -0.95,
+          "p_absolute_tail": 0.7063492063492064,
+          "p_scipy_native_two_sided": 0.746031746031746,
+          "draws": 126,
+          "null_mean": -1.409807015397024e-17,
+          "null_sd_population": 2.2128883839904803,
+          "bootstrap_lower": -4.75,
+          "bootstrap_upper": 2.05
+        }
+      },
+      {
+        "case_id": "independent_reference.12",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -2.85,
+          "p_absolute_tail": 0.3333333333333333,
+          "draws": 21,
+          "null_mean": -1.850371707708594e-17,
+          "null_sd_population": 2.677063067368169,
+          "bootstrap_lower": -5.35,
+          "bootstrap_upper": -0.5900000000000006
+        },
+        "scipy": {
+          "case_id": "independent_reference.12",
+          "effect": -2.85,
+          "p_absolute_tail": 0.3333333333333333,
+          "p_scipy_native_two_sided": 0.38095238095238093,
+          "draws": 21,
+          "null_mean": 0.0,
+          "null_sd_population": 2.6770630673681683,
+          "bootstrap_lower": -5.35,
+          "bootstrap_upper": -0.5900000000000006
+        }
+      },
+      {
+        "case_id": "independent_reference.13",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.4333333333333333,
+          "p_absolute_tail": 0.6071428571428571,
+          "draws": 56,
+          "null_mean": -5.551115123125783e-17,
+          "null_sd_population": 2.3618999615926644,
+          "bootstrap_lower": -4.616666666666666,
+          "bootstrap_upper": 1.2666666666666666
+        },
+        "scipy": {
+          "case_id": "independent_reference.13",
+          "effect": -1.4333333333333333,
+          "p_absolute_tail": 0.6071428571428571,
+          "p_scipy_native_two_sided": 0.6785714285714286,
+          "draws": 56,
+          "null_mean": -3.172065784643304e-17,
+          "null_sd_population": 2.361899961592664,
+          "bootstrap_lower": -4.616666666666666,
+          "bootstrap_upper": 1.2666666666666666
+        }
+      },
+      {
+        "case_id": "independent_reference.14",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.050000000000000044,
+          "p_absolute_tail": 1.0,
+          "draws": 126,
+          "null_mean": -9.69242323085454e-18,
+          "null_sd_population": 1.6355427233796127,
+          "bootstrap_lower": -2.365,
+          "bootstrap_upper": 2.605
+        },
+        "scipy": {
+          "case_id": "independent_reference.14",
+          "effect": 0.050000000000000044,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 126,
+          "null_mean": -8.8112938462314e-18,
+          "null_sd_population": 1.6355427233796125,
+          "bootstrap_lower": -2.3650000000000007,
+          "bootstrap_upper": 2.605
+        }
+      },
+      {
+        "case_id": "independent_reference.15",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.7000000000000002,
+          "p_absolute_tail": 0.8174603174603174,
+          "draws": 252,
+          "null_mean": 0.0,
+          "null_sd_population": 2.3946700074215745,
+          "bootstrap_lower": -3.0300000000000002,
+          "bootstrap_upper": 3.709999999999999
+        },
+        "scipy": {
+          "case_id": "independent_reference.15",
+          "effect": 0.7000000000000002,
+          "p_absolute_tail": 0.8174603174603174,
+          "p_scipy_native_two_sided": 0.8174603174603174,
+          "draws": 252,
+          "null_mean": -2.819614030794048e-17,
+          "null_sd_population": 2.3946700074215745,
+          "bootstrap_lower": -3.030000000000001,
+          "bootstrap_upper": 3.709999999999999
+        }
+      },
+      {
+        "case_id": "independent_reference.16",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -2.0,
+          "p_absolute_tail": 1.0,
+          "draws": 6,
+          "null_mean": 0.0,
+          "null_sd_population": 3.4880749227427255,
+          "bootstrap_lower": -6.5,
+          "bootstrap_upper": 2.5
+        },
+        "scipy": {
+          "case_id": "independent_reference.16",
+          "effect": -2.0,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 6,
+          "null_mean": 0.0,
+          "null_sd_population": 3.488074922742725,
+          "bootstrap_lower": -6.5,
+          "bootstrap_upper": 2.5
+        }
+      },
+      {
+        "case_id": "independent_reference.17",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -0.25,
+          "p_absolute_tail": 1.0,
+          "draws": 10,
+          "null_mean": -4.4408920985006264e-17,
+          "null_sd_population": 2.6496855159307744,
+          "bootstrap_lower": -2.916666666666667,
+          "bootstrap_upper": 2.4416666666666655
+        },
+        "scipy": {
+          "case_id": "independent_reference.17",
+          "effect": -0.25,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 10,
+          "null_mean": -8.881784197001253e-17,
+          "null_sd_population": 2.6496855159307744,
+          "bootstrap_lower": -2.916666666666667,
+          "bootstrap_upper": 2.4416666666666655
+        }
+      },
+      {
+        "case_id": "independent_reference.18",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 10.625,
+          "p_absolute_tail": 0.06666666666666667,
+          "draws": 15,
+          "null_mean": 0.0,
+          "null_sd_population": 4.780167361086848,
+          "bootstrap_lower": 10.0,
+          "bootstrap_upper": 11.1375
+        },
+        "scipy": {
+          "case_id": "independent_reference.18",
+          "effect": 10.625,
+          "p_absolute_tail": 0.06666666666666667,
+          "p_scipy_native_two_sided": 0.13333333333333333,
+          "draws": 15,
+          "null_mean": 0.0,
+          "null_sd_population": 4.780167361086848,
+          "bootstrap_lower": 10.0,
+          "bootstrap_upper": 11.1375
+        }
+      },
+      {
+        "case_id": "independent_reference.19",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -0.8,
+          "p_absolute_tail": 0.8095238095238095,
+          "draws": 21,
+          "null_mean": -2.114710523095536e-17,
+          "null_sd_population": 3.29772648956823,
+          "bootstrap_lower": -3.81,
+          "bootstrap_upper": 2.5199999999999987
+        },
+        "scipy": {
+          "case_id": "independent_reference.19",
+          "effect": -0.8,
+          "p_absolute_tail": 0.8095238095238095,
+          "p_scipy_native_two_sided": 0.9523809523809523,
+          "draws": 21,
+          "null_mean": -2.114710523095536e-17,
+          "null_sd_population": 3.2977264895682294,
+          "bootstrap_lower": -3.81,
+          "bootstrap_upper": 2.5199999999999987
+        }
+      },
+      {
+        "case_id": "independent_reference.20",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.9166666666666667,
+          "p_absolute_tail": 0.4,
+          "draws": 10,
+          "null_mean": 0.0,
+          "null_sd_population": 1.0507933510765408,
+          "bootstrap_lower": -0.16666666666666669,
+          "bootstrap_upper": 2.0
+        },
+        "scipy": {
+          "case_id": "independent_reference.20",
+          "effect": 0.9166666666666667,
+          "p_absolute_tail": 0.4,
+          "p_scipy_native_two_sided": 0.6,
+          "draws": 10,
+          "null_mean": 0.0,
+          "null_sd_population": 1.050793351076541,
+          "bootstrap_lower": -0.16666666666666669,
+          "bootstrap_upper": 2.0
+        }
+      },
+      {
+        "case_id": "independent_reference.21",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.6666666666666666,
+          "p_absolute_tail": 1.0,
+          "draws": 20,
+          "null_mean": 0.0,
+          "null_sd_population": 3.6301209040165285,
+          "bootstrap_lower": -4.666666666666667,
+          "bootstrap_upper": 5.016666666666666
+        },
+        "scipy": {
+          "case_id": "independent_reference.21",
+          "effect": 0.6666666666666666,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 20,
+          "null_mean": -4.9960036108132046e-17,
+          "null_sd_population": 3.630120904016529,
+          "bootstrap_lower": -4.666666666666667,
+          "bootstrap_upper": 5.016666666666666
+        }
+      },
+      {
+        "case_id": "independent_reference.22",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 1.7083333333333335,
+          "p_absolute_tail": 0.6,
+          "draws": 35,
+          "null_mean": -1.2688263138573217e-17,
+          "null_sd_population": 3.215630230262456,
+          "bootstrap_lower": -3.4583333333333335,
+          "bootstrap_upper": 6.25
+        },
+        "scipy": {
+          "case_id": "independent_reference.22",
+          "effect": 1.7083333333333335,
+          "p_absolute_tail": 0.6,
+          "p_scipy_native_two_sided": 0.5714285714285714,
+          "draws": 35,
+          "null_mean": 0.0,
+          "null_sd_population": 3.2156302302624566,
+          "bootstrap_lower": -3.4583333333333335,
+          "bootstrap_upper": 6.25
+        }
+      },
+      {
+        "case_id": "independent_reference.23",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 4.5,
+          "p_absolute_tail": 0.05357142857142857,
+          "draws": 56,
+          "null_mean": 5.9476233462061954e-18,
+          "null_sd_population": 2.190346787067986,
+          "bootstrap_lower": 2.5333333333333337,
+          "bootstrap_upper": 6.47
+        },
+        "scipy": {
+          "case_id": "independent_reference.23",
+          "effect": 4.5,
+          "p_absolute_tail": 0.05357142857142857,
+          "p_scipy_native_two_sided": 0.07142857142857142,
+          "draws": 56,
+          "null_mean": 7.93016446160826e-18,
+          "null_sd_population": 2.190346787067986,
+          "bootstrap_lower": 2.5333333333333337,
+          "bootstrap_upper": 6.47
+        }
+      },
+      {
+        "case_id": "independent_reference.24",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.0,
+          "p_absolute_tail": 1.0,
+          "draws": 15,
+          "null_mean": 0.0,
+          "null_sd_population": 3.6409133469501853,
+          "bootstrap_lower": -5.2875000000000005,
+          "bootstrap_upper": 5.375
+        },
+        "scipy": {
+          "case_id": "independent_reference.24",
+          "effect": 0.0,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 0.9333333333333333,
+          "draws": 15,
+          "null_mean": 0.0,
+          "null_sd_population": 3.6409133469501853,
+          "bootstrap_lower": -5.287500000000001,
+          "bootstrap_upper": 5.375
+        }
+      },
+      {
+        "case_id": "independent_reference.25",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 4.0,
+          "p_absolute_tail": 0.11428571428571428,
+          "draws": 35,
+          "null_mean": 9.516197353929913e-18,
+          "null_sd_population": 2.3003622903070435,
+          "bootstrap_lower": 1.5,
+          "bootstrap_upper": 6.166666666666667
+        },
+        "scipy": {
+          "case_id": "independent_reference.25",
+          "effect": 4.0,
+          "p_absolute_tail": 0.11428571428571428,
+          "p_scipy_native_two_sided": 0.11428571428571428,
+          "draws": 35,
+          "null_mean": -5.075305255429287e-17,
+          "null_sd_population": 2.3003622903070435,
+          "bootstrap_lower": 1.5,
+          "bootstrap_upper": 6.166666666666667
+        }
+      },
+      {
+        "case_id": "independent_reference.26",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.5,
+          "p_absolute_tail": 0.8285714285714286,
+          "draws": 70,
+          "null_mean": 0.0,
+          "null_sd_population": 2.692582403567252,
+          "bootstrap_lower": -4.0,
+          "bootstrap_upper": 4.512499999999999
+        },
+        "scipy": {
+          "case_id": "independent_reference.26",
+          "effect": 0.5,
+          "p_absolute_tail": 0.8285714285714286,
+          "p_scipy_native_two_sided": 0.8285714285714286,
+          "draws": 70,
+          "null_mean": 0.0,
+          "null_sd_population": 2.692582403567252,
+          "bootstrap_lower": -4.0,
+          "bootstrap_upper": 4.512499999999999
+        }
+      },
+      {
+        "case_id": "independent_reference.27",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.2999999999999998,
+          "p_absolute_tail": 0.9285714285714286,
+          "draws": 126,
+          "null_mean": 1.76225876924628e-17,
+          "null_sd_population": 2.1146808269807527,
+          "bootstrap_lower": -3.3,
+          "bootstrap_upper": 3.4
+        },
+        "scipy": {
+          "case_id": "independent_reference.27",
+          "effect": 0.2999999999999998,
+          "p_absolute_tail": 0.9285714285714286,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 126,
+          "null_mean": -1.057355261547768e-17,
+          "null_sd_population": 2.114680826980752,
+          "bootstrap_lower": -3.3,
+          "bootstrap_upper": 3.4
+        }
+      },
+      {
+        "case_id": "independent_reference.28",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 3.6,
+          "p_absolute_tail": 0.47619047619047616,
+          "draws": 21,
+          "null_mean": 5.2867763077388404e-17,
+          "null_sd_population": 4.0947120370871835,
+          "bootstrap_lower": -0.81,
+          "bootstrap_upper": 7.9
+        },
+        "scipy": {
+          "case_id": "independent_reference.28",
+          "effect": 3.6,
+          "p_absolute_tail": 0.47619047619047616,
+          "p_scipy_native_two_sided": 0.47619047619047616,
+          "draws": 21,
+          "null_mean": 3.172065784643304e-17,
+          "null_sd_population": 4.094712037087183,
+          "bootstrap_lower": -0.8100000000000003,
+          "bootstrap_upper": 7.9
+        }
+      },
+      {
+        "case_id": "independent_reference.29",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.43333333333333335,
+          "p_absolute_tail": 0.9107142857142857,
+          "draws": 56,
+          "null_mean": 3.469446951953614e-18,
+          "null_sd_population": 2.263057350450618,
+          "bootstrap_lower": -3.9600000000000004,
+          "bootstrap_upper": 4.21
+        },
+        "scipy": {
+          "case_id": "independent_reference.29",
+          "effect": 0.43333333333333335,
+          "p_absolute_tail": 0.9107142857142857,
+          "p_scipy_native_two_sided": 0.9285714285714286,
+          "draws": 56,
+          "null_mean": 0.0,
+          "null_sd_population": 2.263057350450618,
+          "bootstrap_lower": -3.960000000000001,
+          "bootstrap_upper": 4.21
+        }
+      },
+      {
+        "case_id": "independent_reference.30",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.175,
+          "p_absolute_tail": 0.5952380952380952,
+          "draws": 126,
+          "null_mean": 1.76225876924628e-18,
+          "null_sd_population": 1.949358868961793,
+          "bootstrap_lower": -3.81,
+          "bootstrap_upper": 1.6574999999999995
+        },
+        "scipy": {
+          "case_id": "independent_reference.30",
+          "effect": -1.175,
+          "p_absolute_tail": 0.5952380952380952,
+          "p_scipy_native_two_sided": 0.5873015873015873,
+          "draws": 126,
+          "null_mean": -2.819614030794048e-17,
+          "null_sd_population": 1.9493588689617927,
+          "bootstrap_lower": -3.81,
+          "bootstrap_upper": 1.6574999999999993
+        }
+      },
+      {
+        "case_id": "independent_reference.31",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.09999999999999987,
+          "p_absolute_tail": 1.0,
+          "draws": 252,
+          "null_mean": 0.0,
+          "null_sd_population": 2.481263119192857,
+          "bootstrap_lower": -3.8,
+          "bootstrap_upper": 4.0
+        },
+        "scipy": {
+          "case_id": "independent_reference.31",
+          "effect": 0.09999999999999987,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 252,
+          "null_mean": -1.409807015397024e-17,
+          "null_sd_population": 2.481263119192857,
+          "bootstrap_lower": -3.8,
+          "bootstrap_upper": 4.0
+        }
+      },
+      {
+        "case_id": "independent_reference.32",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 6.0,
+          "p_absolute_tail": 0.3333333333333333,
+          "draws": 6,
+          "null_mean": 0.0,
+          "null_sd_population": 3.4761089357690347,
+          "bootstrap_lower": 5.5,
+          "bootstrap_upper": 6.5
+        },
+        "scipy": {
+          "case_id": "independent_reference.32",
+          "effect": 6.0,
+          "p_absolute_tail": 0.3333333333333333,
+          "p_scipy_native_two_sided": 0.3333333333333333,
+          "draws": 6,
+          "null_mean": 0.0,
+          "null_sd_population": 3.476108935769035,
+          "bootstrap_lower": 5.5,
+          "bootstrap_upper": 6.5
+        }
+      },
+      {
+        "case_id": "independent_reference.33",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -0.25,
+          "p_absolute_tail": 1.0,
+          "draws": 10,
+          "null_mean": -1.2212453270876723e-16,
+          "null_sd_population": 3.4970225430595474,
+          "bootstrap_lower": -6.183333333333334,
+          "bootstrap_upper": 3.724999999999997
+        },
+        "scipy": {
+          "case_id": "independent_reference.33",
+          "effect": -0.25,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 0.8,
+          "draws": 10,
+          "null_mean": -1.9984014443252818e-16,
+          "null_sd_population": 3.497022543059548,
+          "bootstrap_lower": -6.183333333333334,
+          "bootstrap_upper": 3.724999999999997
+        }
+      },
+      {
+        "case_id": "independent_reference.34",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.0,
+          "p_absolute_tail": 1.0,
+          "draws": 15,
+          "null_mean": 0.0,
+          "null_sd_population": 2.2416511771459895,
+          "bootstrap_lower": -2.75,
+          "bootstrap_upper": 2.6499999999999986
+        },
+        "scipy": {
+          "case_id": "independent_reference.34",
+          "effect": 0.0,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 15,
+          "null_mean": 0.0,
+          "null_sd_population": 2.2416511771459895,
+          "bootstrap_lower": -2.75,
+          "bootstrap_upper": 2.6499999999999986
+        }
+      },
+      {
+        "case_id": "independent_reference.35",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 3.95,
+          "p_absolute_tail": 0.2857142857142857,
+          "draws": 21,
+          "null_mean": -1.057355261547768e-17,
+          "null_sd_population": 3.3590673308722665,
+          "bootstrap_lower": -0.5,
+          "bootstrap_upper": 9.12
+        },
+        "scipy": {
+          "case_id": "independent_reference.35",
+          "effect": 3.95,
+          "p_absolute_tail": 0.2857142857142857,
+          "p_scipy_native_two_sided": 0.2857142857142857,
+          "draws": 21,
+          "null_mean": -9.516197353929913e-17,
+          "null_sd_population": 3.3590673308722665,
+          "bootstrap_lower": -0.5,
+          "bootstrap_upper": 9.119999999999997
+        }
+      },
+      {
+        "case_id": "independent_reference.36",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.75,
+          "p_absolute_tail": 1.0,
+          "draws": 10,
+          "null_mean": 0.0,
+          "null_sd_population": 4.264680527307995,
+          "bootstrap_lower": -6.050000000000001,
+          "bootstrap_upper": 8.0
+        },
+        "scipy": {
+          "case_id": "independent_reference.36",
+          "effect": 0.75,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 10,
+          "null_mean": 0.0,
+          "null_sd_population": 4.264680527307995,
+          "bootstrap_lower": -6.050000000000002,
+          "bootstrap_upper": 8.0
+        }
+      },
+      {
+        "case_id": "independent_reference.37",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 8.0,
+          "p_absolute_tail": 0.1,
+          "draws": 20,
+          "null_mean": 0.0,
+          "null_sd_population": 3.955305859784353,
+          "bootstrap_lower": 5.333333333333334,
+          "bootstrap_upper": 10.666666666666668
+        },
+        "scipy": {
+          "case_id": "independent_reference.37",
+          "effect": 8.0,
+          "p_absolute_tail": 0.1,
+          "p_scipy_native_two_sided": 0.1,
+          "draws": 20,
+          "null_mean": 0.0,
+          "null_sd_population": 3.9553058597843536,
+          "bootstrap_lower": 5.333333333333334,
+          "bootstrap_upper": 10.666666666666668
+        }
+      },
+      {
+        "case_id": "independent_reference.38",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 4.458333333333334,
+          "p_absolute_tail": 0.14285714285714285,
+          "draws": 35,
+          "null_mean": 3.172065784643304e-17,
+          "null_sd_population": 3.005781466145239,
+          "bootstrap_lower": 1.145833333333333,
+          "bootstrap_upper": 7.4624999999999995
+        },
+        "scipy": {
+          "case_id": "independent_reference.38",
+          "effect": 4.458333333333334,
+          "p_absolute_tail": 0.14285714285714285,
+          "p_scipy_native_two_sided": 0.17142857142857143,
+          "draws": 35,
+          "null_mean": 3.172065784643304e-17,
+          "null_sd_population": 3.0057814661452387,
+          "bootstrap_lower": 1.1458333333333324,
+          "bootstrap_upper": 7.4624999999999995
+        }
+      },
+      {
+        "case_id": "independent_reference.39",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -4.5,
+          "p_absolute_tail": 0.03571428571428571,
+          "draws": 56,
+          "null_mean": -7.93016446160826e-18,
+          "null_sd_population": 2.1375330685272727,
+          "bootstrap_lower": -6.14,
+          "bootstrap_upper": -2.896666666666667
+        },
+        "scipy": {
+          "case_id": "independent_reference.39",
+          "effect": -4.5,
+          "p_absolute_tail": 0.03571428571428571,
+          "p_scipy_native_two_sided": 0.03571428571428571,
+          "draws": 56,
+          "null_mean": -3.172065784643304e-17,
+          "null_sd_population": 2.1375330685272727,
+          "bootstrap_lower": -6.14,
+          "bootstrap_upper": -2.8966666666666665
+        }
+      },
+      {
+        "case_id": "independent_reference.40",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 1.125,
+          "p_absolute_tail": 0.6666666666666666,
+          "draws": 15,
+          "null_mean": 0.0,
+          "null_sd_population": 2.637470378980587,
+          "bootstrap_lower": -2.3875,
+          "bootstrap_upper": 5.274999999999999
+        },
+        "scipy": {
+          "case_id": "independent_reference.40",
+          "effect": 1.125,
+          "p_absolute_tail": 0.6666666666666666,
+          "p_scipy_native_two_sided": 0.6666666666666666,
+          "draws": 15,
+          "null_mean": 0.0,
+          "null_sd_population": 2.637470378980587,
+          "bootstrap_lower": -2.3875,
+          "bootstrap_upper": 5.274999999999999
+        }
+      },
+      {
+        "case_id": "independent_reference.41",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 2.625,
+          "p_absolute_tail": 0.42857142857142855,
+          "draws": 35,
+          "null_mean": 3.489272363107635e-17,
+          "null_sd_population": 2.94981167007131,
+          "bootstrap_lower": -1.625,
+          "bootstrap_upper": 6.183333333333332
+        },
+        "scipy": {
+          "case_id": "independent_reference.41",
+          "effect": 2.625,
+          "p_absolute_tail": 0.42857142857142855,
+          "p_scipy_native_two_sided": 0.5142857142857142,
+          "draws": 35,
+          "null_mean": 5.709718412357947e-17,
+          "null_sd_population": 2.9498116700713095,
+          "bootstrap_lower": -1.625,
+          "bootstrap_upper": 6.183333333333332
+        }
+      },
+      {
+        "case_id": "independent_reference.42",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.75,
+          "p_absolute_tail": 0.6,
+          "draws": 70,
+          "null_mean": 0.0,
+          "null_sd_population": 2.3509116772617626,
+          "bootstrap_lower": -6.0125,
+          "bootstrap_upper": 1.75
+        },
+        "scipy": {
+          "case_id": "independent_reference.42",
+          "effect": -1.75,
+          "p_absolute_tail": 0.6,
+          "p_scipy_native_two_sided": 0.6,
+          "draws": 70,
+          "null_mean": 0.0,
+          "null_sd_population": 2.3509116772617626,
+          "bootstrap_lower": -6.0125,
+          "bootstrap_upper": 1.75
+        }
+      },
+      {
+        "case_id": "independent_reference.43",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -6.75,
+          "p_absolute_tail": 0.007936507936507936,
+          "draws": 126,
+          "null_mean": 5.9476233462061954e-18,
+          "null_sd_population": 2.7041634565979917,
+          "bootstrap_lower": -8.9275,
+          "bootstrap_upper": -5.052500000000001
+        },
+        "scipy": {
+          "case_id": "independent_reference.43",
+          "effect": -6.75,
+          "p_absolute_tail": 0.007936507936507936,
+          "p_scipy_native_two_sided": 0.015873015873015872,
+          "draws": 126,
+          "null_mean": 0.0,
+          "null_sd_population": 2.704163456597992,
+          "bootstrap_lower": -8.9275,
+          "bootstrap_upper": -5.052500000000002
+        }
+      },
+      {
+        "case_id": "independent_reference.44",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.6499999999999999,
+          "p_absolute_tail": 0.9523809523809523,
+          "draws": 21,
+          "null_mean": 7.401486830834377e-17,
+          "null_sd_population": 2.9860788111948193,
+          "bootstrap_lower": -4.1,
+          "bootstrap_upper": 5.219999999999999
+        },
+        "scipy": {
+          "case_id": "independent_reference.44",
+          "effect": 0.6499999999999999,
+          "p_absolute_tail": 0.9523809523809523,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 21,
+          "null_mean": 4.229421046191072e-17,
+          "null_sd_population": 2.9860788111948198,
+          "bootstrap_lower": -4.1,
+          "bootstrap_upper": 5.219999999999999
+        }
+      },
+      {
+        "case_id": "independent_reference.45",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -2.6666666666666665,
+          "p_absolute_tail": 0.26785714285714285,
+          "draws": 56,
+          "null_mean": 1.982541115402065e-18,
+          "null_sd_population": 2.3421601750764798,
+          "bootstrap_lower": -5.406666666666667,
+          "bootstrap_upper": 0.6033333333333332
+        },
+        "scipy": {
+          "case_id": "independent_reference.45",
+          "effect": -2.6666666666666665,
+          "p_absolute_tail": 0.26785714285714285,
+          "p_scipy_native_two_sided": 0.2857142857142857,
+          "draws": 56,
+          "null_mean": 0.0,
+          "null_sd_population": 2.3421601750764798,
+          "bootstrap_lower": -5.406666666666668,
+          "bootstrap_upper": 0.6033333333333332
+        }
+      },
+      {
+        "case_id": "independent_reference.46",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.75,
+          "p_absolute_tail": 0.46825396825396826,
+          "draws": 126,
+          "null_mean": -3.52451753849256e-18,
+          "null_sd_population": 1.8148691412881537,
+          "bootstrap_lower": -4.3825,
+          "bootstrap_upper": 0.48249999999999965
+        },
+        "scipy": {
+          "case_id": "independent_reference.46",
+          "effect": -1.75,
+          "p_absolute_tail": 0.46825396825396826,
+          "p_scipy_native_two_sided": 0.47619047619047616,
+          "draws": 126,
+          "null_mean": 8.8112938462314e-18,
+          "null_sd_population": 1.8148691412881535,
+          "bootstrap_lower": -4.3825,
+          "bootstrap_upper": 0.4824999999999996
+        }
+      },
+      {
+        "case_id": "independent_reference.47",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 2.3000000000000003,
+          "p_absolute_tail": 0.16666666666666666,
+          "draws": 252,
+          "null_mean": 0.0,
+          "null_sd_population": 1.5807874268505835,
+          "bootstrap_lower": 0.20000000000000015,
+          "bootstrap_upper": 4.519999999999999
+        },
+        "scipy": {
+          "case_id": "independent_reference.47",
+          "effect": 2.3000000000000003,
+          "p_absolute_tail": 0.16666666666666666,
+          "p_scipy_native_two_sided": 0.16666666666666666,
+          "draws": 252,
+          "null_mean": 0.0,
+          "null_sd_population": 1.5807874268505835,
+          "bootstrap_lower": 0.20000000000000015,
+          "bootstrap_upper": 4.519999999999999
+        }
+      },
+      {
+        "case_id": "independent_reference.48",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 6.5,
+          "p_absolute_tail": 0.3333333333333333,
+          "draws": 6,
+          "null_mean": 0.0,
+          "null_sd_population": 4.2914643965279105,
+          "bootstrap_lower": 3.5,
+          "bootstrap_upper": 9.5
+        },
+        "scipy": {
+          "case_id": "independent_reference.48",
+          "effect": 6.5,
+          "p_absolute_tail": 0.3333333333333333,
+          "p_scipy_native_two_sided": 0.3333333333333333,
+          "draws": 6,
+          "null_mean": 0.0,
+          "null_sd_population": 4.291464396527911,
+          "bootstrap_lower": 3.5,
+          "bootstrap_upper": 9.5
+        }
+      },
+      {
+        "case_id": "independent_reference.49",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -0.4166666666666665,
+          "p_absolute_tail": 0.9,
+          "draws": 10,
+          "null_mean": 2.2204460492503132e-17,
+          "null_sd_population": 1.4433756729740645,
+          "bootstrap_lower": -2.2,
+          "bootstrap_upper": 1.6666666666666667
+        },
+        "scipy": {
+          "case_id": "independent_reference.49",
+          "effect": -0.4166666666666665,
+          "p_absolute_tail": 0.9,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 10,
+          "null_mean": 2.2204460492503132e-17,
+          "null_sd_population": 1.4433756729740645,
+          "bootstrap_lower": -2.200000000000001,
+          "bootstrap_upper": 1.6666666666666667
+        }
+      },
+      {
+        "case_id": "independent_reference.50",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 1.875,
+          "p_absolute_tail": 0.4,
+          "draws": 15,
+          "null_mean": 0.0,
+          "null_sd_population": 1.9748417658131499,
+          "bootstrap_lower": -0.3875000000000002,
+          "bootstrap_upper": 4.125
+        },
+        "scipy": {
+          "case_id": "independent_reference.50",
+          "effect": 1.875,
+          "p_absolute_tail": 0.4,
+          "p_scipy_native_two_sided": 0.4,
+          "draws": 15,
+          "null_mean": 0.0,
+          "null_sd_population": 1.9748417658131499,
+          "bootstrap_lower": -0.3875000000000004,
+          "bootstrap_upper": 4.125
+        }
+      },
+      {
+        "case_id": "independent_reference.51",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -3.7,
+          "p_absolute_tail": 0.38095238095238093,
+          "draws": 21,
+          "null_mean": 1.586032892321652e-17,
+          "null_sd_population": 4.053804797142227,
+          "bootstrap_lower": -7.91,
+          "bootstrap_upper": 0.5
+        },
+        "scipy": {
+          "case_id": "independent_reference.51",
+          "effect": -3.7,
+          "p_absolute_tail": 0.38095238095238093,
+          "p_scipy_native_two_sided": 0.47619047619047616,
+          "draws": 21,
+          "null_mean": 6.344131569286608e-17,
+          "null_sd_population": 4.053804797142226,
+          "bootstrap_lower": -7.910000000000001,
+          "bootstrap_upper": 0.5
+        }
+      },
+      {
+        "case_id": "independent_reference.52",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -0.8333333333333333,
+          "p_absolute_tail": 0.9,
+          "draws": 10,
+          "null_mean": 6.661338147750939e-17,
+          "null_sd_population": 1.5138251770487456,
+          "bootstrap_lower": -3.0,
+          "bootstrap_upper": 1.5166666666666657
+        },
+        "scipy": {
+          "case_id": "independent_reference.52",
+          "effect": -0.8333333333333333,
+          "p_absolute_tail": 0.9,
+          "p_scipy_native_two_sided": 0.8,
+          "draws": 10,
+          "null_mean": 4.4408920985006264e-17,
+          "null_sd_population": 1.5138251770487459,
+          "bootstrap_lower": -3.0,
+          "bootstrap_upper": 1.5166666666666657
+        }
+      },
+      {
+        "case_id": "independent_reference.53",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 1.3333333333333335,
+          "p_absolute_tail": 0.9,
+          "draws": 20,
+          "null_mean": 0.0,
+          "null_sd_population": 3.3763886032268267,
+          "bootstrap_lower": -2.6833333333333336,
+          "bootstrap_upper": 5.849999999999999
+        },
+        "scipy": {
+          "case_id": "independent_reference.53",
+          "effect": 1.3333333333333335,
+          "p_absolute_tail": 0.9,
+          "p_scipy_native_two_sided": 0.9,
+          "draws": 20,
+          "null_mean": 0.0,
+          "null_sd_population": 3.376388603226826,
+          "bootstrap_lower": -2.683333333333334,
+          "bootstrap_upper": 5.849999999999999
+        }
+      },
+      {
+        "case_id": "independent_reference.54",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 2.375,
+          "p_absolute_tail": 0.4857142857142857,
+          "draws": 35,
+          "null_mean": 8.881784197001253e-17,
+          "null_sd_population": 2.812422838447701,
+          "bootstrap_lower": -2.2208333333333337,
+          "bootstrap_upper": 6.916666666666666
+        },
+        "scipy": {
+          "case_id": "independent_reference.54",
+          "effect": 2.375,
+          "p_absolute_tail": 0.4857142857142857,
+          "p_scipy_native_two_sided": 0.5142857142857142,
+          "draws": 35,
+          "null_mean": 7.612957883143931e-17,
+          "null_sd_population": 2.8124228384477012,
+          "bootstrap_lower": -2.220833333333334,
+          "bootstrap_upper": 6.916666666666666
+        }
+      },
+      {
+        "case_id": "independent_reference.55",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 1.4666666666666668,
+          "p_absolute_tail": 0.6785714285714286,
+          "draws": 56,
+          "null_mean": -2.9738116731030977e-18,
+          "null_sd_population": 2.4611263391266323,
+          "bootstrap_lower": -1.9700000000000002,
+          "bootstrap_upper": 4.8
+        },
+        "scipy": {
+          "case_id": "independent_reference.55",
+          "effect": 1.4666666666666668,
+          "p_absolute_tail": 0.6785714285714286,
+          "p_scipy_native_two_sided": 0.6785714285714286,
+          "draws": 56,
+          "null_mean": 0.0,
+          "null_sd_population": 2.461126339126632,
+          "bootstrap_lower": -1.9700000000000002,
+          "bootstrap_upper": 4.8
+        }
+      },
+      {
+        "case_id": "independent_reference.56",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.75,
+          "p_absolute_tail": 0.7333333333333333,
+          "draws": 15,
+          "null_mean": 0.0,
+          "null_sd_population": 3.1304951684997055,
+          "bootstrap_lower": -7.25,
+          "bootstrap_upper": 4.137499999999999
+        },
+        "scipy": {
+          "case_id": "independent_reference.56",
+          "effect": -1.75,
+          "p_absolute_tail": 0.7333333333333333,
+          "p_scipy_native_two_sided": 0.6666666666666666,
+          "draws": 15,
+          "null_mean": 0.0,
+          "null_sd_population": 3.1304951684997055,
+          "bootstrap_lower": -7.25,
+          "bootstrap_upper": 4.137499999999999
+        }
+      },
+      {
+        "case_id": "independent_reference.57",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.7916666666666667,
+          "p_absolute_tail": 0.8,
+          "draws": 35,
+          "null_mean": -3.1720657846433043e-18,
+          "null_sd_population": 3.101299010988066,
+          "bootstrap_lower": -4.629166666666666,
+          "bootstrap_upper": 5.887499999999999
+        },
+        "scipy": {
+          "case_id": "independent_reference.57",
+          "effect": 0.7916666666666667,
+          "p_absolute_tail": 0.8,
+          "p_scipy_native_two_sided": 0.8571428571428571,
+          "draws": 35,
+          "null_mean": -3.489272363107635e-17,
+          "null_sd_population": 3.101299010988066,
+          "bootstrap_lower": -4.629166666666667,
+          "bootstrap_upper": 5.887499999999999
+        }
+      },
+      {
+        "case_id": "independent_reference.58",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.625,
+          "p_absolute_tail": 0.8285714285714286,
+          "draws": 70,
+          "null_mean": 0.0,
+          "null_sd_population": 2.520894824122124,
+          "bootstrap_lower": -3.5125,
+          "bootstrap_upper": 4.299999999999997
+        },
+        "scipy": {
+          "case_id": "independent_reference.58",
+          "effect": 0.625,
+          "p_absolute_tail": 0.8285714285714286,
+          "p_scipy_native_two_sided": 0.8285714285714286,
+          "draws": 70,
+          "null_mean": 0.0,
+          "null_sd_population": 2.520894824122124,
+          "bootstrap_lower": -3.5125,
+          "bootstrap_upper": 4.299999999999997
+        }
+      },
+      {
+        "case_id": "independent_reference.59",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 2.15,
+          "p_absolute_tail": 0.31746031746031744,
+          "draws": 126,
+          "null_mean": -1.586032892321652e-17,
+          "null_sd_population": 1.9732587260671117,
+          "bootstrap_lower": -0.3025000000000001,
+          "bootstrap_upper": 5.025
+        },
+        "scipy": {
+          "case_id": "independent_reference.59",
+          "effect": 2.15,
+          "p_absolute_tail": 0.31746031746031744,
+          "p_scipy_native_two_sided": 0.3333333333333333,
+          "draws": 126,
+          "null_mean": 4.229421046191072e-17,
+          "null_sd_population": 1.9732587260671117,
+          "bootstrap_lower": -0.3025000000000001,
+          "bootstrap_upper": 5.025
+        }
+      },
+      {
+        "case_id": "independent_reference.60",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -2.3,
+          "p_absolute_tail": 0.6666666666666666,
+          "draws": 21,
+          "null_mean": 7.93016446160826e-18,
+          "null_sd_population": 3.2914029430219167,
+          "bootstrap_lower": -7.6,
+          "bootstrap_upper": 2.4
+        },
+        "scipy": {
+          "case_id": "independent_reference.60",
+          "effect": -2.3,
+          "p_absolute_tail": 0.6666666666666666,
+          "p_scipy_native_two_sided": 0.7619047619047619,
+          "draws": 21,
+          "null_mean": 3.172065784643304e-17,
+          "null_sd_population": 3.2914029430219163,
+          "bootstrap_lower": -7.6,
+          "bootstrap_upper": 2.4
+        }
+      },
+      {
+        "case_id": "independent_reference.61",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 2.7666666666666666,
+          "p_absolute_tail": 0.30357142857142855,
+          "draws": 56,
+          "null_mean": -5.15460690004537e-17,
+          "null_sd_population": 2.456769074559977,
+          "bootstrap_lower": -0.6000000000000001,
+          "bootstrap_upper": 6.303333333333333
+        },
+        "scipy": {
+          "case_id": "independent_reference.61",
+          "effect": 2.7666666666666666,
+          "p_absolute_tail": 0.30357142857142855,
+          "p_scipy_native_two_sided": 0.35714285714285715,
+          "draws": 56,
+          "null_mean": -9.516197353929913e-17,
+          "null_sd_population": 2.456769074559977,
+          "bootstrap_lower": -0.6000000000000001,
+          "bootstrap_upper": 6.303333333333333
+        }
+      },
+      {
+        "case_id": "independent_reference.62",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 4.225,
+          "p_absolute_tail": 0.12698412698412698,
+          "draws": 126,
+          "null_mean": 8.37072915391983e-18,
+          "null_sd_population": 2.5986775482925926,
+          "bootstrap_lower": 1.3699999999999994,
+          "bootstrap_upper": 6.96
+        },
+        "scipy": {
+          "case_id": "independent_reference.62",
+          "effect": 4.225,
+          "p_absolute_tail": 0.12698412698412698,
+          "p_scipy_native_two_sided": 0.14285714285714285,
+          "draws": 126,
+          "null_mean": 6.344131569286608e-17,
+          "null_sd_population": 2.5986775482925926,
+          "bootstrap_lower": 1.3699999999999988,
+          "bootstrap_upper": 6.96
+        }
+      },
+      {
+        "case_id": "independent_reference.63",
+        "adapter": "INDEPENDENT_REFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -5.3,
+          "p_absolute_tail": 0.05555555555555555,
+          "draws": 252,
+          "null_mean": 0.0,
+          "null_sd_population": 2.947880594596735,
+          "bootstrap_lower": -8.52,
+          "bootstrap_upper": -2.1
+        },
+        "scipy": {
+          "case_id": "independent_reference.63",
+          "effect": -5.3,
+          "p_absolute_tail": 0.05555555555555555,
+          "p_scipy_native_two_sided": 0.05555555555555555,
+          "draws": 252,
+          "null_mean": 0.0,
+          "null_sd_population": 2.947880594596735,
+          "bootstrap_lower": -8.520000000000001,
+          "bootstrap_upper": -2.1
+        }
+      },
+      {
+        "case_id": "paired_difference.0",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 2.0,
+          "p_absolute_tail": 0.5,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 1.4142135623730951,
+          "bootstrap_lower": 2.0,
+          "bootstrap_upper": 2.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.0",
+          "effect": 2.0,
+          "p_absolute_tail": 0.5,
+          "p_scipy_native_two_sided": 0.5,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 1.4142135623730951,
+          "bootstrap_lower": 2.0,
+          "bootstrap_upper": 2.0
+        }
+      },
+      {
+        "case_id": "paired_difference.1",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 2.0,
+          "p_absolute_tail": 0.25,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 1.1547005383792515,
+          "bootstrap_lower": 2.0,
+          "bootstrap_upper": 2.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.1",
+          "effect": 2.0,
+          "p_absolute_tail": 0.25,
+          "p_scipy_native_two_sided": 0.25,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 1.1547005383792517,
+          "bootstrap_lower": 2.0,
+          "bootstrap_upper": 2.0
+        }
+      },
+      {
+        "case_id": "paired_difference.2",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.0,
+          "p_absolute_tail": 1.0,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 0.0,
+          "bootstrap_lower": 0.0,
+          "bootstrap_upper": 0.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.2",
+          "effect": 0.0,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 0.0,
+          "bootstrap_lower": 0.0,
+          "bootstrap_upper": 0.0
+        }
+      },
+      {
+        "case_id": "paired_difference.3",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 1.3,
+          "p_absolute_tail": 0.8125,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.951270912674741,
+          "bootstrap_lower": -3.6,
+          "bootstrap_upper": 6.31
+        },
+        "scipy": {
+          "case_id": "paired_difference.3",
+          "effect": 1.3,
+          "p_absolute_tail": 0.8125,
+          "p_scipy_native_two_sided": 0.8125,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.951270912674741,
+          "bootstrap_lower": -3.5999999999999996,
+          "bootstrap_upper": 6.309999999999999
+        }
+      },
+      {
+        "case_id": "paired_difference.4",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 4.75,
+          "p_absolute_tail": 0.5,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 3.716517186829626,
+          "bootstrap_lower": 2.5,
+          "bootstrap_upper": 7.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.4",
+          "effect": 4.75,
+          "p_absolute_tail": 0.5,
+          "p_scipy_native_two_sided": 0.5,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 3.7165171868296265,
+          "bootstrap_lower": 2.5,
+          "bootstrap_upper": 7.0
+        }
+      },
+      {
+        "case_id": "paired_difference.5",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -7.166666666666667,
+          "p_absolute_tail": 0.25,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 4.645786621588784,
+          "bootstrap_lower": -9.833333333333334,
+          "bootstrap_upper": -4.5
+        },
+        "scipy": {
+          "case_id": "paired_difference.5",
+          "effect": -7.166666666666667,
+          "p_absolute_tail": 0.25,
+          "p_scipy_native_two_sided": 0.25,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 4.645786621588784,
+          "bootstrap_lower": -9.833333333333334,
+          "bootstrap_upper": -4.5
+        }
+      },
+      {
+        "case_id": "paired_difference.6",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -4.75,
+          "p_absolute_tail": 0.125,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 2.9047375096555625,
+          "bootstrap_lower": -7.75,
+          "bootstrap_upper": -2.5
+        },
+        "scipy": {
+          "case_id": "paired_difference.6",
+          "effect": -4.75,
+          "p_absolute_tail": 0.125,
+          "p_scipy_native_two_sided": 0.125,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 2.9047375096555625,
+          "bootstrap_lower": -7.75,
+          "bootstrap_upper": -2.5
+        }
+      },
+      {
+        "case_id": "paired_difference.7",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.4,
+          "p_absolute_tail": 0.9375,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 1.994993734326,
+          "bootstrap_lower": -2.2,
+          "bootstrap_upper": 3.5
+        },
+        "scipy": {
+          "case_id": "paired_difference.7",
+          "effect": 0.4,
+          "p_absolute_tail": 0.9375,
+          "p_scipy_native_two_sided": 0.9375,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 1.9949937343260002,
+          "bootstrap_lower": -2.1999999999999997,
+          "bootstrap_upper": 3.5
+        }
+      },
+      {
+        "case_id": "paired_difference.8",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -5.75,
+          "p_absolute_tail": 0.5,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 4.5069390943299865,
+          "bootstrap_lower": -8.5,
+          "bootstrap_upper": -3.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.8",
+          "effect": -5.75,
+          "p_absolute_tail": 0.5,
+          "p_scipy_native_two_sided": 0.5,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 4.5069390943299865,
+          "bootstrap_lower": -8.5,
+          "bootstrap_upper": -3.0
+        }
+      },
+      {
+        "case_id": "paired_difference.9",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.16666666666666666,
+          "p_absolute_tail": 1.0,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 0.8975274678557507,
+          "bootstrap_lower": -1.0,
+          "bootstrap_upper": 1.3333333333333333
+        },
+        "scipy": {
+          "case_id": "paired_difference.9",
+          "effect": 0.16666666666666666,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 0.8975274678557507,
+          "bootstrap_lower": -0.9999999999999998,
+          "bootstrap_upper": 1.333333333333333
+        }
+      },
+      {
+        "case_id": "paired_difference.10",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 2.125,
+          "p_absolute_tail": 0.5,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 1.7001838135919305,
+          "bootstrap_lower": 0.5,
+          "bootstrap_upper": 4.25
+        },
+        "scipy": {
+          "case_id": "paired_difference.10",
+          "effect": 2.125,
+          "p_absolute_tail": 0.5,
+          "p_scipy_native_two_sided": 0.5,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 1.7001838135919305,
+          "bootstrap_lower": 0.5,
+          "bootstrap_upper": 4.25
+        }
+      },
+      {
+        "case_id": "paired_difference.11",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.3,
+          "p_absolute_tail": 0.6875,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.6664583251946765,
+          "bootstrap_lower": -5.8,
+          "bootstrap_upper": 3.5
+        },
+        "scipy": {
+          "case_id": "paired_difference.11",
+          "effect": -1.3,
+          "p_absolute_tail": 0.6875,
+          "p_scipy_native_two_sided": 0.6875,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.6664583251946765,
+          "bootstrap_lower": -5.8,
+          "bootstrap_upper": 3.5
+        }
+      },
+      {
+        "case_id": "paired_difference.12",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.5,
+          "p_absolute_tail": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 2.850438562747845,
+          "bootstrap_lower": -3.5,
+          "bootstrap_upper": 4.5
+        },
+        "scipy": {
+          "case_id": "paired_difference.12",
+          "effect": 0.5,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 2.850438562747845,
+          "bootstrap_lower": -3.5,
+          "bootstrap_upper": 4.5
+        }
+      },
+      {
+        "case_id": "paired_difference.13",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -3.3333333333333335,
+          "p_absolute_tail": 0.75,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 3.659083066683358,
+          "bootstrap_lower": -7.666666666666667,
+          "bootstrap_upper": 1.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.13",
+          "effect": -3.3333333333333335,
+          "p_absolute_tail": 0.75,
+          "p_scipy_native_two_sided": 0.75,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 3.6590830666833583,
+          "bootstrap_lower": -7.666666666666667,
+          "bootstrap_upper": 1.0
+        }
+      },
+      {
+        "case_id": "paired_difference.14",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.125,
+          "p_absolute_tail": 0.5,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 0.8926785535678563,
+          "bootstrap_lower": -1.875,
+          "bootstrap_upper": 0.125
+        },
+        "scipy": {
+          "case_id": "paired_difference.14",
+          "effect": -1.125,
+          "p_absolute_tail": 0.5,
+          "p_scipy_native_two_sided": 0.5,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 0.8926785535678563,
+          "bootstrap_lower": -1.875,
+          "bootstrap_upper": 0.125
+        }
+      },
+      {
+        "case_id": "paired_difference.15",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.8,
+          "p_absolute_tail": 0.6875,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.0,
+          "bootstrap_lower": -3.1100000000000003,
+          "bootstrap_upper": 4.5
+        },
+        "scipy": {
+          "case_id": "paired_difference.15",
+          "effect": 0.8,
+          "p_absolute_tail": 0.6875,
+          "p_scipy_native_two_sided": 0.6875,
+          "draws": 32,
+          "null_mean": 1.1102230246251565e-16,
+          "null_sd_population": 2.0,
+          "bootstrap_lower": -3.1100000000000003,
+          "bootstrap_upper": 4.5
+        }
+      },
+      {
+        "case_id": "paired_difference.16",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -2.0,
+          "p_absolute_tail": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 5.1478150704935,
+          "bootstrap_lower": -9.0,
+          "bootstrap_upper": 5.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.16",
+          "effect": -2.0,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 5.1478150704935,
+          "bootstrap_lower": -9.0,
+          "bootstrap_upper": 5.0
+        }
+      },
+      {
+        "case_id": "paired_difference.17",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -0.3333333333333333,
+          "p_absolute_tail": 1.0,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 1.6158932858054431,
+          "bootstrap_lower": -2.5,
+          "bootstrap_upper": 1.8333333333333333
+        },
+        "scipy": {
+          "case_id": "paired_difference.17",
+          "effect": -0.3333333333333333,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 1.6158932858054431,
+          "bootstrap_lower": -2.5,
+          "bootstrap_upper": 1.8333333333333333
+        }
+      },
+      {
+        "case_id": "paired_difference.18",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -2.125,
+          "p_absolute_tail": 0.625,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 2.3351927115336757,
+          "bootstrap_lower": -5.0,
+          "bootstrap_upper": 0.75
+        },
+        "scipy": {
+          "case_id": "paired_difference.18",
+          "effect": -2.125,
+          "p_absolute_tail": 0.625,
+          "p_scipy_native_two_sided": 0.625,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 2.3351927115336757,
+          "bootstrap_lower": -5.0,
+          "bootstrap_upper": 0.75
+        }
+      },
+      {
+        "case_id": "paired_difference.19",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 2.9,
+          "p_absolute_tail": 0.375,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.5039968051097827,
+          "bootstrap_lower": -1.1,
+          "bootstrap_upper": 6.9
+        },
+        "scipy": {
+          "case_id": "paired_difference.19",
+          "effect": 2.9,
+          "p_absolute_tail": 0.375,
+          "p_scipy_native_two_sided": 0.375,
+          "draws": 32,
+          "null_mean": -1.1102230246251565e-16,
+          "null_sd_population": 2.5039968051097827,
+          "bootstrap_lower": -1.1,
+          "bootstrap_upper": 6.9
+        }
+      },
+      {
+        "case_id": "paired_difference.20",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 1.5,
+          "p_absolute_tail": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 6.45174395028197,
+          "bootstrap_lower": -7.5,
+          "bootstrap_upper": 10.5
+        },
+        "scipy": {
+          "case_id": "paired_difference.20",
+          "effect": 1.5,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 6.45174395028197,
+          "bootstrap_lower": -7.5,
+          "bootstrap_upper": 10.5
+        }
+      },
+      {
+        "case_id": "paired_difference.21",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.0,
+          "p_absolute_tail": 1.0,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 2.0138409955990952,
+          "bootstrap_lower": -3.6666666666666665,
+          "bootstrap_upper": 1.6666666666666667
+        },
+        "scipy": {
+          "case_id": "paired_difference.21",
+          "effect": -1.0,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 2.0138409955990952,
+          "bootstrap_lower": -3.666666666666667,
+          "bootstrap_upper": 1.6666666666666665
+        }
+      },
+      {
+        "case_id": "paired_difference.22",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.875,
+          "p_absolute_tail": 0.875,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 3.094854600784987,
+          "bootstrap_lower": -4.5,
+          "bootstrap_upper": 5.224999999999994
+        },
+        "scipy": {
+          "case_id": "paired_difference.22",
+          "effect": 0.875,
+          "p_absolute_tail": 0.875,
+          "p_scipy_native_two_sided": 0.875,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 3.094854600784987,
+          "bootstrap_lower": -4.5,
+          "bootstrap_upper": 5.224999999999994
+        }
+      },
+      {
+        "case_id": "paired_difference.23",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.1,
+          "p_absolute_tail": 0.875,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.5278449319529077,
+          "bootstrap_lower": -5.91,
+          "bootstrap_upper": 2.8
+        },
+        "scipy": {
+          "case_id": "paired_difference.23",
+          "effect": -1.1,
+          "p_absolute_tail": 0.875,
+          "p_scipy_native_two_sided": 0.875,
+          "draws": 32,
+          "null_mean": -1.1102230246251565e-16,
+          "null_sd_population": 2.5278449319529077,
+          "bootstrap_lower": -5.910000000000001,
+          "bootstrap_upper": 2.8
+        }
+      },
+      {
+        "case_id": "paired_difference.24",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.25,
+          "p_absolute_tail": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 3.132491021535417,
+          "bootstrap_lower": -5.5,
+          "bootstrap_upper": 3.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.24",
+          "effect": -1.25,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 3.132491021535417,
+          "bootstrap_lower": -5.5,
+          "bootstrap_upper": 3.0
+        }
+      },
+      {
+        "case_id": "paired_difference.25",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.0,
+          "p_absolute_tail": 1.0,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 3.741657386773941,
+          "bootstrap_lower": -5.0,
+          "bootstrap_upper": 5.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.25",
+          "effect": 0.0,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 3.7416573867739413,
+          "bootstrap_lower": -5.0,
+          "bootstrap_upper": 5.0
+        }
+      },
+      {
+        "case_id": "paired_difference.26",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 3.0,
+          "p_absolute_tail": 0.5,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 2.6040833319999575,
+          "bootstrap_lower": 0.625,
+          "bootstrap_upper": 5.375
+        },
+        "scipy": {
+          "case_id": "paired_difference.26",
+          "effect": 3.0,
+          "p_absolute_tail": 0.5,
+          "p_scipy_native_two_sided": 0.5,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 2.6040833319999575,
+          "bootstrap_lower": 0.625,
+          "bootstrap_upper": 5.375
+        }
+      },
+      {
+        "case_id": "paired_difference.27",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -0.8,
+          "p_absolute_tail": 0.875,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.0199009876724157,
+          "bootstrap_lower": -4.4,
+          "bootstrap_upper": 2.0199999999999987
+        },
+        "scipy": {
+          "case_id": "paired_difference.27",
+          "effect": -0.8,
+          "p_absolute_tail": 0.875,
+          "p_scipy_native_two_sided": 0.875,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.0199009876724157,
+          "bootstrap_lower": -4.4,
+          "bootstrap_upper": 2.0199999999999987
+        }
+      },
+      {
+        "case_id": "paired_difference.28",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 1.5,
+          "p_absolute_tail": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 2.3717082451262845,
+          "bootstrap_lower": -1.5,
+          "bootstrap_upper": 4.5
+        },
+        "scipy": {
+          "case_id": "paired_difference.28",
+          "effect": 1.5,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 2.3717082451262845,
+          "bootstrap_lower": -1.5,
+          "bootstrap_upper": 4.5
+        }
+      },
+      {
+        "case_id": "paired_difference.29",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.8333333333333334,
+          "p_absolute_tail": 0.75,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 1.7240134054647664,
+          "bootstrap_lower": -1.5,
+          "bootstrap_upper": 3.1666666666666665
+        },
+        "scipy": {
+          "case_id": "paired_difference.29",
+          "effect": 0.8333333333333334,
+          "p_absolute_tail": 0.75,
+          "p_scipy_native_two_sided": 0.75,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 1.7240134054647667,
+          "bootstrap_lower": -1.5,
+          "bootstrap_upper": 3.1666666666666665
+        }
+      },
+      {
+        "case_id": "paired_difference.30",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 2.625,
+          "p_absolute_tail": 0.5,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 3.2331292890943906,
+          "bootstrap_lower": -1.4375000000000009,
+          "bootstrap_upper": 6.625
+        },
+        "scipy": {
+          "case_id": "paired_difference.30",
+          "effect": 2.625,
+          "p_absolute_tail": 0.5,
+          "p_scipy_native_two_sided": 0.5,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 3.2331292890943906,
+          "bootstrap_lower": -1.437500000000002,
+          "bootstrap_upper": 6.625
+        }
+      },
+      {
+        "case_id": "paired_difference.31",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -2.3,
+          "p_absolute_tail": 0.375,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 1.9261360284258222,
+          "bootstrap_lower": -5.01,
+          "bootstrap_upper": -0.08000000000000114
+        },
+        "scipy": {
+          "case_id": "paired_difference.31",
+          "effect": -2.3,
+          "p_absolute_tail": 0.375,
+          "p_scipy_native_two_sided": 0.375,
+          "draws": 32,
+          "null_mean": 5.551115123125783e-17,
+          "null_sd_population": 1.9261360284258222,
+          "bootstrap_lower": -5.01,
+          "bootstrap_upper": -0.08000000000000124
+        }
+      },
+      {
+        "case_id": "paired_difference.32",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.5,
+          "p_absolute_tail": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 2.06155281280883,
+          "bootstrap_lower": -4.0,
+          "bootstrap_upper": 1.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.32",
+          "effect": -1.5,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 2.0615528128088303,
+          "bootstrap_lower": -4.0,
+          "bootstrap_upper": 1.0
+        }
+      },
+      {
+        "case_id": "paired_difference.33",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.0,
+          "p_absolute_tail": 0.75,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 2.4267032964268394,
+          "bootstrap_lower": -4.333333333333333,
+          "bootstrap_upper": 2.3333333333333335
+        },
+        "scipy": {
+          "case_id": "paired_difference.33",
+          "effect": -1.0,
+          "p_absolute_tail": 0.75,
+          "p_scipy_native_two_sided": 0.75,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 2.4267032964268394,
+          "bootstrap_lower": -4.333333333333333,
+          "bootstrap_upper": 2.3333333333333335
+        }
+      },
+      {
+        "case_id": "paired_difference.34",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.5,
+          "p_absolute_tail": 0.25,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 1.0458250331675945,
+          "bootstrap_lower": -2.75,
+          "bootstrap_upper": -0.25
+        },
+        "scipy": {
+          "case_id": "paired_difference.34",
+          "effect": -1.5,
+          "p_absolute_tail": 0.25,
+          "p_scipy_native_two_sided": 0.25,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 1.0458250331675945,
+          "bootstrap_lower": -2.75,
+          "bootstrap_upper": -0.25
+        }
+      },
+      {
+        "case_id": "paired_difference.35",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 2.5,
+          "p_absolute_tail": 0.375,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.729468812791236,
+          "bootstrap_lower": -2.3,
+          "bootstrap_upper": 6.219999999999999
+        },
+        "scipy": {
+          "case_id": "paired_difference.35",
+          "effect": 2.5,
+          "p_absolute_tail": 0.375,
+          "p_scipy_native_two_sided": 0.375,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.729468812791236,
+          "bootstrap_lower": -2.3,
+          "bootstrap_upper": 6.219999999999999
+        }
+      },
+      {
+        "case_id": "paired_difference.36",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.5,
+          "p_absolute_tail": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 5.062114182829147,
+          "bootstrap_lower": -8.5,
+          "bootstrap_upper": 5.5
+        },
+        "scipy": {
+          "case_id": "paired_difference.36",
+          "effect": -1.5,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 5.062114182829147,
+          "bootstrap_lower": -8.5,
+          "bootstrap_upper": 5.5
+        }
+      },
+      {
+        "case_id": "paired_difference.37",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 3.3333333333333335,
+          "p_absolute_tail": 0.5,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 3.822448313726572,
+          "bootstrap_lower": -1.1666666666666667,
+          "bootstrap_upper": 7.833333333333333
+        },
+        "scipy": {
+          "case_id": "paired_difference.37",
+          "effect": 3.3333333333333335,
+          "p_absolute_tail": 0.5,
+          "p_scipy_native_two_sided": 0.5,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 3.8224483137265715,
+          "bootstrap_lower": -1.1666666666666667,
+          "bootstrap_upper": 7.833333333333333
+        }
+      },
+      {
+        "case_id": "paired_difference.38",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -0.125,
+          "p_absolute_tail": 1.0,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 1.5461646096066228,
+          "bootstrap_lower": -2.5,
+          "bootstrap_upper": 1.9124999999999979
+        },
+        "scipy": {
+          "case_id": "paired_difference.38",
+          "effect": -0.125,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 1.5461646096066226,
+          "bootstrap_lower": -2.5,
+          "bootstrap_upper": 1.9124999999999979
+        }
+      },
+      {
+        "case_id": "paired_difference.39",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.8,
+          "p_absolute_tail": 0.4375,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.280350850198276,
+          "bootstrap_lower": -5.1,
+          "bootstrap_upper": 2.3
+        },
+        "scipy": {
+          "case_id": "paired_difference.39",
+          "effect": -1.8,
+          "p_absolute_tail": 0.4375,
+          "p_scipy_native_two_sided": 0.4375,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.280350850198276,
+          "bootstrap_lower": -5.1,
+          "bootstrap_upper": 2.3
+        }
+      },
+      {
+        "case_id": "paired_difference.40",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 3.75,
+          "p_absolute_tail": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 4.2793106921559225,
+          "bootstrap_lower": -1.0,
+          "bootstrap_upper": 8.5
+        },
+        "scipy": {
+          "case_id": "paired_difference.40",
+          "effect": 3.75,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 4.2793106921559225,
+          "bootstrap_lower": -1.0,
+          "bootstrap_upper": 8.5
+        }
+      },
+      {
+        "case_id": "paired_difference.41",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 1.1666666666666667,
+          "p_absolute_tail": 0.75,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 2.5110865288865605,
+          "bootstrap_lower": -2.1666666666666665,
+          "bootstrap_upper": 4.5
+        },
+        "scipy": {
+          "case_id": "paired_difference.41",
+          "effect": 1.1666666666666667,
+          "p_absolute_tail": 0.75,
+          "p_scipy_native_two_sided": 0.75,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 2.511086528886561,
+          "bootstrap_lower": -2.166666666666667,
+          "bootstrap_upper": 4.5
+        }
+      },
+      {
+        "case_id": "paired_difference.42",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.875,
+          "p_absolute_tail": 0.75,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 1.2808688457449497,
+          "bootstrap_lower": -1.25,
+          "bootstrap_upper": 2.549999999999997
+        },
+        "scipy": {
+          "case_id": "paired_difference.42",
+          "effect": 0.875,
+          "p_absolute_tail": 0.75,
+          "p_scipy_native_two_sided": 0.75,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 1.2808688457449497,
+          "bootstrap_lower": -1.25,
+          "bootstrap_upper": 2.549999999999997
+        }
+      },
+      {
+        "case_id": "paired_difference.43",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -0.7,
+          "p_absolute_tail": 0.75,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.2825424421026654,
+          "bootstrap_lower": -3.8,
+          "bootstrap_upper": 2.7099999999999995
+        },
+        "scipy": {
+          "case_id": "paired_difference.43",
+          "effect": -0.7,
+          "p_absolute_tail": 0.75,
+          "p_scipy_native_two_sided": 0.75,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.2825424421026654,
+          "bootstrap_lower": -3.8,
+          "bootstrap_upper": 2.709999999999999
+        }
+      },
+      {
+        "case_id": "paired_difference.44",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -0.5,
+          "p_absolute_tail": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 2.1505813167606567,
+          "bootstrap_lower": -3.5,
+          "bootstrap_upper": 2.5
+        },
+        "scipy": {
+          "case_id": "paired_difference.44",
+          "effect": -0.5,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 2.1505813167606567,
+          "bootstrap_lower": -3.5,
+          "bootstrap_upper": 2.5
+        }
+      },
+      {
+        "case_id": "paired_difference.45",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.0,
+          "p_absolute_tail": 1.0,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 3.7043517951488116,
+          "bootstrap_lower": -4.833333333333333,
+          "bootstrap_upper": 4.833333333333333
+        },
+        "scipy": {
+          "case_id": "paired_difference.45",
+          "effect": 0.0,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 3.704351795148811,
+          "bootstrap_lower": -4.833333333333333,
+          "bootstrap_upper": 4.833333333333334
+        }
+      },
+      {
+        "case_id": "paired_difference.46",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -2.375,
+          "p_absolute_tail": 0.5,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 1.940521837032503,
+          "bootstrap_lower": -4.837500000000001,
+          "bootstrap_upper": 0.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.46",
+          "effect": -2.375,
+          "p_absolute_tail": 0.5,
+          "p_scipy_native_two_sided": 0.5,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 1.940521837032503,
+          "bootstrap_lower": -4.837500000000002,
+          "bootstrap_upper": 0.0
+        }
+      },
+      {
+        "case_id": "paired_difference.47",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -1.6,
+          "p_absolute_tail": 0.625,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.024845673131659,
+          "bootstrap_lower": -4.720000000000001,
+          "bootstrap_upper": 1.319999999999999
+        },
+        "scipy": {
+          "case_id": "paired_difference.47",
+          "effect": -1.6,
+          "p_absolute_tail": 0.625,
+          "p_scipy_native_two_sided": 0.625,
+          "draws": 32,
+          "null_mean": 5.551115123125783e-17,
+          "null_sd_population": 2.0248456731316584,
+          "bootstrap_lower": -4.720000000000001,
+          "bootstrap_upper": 1.319999999999999
+        }
+      },
+      {
+        "case_id": "paired_difference.48",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 3.25,
+          "p_absolute_tail": 0.5,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 2.6100766272276377,
+          "bootstrap_lower": 1.5,
+          "bootstrap_upper": 5.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.48",
+          "effect": 3.25,
+          "p_absolute_tail": 0.5,
+          "p_scipy_native_two_sided": 0.5,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 2.6100766272276377,
+          "bootstrap_lower": 1.5,
+          "bootstrap_upper": 5.0
+        }
+      },
+      {
+        "case_id": "paired_difference.49",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.3333333333333333,
+          "p_absolute_tail": 1.0,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 1.1303883305208782,
+          "bootstrap_lower": -1.5,
+          "bootstrap_upper": 1.8333333333333333
+        },
+        "scipy": {
+          "case_id": "paired_difference.49",
+          "effect": 0.3333333333333333,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 1.1303883305208782,
+          "bootstrap_lower": -1.5,
+          "bootstrap_upper": 1.8333333333333333
+        }
+      },
+      {
+        "case_id": "paired_difference.50",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -0.125,
+          "p_absolute_tail": 1.0,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 1.231107225224513,
+          "bootstrap_lower": -1.8875000000000002,
+          "bootstrap_upper": 1.75
+        },
+        "scipy": {
+          "case_id": "paired_difference.50",
+          "effect": -0.125,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 1.231107225224513,
+          "bootstrap_lower": -1.8875000000000004,
+          "bootstrap_upper": 1.75
+        }
+      },
+      {
+        "case_id": "paired_difference.51",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 4.0,
+          "p_absolute_tail": 0.0625,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.0346989949375804,
+          "bootstrap_lower": 2.4,
+          "bootstrap_upper": 5.6
+        },
+        "scipy": {
+          "case_id": "paired_difference.51",
+          "effect": 4.0,
+          "p_absolute_tail": 0.0625,
+          "p_scipy_native_two_sided": 0.0625,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.0346989949375804,
+          "bootstrap_lower": 2.4,
+          "bootstrap_upper": 5.6
+        }
+      },
+      {
+        "case_id": "paired_difference.52",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -3.25,
+          "p_absolute_tail": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 3.25,
+          "bootstrap_lower": -6.5,
+          "bootstrap_upper": 0.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.52",
+          "effect": -3.25,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 3.25,
+          "bootstrap_lower": -6.5,
+          "bootstrap_upper": 0.0
+        }
+      },
+      {
+        "case_id": "paired_difference.53",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -2.3333333333333335,
+          "p_absolute_tail": 0.5,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 1.9293061504650377,
+          "bootstrap_lower": -4.5,
+          "bootstrap_upper": 1.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.53",
+          "effect": -2.3333333333333335,
+          "p_absolute_tail": 0.5,
+          "p_scipy_native_two_sided": 0.5,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 1.9293061504650375,
+          "bootstrap_lower": -4.5,
+          "bootstrap_upper": 1.0
+        }
+      },
+      {
+        "case_id": "paired_difference.54",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.375,
+          "p_absolute_tail": 1.0,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 2.050152433357091,
+          "bootstrap_lower": -3.25,
+          "bootstrap_upper": 3.1874999999999964
+        },
+        "scipy": {
+          "case_id": "paired_difference.54",
+          "effect": 0.375,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 2.050152433357091,
+          "bootstrap_lower": -3.25,
+          "bootstrap_upper": 3.1874999999999964
+        }
+      },
+      {
+        "case_id": "paired_difference.55",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -2.4,
+          "p_absolute_tail": 0.3125,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.1540659228538015,
+          "bootstrap_lower": -5.1,
+          "bootstrap_upper": 0.7299999999999982
+        },
+        "scipy": {
+          "case_id": "paired_difference.55",
+          "effect": -2.4,
+          "p_absolute_tail": 0.3125,
+          "p_scipy_native_two_sided": 0.3125,
+          "draws": 32,
+          "null_mean": -5.551115123125783e-17,
+          "null_sd_population": 2.154065922853802,
+          "bootstrap_lower": -5.1,
+          "bootstrap_upper": 0.7299999999999984
+        }
+      },
+      {
+        "case_id": "paired_difference.56",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 0.0,
+          "p_absolute_tail": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 3.1819805153394642,
+          "bootstrap_lower": -4.5,
+          "bootstrap_upper": 4.5
+        },
+        "scipy": {
+          "case_id": "paired_difference.56",
+          "effect": 0.0,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 3.181980515339464,
+          "bootstrap_lower": -4.5,
+          "bootstrap_upper": 4.5
+        }
+      },
+      {
+        "case_id": "paired_difference.57",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -0.16666666666666666,
+          "p_absolute_tail": 1.0,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 1.707825127659933,
+          "bootstrap_lower": -2.3333333333333335,
+          "bootstrap_upper": 2.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.57",
+          "effect": -0.16666666666666666,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 1.7078251276599332,
+          "bootstrap_lower": -2.3333333333333335,
+          "bootstrap_upper": 2.0
+        }
+      },
+      {
+        "case_id": "paired_difference.58",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 2.5,
+          "p_absolute_tail": 0.25,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 1.6393596310755003,
+          "bootstrap_lower": 0.25,
+          "bootstrap_upper": 4.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.58",
+          "effect": 2.5,
+          "p_absolute_tail": 0.25,
+          "p_scipy_native_two_sided": 0.25,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 1.6393596310755,
+          "bootstrap_lower": 0.25,
+          "bootstrap_upper": 4.0
+        }
+      },
+      {
+        "case_id": "paired_difference.59",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 1.8,
+          "p_absolute_tail": 0.625,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 2.792848008753788,
+          "bootstrap_lower": -2.8,
+          "bootstrap_upper": 6.6
+        },
+        "scipy": {
+          "case_id": "paired_difference.59",
+          "effect": 1.8,
+          "p_absolute_tail": 0.625,
+          "p_scipy_native_two_sided": 0.625,
+          "draws": 32,
+          "null_mean": 1.1102230246251565e-16,
+          "null_sd_population": 2.7928480087537886,
+          "bootstrap_lower": -2.8,
+          "bootstrap_upper": 6.6
+        }
+      },
+      {
+        "case_id": "paired_difference.60",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 5.0,
+          "p_absolute_tail": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 5.522680508593631,
+          "bootstrap_lower": -1.0,
+          "bootstrap_upper": 11.0
+        },
+        "scipy": {
+          "case_id": "paired_difference.60",
+          "effect": 5.0,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 4,
+          "null_mean": 0.0,
+          "null_sd_population": 5.522680508593631,
+          "bootstrap_lower": -1.0,
+          "bootstrap_upper": 11.0
+        }
+      },
+      {
+        "case_id": "paired_difference.61",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 1.0,
+          "p_absolute_tail": 1.0,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 1.7480147469502525,
+          "bootstrap_lower": -1.1666666666666667,
+          "bootstrap_upper": 3.3499999999999894
+        },
+        "scipy": {
+          "case_id": "paired_difference.61",
+          "effect": 1.0,
+          "p_absolute_tail": 1.0,
+          "p_scipy_native_two_sided": 1.0,
+          "draws": 8,
+          "null_mean": 0.0,
+          "null_sd_population": 1.7480147469502527,
+          "bootstrap_lower": -1.1666666666666667,
+          "bootstrap_upper": 3.34999999999999
+        }
+      },
+      {
+        "case_id": "paired_difference.62",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": -4.875,
+          "p_absolute_tail": 0.125,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 2.976470224947664,
+          "bootstrap_lower": -8.25,
+          "bootstrap_upper": -2.625
+        },
+        "scipy": {
+          "case_id": "paired_difference.62",
+          "effect": -4.875,
+          "p_absolute_tail": 0.125,
+          "p_scipy_native_two_sided": 0.125,
+          "draws": 16,
+          "null_mean": 0.0,
+          "null_sd_population": 2.9764702249476644,
+          "bootstrap_lower": -8.25,
+          "bootstrap_upper": -2.625
+        }
+      },
+      {
+        "case_id": "paired_difference.63",
+        "adapter": "PAIRED_DIFFERENCE",
+        "matches": {
+          "effect": true,
+          "p_absolute_tail": true,
+          "draws": true,
+          "null_mean": true,
+          "null_sd_population": true,
+          "bootstrap_lower": true,
+          "bootstrap_upper": true
+        },
+        "controlomics": {
+          "effect": 1.6,
+          "p_absolute_tail": 0.5,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 1.9183326093250876,
+          "bootstrap_lower": -1.0,
+          "bootstrap_upper": 3.9199999999999986
+        },
+        "scipy": {
+          "case_id": "paired_difference.63",
+          "effect": 1.6,
+          "p_absolute_tail": 0.5,
+          "p_scipy_native_two_sided": 0.5,
+          "draws": 32,
+          "null_mean": 0.0,
+          "null_sd_population": 1.9183326093250879,
+          "bootstrap_lower": -1.0,
+          "bootstrap_upper": 3.919999999999999
+        }
+      }
+    ]
+  },
+  "synthetic_simulations": [
+    {
+      "scenario_id": "independent_normal_n4",
+      "adapter": "INDEPENDENT_REFERENCE",
+      "distribution": "NORMAL",
+      "units_per_group_or_pairs": 4,
+      "trials": 1000,
+      "permutation_mode": "EXACT",
+      "permutation_assignments_or_draws": 70,
+      "measurements": {
+        "null_rejection": {
+          "numerator": 23,
+          "denominator": 1000,
+          "estimate": 0.023,
+          "wilson_95_interval": [
+            0.015374276932992918,
+            0.03427645066222667
+          ]
+        },
+        "shifted_rejection": {
+          "numerator": 139,
+          "denominator": 1000,
+          "estimate": 0.139,
+          "wilson_95_interval": [
+            0.11893638905078911,
+            0.16182653057578172
+          ]
+        },
+        "null_interval_coverage": {
+          "numerator": 854,
+          "denominator": 1000,
+          "estimate": 0.854,
+          "wilson_95_interval": [
+            0.8307599284226275,
+            0.8745307265695994
+          ]
+        }
+      }
+    },
+    {
+      "scenario_id": "independent_normal_n8",
+      "adapter": "INDEPENDENT_REFERENCE",
+      "distribution": "NORMAL",
+      "units_per_group_or_pairs": 8,
+      "trials": 1000,
+      "permutation_mode": "MONTE_CARLO",
+      "permutation_assignments_or_draws": 499,
+      "measurements": {
+        "null_rejection": {
+          "numerator": 44,
+          "denominator": 1000,
+          "estimate": 0.044,
+          "wilson_95_interval": [
+            0.0329382145884185,
+            0.058551789150407776
+          ]
+        },
+        "shifted_rejection": {
+          "numerator": 463,
+          "denominator": 1000,
+          "estimate": 0.463,
+          "wilson_95_interval": [
+            0.43229566915425255,
+            0.49398751097367855
+          ]
+        },
+        "null_interval_coverage": {
+          "numerator": 924,
+          "denominator": 1000,
+          "estimate": 0.924,
+          "wilson_95_interval": [
+            0.9059043568759517,
+            0.9388505519282977
+          ]
+        }
+      }
+    },
+    {
+      "scenario_id": "independent_laplace_n4",
+      "adapter": "INDEPENDENT_REFERENCE",
+      "distribution": "LAPLACE",
+      "units_per_group_or_pairs": 4,
+      "trials": 1000,
+      "permutation_mode": "EXACT",
+      "permutation_assignments_or_draws": 70,
+      "measurements": {
+        "null_rejection": {
+          "numerator": 13,
+          "denominator": 1000,
+          "estimate": 0.013,
+          "wilson_95_interval": [
+            0.0076128203893510256,
+            0.022114442375579666
+          ]
+        },
+        "shifted_rejection": {
+          "numerator": 109,
+          "denominator": 1000,
+          "estimate": 0.109,
+          "wilson_95_interval": [
+            0.09116003338451377,
+            0.12983249175119035
+          ]
+        },
+        "null_interval_coverage": {
+          "numerator": 849,
+          "denominator": 1000,
+          "estimate": 0.849,
+          "wilson_95_interval": [
+            0.8254750432083057,
+            0.8698538793687768
+          ]
+        }
+      }
+    },
+    {
+      "scenario_id": "paired_normal_n3",
+      "adapter": "PAIRED_DIFFERENCE",
+      "distribution": "NORMAL",
+      "units_per_group_or_pairs": 3,
+      "trials": 1000,
+      "permutation_mode": "EXACT",
+      "permutation_assignments_or_draws": 8,
+      "measurements": {
+        "null_rejection": {
+          "numerator": 0,
+          "denominator": 1000,
+          "estimate": 0.0,
+          "wilson_95_interval": [
+            2.168404344971009e-19,
+            0.0038267584855551234
+          ]
+        },
+        "shifted_rejection": {
+          "numerator": 0,
+          "denominator": 1000,
+          "estimate": 0.0,
+          "wilson_95_interval": [
+            2.168404344971009e-19,
+            0.0038267584855551234
+          ]
+        },
+        "null_interval_coverage": {
+          "numerator": 741,
+          "denominator": 1000,
+          "estimate": 0.741,
+          "wilson_95_interval": [
+            0.7129617374007885,
+            0.7671937650091739
+          ]
+        }
+      }
+    },
+    {
+      "scenario_id": "paired_normal_n8",
+      "adapter": "PAIRED_DIFFERENCE",
+      "distribution": "NORMAL",
+      "units_per_group_or_pairs": 8,
+      "trials": 1000,
+      "permutation_mode": "EXACT",
+      "permutation_assignments_or_draws": 256,
+      "measurements": {
+        "null_rejection": {
+          "numerator": 55,
+          "denominator": 1000,
+          "estimate": 0.055,
+          "wilson_95_interval": [
+            0.04249742737476844,
+            0.07090838767737563
+          ]
+        },
+        "shifted_rejection": {
+          "numerator": 665,
+          "denominator": 1000,
+          "estimate": 0.665,
+          "wilson_95_interval": [
+            0.6351640508403955,
+            0.6935731188593715
+          ]
+        },
+        "null_interval_coverage": {
+          "numerator": 867,
+          "denominator": 1000,
+          "estimate": 0.867,
+          "wilson_95_interval": [
+            0.8445423199288764,
+            0.8866488393427261
+          ]
+        }
+      }
+    },
+    {
+      "scenario_id": "paired_normal_n20",
+      "adapter": "PAIRED_DIFFERENCE",
+      "distribution": "NORMAL",
+      "units_per_group_or_pairs": 20,
+      "trials": 1000,
+      "permutation_mode": "MONTE_CARLO",
+      "permutation_assignments_or_draws": 499,
+      "measurements": {
+        "null_rejection": {
+          "numerator": 41,
+          "denominator": 1000,
+          "estimate": 0.041,
+          "wilson_95_interval": [
+            0.030364971082098315,
+            0.0551479932076413
+          ]
+        },
+        "shifted_rejection": {
+          "numerator": 986,
+          "denominator": 1000,
+          "estimate": 0.986,
+          "wilson_95_interval": [
+            0.9766379658824644,
+            0.9916424248695761
+          ]
+        },
+        "null_interval_coverage": {
+          "numerator": 939,
+          "denominator": 1000,
+          "estimate": 0.939,
+          "wilson_95_interval": [
+            0.9224198811757163,
+            0.9522202248739662
+          ]
+        }
+      }
+    },
+    {
+      "scenario_id": "paired_laplace_n8",
+      "adapter": "PAIRED_DIFFERENCE",
+      "distribution": "LAPLACE",
+      "units_per_group_or_pairs": 8,
+      "trials": 1000,
+      "permutation_mode": "EXACT",
+      "permutation_assignments_or_draws": 256,
+      "measurements": {
+        "null_rejection": {
+          "numerator": 44,
+          "denominator": 1000,
+          "estimate": 0.044,
+          "wilson_95_interval": [
+            0.0329382145884185,
+            0.058551789150407776
+          ]
+        },
+        "shifted_rejection": {
+          "numerator": 509,
+          "denominator": 1000,
+          "estimate": 0.509,
+          "wilson_95_interval": [
+            0.47804015149447454,
+            0.5398909668527856
+          ]
+        },
+        "null_interval_coverage": {
+          "numerator": 868,
+          "denominator": 1000,
+          "estimate": 0.868,
+          "wilson_95_interval": [
+            0.8456051419027083,
+            0.8875783638519231
+          ]
+        }
+      }
+    }
+  ],
+  "scientific_control_selection_validated": false,
+  "limitations": [
+    "Synthetic populations and independently maintained numeric software do not constitute independent expert or biological validation.",
+    "References align the declared absolute-tail convention; SciPy native two-sided probabilities can differ by definition.",
+    "Identical supplied bootstrap indices isolate statistical calculations; equivalence of RNG algorithms is not claimed.",
+    "Small-sample interval undercoverage is reported, not relabeled as validation success. Simulations do not establish coverage on real datasets.",
+    "No human judgments, new publication identity checks, hosted model, external dataset, or outbound research request were used."
+  ],
+  "completed_at": "2026-10-07T01:39:34.849635+00:00"
+}

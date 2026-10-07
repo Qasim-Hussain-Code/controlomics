@@ -4,7 +4,7 @@
 
 Version 0.6.0.dev0 is an operational local research alpha with local input inspection, clearer scientific record bindings, and workspace continuity checks. Validation covers software behavior, specified scientific consistency rules, two explicitly mapped numerical adapters, publication identities, design interpretation, supplied-annotation arithmetic, and local interface operation. It does not establish biological control appropriateness, source entailment accuracy, hosted-model performance, or agent generalization.
 
-Software and source-review fixtures are synthetic. Live publication checks and observed synthetic computations are separately labeled. No expert review or biological experiment was performed.
+Software and source-review fixtures are synthetic. Live publication checks, independent-software numerical comparisons, and observed synthetic computations are separately labeled. No expert review or biological experiment was performed.
 
 ## Reproducible checks
 
@@ -31,7 +31,7 @@ The editable install and standard wheel built without new runtime dependencies. 
 
 [The offline demo script](scripts/run_demo.py) executed positive and negative synthetic reference calculations for both transcriptomics and microscopy descriptions. The positive expected difference was 2 and the negative expected difference was 0, specified before execution. Four technical outcomes were PASS. These calculations test the mean-difference adapter, not either primary analysis or biological claim. Both final audits remain INSUFFICIENT_EVIDENCE.
 
-The paired demonstration has three complete synthetic pairs with differences 1, 2, and 3. Exact enumeration of eight sign assignments returned p = 0.25 and an INDETERMINATE outcome. Whole-pair bootstrap fixtures test constant differences and seed reproducibility; their population coverage was not evaluated. Zero-mean, clustered, temporal, and adjusted designs are not silently mapped to this adapter. See [the methods record](METHODS.md).
+The paired demonstration has three complete synthetic pairs with differences 1, 2, and 3. Exact enumeration of eight sign assignments returned p = 0.25 and an INDETERMINATE outcome. Whole-pair bootstrap fixtures test constant differences and seed reproducibility; those initial fixtures did not evaluate population coverage. The subsequent 2026-10-07 synthetic study reports coverage separately. Zero-mean, clustered, temporal, and adjusted designs are not silently mapped to this adapter. See [the methods record](METHODS.md).
 
 Current checks cover finite group means with overflowing totals, exact preservation of small cancellation residuals, scaled null variances at 1e-200 and 1e200 measurement scales, opposite-sign extreme quantile interpolation, subnormal paired effects, rejected unrepresentable effects, UTF-8 byte-order marks with original-byte hashes, and ambiguous sampling identifiers. CSV inspection was checked to omit measurements and identifiers and perform no execution or external request. Standalone reports reject raw-body and authorization-header ledger entries and link recorded results to specifications, claims, runner hashes, and prespecified rules. Local HTTP checks reject non-ASCII tokens and unauthorized requests before waiting for a declared body.
 
@@ -70,7 +70,7 @@ This script submits only its four fixed public identifiers and self-approves the
 
 The seeded experiment used 100 synthetic independent Gaussian trials with four units per group and exact enumeration of 70 group assignments. At alpha 0.05, null rejection occurred in 4/100 trials: rate 0.04, Wilson 95% interval approximately 0.016 to 0.098. An injected group shift of 3 produced rejection in 79/100: rate 0.79, interval approximately 0.700 to 0.858. The null and shifted cases share underlying draws within each trial.
 
-These are narrow numerical observations, not a calibration guarantee, clinical performance estimate, biological evaluation, or model benchmark. The small exact tests have discrete rejection probabilities. Bootstrap checks cover known constant shifts and reproducibility; interval coverage was not evaluated.
+These are narrow numerical observations, not a calibration guarantee, clinical performance estimate, biological evaluation, or model benchmark. The small exact tests have discrete rejection probabilities. The initial bootstrap checks covered known constant shifts and reproducibility; interval coverage was subsequently measured in the separately frozen 2026-10-07 study.
 
 ### Interface and resources
 
@@ -88,7 +88,7 @@ Version 0.5.0.dev0 passed 121 tests in 5.230 seconds for the initial visual rede
 
 Version 0.4.0.dev0 passed 121 tests in 4.942 seconds before the visual redesign. Its [software](docs/validation/software_checks_v0.4.json), [resources](docs/validation/resources_v0.4.json), [browser](docs/validation/ui_checks_v0.4.json), and [package](docs/validation/package_checks_v0.4.json) observations are retained separately.
 
-Version 0.3.0.dev0 passed 99 tests in 5.71 seconds with a narrower workload. Its [software](docs/validation/software_checks_v0.3.json), [resources](docs/validation/resources_v0.3.json), [browser](docs/validation/ui_checks_v0.3.json), and [package](docs/validation/package_checks_v0.3.json) records are retained. The live identity records retain their original version and timestamps; no new external request was made in version 0.4, 0.5, or 0.6 verification.
+Version 0.3.0.dev0 passed 99 tests in 5.71 seconds with a narrower workload. Its [software](docs/validation/software_checks_v0.3.json), [resources](docs/validation/resources_v0.3.json), [browser](docs/validation/ui_checks_v0.3.json), and [package](docs/validation/package_checks_v0.3.json) records are retained. The live identity records retain their original version and timestamps; no new publication identity request was made in version 0.4, 0.5, or 0.6 verification. The 2026-10-07 numerical phase separately downloaded public method documentation and optional package wheels.
 
 Version 0.2.0.dev0 passed 74 tests in 4.683 seconds and measured 43.9 MB parent peak memory for its narrower workload. Its [software](docs/validation/software_checks_v0.2.json), [resource](docs/validation/resources_v0.2.json), and [browser](docs/validation/ui_checks_v0.2.json) records are retained as historical observations.
 
@@ -96,10 +96,24 @@ Version 0.2.0.dev0 passed 74 tests in 4.683 seconds and measured 43.9 MB parent 
 
 Stage 0 and Stage 1 passed 37 tests in 0.378 seconds. The initial virtual environment occupied approximately 31.3 MB, project files 0.26 MB, and a two-validation/ten-schema workload peaked at 36.1 MB. No retrieval, numerical execution, model, benchmark, or human evaluation existed then. Those figures remain historical rather than describing the current workflow.
 
-## Independent research evaluation pending
+## Numerical validation phase, 2026-10-07
+
+The expanded suite passed 146 tests with zero failures, errors, or skips in 27.79 seconds including discovery. New checks protect frozen numerical source bindings and local study-readiness/privacy behavior. [The scientific-phase software record](docs/validation/software_checks_scientific_phase.json) preserves this run separately from the earlier 139-test record. After the requested-coverage display correction, [the final suite](docs/validation/software_checks_scientific_phase_final.json) passed the same 146 tests in 8.408 seconds including discovery. All 29 schema exports still match. Both application and isolated reference environments passed `pip check`.
+
+A protocol frozen before calculation compared 128 synthetic cases with NumPy 2.4.6 and SciPy 1.18.1 in an isolated optional environment. All 896 scalar comparisons matched at the predefined tolerances. Native SciPy two-sided probabilities differ in 36 cases because its convention differs from the declared absolute-tail procedure; aligned probabilities all match. Percentile bootstrap comparisons use the same explicit indices, so they assess calculation rather than RNG-stream equivalence. [The retained protocol](docs/validation/numerical_protocol.json) and [full numeric observations](docs/validation/numerical_checks.json) preserve these distinctions.
+
+Seven prespecified scenarios used 1,000 trials each. Null rejection rates ranged from 0.0% to 5.5%, shifted rejection rates from 0.0% to 98.6%, and requested 95% percentile interval coverage from 74.1% to 93.9%. The three-pair exact procedure cannot reject at 0.05 because its minimum p is 0.25. The four-per-group exact procedure has theoretical null rejection probability 2/70 for continuous exchangeable inputs. A labeled post-hoc analytical count reproduced both observed four-per-group rejection counts, including the unusually low Laplace result, without using the permutation implementation. No seed or scenario was removed or retuned.
+
+These measurements reveal small-sample interval undercoverage and discrete-test limits. They do not establish general calibration, real-data assumptions, biological appropriateness, or an independently conducted expert study. The findings, all scenario counts and uncertainty, environment size, and local repetition instructions are in [NUMERICAL_VALIDATION.md](docs/NUMERICAL_VALIDATION.md). Inferential outputs remain INDETERMINATE.
+
+The interface and standalone report now label bootstrap coverage as requested coverage. A [targeted Chrome 154 check](docs/validation/coverage_labels_ui_checks.json) verified the actual synthetic bootstrap parameter, retained poor-coverage warning, INDETERMINATE outcome, and corrected form/result/report text. The execution view fit 375, 768, and 1440 pixel widths; the standalone report fit 375 and 1440. There were no recorded JavaScript exceptions or external page requests. This supplements the earlier interface checks without replacing their retained records.
+
+The wheel was rebuilt offline after these documentation and display changes. [The scientific-phase package record](docs/validation/package_checks_scientific_phase.json) retains its SHA-256 and successful extracted-package smoke observations. The earlier wheel record remains a historical observation of the preceding interface phase.
+
+## Independent expert and biological evaluation pending
 
 ControlomicsBench still requires independently sourced cases, expert control annotations, adjudication, negative examples, source and domain partitions, and potential training-contamination assessment. A model must not supply its own sole reference answers.
 
 The implemented metric tools expose critical-control recall, precision, unsupported recommendations, citation identity, statement entailment, context compatibility, finding-code detection, execution success, optional probability scores, and abstention with explicit denominators. Independent evaluation still requires predefined outcomes, coverage requirements, sampling, uncertainty analysis, and real annotations. Compare method checklists, retrieval-only workflows, and configured model baselines. Scientific ablations should isolate retrieval, representation, review, execution, and the complete workflow.
 
-Sample sizes, independent experts, adjudication, comparisons, and confidence intervals must be designed before that evaluation. No hosted-model score, external review, biological validation, domain-general performance result, or manuscript Results claim exists.
+The [proposed expert-study protocol](docs/INDEPENDENT_VALIDATION_PROTOCOL.md) now specifies the primary case outcome, a planning target, blinded independent review, frozen references/predictions, source independence, adjudication, uncertainty, and private local storage. Its planning target is not a completed power analysis or an adopted study design. [The local record-readiness observation](docs/validation/study_readiness.json) finds six DEVELOPMENT cases, no TEST cases, and no independent expert judgment sheets. Actual real cases, expertise/independence declarations, annotations, retained adjudication, and an adopted sampling/analysis plan are still required. No hosted-model score, external review, biological validation, domain-general performance result, or manuscript Results claim exists.

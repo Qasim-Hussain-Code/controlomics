@@ -26,6 +26,12 @@ Explicit CSV inspection reads only the selected local file and returns dimension
 
 CLI and server errors redact values, credentials, and paths. Library users should not log raw validation structures. Store research files in ignored `local_projects/` or outside Git; ignore rules are convenience controls. Export projects and network records before closing the browser. Trusted local software can access the loopback service. See [SECURITY.md](SECURITY.md).
 
+## Scientific validation records
+
+The optional numerical reference environment lives in ignored `local_projects/validation/`. Its setup downloads public package wheels; its computation uses generated synthetic inputs locally and performs no network request. Retained public-method links and package metadata contain no private case data. No research record was uploaded for the numerical study.
+
+Independent expert case data, identities, source text, blinding mappings, and original annotations belong in a protected local directory, not the tracked development examples. The local study-readiness script exports aggregate counts, checks, timestamps, and hashes, omitting names, descriptions, rationales, measurements, and input paths. Those hashes remain potentially sensitive fingerprints. A readiness result neither authorizes transmission nor authenticates independent expertise. See [the expert-study protocol](docs/INDEPENDENT_VALIDATION_PROTOCOL.md).
+
 ## Review archives
 
 Local review bundles exclude raw CSV inputs, full supplied source texts, authorization credentials, and outbound bodies. They include potentially sensitive project descriptions and selected public query text, so inspect them before sharing. Network events are typed and screened. Saved hashes and empty ledgers do not authenticate completeness. See [review bundle limits](docs/REVIEW_BUNDLES.md).

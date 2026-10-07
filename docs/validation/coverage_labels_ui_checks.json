@@ -1,0 +1,46 @@
+{
+  "recorded_at": "2026-10-07T01:50:55.772Z",
+  "browser": "Chrome/154.0.8037.95",
+  "bindings": {
+    "label": "Requested bootstrap coverage",
+    "display": true,
+    "coverage": 0.95,
+    "outcome": "INDETERMINATE",
+    "warning": true,
+    "ledgerEvents": 0
+  },
+  "execution_layouts": [
+    {
+      "width": 375,
+      "document": 360
+    },
+    {
+      "width": 768,
+      "document": 753
+    },
+    {
+      "width": 1440,
+      "document": 1425
+    }
+  ],
+  "report_layouts": [
+    {
+      "width": 375,
+      "document": 360,
+      "scripts": 0
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "scripts": 0
+    }
+  ],
+  "exceptions": [],
+  "external_page_requests": 0,
+  "source_sha256": {
+    "src/controlomics/web/index.html": "2a947a0f45b8c4f89a495ca13c4f41077b6809bca27621df530d024ad4ea0f61",
+    "src/controlomics/web/app.js": "c53aafcfd063e8bed9f7e095406ffc46ca640ac2168bd3732572f28041ab8820",
+    "src/controlomics/reports.py": "c8cac2be0b0b15991204eefcea9bd9a6d7356385f06fdf42860c9822cc4d1bb8"
+  },
+  "scope": "Targeted local browser check of requested coverage labels, actual synthetic bootstrap parameter binding, INDETERMINATE outcome, retained poor-coverage warning and responsive execution/report layouts. No real research input or independent expert validation."
+}

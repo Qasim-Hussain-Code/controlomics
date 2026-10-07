@@ -12,7 +12,7 @@ The delivered software is an operational local research alpha. This milestone do
 | 5 | Local and dispatched execution | Independent-group references and explicitly mapped complete-pair sign flips/bootstrap; specialist adapters pending |
 | 6 | Reports and provenance | Linked responsive reports with print styles, typed network sidecar, bounded review archive save/restore |
 | 7 | ControlomicsBench | Dataset contracts, partition checks, offline runner, judgment workbench, snapshot revisions, metrics and agreement; independent expert benchmark pending |
-| 8 | Cross-domain evaluation and ablations | Development reference/design comparison recorded; independent cases, expert judgments and model comparisons pending |
+| 8 | Cross-domain evaluation and ablations | Development reference/design comparison, frozen SciPy numerical comparisons and synthetic coverage experiments recorded; independent cases, expert judgments and model comparisons pending |
 | 9 | Web application | Responsive six-section workspace, claim filters, record bindings, local input inspection, export status, draft protection, keyboard navigation, and local hardening; remote deployment requires separate assessment |
 | 10 | Public release | Pending owner license, reporting channel, and release review; no remote configured |
 
@@ -24,7 +24,7 @@ Six explicit design scenarios compare the two-reference baseline with operation 
 
 ## Next research work
 
-Build an independently sourced benchmark with verified identities, expert annotations, adjudication, negative cases, domain-held-out partitions, and explicit abstentions. The local tools implement stated denominators and missing-annotation handling; the independent scientific protocol and uncertainty design still need to be predefined.
+Use [the proposed independent-study protocol](docs/INDEPENDENT_VALIDATION_PROTOCOL.md) to build an independently sourced benchmark with verified identities, expert annotations, adjudication, negative cases, domain-held-out partitions, and explicit abstentions. The local readiness audit distinguishes record completeness from verified scientific independence. The local tools implement stated denominators and missing-annotation handling; the proposed sampling and uncertainty design still need to be adopted for the actual cases before that study begins.
 
 Evaluate configured reasoning providers against method checklists and retrieval-only baselines. Separate numerical adapter behavior from agent performance. Include retrieval, representation, review, and execution ablations. Extend execution when independently specified scientific expectations justify an adapter.
 

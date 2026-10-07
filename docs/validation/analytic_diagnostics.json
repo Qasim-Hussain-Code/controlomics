@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-10-07T01:41:55.554714+00:00",
+  "phase": "POST_HOC_ANALYTICAL_DIAGNOSTIC",
+  "method": "For continuous independent groups of four, alpha 0.05 permits only the two completely separated assignments out of 70. Count strict group separation directly on the original seeded inputs, without the permutation implementation.",
+  "checks": [
+    {
+      "scenario": "independent_normal_n4",
+      "analytical_event_count": 23,
+      "controlomics_rejection_count": 23,
+      "matches": true,
+      "theoretical_null_probability": 0.02857142857142857
+    },
+    {
+      "scenario": "independent_laplace_n4",
+      "analytical_event_count": 13,
+      "controlomics_rejection_count": 13,
+      "matches": true,
+      "theoretical_null_probability": 0.02857142857142857
+    }
+  ],
+  "paired_three_minimum_absolute_tail_probability": 0.25,
+  "scope": "Independent mathematical diagnostic of the two original synthetic n4 scenarios. This was added after the prespecified run and is not an independent biological study."
+}

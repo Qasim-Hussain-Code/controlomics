@@ -1,0 +1,32 @@
+{
+  "recorded_at": "2026-10-07T01:51:55.264458+00:00",
+  "wheel": "controlomics-0.6.0.dev0-py3-none-any.whl",
+  "wheel_sha256": "219cb42f06997d82d40fd5b0a305faadbf252227fa87c0420f4514ee1523ba0d",
+  "wheel_bytes": 101734,
+  "metadata": {
+    "name": "controlomics",
+    "version": "0.6.0.dev0"
+  },
+  "assets": [
+    "controlomics/web/index.html",
+    "controlomics/web/app.js",
+    "controlomics/web/style.css"
+  ],
+  "smoke": {
+    "version": "0.6.0.dev0",
+    "imported_extracted_wheel": true,
+    "local_draft": true,
+    "browser_assets": true,
+    "evaluation_import": true,
+    "paired_arithmetic": true,
+    "review_archive_roundtrip": true,
+    "local_input_inspection": true
+  },
+  "scope": "Extracted package import and local interface smoke check using the existing Python/Pydantic environment. No external request, new dependency, or scientific validation.",
+  "privacy_redaction": {
+    "removed_fields": [
+      "metadata.author"
+    ],
+    "note": "Personal attribution removed during authorized local-history cleanup. Other observed values and original artifact hash retained."
+  }
+}

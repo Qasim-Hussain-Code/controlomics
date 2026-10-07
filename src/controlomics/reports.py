@@ -127,7 +127,7 @@ def render_report(project, network_audit=()):
             blocks.append(paragraph("Permutation p value", result.p_value))
         if result.confidence_interval:
             interval = result.confidence_interval
-            blocks.append(paragraph("Confidence interval", f"{interval.lower} to {interval.upper}; coverage {interval.coverage}; {interval.method}"))
+            blocks.append(paragraph("Confidence interval", f"{interval.lower} to {interval.upper}; requested coverage {interval.coverage}; {interval.method}"))
         if result.null_distribution_summary:
             null = result.null_distribution_summary
             blocks.append(paragraph("Null distribution", f"{null.draws} assignments; mean {null.mean}; standard deviation {null.standard_deviation}; {null.null_hypothesis}"))

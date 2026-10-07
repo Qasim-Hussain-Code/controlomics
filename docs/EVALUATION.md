@@ -67,3 +67,7 @@ Compare the reference baseline, method checklists, retrieval-only reasoning, and
 ## Local judgment entry
 
 The Evaluation workbench accepts imported case/reference/prediction snapshots and records actual supplied recommendation judgments and evidence reference decisions. It keeps unknown labels and requires an explicit origin, reviewer, and attestation. Submission binds the canonical snapshot hash. Dataset references, prediction controls, and predicted evidence decisions cannot be changed through this action. Revision receipts retain old and new hashes with time and declared reviewer. Keep prior snapshots separately; hashes cannot recover old content. The workbench neither verifies expertise nor supplies expert reference answers.
+
+## Expert-study preparation
+
+[The proposed independent validation protocol](INDEPENDENT_VALIDATION_PROTOCOL.md) specifies case-level essential-control coverage, source-independent sampling, blinded reference/recommendation review, adjudication, paired comparisons, and local privacy. It is a proposed design, not a completed expert study or public preregistration. The `scripts/check_study_readiness.py` audit checks immutable snapshots, declared origins, source-group counts, and definite test annotations without exporting descriptions, reviewer names, or file paths. Its record checks cannot establish genuine expertise or independence. The current [readiness observation](validation/study_readiness.json) remains INCOMPLETE because only unassessed development fixtures are available.

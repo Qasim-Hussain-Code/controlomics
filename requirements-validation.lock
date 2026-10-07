@@ -1,0 +1,4 @@
+# Optional local reference comparisons only. Not application dependencies.
+# CPython 3.14 on Windows; install in an isolated ignored environment.
+numpy==2.4.6
+scipy==1.18.1
