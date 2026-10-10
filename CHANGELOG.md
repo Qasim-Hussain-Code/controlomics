@@ -1,5 +1,13 @@
 # Development changes
 
+## 0.6.5.dev0, 2026-10-11
+
+Restored the earlier preferred workspace layout: vertical navigation, the scientific overview and local conceptual illustration, four record-count cards, and a responsive two-column control collection. Revised the palette to navy, slate, and blue with neutral surfaces and restrained scientific status accents. Complete scientific questions, actual project identifiers, visible claim bindings, current draft protection, and privacy checks are retained.
+
+The software suite passed 175 tests with zero failures, errors, or skips in 10.204 seconds on Windows CPython 3.14.0. All 29 schema exports match; dependency consistency, Ruff, workflow linting, and JavaScript syntax checks pass. Frozen numerical source hashes remain unchanged. Isolated browser checks covered 42 section/width combinations over seven widths, seven rendered palette/layout probes, seven long-control-name probes, and the retained scientific/privacy workflows. Fifteen targeted contrast pairs ranged from 4.923 to 9.227:1; the save-status live region remained available in the Chrome accessibility tree at seven widths. No JavaScript exception or external page request was recorded. Eighteen public screenshots match their retained capture hashes.
+
+Extracted-package, distribution contents, and offline clean wheel/source installation checks passed, including actual synthetic fixed-runner execution. The source distribution was built from 253 reviewed public files before the four packaging records and final documentation links; the final source ZIP is exported separately from the later complete repository snapshot. Records bind particular tested artifact bytes. Version 0.6.4.dev0 observations remain tied to that version's layout and artifact hashes. Independent scientific validation, full accessibility conformance, researcher usability review, and publication remain pending.
+
 ## 0.6.4.dev0, 2026-10-10
 
 Replaced the previous visual shell with a compact white application header, horizontal desktop navigation, a light mobile drawer, and document-style project records. The project summary and record ledger show actual counts and identifiers. Control specifications use the available width for named scientific fields; typography, borders, spacing, and restrained blue actions support record reading.
