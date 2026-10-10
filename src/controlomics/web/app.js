@@ -1,18 +1,21 @@
 "use strict";
-const state = {project: null, audit: [], token: null, pending: null, busy: false, profiles: [], narrative: null, reviewTemplate: null, evaluation: null, evaluationBundle: null, annotationHash: null, annotationDraft: null, annotationCase: null, revisions: [], view: "analysis", inputSummary: null, revision: 0, preparedRevision: 0, drafts: new Set(), formBaselines: new Map()};
+const state = {project: null, audit: [], token: null, pending: null, busy: false, focusAfterAction: null, profiles: [], narrative: null, reviewTemplate: null, evaluation: null, evaluationBundle: null, annotationHash: null, annotationDraft: null, annotationCase: null, revisions: [], view: "analysis", inputSummary: null, revision: 0, preparedRevision: 0, drafts: new Set(), formBaselines: new Map()};
 const $ = id => document.getElementById(id);
 const lines = text => text.split(/\r?\n/).map(value => value.trim()).filter(Boolean);
 const pairedBasis = "Complete-pair mean differences; independent pairs; sign-invariant differences for the permutation null; whole-pair resampling for the bootstrap.";
-function message(text, error = false) { $("status").textContent = text; $("status").className = error ? "status error" : state.busy ? "status busy" : "status"; $("status").setAttribute("role", error ? "alert" : "status"); $("status").setAttribute("aria-live", error ? "assertive" : "polite"); }
+function message(text, error = false) { $("status").textContent = text; $("status").className = error ? "status error" : state.busy ? "status busy" : "status"; $("status").setAttribute("role", error ? "alert" : "status"); $("status").setAttribute("aria-live", error ? "assertive" : "polite"); if (error) $("status").scrollIntoView({block: "nearest", behavior: "instant"}); }
+function focusDestination(element) { if (state.busy) state.focusAfterAction = element; else element?.focus({preventScroll: true}); }
 function lockInputs(locked) { document.querySelectorAll("form, .file-label").forEach(element => { element.inert = locked; }); }
 async function action(work) {
   if (state.busy) return;
   const previousFocus = document.activeElement;
-  state.busy = true; lockInputs(true); $("workspace-main").setAttribute("aria-busy", "true"); message("Processing the requested operation...");
+  state.busy = true; state.focusAfterAction = null; lockInputs(true); $("workspace-main").setAttribute("aria-busy", "true"); message("Processing the requested operation...");
   try { await work(); } catch (error) { message(error.message || "Operation failed.", true); }
   finally {
     state.busy = false; lockInputs(false); $("status").classList.remove("busy"); $("workspace-main").setAttribute("aria-busy", "false");
-    if (document.activeElement === document.body && previousFocus?.isConnected && !previousFocus.disabled && previousFocus.checkVisibility()) previousFocus.focus({preventScroll: true});
+    const destination = state.focusAfterAction; state.focusAfterAction = null;
+    if (destination?.isConnected && destination.checkVisibility()) destination.focus({preventScroll: true});
+    else if (document.activeElement === document.body && previousFocus?.isConnected && !previousFocus.disabled && previousFocus.checkVisibility()) previousFocus.focus({preventScroll: true});
   }
 }
 async function refreshSession() {
@@ -80,7 +83,7 @@ function resetWorkspace() {
   for (const id of ["annotation-case-info", "annotation-controls", "annotation-evidence"]) $(id).replaceChildren();
   for (const id of ["export-evaluation", "export-evaluation-bundle", "export-revisions"]) $(id).disabled = true;
   $("evaluation-result").replaceChildren(empty("No evaluation has been calculated."));
-  $("control-search").value = $("control-class-filter").value = $("control-claim-filter").value = "";
+  $("control-search").value = $("control-class-filter").value = $("control-claim-filter").value = $("control-state-filter").value = "";
   $("model-key").value = ""; $("request-preview").textContent = ""; $("ledger").textContent = "";
   if ($("request-dialog").open) $("request-dialog").close();
   clearInputSummary(); syncExecutionFields(); state.revision++; state.preparedRevision = state.revision;
@@ -90,18 +93,20 @@ const viewNames = {analysis: "Analysis & claims", controls: "Controls", evidence
 const mobileNavigation = window.matchMedia("(max-width:760px)");
 function syncNavigation() { const open = mobileNavigation.matches && document.body.classList.contains("nav-open"); $("nav-toggle").setAttribute("aria-expanded", String(open)); $("nav-toggle").setAttribute("aria-label", open ? "Close navigation" : "Open navigation"); $("workspace-nav").inert = mobileNavigation.matches && !open; $("workspace-canvas").inert = open; if (mobileNavigation.matches) $("workspace-nav").setAttribute("aria-hidden", String(!open)); else $("workspace-nav").removeAttribute("aria-hidden"); if (open) { $("workspace-nav").setAttribute("role", "dialog"); $("workspace-nav").setAttribute("aria-modal", "true"); } else { $("workspace-nav").removeAttribute("role"); $("workspace-nav").removeAttribute("aria-modal"); } }
 function closeNavigation(returnFocus = false) { document.body.classList.remove("nav-open"); syncNavigation(); if (returnFocus) $("nav-toggle").focus(); }
-function switchView(name, closeMenu = true) { if (!viewNames[name]) return; state.view = name; document.querySelectorAll(".view").forEach(view => { view.hidden = view.id !== "view-" + name; }); document.querySelectorAll(".tab").forEach(tab => { const selected = tab.dataset.view === name; tab.classList.toggle("active", selected); tab.setAttribute("aria-selected", String(selected)); tab.tabIndex = selected ? 0 : -1; }); $("current-section").textContent = viewNames[name]; document.title = viewNames[name] + " | Controlomics"; if (closeMenu && document.body.classList.contains("nav-open")) { closeNavigation(); $("workspace-main").focus({preventScroll: true}); } }
+function switchView(name, closeMenu = true) { if (!viewNames[name]) return; const changed = state.view !== name; state.view = name; document.querySelectorAll(".view").forEach(view => { view.hidden = view.id !== "view-" + name; view.tabIndex = view.hidden ? -1 : 0; }); document.querySelectorAll(".tab").forEach(tab => { const selected = tab.dataset.view === name; tab.classList.toggle("active", selected); tab.setAttribute("aria-selected", String(selected)); tab.tabIndex = selected ? 0 : -1; }); $("current-section").textContent = viewNames[name]; document.title = viewNames[name] + " | Controlomics"; if (changed) $("view-" + name).scrollIntoView({block: "start", behavior: "instant"}); if (closeMenu && document.body.classList.contains("nav-open")) { closeNavigation(); $("workspace-main").focus({preventScroll: true}); } }
 function node(tag, text, className) { const element = document.createElement(tag); if (text !== undefined) element.textContent = text; if (className) element.className = className; return element; }
 function field(label, value) { const wrapper = node("div", undefined, "field"); wrapper.append(node("strong", label), node("p", value || "Not supplied")); return wrapper; }
 function empty(text) { return node("p", text, "empty"); }
 function download(content, filename, type = "application/json") { const blob = content instanceof Blob ? content : new Blob([content], {type}); const url = URL.createObjectURL(blob); const anchor = node("a"); anchor.href = url; anchor.download = filename; anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
-function accept(data, notice) { const changedProject = data.project && state.project?.manifest.project_id !== data.project.manifest.project_id; if (data.project) { if (changedProject) { $("control-search").value = ""; $("control-class-filter").value = $("control-claim-filter").value = ""; fillAnalysis(data.project); } state.project = data.project; recordChange(); } if (data.design_profiles) state.profiles = data.design_profiles; document.querySelectorAll(".workspace-menu[open]").forEach(menu => { menu.open = false; }); render(); if (changedProject) rememberForms(); message(notice); }
+function accept(data, notice) { const changedProject = data.project && state.project?.manifest.project_id !== data.project.manifest.project_id; if (data.project) { if (changedProject) { $("control-search").value = ""; $("control-class-filter").value = $("control-claim-filter").value = $("control-state-filter").value = ""; $("execution-control").value = ""; fillAnalysis(data.project); } state.project = data.project; recordChange(); } if (data.design_profiles) state.profiles = data.design_profiles; document.querySelectorAll(".workspace-menu[open]").forEach(menu => { menu.open = false; }); render(); if (changedProject) rememberForms(); message(notice); }
 function options(select, entries) { const prior = select.value; select.replaceChildren(); for (const [value, label] of entries) { const option = node("option", label); option.value = value; select.append(option); } if (entries.some(entry => entry[0] === prior)) select.value = prior; }
 function renderOverview() {
   const project = state.project, controls = project ? [...project.controls, ...project.candidates] : [];
   const counts = {claims: project?.claims.length || 0, controls: controls.length, evidence: project?.evidence.length || 0, results: project?.results.filter(item => item.execution_status === "COMPLETED").length || 0};
   for (const [key, value] of Object.entries(counts)) { $("metric-" + key).textContent = String(value); $("nav-" + key).textContent = String(value); }
-  $("control-search").disabled = $("control-class-filter").disabled = $("control-claim-filter").disabled = !project;
+  $("control-search").disabled = $("control-class-filter").disabled = $("control-claim-filter").disabled = $("control-state-filter").disabled = !project;
+  $("reset-control-filters").disabled = !project;
+  $("review-prerequisite").hidden = !project || project.evidence.some(item => item.existence_status === "VERIFIED");
   $("claim-filter-label").hidden = !project || project.claims.length < 2;
   options($("control-claim-filter"), [["", "All scientific claims"], ...(project?.claims || []).map(claim => [claim.claim_id, claim.statement])]);
   $("control-visible-count").textContent = counts.controls + " specifications";
@@ -119,8 +124,9 @@ function renderOverview() {
 }
 function renderControlCards() {
   const project = state.project; if (!project) return;
-  const controls = [...project.controls, ...project.candidates], term = $("control-search").value.trim().toLocaleLowerCase(), selectedClass = $("control-class-filter").value, selectedClaim = $("control-claim-filter").value;
-  const visible = controls.filter(control => (!selectedClaim || control.claim_tested === selectedClaim) && (!selectedClass || control.control_class === selectedClass) && (!term || [control.control_name, control.scientific_rationale, control.expected_behavior, control.control_id, project.claims.find(claim => claim.claim_id === control.claim_tested)?.statement || ""].join(" ").toLocaleLowerCase().includes(term)));
+  const controls = [...project.controls, ...project.candidates], term = $("control-search").value.trim().toLocaleLowerCase(), selectedClass = $("control-class-filter").value, selectedClaim = $("control-claim-filter").value, selectedState = $("control-state-filter").value;
+  const visible = controls.filter(control => (!selectedState || control.evidence_status === selectedState) && (!selectedClaim || control.claim_tested === selectedClaim) && (!selectedClass || control.control_class === selectedClass) && (!term || [control.control_name, control.scientific_rationale, control.expected_behavior, control.control_id, project.claims.find(claim => claim.claim_id === control.claim_tested)?.statement || ""].join(" ").toLocaleLowerCase().includes(term)));
+  $("reset-control-filters").disabled = !term && !selectedClass && !selectedClaim && !selectedState;
   $("control-list").replaceChildren(); $("control-visible-count").textContent = visible.length === controls.length ? controls.length + " specification" + (controls.length === 1 ? "" : "s") : visible.length + " of " + controls.length + " specifications";
   for (const control of visible) {
     const card = node("article", undefined, "control-card"), top = node("div", undefined, "card-top"), evidenceState = node("span", control.evidence_status, "evidence-state");
@@ -130,7 +136,7 @@ function renderControlCards() {
     const details = node("details"); details.append(node("summary", "Assumptions & provenance"), field("Control identifier", control.control_id), field("Method basis", control.method_basis), field("Uncertainties", control.uncertainties.join(" ")), field("Claim tested", project.claims.find(claim => claim.claim_id === control.claim_tested).statement), field("Claim identifier", control.claim_tested), field("Context compatibility", control.context_compatibility.status), field("Priority", control.priority + ": " + control.priority_rationale));
     const actions = node("div", undefined, "actions card-actions");
     if (project.candidates.some(item => item.control_id === control.control_id)) { const edit = node("button", "Edit specification", "small secondary"); edit.type = "button"; edit.addEventListener("click", () => editCandidate(control)); actions.append(edit); }
-    const review = node("button", "Review evidence", "small secondary"); review.type = "button"; review.disabled = !project.evidence.some(item => item.existence_status === "VERIFIED"); review.addEventListener("click", () => action(() => openReview(control.control_id))); actions.append(review);
+    const review = node("button", "Review evidence", "small secondary"); review.type = "button"; review.disabled = !project.evidence.some(item => item.existence_status === "VERIFIED"); if (review.disabled) review.setAttribute("aria-describedby", "review-prerequisite"); review.addEventListener("click", () => action(() => openReview(control.control_id))); actions.append(review);
     const foot = node("div", undefined, "card-foot"), execution = node("span", control.execution_status.replaceAll("_", " "), "execution-chip"); execution.dataset.status = control.execution_status; foot.append(node("span", control.scientific_level + " CONTROL"), execution);
     card.append(details, actions, foot); $("control-list").append(card);
   }
@@ -141,10 +147,10 @@ function render() {
   renderOverview();
   renderSaveState();
   $("export-project").disabled = $("export-report").disabled = $("export-bundle").disabled = !project;
-  for (const id of ["control-list", "evidence-list", "result-list", "audit-list", "execution-control", "claim-list", "design-profiles"]) $(id).replaceChildren();
+  for (const id of ["control-list", "evidence-list", "result-list", "audit-list", "claim-list", "design-profiles"]) $(id).replaceChildren();
   $("additional-claims").hidden = !project;
   $("add-control").disabled = $("check-methods").disabled = !project;
-  if (!project) { for (const id of ["control-list", "evidence-list", "result-list", "audit-list"]) $(id).append(empty("Create or open a local project to inspect this section.")); return; }
+  if (!project) { options($("execution-control"), [["", "Select a reviewed control"]]); updateExecutionAvailability(); for (const id of ["control-list", "evidence-list", "result-list", "audit-list"]) $(id).append(empty("Create or open a local project to inspect this section.")); return; }
   const controls = [...project.controls, ...project.candidates];
   const claims = project.claims.map(claim => [claim.claim_id, claim.statement]);
   for (const id of ["candidate-claim", "model-claim", "paired-claim"]) options($(id), claims);
@@ -152,9 +158,9 @@ function render() {
   for (const claim of project.claims) $("claim-list").append(field(claim.category + " / support " + claim.computational_support, claim.statement));
   renderControlCards();
   const paired = $("execution-adapter").value === "PAIRED_DIFFERENCE";
-  for (const control of project.controls.filter(item => (paired ? item.scientific_level === "STATISTICAL" && item.control_class === "NULL" && item.method_basis === pairedBasis : item.scientific_level === "TECHNICAL" && ["POSITIVE", "NEGATIVE"].includes(item.control_class)) && ["METHOD_BASED", "EVIDENCE_BACKED"].includes(item.evidence_status) && !project.execution_plans.some(plan => plan.control_id === item.control_id))) {
-    const option = node("option", control.control_class + ": " + control.control_name); option.value = control.control_id; $("execution-control").append(option);
-  }
+  const eligible = project.controls.filter(item => (paired ? item.scientific_level === "STATISTICAL" && item.control_class === "NULL" && item.method_basis === pairedBasis : item.scientific_level === "TECHNICAL" && ["POSITIVE", "NEGATIVE"].includes(item.control_class)) && ["METHOD_BASED", "EVIDENCE_BACKED"].includes(item.evidence_status) && !project.execution_plans.some(plan => plan.control_id === item.control_id));
+  options($("execution-control"), [["", "Select a reviewed control"], ...eligible.map(control => [control.control_id, control.control_class + ": " + control.control_name])]);
+  updateExecutionAvailability();
   for (const evidence of project.evidence) {
     const article = node("article", undefined, "panel publication"); article.append(node("h3", evidence.title || "Title unavailable"), node("p", evidence.authors.join("; ") + (evidence.year ? "; " + evidence.year : "")));
     const links = node("div", undefined, "actions");
@@ -199,6 +205,9 @@ document.querySelectorAll(".metric-card").forEach(card => card.addEventListener(
 document.querySelector(".brand").addEventListener("click", event => { event.preventDefault(); switchView("analysis"); });
 $("control-search").addEventListener("input", renderControlCards); $("control-class-filter").addEventListener("change", renderControlCards);
 $("control-claim-filter").addEventListener("change", renderControlCards);
+$("control-state-filter").addEventListener("change", renderControlCards);
+$("reset-control-filters").addEventListener("click", () => { $("control-search").value = $("control-class-filter").value = $("control-claim-filter").value = $("control-state-filter").value = ""; renderControlCards(); $("control-search").focus({preventScroll: true}); });
+$("open-evidence-library").addEventListener("click", () => { switchView("evidence"); focusDestination($("view-evidence")); });
 $("nav-toggle").addEventListener("click", () => { document.body.classList.toggle("nav-open"); syncNavigation(); if (document.body.classList.contains("nav-open")) document.querySelector(".tab.active").focus(); });
 $("nav-scrim").addEventListener("click", () => closeNavigation(true));
 $("nav-close").addEventListener("click", () => closeNavigation(true));
@@ -233,7 +242,7 @@ $("export-audit").addEventListener("click", () => download(JSON.stringify(state.
 $("export-report").addEventListener("click", () => action(async () => { const report = await api("/api/report", {project: requireProject(), network_audit: state.audit}, true); download(report, "controlomics.report.html"); message("Downloaded the local report. Review it before sharing."); }));
 $("export-bundle").addEventListener("click", () => action(async () => { const revision = state.revision; const archive = await api("/api/review-bundle", {project: requireProject(), network_audit: state.audit, evaluation_bundle: state.evaluationBundle, annotation_revisions: state.revisions}, true); download(archive, "controlomics.review.zip"); state.preparedRevision = revision; renderSaveState(); message("Prepared a review bundle for download. Retain the file before closing. Unrecorded form edits and raw inputs are omitted."); }));
 $("bundle-file").addEventListener("change", () => action(async () => { const file = $("bundle-file").files[0]; if (!file) return; if (file.size > 1024 * 1024) throw new Error("Review archives have a 1 MiB limit."); const bytes = new Uint8Array(await file.arrayBuffer()); let encoded = ""; for (let start = 0; start < bytes.length; start += 16384) encoded += String.fromCharCode(...bytes.subarray(start, start + 16384)); const data = await api("/api/open-bundle", {archive_base64: btoa(encoded)}); const annotations = data.evaluation_bundle ? await api("/api/annotation-template", {bundle: data.evaluation_bundle}) : null; if (!confirmReplacement()) { $("bundle-file").value = ""; message("Kept the current workspace."); return; } resetWorkspace(); state.audit = data.network_audit_restored; state.revisions = data.annotation_revisions; await loadAnnotationBundle(data.evaluation_bundle, false, annotations); accept(data, "Restored validated local records. Hashes and reviewer identities are not authenticated; the ledger may be incomplete."); state.preparedRevision = state.revision; renderSaveState(); switchView("controls"); }));
-async function preview(kind, settings) { requireProject(); const result = await api("/api/" + kind + "/preview", settings); state.pending = {kind, settings, hash: result.approve_hash}; $("request-preview").textContent = JSON.stringify(result, null, 2); $("request-dialog").showModal(); message("No external request has been sent. Review the displayed payload."); }
+async function preview(kind, settings) { requireProject(); const result = await api("/api/" + kind + "/preview", settings); state.pending = {kind, settings, hash: result.approve_hash}; $("request-preview").textContent = JSON.stringify(result, null, 2); $("request-dialog").showModal(); $("cancel-request").focus(); message("No external request has been sent. Review the displayed payload."); }
 $("literature-form").addEventListener("submit", event => { event.preventDefault(); action(() => preview("literature", {provider: $("literature-provider").value, query: $("literature-query").value.trim(), limit: 5, public_confirmed: $("literature-public").checked})); });
 $("model-form").addEventListener("submit", event => { event.preventDefault(); action(async () => preview("model", {endpoint: $("model-endpoint").value.trim(), model: $("model-id").value.trim(), claim_id: $("model-claim").value, fields: (await api("/api/parse-json", {content: $("model-context").value})).value, public_confirmed: $("model-public").checked})); });
 $("cancel-request").addEventListener("click", () => { $("request-dialog").close(); state.pending = null; $("model-key").value = ""; message("Request cancelled. No external request was sent."); });
@@ -243,7 +252,7 @@ $("review-file").addEventListener("change", () => action(async () => { const rev
 function executionSettings() {
   requireProject(); const kind = $("execution-kind").value; const assumptions = lines($("execution-assumptions").value);
   if (!assumptions.length) throw new Error("Specify the scientific assumptions before building or running a control.");
-  if (!$("execution-control").value) throw new Error("No unexecuted reviewed control is available. Open a new project snapshot for another run.");
+  if (!$("execution-control").value) throw new Error($("execution-availability").textContent);
   const config = {kind, assumptions, adapter: $("execution-adapter").value};
   if (kind !== "REFERENCE") { config.random_seed = Number($("execution-seed").value); config.draws = Number($("execution-draws").value); }
   if (kind === "BOOTSTRAP") config.coverage = Number($("execution-coverage").value);
@@ -251,6 +260,21 @@ function executionSettings() {
   if (kind === "REFERENCE") { if (!$("execution-expected").value.trim()) throw new Error("Specify the independently expected difference before execution."); config.expected_difference = Number($("execution-expected").value); config.absolute_tolerance = Number($("execution-tolerance").value); }
   return {project: state.project, control_id: $("execution-control").value, config};
 }
+function updateExecutionAvailability() {
+  const project = state.project, paired = $("execution-adapter").value === "PAIRED_DIFFERENCE";
+  const available = [...$("execution-control").options].filter(option => option.value);
+  const selected = Boolean($("execution-control").value && available.some(option => option.value === $("execution-control").value));
+  $("run-control").disabled = !selected || !$("numeric-file").files.length;
+  $("download-package").disabled = !selected;
+  $("execution-open-controls").disabled = !project;
+  $("execution-open-paired").disabled = !project;
+  $("execution-open-paired").hidden = !paired || available.length > 0;
+  const reviewed = project?.controls.filter(item => (paired ? item.scientific_level === "STATISTICAL" && item.control_class === "NULL" && item.method_basis === pairedBasis : item.scientific_level === "TECHNICAL" && ["POSITIVE", "NEGATIVE"].includes(item.control_class)) && ["METHOD_BASED", "EVIDENCE_BACKED"].includes(item.evidence_status)) || [];
+  $("execution-availability").textContent = !project ? "Create or open a project to select an executable specification. Local CSV inspection remains available." : !available.length ? reviewed.length ? "All compatible reviewed controls in this snapshot already have execution plans. Import their results or retain a separate original snapshot for another run." : paired ? "No reviewed complete-pair specification is available. State its claim, applicability, and assumptions in the paired specification form; other controls require their own adapters." : "No reviewed independent-group technical reference is available. Inspect the controls and method review. Biological, design, and other statistical specifications require applicable adapters." : !selected ? "Select a reviewed control explicitly. " + available.length + " compatible specification" + (available.length === 1 ? " is" : "s are") + " available. Existing procedure inputs are retained; check them for your selected control." : $("numeric-file").files.length ? "The selected control can be run locally or exported as a package. Review the input, expected behavior, and assumptions before execution." : "The selected control can be exported as a package. Choose a local CSV to inspect or run it on this computer.";
+}
+$("execution-control").addEventListener("change", updateExecutionAvailability);
+$("execution-open-controls").addEventListener("click", () => { switchView("controls"); focusDestination($("view-controls")); });
+$("execution-open-paired").addEventListener("click", () => { const panel = $("paired-form").closest("details"); panel.open = true; panel.scrollIntoView({block: "start", behavior: "instant"}); focusDestination(panel.querySelector("summary")); });
 function syncExecutionFields() {
   const paired = $("execution-adapter").value === "PAIRED_DIFFERENCE";
   $("execution-kind").options[0].disabled = paired;
@@ -263,7 +287,7 @@ function syncExecutionFields() {
   $("execution-coverage-label").hidden = !bootstrap; $("execution-coverage").disabled = !bootstrap;
   $("csv-layout").textContent = paired ? "CSV columns: pair,condition,value. Exactly one value for condition 0 and 1 per pair, 2 to 1,000 complete pairs. Pair identifiers do not establish independence across pairs." : "CSV columns: unit,label,value. Unique unit IDs without outer whitespace, labels 0 or 1, at least two units per group, maximum 2,000 rows. UTF-8 with an optional byte-order mark is accepted.";
 }
-function clearInputSummary() { state.inputSummary = null; $("input-summary").hidden = true; $("input-summary").replaceChildren(); $("export-input-summary").disabled = true; $("inspect-input").disabled = !$("numeric-file").files.length; }
+function clearInputSummary() { state.inputSummary = null; $("input-summary").hidden = true; $("input-summary").replaceChildren(); $("export-input-summary").disabled = true; $("inspect-input").disabled = !$("numeric-file").files.length; updateExecutionAvailability(); }
 $("numeric-file").addEventListener("change", clearInputSummary);
 $("execution-kind").addEventListener("change", syncExecutionFields);
 $("inspect-input").addEventListener("click", () => action(async () => {
@@ -290,7 +314,7 @@ function editCandidate(control = null) {
   if (state.busy || state.drafts.has("candidate-form") && !window.confirm("Discard the unrecorded candidate specification inputs and open this specification?")) { message("Kept the current candidate inputs."); return; }
   const form = $("candidate-form"); form.reset();
   if (control) { const values = {control_id: control.control_id, claim_id: control.claim_tested, name: control.control_name, control_class: control.control_class, scientific_level: control.scientific_level, rationale: control.scientific_rationale, expected_behavior: control.expected_behavior, failure_interpretation: control.failure_interpretation, method_basis: control.method_basis || "", priority: control.priority, priority_rationale: control.priority_rationale, uncertainties: control.uncertainties.join("\n"), limitations: control.limitations.join("\n")}; for (const [name, value] of Object.entries(values)) form.elements.namedItem(name).value = value; $("candidate-evidence").checked = control.evidence_required; }
-  clearDraft("candidate-form"); $("candidate-panel").open = true; $("candidate-panel").scrollIntoView({block: "start"});
+  clearDraft("candidate-form"); $("candidate-panel").open = true; $("candidate-panel").scrollIntoView({block: "start"}); focusDestination($("candidate-panel").querySelector("summary"));
 }
 $("add-control").addEventListener("click", () => { requireProject(); editCandidate(); });
 $("candidate-level").addEventListener("change", () => { if (["BIOLOGICAL", "MECHANISTIC"].includes($("candidate-level").value)) $("candidate-evidence").checked = true; });
@@ -312,7 +336,7 @@ async function openReview(controlId) {
     input("Source locator", "locator", "input"); input("Scientific explanation of the relationship", "rationale"); const context = input("Context established by the source, as JSON", "context"); context.value = "{}";
     $("statement-reviews").append(panel);
   }
-  $("review-panel").open = true; $("review-panel").scrollIntoView({block: "start"}); message("Review the exact statements against source text. No review has been recorded yet.");
+  $("review-panel").open = true; $("review-panel").scrollIntoView({block: "start"}); focusDestination($("review-panel").querySelector("summary")); message("Review the exact statements against source text. No review has been recorded yet.");
 }
 $("review-control").addEventListener("change", () => action(() => openReview($("review-control").value)));
 $("human-review-form").addEventListener("submit", event => { event.preventDefault(); action(async () => {
@@ -382,7 +406,7 @@ function renderAnnotationCase() {
   bundle.evidence_decisions.filter(item => item.case_id === current.case_id).forEach((item, index) => { const panel = node("fieldset", undefined, "statement-panel"); panel.append(node("legend", item.layer), field("Imported prediction", item.unit_id + ": " + item.predicted_decision)); annotationBoolean("Reference decision", "ann-evidence-" + index, item.reference_decision, panel); annotationText("Reason for the evidence reference judgment", "ann-evidence-rationale-" + index, item.rationale, panel); $("annotation-evidence").append(panel); });
 }
 $("annotation-case").addEventListener("change", () => { saveAnnotationCase(); renderAnnotationCase(); });
-$("open-annotations").addEventListener("click", () => action(async () => { if ($("evaluation-file").files[0] && !await loadAnnotationBundle(await fileJSON($("evaluation-file")))) return; if (!state.evaluationBundle) throw new Error("Choose a local evaluation bundle first."); $("annotation-panel").open = true; $("annotation-panel").scrollIntoView({block: "start"}); message("Opened imported recommendations and reference definitions. No new judgments have been recorded."); }));
+$("open-annotations").addEventListener("click", () => action(async () => { if ($("evaluation-file").files[0] && !await loadAnnotationBundle(await fileJSON($("evaluation-file")))) return; if (!state.evaluationBundle) throw new Error("Choose a local evaluation bundle first."); $("annotation-panel").open = true; $("annotation-panel").scrollIntoView({block: "start"}); focusDestination($("annotation-panel").querySelector("summary")); message("Opened imported recommendations and reference definitions. No new judgments have been recorded."); }));
 $("annotation-form").addEventListener("submit", event => { event.preventDefault(); action(async () => { saveAnnotationCase(); if (!$("annotation-attestation").checked) throw new Error("A real reviewer must attest the judgments."); const submission = {bundle_sha256: state.annotationHash, judgment_origin: $("annotation-origin").value, annotator: $("annotation-reviewer").value.trim(), human_attested: true, judgments: state.annotationDraft.judgments, evidence_decisions: state.annotationDraft.evidence_decisions}; const data = await api("/api/annotate", {bundle: state.evaluationBundle, submission}); state.revisions.push(data.revision); await loadAnnotationBundle(data.bundle, false); state.evaluation = null; $("evaluation-result").replaceChildren(empty("Judgments changed. Calculate the current snapshot to see updated metrics.")); $("export-evaluation").disabled = true; message("Recorded supplied judgments and snapshot hashes. Export this bundle and revisions; identities remain unauthenticated."); }); });
 $("export-evaluation-bundle").addEventListener("click", () => { if (state.evaluationBundle) download(JSON.stringify(state.evaluationBundle, null, 2), "controlomics.annotations.json"); });
 $("export-revisions").addEventListener("click", () => download(JSON.stringify(state.revisions, null, 2), "controlomics.annotation_revisions.json"));

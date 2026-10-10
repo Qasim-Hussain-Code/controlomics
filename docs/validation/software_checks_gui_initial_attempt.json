@@ -1,0 +1,15 @@
+{
+  "recorded_at": "2026-10-10T11:35:51.967763+00:00",
+  "controlomics_version": "0.6.3.dev0",
+  "python": "3.14.0",
+  "operating_system": "Windows",
+  "pydantic": "2.12.4",
+  "setuptools": "83.0.0",
+  "tests": 175,
+  "failures": 0,
+  "errors": 1,
+  "skips": 0,
+  "seconds": 40.839,
+  "status": "FAIL",
+  "scope": "Software behavior using synthetic fixtures and mocked provider transports; no independent scientific validation."
+}

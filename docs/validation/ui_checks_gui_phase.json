@@ -1,0 +1,609 @@
+{
+  "browser": "Chrome/154.0.8037.98",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1200,
+      "name": "controls",
+      "viewport": 1440,
+      "document": 1425,
+      "cards": 3,
+      "status": "Local design controls specified. Biological support and applicability remain unvalidated."
+    },
+    {
+      "width": 430,
+      "height": 1100,
+      "name": "mobile",
+      "viewport": 430,
+      "document": 415,
+      "cards": 3,
+      "status": "Local design controls specified. Biological support and applicability remain unvalidated."
+    }
+  ],
+  "exceptions": [],
+  "externalRequests": [],
+  "emptyWorkspace": {
+    "zeroCounts": true,
+    "savingDisabled": true,
+    "searchDisabled": true,
+    "executionUnselected": true,
+    "executionDisabled": true,
+    "availabilityExplained": true,
+    "panelsFocusable": true,
+    "view": "analysis"
+  },
+  "emptyDraftProtection": {
+    "tracked": true,
+    "retained": true,
+    "cleared": true
+  },
+  "programmaticDraftProtection": {
+    "tracked": true,
+    "retained": true,
+    "cleared": true
+  },
+  "targetedTextContrast": [
+    {
+      "selector": ".field strong",
+      "foreground": "rgb(80, 103, 116)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.943,
+      "passes": true
+    },
+    {
+      "selector": ".field p",
+      "foreground": "rgb(68, 94, 107)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 6.865,
+      "passes": true
+    },
+    {
+      "selector": ".evidence-state",
+      "foreground": "rgb(80, 103, 119)",
+      "background": "rgb(244, 247, 248)",
+      "ratio": 5.499,
+      "passes": true
+    },
+    {
+      "selector": ".metric-note",
+      "foreground": "rgb(88, 108, 120)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.481,
+      "passes": true
+    },
+    {
+      "selector": ".collection-count",
+      "foreground": "rgb(82, 107, 119)",
+      "background": "rgb(237, 242, 244)",
+      "ratio": 4.991,
+      "passes": true
+    },
+    {
+      "selector": ".control-index",
+      "foreground": "rgb(96, 117, 128)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 4.824,
+      "passes": true
+    },
+    {
+      "selector": ".eyebrow",
+      "foreground": "rgb(80, 107, 120)",
+      "background": "rgb(245, 247, 248)",
+      "ratio": 5.26,
+      "passes": true
+    },
+    {
+      "selector": ".badge.negative",
+      "foreground": "rgb(118, 93, 55)",
+      "background": "rgb(246, 239, 227)",
+      "ratio": 5.418,
+      "passes": true
+    },
+    {
+      "selector": ".card-foot",
+      "foreground": "rgb(88, 109, 120)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.421,
+      "passes": true
+    },
+    {
+      "selector": "#control-search::placeholder",
+      "foreground": "rgb(89, 109, 121)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.401,
+      "passes": true
+    }
+  ],
+  "recordCounts": true,
+  "preparedDownload": true,
+  "draftReversion": {
+    "changed": true,
+    "reverted": true
+  },
+  "executionFields": {
+    "reference": true,
+    "bootstrap": true,
+    "permutation": true
+  },
+  "controlSearch": {
+    "nameMatched": true,
+    "noMatch": true,
+    "classMatched": true,
+    "restored": true,
+    "unchanged": true
+  },
+  "executionSelection": {
+    "unrelatedRenderRetained": true,
+    "errorRenderRetained": true,
+    "projectRetained": true,
+    "combinedStateFilter": true,
+    "unavailableStateEmpty": true,
+    "resetRestored": true,
+    "filterPreserved": true
+  },
+  "requestDialog": {
+    "named": true,
+    "cancelInitiallyFocused": true,
+    "buttonCancelled": true,
+    "onlyMockedPreviews": true,
+    "responsive": true,
+    "escapeCancelled": true
+  },
+  "keyboardNavigation": {
+    "arrow": true,
+    "end": true,
+    "home": true
+  },
+  "responsiveViews": [
+    {
+      "width": 375,
+      "document": 360,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "evaluation",
+      "panelsFocusable": true
+    }
+  ],
+  "saveStatusAccessibility": [
+    {
+      "width": 375,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 768,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 1024,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 1440,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    }
+  ],
+  "sectionScroll": [
+    {
+      "width": 375,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 768,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 1024,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 1440,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    }
+  ],
+  "mobileNavigation": {
+    "modal": true,
+    "trapped": true,
+    "reverseTrapped": true,
+    "escaped": true,
+    "selected": true,
+    "metricNavigation": true,
+    "closeButton": true
+  },
+  "fileMenus": true,
+  "reducedMotion": true,
+  "textRendering": true,
+  "inputInspection": {
+    "rows": 4,
+    "zero": 2,
+    "one": 2,
+    "bom": true,
+    "sha256": "d065f0234a007ac927a1e7a8f0cacee0a13bf3e672871d7579612928753eeb96",
+    "results": 0,
+    "externalRequests": 0
+  },
+  "invalidUTF8": true,
+  "failedActionFeedbackVisible": true,
+  "plannedSelectionClearing": [
+    {
+      "unselected": true,
+      "actionsDisabled": true,
+      "availabilityExplained": true
+    },
+    {
+      "unselected": true,
+      "actionsDisabled": true,
+      "availabilityExplained": true
+    }
+  ],
+  "execution": {
+    "outcomes": [
+      "PASS",
+      "PASS"
+    ],
+    "pathways": [
+      "LOCAL",
+      "LOCAL"
+    ],
+    "audit": "INSUFFICIENT_EVIDENCE",
+    "externalRequests": 0,
+    "unsupportedControlsExcluded": true
+  },
+  "controlomicsVersion": "0.6.3.dev0",
+  "pairedExecution": {
+    "outcome": "INDETERMINATE",
+    "p": 0.25,
+    "input": "paired_units",
+    "remaining": 0
+  },
+  "executedRecordCounts": true,
+  "pairedBootstrap": {
+    "outcome": "INDETERMINATE",
+    "coverage": 0.9,
+    "seed": 17,
+    "method": "Complete-pair percentile bootstrap with linear quantile interpolation"
+  },
+  "report": {
+    "html": true,
+    "hasInputHashes": true,
+    "hasWarnings": true,
+    "hasConservativeAssessment": true
+  },
+  "reportLayout": [
+    {
+      "width": 1440,
+      "document": 1425,
+      "links": true,
+      "noScripts": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "links": true,
+      "noScripts": true
+    }
+  ],
+  "reportPrintStyles": true,
+  "narrative": {
+    "claim": "Features predict labels",
+    "category": "",
+    "support": ""
+  },
+  "claims": {
+    "claims": 2,
+    "profiles": 2,
+    "controlsByClaim": [
+      5,
+      5
+    ]
+  },
+  "claimFilter": {
+    "selected": true,
+    "combined": true,
+    "combinedState": true,
+    "unchanged": true,
+    "visible": true
+  },
+  "multiClaimLayout": [
+    {
+      "width": 375,
+      "document": 360
+    },
+    {
+      "width": 430,
+      "document": 415
+    },
+    {
+      "width": 768,
+      "document": 753
+    },
+    {
+      "width": 1024,
+      "document": 1009
+    },
+    {
+      "width": 1440,
+      "document": 1425
+    }
+  ],
+  "recordBindings": {
+    "results": true,
+    "audits": true,
+    "resultCount": true,
+    "auditCount": true
+  },
+  "destinationFocus": {
+    "candidate": true,
+    "annotations": true,
+    "sourceReview": true
+  },
+  "candidate": {
+    "status": "UNVERIFIED",
+    "id": "control.65ffde04e81f4ac4838edddce4154d1a",
+    "revisionRecorded": true
+  },
+  "candidateDraftProtection": {
+    "retained": true,
+    "reverted": true
+  },
+  "duplicateImportRejected": true,
+  "evaluation": {
+    "origin": "UNASSESSED",
+    "precision": null,
+    "unavailableDisplayed": true,
+    "cases": 6
+  },
+  "metricHeadingVisible": true,
+  "evaluationSnapshotProtection": {
+    "hashVisible": true,
+    "replacementCleared": true,
+    "newHash": true,
+    "partitionCleared": true
+  },
+  "annotations": {
+    "origin": "",
+    "reviewer": "",
+    "attested": false,
+    "unknown": true,
+    "matchesDisabled": true,
+    "savedOrigin": "UNASSESSED"
+  },
+  "annotationDraftProtection": true,
+  "judgmentCaseProtection": {
+    "navigationOnly": true,
+    "hiddenCaseProtected": true,
+    "reverted": true,
+    "unrecorded": true
+  },
+  "reviewBundle": {
+    "bytes": 19735,
+    "sameProject": true,
+    "sameEvaluation": true,
+    "networkEvents": 0,
+    "revisions": 0
+  },
+  "reviewForm": {
+    "statements": 2,
+    "attested": false,
+    "reviewer": ""
+  },
+  "sourceReviewDraftProtection": true,
+  "replacementCancelled": true,
+  "replacementCoherence": {
+    "formMatches": true,
+    "oldEvaluationCleared": true,
+    "oldReviewCleared": true,
+    "oldLedgerCleared": true,
+    "oldInputCleared": true,
+    "draftsCleared": true
+  },
+  "pendingInputProtection": {
+    "pendingLocked": true,
+    "inputRetained": true,
+    "completedUnlocked": true,
+    "failedUnlocked": true
+  },
+  "sessionRecovery": {
+    "rejected": true,
+    "noAutomaticRetry": true,
+    "recovered": true,
+    "projectRetained": true
+  },
+  "interruptedRequest": {
+    "redacted": true,
+    "uncertainty": true,
+    "noAutomaticRetry": true,
+    "projectRetained": true
+  },
+  "emptyReplacementClears": {
+    "project": true,
+    "ledger": true,
+    "preview": true,
+    "credential": true,
+    "zeroCounts": true,
+    "unrecorded": true
+  },
+  "run_at": "2026-10-10T11:52:44.359Z",
+  "personalProjectAttributionOmitted": true,
+  "scope": "Local interface-phase checks with an explicitly selected headless QA profile. Responsive workspace, actual record counts, search and combined claim/class/evidence-state filters with reset preservation, scientific result and audit bindings, explicit execution-target selection, selection retention across unrelated renders and errors, no automatic target after planning, disabled unavailable execution actions, keyboard tabs, focusable panels, deep-scroll section navigation, visible failed-action feedback, one accessible save-status live region checked through the Chrome accessibility tree across responsive widths, destination focus after candidate, source-review and annotation workbenches open, mobile focus boundaries, file menus, reduced motion, text-only rendering, unsaved input protection and reversion, prepared downloads, cancelled and coherent project replacement, complete workspace reset, candidate, source and multi-case annotation draft protection, programmatic field tracking, procedure-specific fields, exact-byte UTF-8/BOM input inspection, reference and paired execution, explicit bootstrap coverage/seed recording, linked responsive reports and print styles, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, visible review headings, and review archive roundtrip. Evaluation snapshot hashes and bundle/partition invalidation, pending-input locking and failure recovery, stale-session renewal without automatic replay, a named outbound-preview dialog with initial Cancel focus and button/native-Escape cancellation, and a mocked interrupted hosted-request response are included. Dialog previews use fixed synthetic local mocked responses without any provider transmission. All computations and edited inputs were hypothetical software fixtures. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external page request was observed. Targeted small-text contrast ratios are computed from rendered styles; this does not assess every visual state. This is browser integration coverage, not a screen-reader, full accessibility, print-pagination, or scientific validation.",
+  "controlomics_version": "0.6.3.dev0",
+  "source_hashes": {
+    "src/controlomics/server.py": "9a0846ce48bab71fbc33521d30676ea185de35d545f36da6718d82750dd164f3",
+    "src/controlomics/execution.py": "5c6b1e982c22576f14add5ce193d3c0fb9b9857ca6e9519533520412c1cdf017",
+    "src/controlomics/storage.py": "f39257699ce4dd2acf704016513085cd724a0b076578cae3cb6605ebbe3eef6d",
+    "src/controlomics/web/index.html": "27795ede931924b6e51f258c8f2ac36d1b3fa09fac271fc86ec85c2bc9783767",
+    "src/controlomics/web/app.js": "3393ef21c13b67b7ddb6a2b234f512aa364b91b515980ffb27ff95d2583b19d3",
+    "src/controlomics/web/style.css": "ad851189f77ed38582e1783e4321d26d7013a6801f23f38ee2f4c1fb5886ba68",
+    "scripts/check_ui.cjs": "4c98dd8b04522b6963e1f7661c51964382638147a1663c50a064bca831725707"
+  },
+  "screenshot_hashes": {
+    "ui_workspace.png": "b743ddf96b37c9129c1d7b571c5aeee388bb145ac5940cda6cefed2124d8214a",
+    "ui_controls.png": "cbe664fe03a53161cc9ad985e721adcf850c3b37002da637e208376b7b5e0257",
+    "ui_mobile.png": "a3916ae8fe1677bdb167f9520d226fb264b9fb5bbb06e970a6f6d418f10e0c7f",
+    "ui_request_dialog.png": "f3ae8163c0e06c1b48ff7067372400d4adc513d3adbe3f391607e17692d82be0",
+    "ui_request_dialog_mobile.png": "6fc720bda994d473d9c3dcf4ce393ae79467a38c9aed861164731a905dfc91d2",
+    "ui_analysis.png": "bf85dfd377e968ff7bfa48323dc883b2c13eee13ee5514334957954aa24aa63d",
+    "ui_execution_mobile.png": "ad210b2e48cc6775da7bb97ae4f3c78456ede7f2a4e0487efc101a73459aaced",
+    "ui_execution.png": "63aee5fd94e3b486d0d9eafceef8b53a4a6cbd539d5adcc5a49ed6b4ce422483",
+    "ui_navigation_mobile.png": "c6c44c6d8210fa94b85ead29e27c9d1e5748488b7ee51aa01b6f3ad668cc8114",
+    "ui_input_inspection.png": "47d0cccb319ea09057beccd2f9b77ca71d5403529e259e5c65563426eefd303f",
+    "ui_report.png": "7e0d9a8540dccd9f9f76f62cdd125a5fc796332651a76bc131430b0be4a208e9",
+    "ui_report_mobile.png": "495fad4a607e3a8ba3a9c48e3b94a139f5fcc0217b2a548771c1c54d10184330",
+    "ui_claims.png": "9a22901fcb5cf11164dc845d9ab6aca345c1f83f8b09e56309cc5f01545323d8",
+    "ui_evaluation.png": "7d08927b9e5448165ef53c55b43d1337d2fc0b2465135c84a505aaee9124a77d",
+    "ui_evaluation_mobile.png": "9c5a3a5ae04010f0d61dbee469c1f4c4c633a7783191b18858b11717d2422c2e",
+    "ui_evaluation_metrics_mobile.png": "57e431a1e8f1f4baa8d2153241f3532bf71448de4c28365d965785a6e93e0ba5",
+    "ui_annotations.png": "fddb5efd6982a565da1a35ee87a8addfee0969143bdd5a353e2e9d0ac455eabd",
+    "ui_annotations_mobile.png": "e95b9880c38dc7d956fff0030192f375fcdc25ae222314b3f4372cd3ee65fd92"
+  },
+  "browserShutdown": {
+    "debuggingEndpointClosed": true
+  }
+}

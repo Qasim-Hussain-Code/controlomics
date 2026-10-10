@@ -1,0 +1,105 @@
+{
+  "recorded_at": "2026-10-10T11:38:49.443674+00:00",
+  "python": "3.14.0",
+  "operating_system": "Windows",
+  "scope": "Ten sequential repetitions of the unchanged existing synthetic test. No backend or integration test modification.",
+  "seconds": 5.497,
+  "source_sha256": {
+    "src/controlomics/server.py": "9a0846ce48bab71fbc33521d30676ea185de35d545f36da6718d82750dd164f3",
+    "tests/integration/test_server.py": "68f3c3c0618d0af72e6d528cbefd38a777f26c5761a014710823a86837fe600f"
+  },
+  "runs": [
+    {
+      "run": 1,
+      "seconds": 0.54,
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "status": "PASS",
+      "exception_types": []
+    },
+    {
+      "run": 2,
+      "seconds": 0.518,
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "status": "PASS",
+      "exception_types": []
+    },
+    {
+      "run": 3,
+      "seconds": 0.534,
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "status": "PASS",
+      "exception_types": []
+    },
+    {
+      "run": 4,
+      "seconds": 0.52,
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "status": "PASS",
+      "exception_types": []
+    },
+    {
+      "run": 5,
+      "seconds": 0.518,
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "status": "PASS",
+      "exception_types": []
+    },
+    {
+      "run": 6,
+      "seconds": 0.525,
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "status": "PASS",
+      "exception_types": []
+    },
+    {
+      "run": 7,
+      "seconds": 0.528,
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "status": "PASS",
+      "exception_types": []
+    },
+    {
+      "run": 8,
+      "seconds": 0.524,
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "status": "PASS",
+      "exception_types": []
+    },
+    {
+      "run": 9,
+      "seconds": 0.509,
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "status": "PASS",
+      "exception_types": []
+    },
+    {
+      "run": 10,
+      "seconds": 0.518,
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "status": "PASS",
+      "exception_types": []
+    }
+  ],
+  "successful_runs": 10,
+  "failed_runs": 0
+}

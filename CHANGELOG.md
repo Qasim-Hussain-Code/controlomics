@@ -1,5 +1,13 @@
 # Development changes
 
+## 0.6.3.dev0, 2026-10-10
+
+Execution requires an explicit compatible reviewed-control selection. Availability guidance explains missing review, input, or adapter prerequisites and points to the relevant specifications. Procedure choices, reference values, resampling settings, and assumptions are retained while selecting another control or refreshing the same project; no new scientific values are inferred. Planned controls remain excluded from another execution in that snapshot.
+
+Controls can be filtered by evidence state alongside search, class, and claim, with an explicit filter reset and state explanations. Source review identifies its publication-identity prerequisite. Editor, source-review, and judgment workbench actions move focus to their destination after pending input protection ends. The outbound-request dialog has an accessible name and description and initially focuses Cancel; sending still requires explicit exact-request approval.
+
+Responsive save-state announcements and targeted contrast, label sizing, and focus indicators improve interface readability. The software rerun passed 175 tests; isolated browser checks passed 24 section/width combinations and the targeted interactions. Ten rendered contrast pairs ranged from 4.824 to 6.865:1. The initial Windows connection interruption remains recorded alongside the successful rerun, with its cause unconfirmed. Extracted-wheel, distribution, and offline clean wheel/source installation checks passed, including synthetic fixed-runner execution. Records bind the tested artifact bytes; the final source ZIP retains a later documentation snapshot. Earlier software, browser, packaging, and numerical records remain bound to their original snapshots. Independent scientific validation, full accessibility conformance, researcher usability review, and public publication remain pending.
+
 ## 0.6.2.dev0, 2026-10-10
 
 Dispatched execution packages and review restores prepare complete directories before publishing them. Destinations must now be absent; existing empty directories are rejected as well. Ordinary preparation failures and interruptions clean the owned staging directory without exposing a partial destination. Crash cleanup, concurrent filesystem changes, and power-loss durability remain unqualified.

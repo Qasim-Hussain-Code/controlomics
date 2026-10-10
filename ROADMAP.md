@@ -13,7 +13,7 @@ The delivered software is an operational local research alpha. This milestone do
 | 6 | Reports and provenance | Linked responsive reports with print styles, typed network sidecar, bounded review archive save/restore |
 | 7 | ControlomicsBench | Dataset contracts, partition checks, offline runner, judgment workbench, snapshot revisions, metrics and agreement; independent expert benchmark pending |
 | 8 | Cross-domain evaluation and ablations | Development reference/design comparison, frozen SciPy numerical comparisons and synthetic coverage experiments recorded; independent cases, expert judgments and model comparisons pending |
-| 9 | Web application | Responsive six-section workspace, claim filters, record bindings, local input inspection, export status, draft and pending-input protection, source-bound evaluation metrics, session renewal without replay, keyboard navigation, and local hardening; remote deployment requires separate assessment |
+| 9 | Web application | Responsive six-section workspace, combined claim/class/evidence-state filters, explicit execution selection and availability, record bindings, local input inspection, export status, draft and pending-input protection, source-bound evaluation metrics, session renewal without replay, workbench focus, keyboard navigation, and local hardening; remote deployment requires separate assessment |
 | 10 | Public release | MIT selected; public source preparation and local checks complete when recorded, owner-enabled GitHub private reporting and hosted CI remain external steps; no remote configured |
 
 ## Delivered slice
@@ -23,6 +23,8 @@ Hypothetical transcriptomics and microscopy examples exercise intake, primary co
 Six explicit design scenarios compare the two-reference baseline with operation rules. Their recommendation sheets remain UNASSESSED. Development expected finding codes test software behavior and do not establish scientific generalization. They are neither the domain boundaries of the representation nor an independent benchmark. See [the evaluation protocol](docs/EVALUATION.md).
 
 ## Next research work
+
+Version 0.6.3.dev0 improves local interface guidance, explicit execution selection and retained procedure inputs, evidence-state filtering and reset, workbench focus, request-dialog semantics, responsive save-state announcements, and targeted text readability. [The software rerun](docs/validation/software_checks_gui_phase.json) passed 175 tests, and [isolated browser checks](docs/validation/ui_checks_gui_phase.json) passed 24 section/width combinations and the targeted interaction checks. The initial Windows connection interruption remains recorded in [VALIDATION.md](VALIDATION.md). These software observations do not supply new expert annotations, biological evidence, adapters, independent usability review, or scientific validation.
 
 Version 0.6.2.dev0 extends export protection to staged execution packages and review restores with absent destinations, hashed runner export helpers, and auxiliary-input conflict checks. Local connection worker limits, inactive-header timeouts, strict request framing, and redacted unexpected failures address operational reliability. Source and distribution exports use complete staged replacements. These software changes leave numerical procedures and the independent research requirements unchanged.
 

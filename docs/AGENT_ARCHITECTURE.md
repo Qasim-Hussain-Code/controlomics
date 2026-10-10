@@ -1,6 +1,6 @@
 # Complete agent architecture
 
-This describes the implemented local research alpha, version 0.6.2.dev0. Controlomics is a human-supervised scientific workflow with structured proposals, evidence review, restricted numerical tools, and conservative audits. Its default reasoning engine uses inspectable rules. An optional hosted language model can propose controls through the same record contracts. Scientific appropriateness and cross-domain generalization still require independent expert evaluation.
+This describes the implemented local research alpha, version 0.6.3.dev0. Controlomics is a human-supervised scientific workflow with structured proposals, evidence review, restricted numerical tools, and conservative audits. Its default reasoning engine uses inspectable rules. An optional hosted language model can propose controls through the same record contracts. Scientific appropriateness and cross-domain generalization still require independent expert evaluation.
 
 ## Overall flow
 
@@ -65,6 +65,8 @@ Control class and scientific level are separate. Classes are POSITIVE, NEGATIVE,
 The project stores candidates, reviewed controls, evidence, execution plans, results, audits, privacy policy, and timestamped provenance. Each action records relevant identifiers and, where applicable, versions, hashes, seeds, and limitations. IDs and hashes establish recorded relationships; they do not prove that a scientific statement is true.
 
 The browser has no automatic persistent memory or project database. The CLI saves only when explicitly instructed. Researchers retain exports to continue work. Form signatures detect temporary edits; revision counters track whether a download was prepared. Neither feature proves that a downloaded file was actually saved.
+
+The control collection combines search, class, claim, and recorded evidence-state filters, with an explicit reset. Execution preserves entered procedure settings and an explicitly chosen control while the same project and eligibility remain valid; it never substitutes the next control after the earlier one acquires a plan. Availability guidance reflects record and input prerequisites, rather than assessing scientific validity. Destination focus is deferred until pending form protection ends. The outbound dialog names the exact-request review and initially focuses Cancel. Responsive save-state announcements and targeted text contrast changes retain the existing local-memory boundary. [The GUI-phase observations](../VALIDATION.md) qualify the tested software and browser behavior without establishing independent usability or full accessibility.
 
 ## How reasoning works
 

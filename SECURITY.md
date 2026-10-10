@@ -10,6 +10,8 @@ The local server limits connection workers to 16 and applies a 10-second read-in
 
 The server binds only to `127.0.0.1`. Mutating requests require exact local Host, Origin, and an unpredictable session token. Fixed asset routes prevent arbitrary file serving. Responses disable caching, external scripts and assets, framing, and referrer leakage. UI content uses text nodes and reports escape HTML. Request logging, persistent browser storage, and project databases are absent. Remote multiuser deployment is not qualified.
 
+Interface availability messages and disabled execution buttons supplement server validation; they cannot establish adapter applicability, sampling assumptions, or authentic review. Selecting a reviewed control is explicit, and a completed or packaged control does not cause another control to be selected automatically. The named outbound-request dialog initially focuses Cancel. This does not replace the exact-request approval check or establish complete accessibility or security assurance.
+
 POST authorization is checked before waiting for the body; non-ASCII tokens are rejected and truncated bodies cannot be parsed. Browser imports reject invalid UTF-8 instead of silently replacing bytes. CSV decoding accepts an optional UTF-8 byte-order mark while hashes retain the original bytes. The local JSON request budget includes formatting and the project snapshot, so files near the 2 MiB limit may require CLI use.
 
 ## External transport
@@ -36,7 +38,7 @@ Do not commit keys, clinical identifiers, private sequences, raw datasets, or re
 
 ## Vulnerability reporting and supported versions
 
-Only the current `0.6.2.dev0` research preview is maintained. Older development snapshots receive no separate security fixes. There is no response-time guarantee or independent security certification.
+Only the current `0.6.3.dev0` research preview is maintained. Older development snapshots receive no separate security fixes. There is no response-time guarantee or independent security certification.
 
 Before uploading source, the repository owner must enable GitHub private vulnerability reporting in an empty public repository and verify that its Security page offers **Report a vulnerability**. Use that private channel for suspected vulnerabilities, with a minimal synthetic reproduction and affected version. Do not include credentials, identifying information, or real research data. Do not open a public issue for an undisclosed vulnerability.
 
