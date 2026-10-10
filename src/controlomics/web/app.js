@@ -89,9 +89,9 @@ function resetWorkspace() {
   clearInputSummary(); syncExecutionFields(); state.revision++; state.preparedRevision = state.revision;
   rememberForms();
 }
-const viewNames = {analysis: "Analysis & claims", controls: "Controls", evidence: "Evidence library", execution: "Execution", audit: "Scientific audit", evaluation: "Evaluation"};
+const viewNames = {analysis: "Analysis & claims", controls: "Controls", evidence: "Evidence", execution: "Execution", audit: "Scientific audit", evaluation: "Evaluation"};
 const mobileNavigation = window.matchMedia("(max-width:760px)");
-function syncNavigation() { const open = mobileNavigation.matches && document.body.classList.contains("nav-open"); $("nav-toggle").setAttribute("aria-expanded", String(open)); $("nav-toggle").setAttribute("aria-label", open ? "Close navigation" : "Open navigation"); $("workspace-nav").inert = mobileNavigation.matches && !open; $("workspace-canvas").inert = open; if (mobileNavigation.matches) $("workspace-nav").setAttribute("aria-hidden", String(!open)); else $("workspace-nav").removeAttribute("aria-hidden"); if (open) { $("workspace-nav").setAttribute("role", "dialog"); $("workspace-nav").setAttribute("aria-modal", "true"); } else { $("workspace-nav").removeAttribute("role"); $("workspace-nav").removeAttribute("aria-modal"); } }
+function syncNavigation() { $("workspace-tabs").setAttribute("aria-orientation", mobileNavigation.matches ? "vertical" : "horizontal"); const open = mobileNavigation.matches && document.body.classList.contains("nav-open"); $("nav-toggle").setAttribute("aria-expanded", String(open)); $("nav-toggle").setAttribute("aria-label", open ? "Close navigation" : "Open navigation"); $("workspace-nav").inert = mobileNavigation.matches && !open; $("workspace-canvas").inert = open; $("workspace-header").inert = open; if (mobileNavigation.matches) $("workspace-nav").setAttribute("aria-hidden", String(!open)); else $("workspace-nav").removeAttribute("aria-hidden"); if (open) { $("workspace-nav").setAttribute("role", "dialog"); $("workspace-nav").setAttribute("aria-modal", "true"); } else { $("workspace-nav").removeAttribute("role"); $("workspace-nav").removeAttribute("aria-modal"); } }
 function closeNavigation(returnFocus = false) { document.body.classList.remove("nav-open"); syncNavigation(); if (returnFocus) $("nav-toggle").focus(); }
 function switchView(name, closeMenu = true) { if (!viewNames[name]) return; const changed = state.view !== name; state.view = name; document.querySelectorAll(".view").forEach(view => { view.hidden = view.id !== "view-" + name; view.tabIndex = view.hidden ? -1 : 0; }); document.querySelectorAll(".tab").forEach(tab => { const selected = tab.dataset.view === name; tab.classList.toggle("active", selected); tab.setAttribute("aria-selected", String(selected)); tab.tabIndex = selected ? 0 : -1; }); $("current-section").textContent = viewNames[name]; document.title = viewNames[name] + " | Controlomics"; if (changed) $("view-" + name).scrollIntoView({block: "start", behavior: "instant"}); if (closeMenu && document.body.classList.contains("nav-open")) { closeNavigation(); $("workspace-main").focus({preventScroll: true}); } }
 function node(tag, text, className) { const element = document.createElement(tag); if (text !== undefined) element.textContent = text; if (className) element.className = className; return element; }
@@ -111,11 +111,14 @@ function renderOverview() {
   options($("control-claim-filter"), [["", "All scientific claims"], ...(project?.claims || []).map(claim => [claim.claim_id, claim.statement])]);
   $("control-visible-count").textContent = counts.controls + " specifications";
   document.querySelector(".workspace-overview").classList.toggle("has-project", Boolean(project));
-  $("project-kicker").textContent = project ? "CURRENT RESEARCH PROJECT" : "SCIENTIFIC CONTROL WORKSPACE";
-  $("project-title").textContent = project ? project.analysis.scientific_question : "Make the claim inspectable.";
+  $("project-kicker").textContent = project ? "Scientific question" : "Scientific control workspace";
+  $("project-title").textContent = project ? project.analysis.scientific_question : "No project open";
   $("project-title").title = project ? project.analysis.scientific_question : "";
-  $("project-subtitle").textContent = project ? "Specify the controls. Inspect their evidence. Keep the scientific interpretation open to review." : "A considered workspace for scientific controls, evidence, and reproducible review.";
-  $("project-meta").textContent = project ? project.analysis.methods.join(" | ") : "Start with your question. Keep the uncertainty visible.";
+  $("project-subtitle").hidden = Boolean(project);
+  $("project-subtitle").textContent = project ? "Analysis record. Review states and scientific limitations are recorded separately." : "Create an analysis record or open a saved project.";
+  $("project-identifier").hidden = !project;
+  $("project-identifier").textContent = project ? "Project: " + project.manifest.project_id : "";
+  $("project-meta").textContent = project ? "Methods: " + project.analysis.methods.join("; ") : "Local records of claims, controls, evidence, and execution.";
   $("metric-claims-note").textContent = project ? counts.claims === 1 ? project.claims[0].category.toLowerCase() + " claim" : "Claims in the current analysis" : "Awaiting a project";
   $("metric-controls-note").textContent = project ? project.candidates.length ? project.candidates.length + " unreviewed candidate" + (project.candidates.length === 1 ? "" : "s") : "Review states recorded separately" : "No controls recorded";
   const identities = project?.evidence.filter(item => item.existence_status === "VERIFIED").length || 0;
@@ -129,10 +132,12 @@ function renderControlCards() {
   $("reset-control-filters").disabled = !term && !selectedClass && !selectedClaim && !selectedState;
   $("control-list").replaceChildren(); $("control-visible-count").textContent = visible.length === controls.length ? controls.length + " specification" + (controls.length === 1 ? "" : "s") : visible.length + " of " + controls.length + " specifications";
   for (const control of visible) {
-    const card = node("article", undefined, "control-card"), top = node("div", undefined, "card-top"), evidenceState = node("span", control.evidence_status, "evidence-state");
+    const card = node("article", undefined, "control-card control-record"), top = node("div", undefined, "card-top"), evidenceState = node("span", control.evidence_status, "evidence-state");
     card.dataset.controlClass = control.control_class; evidenceState.dataset.state = control.evidence_status;
-    top.append(node("span", control.control_class, "badge" + (control.control_class === "NEGATIVE" ? " negative" : "")), evidenceState, node("span", "C" + String(controls.indexOf(control) + 1).padStart(2, "0"), "control-index"));
-    card.append(top, node("h3", control.control_name), field("Scientific rationale", control.scientific_rationale), field("Expected behavior", control.expected_behavior), field("Failure interpretation", control.failure_interpretation), field("Limitations", control.limitations.join(" ")));
+    top.append(node("span", control.control_class, "badge" + (control.control_class === "NEGATIVE" ? " negative" : "")), evidenceState, node("span", "Priority: " + control.priority.toLowerCase(), "record-priority"));
+    const heading = node("div", undefined, "record-heading");
+    heading.append(node("span", "C" + String(controls.indexOf(control) + 1).padStart(2, "0"), "control-index"), node("h3", control.control_name));
+    card.append(heading, top, field("Claim tested", project.claims.find(claim => claim.claim_id === control.claim_tested).statement), field("Scientific rationale", control.scientific_rationale), field("Expected behavior", control.expected_behavior), field("Failure interpretation", control.failure_interpretation), field("Limitations", control.limitations.join(" ")));
     const details = node("details"); details.append(node("summary", "Assumptions & provenance"), field("Control identifier", control.control_id), field("Method basis", control.method_basis), field("Uncertainties", control.uncertainties.join(" ")), field("Claim tested", project.claims.find(claim => claim.claim_id === control.claim_tested).statement), field("Claim identifier", control.claim_tested), field("Context compatibility", control.context_compatibility.status), field("Priority", control.priority + ": " + control.priority_rationale));
     const actions = node("div", undefined, "actions card-actions");
     if (project.candidates.some(item => item.control_id === control.control_id)) { const edit = node("button", "Edit specification", "small secondary"); edit.type = "button"; edit.addEventListener("click", () => editCandidate(control)); actions.append(edit); }
@@ -200,7 +205,7 @@ function render() {
   }
   $("ledger").textContent = JSON.stringify({provenance: project.provenance, network_audit: state.audit}, null, 2);
 }
-document.querySelectorAll(".tab").forEach(tab => { tab.addEventListener("click", () => switchView(tab.dataset.view)); tab.addEventListener("keydown", event => { const tabs = [...document.querySelectorAll(".tab")], index = tabs.indexOf(tab); let next; if (["ArrowDown", "ArrowRight"].includes(event.key)) next = (index + 1) % tabs.length; else if (["ArrowUp", "ArrowLeft"].includes(event.key)) next = (index + tabs.length - 1) % tabs.length; else if (event.key === "Home") next = 0; else if (event.key === "End") next = tabs.length - 1; else return; event.preventDefault(); switchView(tabs[next].dataset.view, false); tabs[next].focus(); }); });
+document.querySelectorAll(".tab").forEach(tab => { tab.addEventListener("click", () => switchView(tab.dataset.view)); tab.addEventListener("keydown", event => { const tabs = [...document.querySelectorAll(".tab")], index = tabs.indexOf(tab); let next; if (event.key === (mobileNavigation.matches ? "ArrowDown" : "ArrowRight")) next = (index + 1) % tabs.length; else if (event.key === (mobileNavigation.matches ? "ArrowUp" : "ArrowLeft")) next = (index + tabs.length - 1) % tabs.length; else if (event.key === "Home") next = 0; else if (event.key === "End") next = tabs.length - 1; else return; event.preventDefault(); switchView(tabs[next].dataset.view, false); tabs[next].focus(); }); });
 document.querySelectorAll(".metric-card").forEach(card => card.addEventListener("click", () => switchView(card.dataset.target)));
 document.querySelector(".brand").addEventListener("click", event => { event.preventDefault(); switchView("analysis"); });
 $("control-search").addEventListener("input", renderControlCards); $("control-class-filter").addEventListener("change", renderControlCards);

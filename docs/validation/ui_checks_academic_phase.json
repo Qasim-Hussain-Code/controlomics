@@ -1,0 +1,905 @@
+{
+  "browser": "Chrome/154.0.8037.98",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1200,
+      "name": "controls",
+      "viewport": 1440,
+      "document": 1425,
+      "cards": 3,
+      "status": "Local design controls specified. Biological support and applicability remain unvalidated."
+    },
+    {
+      "width": 430,
+      "height": 1100,
+      "name": "mobile",
+      "viewport": 430,
+      "document": 415,
+      "cards": 3,
+      "status": "Local design controls specified. Biological support and applicability remain unvalidated."
+    }
+  ],
+  "exceptions": [],
+  "externalRequests": [],
+  "emptyWorkspace": {
+    "zeroCounts": true,
+    "savingDisabled": true,
+    "searchDisabled": true,
+    "executionUnselected": true,
+    "executionDisabled": true,
+    "availabilityExplained": true,
+    "panelsFocusable": true,
+    "view": "analysis"
+  },
+  "emptyDraftProtection": {
+    "tracked": true,
+    "retained": true,
+    "cleared": true
+  },
+  "programmaticDraftProtection": {
+    "tracked": true,
+    "retained": true,
+    "cleared": true
+  },
+  "targetedTextContrast": [
+    {
+      "selector": ".field strong",
+      "foreground": "rgb(65, 79, 91)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 8.419,
+      "passes": true
+    },
+    {
+      "selector": ".field p",
+      "foreground": "rgb(53, 65, 76)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 10.438,
+      "passes": true
+    },
+    {
+      "selector": ".evidence-state",
+      "foreground": "rgb(65, 79, 91)",
+      "background": "rgb(243, 246, 249)",
+      "ratio": 7.762,
+      "passes": true
+    },
+    {
+      "selector": ".metric-note",
+      "foreground": "rgb(83, 97, 109)",
+      "background": "rgb(242, 243, 244)",
+      "ratio": 5.73,
+      "passes": true
+    },
+    {
+      "selector": ".collection-count",
+      "foreground": "rgb(83, 97, 109)",
+      "background": "rgb(232, 237, 242)",
+      "ratio": 5.405,
+      "passes": true
+    },
+    {
+      "selector": ".control-index",
+      "foreground": "rgb(83, 97, 109)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 6.367,
+      "passes": true
+    },
+    {
+      "selector": ".eyebrow",
+      "foreground": "rgb(83, 97, 109)",
+      "background": "rgb(242, 243, 244)",
+      "ratio": 5.73,
+      "passes": true
+    },
+    {
+      "selector": ".badge.negative",
+      "foreground": "rgb(118, 85, 44)",
+      "background": "rgb(248, 243, 233)",
+      "ratio": 6.113,
+      "passes": true
+    },
+    {
+      "selector": ".card-foot",
+      "foreground": "rgb(83, 97, 109)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 6.367,
+      "passes": true
+    },
+    {
+      "selector": "#control-search::placeholder",
+      "foreground": "rgb(83, 97, 109)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 6.367,
+      "passes": true
+    }
+  ],
+  "recordCounts": true,
+  "preparedDownload": true,
+  "draftReversion": {
+    "changed": true,
+    "reverted": true
+  },
+  "executionFields": {
+    "reference": true,
+    "bootstrap": true,
+    "permutation": true
+  },
+  "controlSearch": {
+    "nameMatched": true,
+    "noMatch": true,
+    "classMatched": true,
+    "restored": true,
+    "unchanged": true
+  },
+  "executionSelection": {
+    "unrelatedRenderRetained": true,
+    "errorRenderRetained": true,
+    "projectRetained": true,
+    "combinedStateFilter": true,
+    "unavailableStateEmpty": true,
+    "resetRestored": true,
+    "filterPreserved": true
+  },
+  "requestDialog": {
+    "named": true,
+    "cancelInitiallyFocused": true,
+    "buttonCancelled": true,
+    "onlyMockedPreviews": true,
+    "responsive": true,
+    "escapeCancelled": true
+  },
+  "keyboardNavigation": {
+    "arrow": true,
+    "reverseArrow": true,
+    "perpendicularArrowIgnored": true,
+    "end": true,
+    "home": true
+  },
+  "analysisSummaryVisible": true,
+  "responsiveViews": [
+    {
+      "width": 375,
+      "document": 360,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "evaluation",
+      "panelsFocusable": true
+    }
+  ],
+  "academicLayout": [
+    {
+      "width": 375,
+      "mobile": true,
+      "orientation": "vertical",
+      "summaryHeight": 321.9375,
+      "ledgerHeight": 146.78125,
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "horizontalDesktopTabs": true,
+      "desktopBarsSeparate": true,
+      "lightHeader": true,
+      "noDecorativeDiagram": true,
+      "compactLedger": true,
+      "compactSummary": true,
+      "headingVisible": true,
+      "fullWidthRecords": true,
+      "stackedRecords": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true,
+      "neutralInterfaceCopy": true
+    },
+    {
+      "width": 430,
+      "mobile": true,
+      "orientation": "vertical",
+      "summaryHeight": 288.9375,
+      "ledgerHeight": 113.78125,
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "horizontalDesktopTabs": true,
+      "desktopBarsSeparate": true,
+      "lightHeader": true,
+      "noDecorativeDiagram": true,
+      "compactLedger": true,
+      "compactSummary": true,
+      "headingVisible": true,
+      "fullWidthRecords": true,
+      "stackedRecords": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true,
+      "neutralInterfaceCopy": true
+    },
+    {
+      "width": 760,
+      "mobile": true,
+      "orientation": "vertical",
+      "summaryHeight": 211.359375,
+      "ledgerHeight": 113.78125,
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "horizontalDesktopTabs": true,
+      "desktopBarsSeparate": true,
+      "lightHeader": true,
+      "noDecorativeDiagram": true,
+      "compactLedger": true,
+      "compactSummary": true,
+      "headingVisible": true,
+      "fullWidthRecords": true,
+      "stackedRecords": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true,
+      "neutralInterfaceCopy": true
+    },
+    {
+      "width": 761,
+      "mobile": false,
+      "orientation": "horizontal",
+      "summaryHeight": 232.0625,
+      "ledgerHeight": 90,
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "horizontalDesktopTabs": true,
+      "desktopBarsSeparate": true,
+      "lightHeader": true,
+      "noDecorativeDiagram": true,
+      "compactLedger": true,
+      "compactSummary": true,
+      "headingVisible": true,
+      "fullWidthRecords": true,
+      "stackedRecords": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true,
+      "neutralInterfaceCopy": true
+    },
+    {
+      "width": 768,
+      "mobile": false,
+      "orientation": "horizontal",
+      "summaryHeight": 232.0625,
+      "ledgerHeight": 90,
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "horizontalDesktopTabs": true,
+      "desktopBarsSeparate": true,
+      "lightHeader": true,
+      "noDecorativeDiagram": true,
+      "compactLedger": true,
+      "compactSummary": true,
+      "headingVisible": true,
+      "fullWidthRecords": true,
+      "stackedRecords": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true,
+      "neutralInterfaceCopy": true
+    },
+    {
+      "width": 1024,
+      "mobile": false,
+      "orientation": "horizontal",
+      "summaryHeight": 179.125,
+      "ledgerHeight": 73.5,
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "horizontalDesktopTabs": true,
+      "desktopBarsSeparate": true,
+      "lightHeader": true,
+      "noDecorativeDiagram": true,
+      "compactLedger": true,
+      "compactSummary": true,
+      "headingVisible": true,
+      "fullWidthRecords": true,
+      "stackedRecords": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true,
+      "neutralInterfaceCopy": true
+    },
+    {
+      "width": 1440,
+      "mobile": false,
+      "orientation": "horizontal",
+      "summaryHeight": 179.125,
+      "ledgerHeight": 73.5,
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "horizontalDesktopTabs": true,
+      "desktopBarsSeparate": true,
+      "lightHeader": true,
+      "noDecorativeDiagram": true,
+      "compactLedger": true,
+      "compactSummary": true,
+      "headingVisible": true,
+      "fullWidthRecords": true,
+      "stackedRecords": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true,
+      "neutralInterfaceCopy": true
+    }
+  ],
+  "saveStatusAccessibility": [
+    {
+      "width": 375,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 430,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 760,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 761,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 768,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 1024,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 1440,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    }
+  ],
+  "sectionScroll": [
+    {
+      "width": 375,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 430,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 760,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 761,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 768,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 1024,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 1440,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    }
+  ],
+  "mobileNavigation": {
+    "modal": true,
+    "trapped": true,
+    "reverseTrapped": true,
+    "mobileArrow": true,
+    "mobileReverseArrow": true,
+    "mobilePerpendicularArrowIgnored": true,
+    "escaped": true,
+    "selected": true,
+    "metricNavigation": true,
+    "closeButton": true
+  },
+  "fileMenus": true,
+  "reducedMotion": true,
+  "textRendering": true,
+  "inputInspection": {
+    "rows": 4,
+    "zero": 2,
+    "one": 2,
+    "bom": true,
+    "sha256": "d065f0234a007ac927a1e7a8f0cacee0a13bf3e672871d7579612928753eeb96",
+    "results": 0,
+    "externalRequests": 0
+  },
+  "invalidUTF8": true,
+  "failedActionFeedbackVisible": true,
+  "plannedSelectionClearing": [
+    {
+      "unselected": true,
+      "actionsDisabled": true,
+      "availabilityExplained": true
+    },
+    {
+      "unselected": true,
+      "actionsDisabled": true,
+      "availabilityExplained": true
+    }
+  ],
+  "execution": {
+    "outcomes": [
+      "PASS",
+      "PASS"
+    ],
+    "pathways": [
+      "LOCAL",
+      "LOCAL"
+    ],
+    "audit": "INSUFFICIENT_EVIDENCE",
+    "externalRequests": 0,
+    "unsupportedControlsExcluded": true
+  },
+  "controlomicsVersion": "0.6.4.dev0",
+  "pairedExecution": {
+    "outcome": "INDETERMINATE",
+    "p": 0.25,
+    "input": "paired_units",
+    "remaining": 0
+  },
+  "executedRecordCounts": true,
+  "pairedBootstrap": {
+    "outcome": "INDETERMINATE",
+    "coverage": 0.9,
+    "seed": 17,
+    "method": "Complete-pair percentile bootstrap with linear quantile interpolation"
+  },
+  "report": {
+    "html": true,
+    "hasInputHashes": true,
+    "hasWarnings": true,
+    "hasConservativeAssessment": true
+  },
+  "reportLayout": [
+    {
+      "width": 1440,
+      "document": 1425,
+      "links": true,
+      "noScripts": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "links": true,
+      "noScripts": true
+    }
+  ],
+  "reportPrintStyles": true,
+  "narrative": {
+    "claim": "Features predict labels",
+    "category": "",
+    "support": ""
+  },
+  "claims": {
+    "claims": 2,
+    "profiles": 2,
+    "controlsByClaim": [
+      5,
+      5
+    ]
+  },
+  "claimFilter": {
+    "selected": true,
+    "combined": true,
+    "combinedState": true,
+    "unchanged": true,
+    "visible": true
+  },
+  "multiClaimLayout": [
+    {
+      "width": 375,
+      "document": 360
+    },
+    {
+      "width": 430,
+      "document": 415
+    },
+    {
+      "width": 768,
+      "document": 753
+    },
+    {
+      "width": 1024,
+      "document": 1009
+    },
+    {
+      "width": 1440,
+      "document": 1425
+    }
+  ],
+  "recordBindings": {
+    "results": true,
+    "audits": true,
+    "resultCount": true,
+    "auditCount": true
+  },
+  "destinationFocus": {
+    "candidate": true,
+    "annotations": true,
+    "sourceReview": true
+  },
+  "candidate": {
+    "status": "UNVERIFIED",
+    "id": "control.cb33793211ba45b38325bdb282e22bf2",
+    "revisionRecorded": true
+  },
+  "candidateDraftProtection": {
+    "retained": true,
+    "reverted": true
+  },
+  "duplicateImportRejected": true,
+  "evaluation": {
+    "origin": "UNASSESSED",
+    "precision": null,
+    "unavailableDisplayed": true,
+    "cases": 6
+  },
+  "metricHeadingVisible": true,
+  "evaluationSnapshotProtection": {
+    "hashVisible": true,
+    "replacementCleared": true,
+    "newHash": true,
+    "partitionCleared": true
+  },
+  "annotations": {
+    "origin": "",
+    "reviewer": "",
+    "attested": false,
+    "unknown": true,
+    "matchesDisabled": true,
+    "savedOrigin": "UNASSESSED"
+  },
+  "annotationDraftProtection": true,
+  "judgmentCaseProtection": {
+    "navigationOnly": true,
+    "hiddenCaseProtected": true,
+    "reverted": true,
+    "unrecorded": true
+  },
+  "reviewBundle": {
+    "bytes": 19711,
+    "sameProject": true,
+    "sameEvaluation": true,
+    "networkEvents": 0,
+    "revisions": 0
+  },
+  "reviewForm": {
+    "statements": 2,
+    "attested": false,
+    "reviewer": ""
+  },
+  "sourceReviewDraftProtection": true,
+  "replacementCancelled": true,
+  "replacementCoherence": {
+    "formMatches": true,
+    "oldEvaluationCleared": true,
+    "oldReviewCleared": true,
+    "oldLedgerCleared": true,
+    "oldInputCleared": true,
+    "draftsCleared": true
+  },
+  "pendingInputProtection": {
+    "pendingLocked": true,
+    "inputRetained": true,
+    "completedUnlocked": true,
+    "failedUnlocked": true
+  },
+  "sessionRecovery": {
+    "rejected": true,
+    "noAutomaticRetry": true,
+    "recovered": true,
+    "projectRetained": true
+  },
+  "interruptedRequest": {
+    "redacted": true,
+    "uncertainty": true,
+    "noAutomaticRetry": true,
+    "projectRetained": true
+  },
+  "emptyReplacementClears": {
+    "project": true,
+    "ledger": true,
+    "preview": true,
+    "credential": true,
+    "zeroCounts": true,
+    "unrecorded": true
+  },
+  "run_at": "2026-10-10T16:14:32.002Z",
+  "personalProjectAttributionOmitted": true,
+  "scope": "Local interface-phase checks with an explicitly selected headless QA profile. Responsive academic workspace with a compact project summary, light desktop header, horizontal desktop and vertical mobile tab orientation, full-width stacked control records with visible claim bindings and readable body text, no conceptual hero artwork or promotional interface copy, exact navigation breakpoint checks at 760 and 761 pixels, actual record counts, search and combined claim/class/evidence-state filters with reset preservation, scientific result and audit bindings, explicit execution-target selection, selection retention across unrelated renders and errors, no automatic target after planning, disabled unavailable execution actions, keyboard tabs, focusable panels, deep-scroll section navigation, visible failed-action feedback, one accessible save-status live region checked through the Chrome accessibility tree across responsive widths, destination focus after candidate, source-review and annotation workbenches open, mobile focus boundaries, file menus, reduced motion, text-only rendering, unsaved input protection and reversion, prepared downloads, cancelled and coherent project replacement, complete workspace reset, candidate, source and multi-case annotation draft protection, programmatic field tracking, procedure-specific fields, exact-byte UTF-8/BOM input inspection, reference and paired execution, explicit bootstrap coverage/seed recording, linked responsive reports and print styles, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, visible review headings, and review archive roundtrip. Evaluation snapshot hashes and bundle/partition invalidation, pending-input locking and failure recovery, stale-session renewal without automatic replay, a named outbound-preview dialog with initial Cancel focus and button/native-Escape cancellation, and a mocked interrupted hosted-request response are included. Dialog previews use fixed synthetic local mocked responses without any provider transmission. All computations and edited inputs were hypothetical software fixtures. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external page request was observed. Targeted small-text contrast ratios are computed from rendered styles; this does not assess every visual state. This is browser integration coverage, not a screen-reader, full accessibility, print-pagination, or scientific validation.",
+  "controlomics_version": "0.6.4.dev0",
+  "source_hashes": {
+    "src/controlomics/server.py": "9a0846ce48bab71fbc33521d30676ea185de35d545f36da6718d82750dd164f3",
+    "src/controlomics/execution.py": "5c6b1e982c22576f14add5ce193d3c0fb9b9857ca6e9519533520412c1cdf017",
+    "src/controlomics/storage.py": "f39257699ce4dd2acf704016513085cd724a0b076578cae3cb6605ebbe3eef6d",
+    "src/controlomics/web/index.html": "590d0c71d511988975ca997891951bea1fb77c53b23142a4a814ffd87ecaed7a",
+    "src/controlomics/web/app.js": "e369b6f370c45efc03f8c46c0393f0e79f9a8309226c6f148d89b781efc1782b",
+    "src/controlomics/web/style.css": "6d26eeaa79213409192b3fde0a86dd846341f11a34f848101c1fc391171b0e3b",
+    "scripts/check_ui.cjs": "9b33d30dd1add77de8b67f925cd086a0c84716cd3a60589465fd9f858e637c1e"
+  },
+  "screenshot_hashes": {
+    "ui_workspace.png": "c24a966b8bcfe152dd57552d09dc21b880cdc5a210aeedec1e3d8ec248a6b203",
+    "ui_controls.png": "42d67868d218b813dca277e47fef5b5401b83b9efa6264ce72b617f9a26e01ff",
+    "ui_mobile.png": "c25e9790b9934874e8b488495e56b7158c4c6d516b30ae43b64b9d8d068dacb8",
+    "ui_request_dialog.png": "e121c9938cb1688a4d52224c4b87b0381239dbe7ca4cc9468aab61ef3029384f",
+    "ui_request_dialog_mobile.png": "ab6360f67e59adb1e1db17c01328a5fe43d730c4241eb31fb1684f8fa8cff64c",
+    "ui_analysis.png": "d745338362dca000b097d5821340fb3650e55fdc5e02fab14336f7a81a58df7f",
+    "ui_execution_mobile.png": "a6a34be5e139bdfb3a53ef42ab9f58b2f6730cd3b97d9937183c8403d6cfffdc",
+    "ui_execution.png": "7b10bcc55216d942c3be81964b8bea7c6f6d6b39e60cffb43ed798e465337f48",
+    "ui_navigation_mobile.png": "326e388fcbfda729ec13f006a70ca02f05ebf844cf1ebe86f3ae6383ed0d23f2",
+    "ui_input_inspection.png": "5ceea9512d0257e582668b88d642ef90f7dce1ebf169ef824a2d4dfe517aac36",
+    "ui_report.png": "4517830e0f76de32c5adf5f17d0f0919336c5e3572d0c588e14411eb6282e68c",
+    "ui_report_mobile.png": "cb6fbf4e3417206ba180c3d1f44d9aa13ab5352960dc5d051c575f5a0169b2f0",
+    "ui_claims.png": "c0724f44d78fe2c68046159969787f16892946d0affd9a29050e793dabd3d191",
+    "ui_evaluation.png": "df1fbef5e338787cf1e03e6b9faf92f295d8438f9ed68cdc1eb9a0a77e10086f",
+    "ui_evaluation_mobile.png": "66ee3ff6c43d6e3e7f463951057e03c44ce01aa29413c05c536b524103dfde1c",
+    "ui_evaluation_metrics_mobile.png": "370a26e03aa1a0cd1d19497d74baf64fe70069783e62baccbaeefb251a5e7fe1",
+    "ui_annotations.png": "352000ef65c348f8154e322958ffbbff22662545b24b81fbd90e85fd31489f96",
+    "ui_annotations_mobile.png": "ad1ef24745aedeaec2ed8ea5174f72b8423478792d8cb95ae52d1e85d9f4478b"
+  },
+  "browserShutdown": {
+    "debuggingEndpointClosed": true
+  }
+}

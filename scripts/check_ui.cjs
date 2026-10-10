@@ -90,6 +90,17 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
     // Let the responsive navigation transition finish before capture or hit tests.
     await pause(300);
   };
+  const waitForScrollIdle = async () => {
+    let previous=await evaluate('window.scrollY'), stable=0;
+    for(let attempt=0;attempt<40;attempt++) {
+      await pause(50);
+      const current=await evaluate('window.scrollY');
+      stable=Math.abs(current-previous)<0.1 ? stable+1 : 0;
+      if(stable>=4) return;
+      previous=current;
+    }
+    throw new Error('Native page scrolling did not settle before the next navigation check');
+  };
   const capture = async name => {
     await pause(200);
     const screenshot = await command('Page.captureScreenshot', {format:'png',captureBeyondViewport:false});
@@ -220,28 +231,67 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   observations.requestDialog.escapeCancelled=await execute("const passed=state.pending===null && document.getElementById('model-key').value==='' && JSON.stringify(state.project)===window.qaDialogSnapshot && JSON.stringify(state.audit)===window.qaDialogAudit; delete window.qaDialogSnapshot; delete window.qaDialogAudit; return passed;");
   if (!Object.values(observations.requestDialog).every(Boolean)) throw new Error('Outbound preview dialog lacked a safe focus or cancellation boundary');
   await execute("document.getElementById('tab-controls').focus()");
-  await key('ArrowDown',40);
+  await key('ArrowRight',39);
   const arrow = await evaluate("state.view==='evidence' && document.activeElement.id==='tab-evidence' && document.querySelectorAll('.tab[tabindex=\"0\"]').length===1");
+  await key('ArrowLeft',37);
+  const reverseArrow = await evaluate("state.view==='controls' && document.activeElement.id==='tab-controls'");
+  await key('ArrowDown',40);
+  const perpendicularArrowIgnored = await evaluate("state.view==='controls' && document.activeElement.id==='tab-controls'");
+  // The perpendicular key retains native page scrolling. Let that animation
+  // finish before Home/End and the canonical project-summary screenshot.
+  await waitForScrollIdle();
   await key('End',35);
   const end = await evaluate("state.view==='evaluation' && document.activeElement.id==='tab-evaluation'");
   await key('Home',36);
   const home = await evaluate("state.view==='analysis' && document.activeElement.id==='tab-analysis'");
-  observations.keyboardNavigation = {arrow,end,home};
-  if (!arrow || !end || !home) throw new Error('Keyboard tab navigation failed');
-  await execute('window.scrollTo(0,0)');
+  observations.keyboardNavigation = {arrow,reverseArrow,perpendicularArrowIgnored,end,home};
+  if (!Object.values(observations.keyboardNavigation).every(Boolean)) throw new Error('Desktop horizontal tab navigation failed');
+  await execute("window.scrollTo({top:0,left:0,behavior:'instant'}); await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));");
+  await until('window.scrollY===0');
+  observations.analysisSummaryVisible=await evaluate("(()=>{const summary=document.getElementById('project-summary').getBoundingClientRect(), kicker=document.getElementById('project-kicker').getBoundingClientRect(), header=Math.max(document.querySelector('.topbar').getBoundingClientRect().bottom,document.getElementById('workspace-nav').getBoundingClientRect().bottom); return summary.top>=header-1 && kicker.top>=header-1 && summary.bottom<=innerHeight;})()");
+  if(!observations.analysisSummaryVisible) throw new Error('Canonical analysis screenshot obscured the project summary or heading');
   await capture('analysis');
   observations.responsiveViews=[];
+  observations.academicLayout=[];
   observations.saveStatusAccessibility=[];
   observations.sectionScroll=[];
-  for (const width of [375,768,1024,1440]) {
+  for (const width of [375,430,760,761,768,1024,1440]) {
     await setViewport({width,height:900});
     for (const view of ['analysis','controls','evidence','execution','audit','evaluation']) {
       await execute(`switchView(${JSON.stringify(view)}); window.scrollTo(0,0);`);
       const layout=await evaluate("({width:innerWidth,document:document.documentElement.scrollWidth,view:state.view,panelsFocusable:[...document.querySelectorAll('.view')].every(panel=>panel.tabIndex===(panel.hidden?-1:0)) && document.querySelectorAll('.view:not([hidden])').length===1})");
       if (layout.document>width || !layout.panelsFocusable) throw new Error('Responsive view overflow or panel focus mismatch: '+JSON.stringify(layout));
       observations.responsiveViews.push(layout);
+      if(view==='controls') {
+        const academic=await execute(`
+          const mobile=mobileNavigation.matches, bar=document.querySelector('.topbar').getBoundingClientRect(), nav=document.getElementById('workspace-nav').getBoundingClientRect();
+          const tabs=[...document.querySelectorAll('#workspace-tabs .tab')].map(tab=>tab.getBoundingClientRect());
+          const summary=document.getElementById('project-summary').getBoundingClientRect(), ledger=document.querySelector('.workspace-metrics').getBoundingClientRect(), list=document.getElementById('control-list').getBoundingClientRect();
+          const records=[...document.querySelectorAll('.control-card')], boxes=records.map(record=>record.getBoundingClientRect());
+          const bodyText=[...document.querySelectorAll('.control-card .field p')].map(element=>{const style=getComputedStyle(element); return {font:Number.parseFloat(style.fontSize),line:Number.parseFloat(style.lineHeight)};});
+          const foreground=getComputedStyle(document.querySelector('.topbar')).backgroundColor.match(/[\\d.]+/g).slice(0,3).map(Number);
+          const heading=document.querySelector('#view-controls .section-head').getBoundingClientRect();
+          return {width:innerWidth,mobile,orientation:document.getElementById('workspace-tabs').getAttribute('aria-orientation'),summaryHeight:summary.height,ledgerHeight:ledger.height,
+            expectedOrientation:document.getElementById('workspace-tabs').getAttribute('aria-orientation')===(mobile?'vertical':'horizontal'),
+            navigationBoundary:document.getElementById('workspace-nav').inert===mobile && !document.getElementById('workspace-canvas').inert && !document.getElementById('workspace-header').inert,
+            horizontalDesktopTabs:mobile || tabs.every((tab,index)=>tab.left>=-1 && tab.right<=innerWidth+1 && (!index || Math.abs(tab.top-tabs[index-1].top)<=1 && tab.left>=tabs[index-1].right-1)),
+            desktopBarsSeparate:mobile || nav.top>=bar.bottom-1,
+            lightHeader:foreground.every(channel=>channel>=235),
+            noDecorativeDiagram:!document.querySelector('.overview-art, .orbit, .inner-orbit'),
+            compactLedger:ledger.height<=150,
+            compactSummary:summary.height<=(mobile?450:320),
+            headingVisible:heading.top>=Math.max(bar.bottom,mobile?0:nav.bottom)-1 && heading.bottom<innerHeight,
+            fullWidthRecords:boxes.length>=3 && boxes.every(box=>Math.abs(box.left-list.left)<=1 && box.width>=list.width-2),
+            stackedRecords:boxes.every((box,index)=>!index || box.top>=boxes[index-1].bottom-1),
+            readableRecordText:bodyText.length>0 && bodyText.every(text=>text.font>=13 && text.line/text.font>=1.45),
+            explicitClaimBinding:records.every(record=>record.classList.contains('control-record') && [...record.querySelectorAll('.field strong')].some(label=>label.textContent==='Claim tested' && label.checkVisibility())),
+            neutralInterfaceCopy:!['Make the claim','A considered workspace','AN INSPECTABLE REVIEW FRAMEWORK','Put the specification to the test','Build an inspectable evidence trail'].some(copy=>document.body.textContent.includes(copy))};
+        `);
+        if(!Object.entries(academic).filter(([name])=>!['width','mobile','orientation','summaryHeight','ledgerHeight'].includes(name)).every(([,passed])=>passed)) throw new Error('Academic workspace geometry or record readability failed: '+JSON.stringify(academic));
+        observations.academicLayout.push(academic);
+      }
       if(view==='execution' && [375,1440].includes(width)) {
-        await execute("window.scrollTo({top:window.scrollY+document.getElementById('execution-form').getBoundingClientRect().top-document.querySelector('.topbar').getBoundingClientRect().bottom-24,behavior:'instant'});");
+        await execute("window.scrollTo({top:window.scrollY+document.getElementById('execution-form').getBoundingClientRect().top-Math.max(document.querySelector('.topbar').getBoundingClientRect().bottom,mobileNavigation.matches?0:document.getElementById('workspace-nav').getBoundingClientRect().bottom)-24,behavior:'instant'});");
         await capture(width===375?'execution_mobile':'execution');
       }
     }
@@ -251,29 +301,35 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
     if(!saving.singleDeclaredLiveStatus || !saving.overviewDuplicateHidden || !saving.liveRegionAccessible) throw new Error('Prepared download status lacked one accessible live region at '+width);
     observations.saveStatusAccessibility.push(saving);
     await execute("switchView('analysis'); window.scrollTo(0,document.documentElement.scrollHeight); document.getElementById(mobileNavigation.matches?'nav-toggle':'tab-execution').focus(); switchView('execution');");
-    await until("document.querySelector('#view-execution .section-head').getBoundingClientRect().top>=document.querySelector('.topbar').getBoundingClientRect().bottom-1 && document.querySelector('#view-execution .section-head').getBoundingClientRect().top<innerHeight");
-    const navigation=await evaluate("({width:innerWidth,headingVisible:document.querySelector('#view-execution .section-head').getBoundingClientRect().top>=document.querySelector('.topbar').getBoundingClientRect().bottom-1,navigationFocusRetained:document.activeElement.id===(mobileNavigation.matches?'nav-toggle':'tab-execution')})");
+    await until("document.querySelector('#view-execution .section-head').getBoundingClientRect().top>=Math.max(document.querySelector('.topbar').getBoundingClientRect().bottom,mobileNavigation.matches?0:document.getElementById('workspace-nav').getBoundingClientRect().bottom)-1 && document.querySelector('#view-execution .section-head').getBoundingClientRect().top<innerHeight");
+    const navigation=await evaluate("({width:innerWidth,headingVisible:document.querySelector('#view-execution .section-head').getBoundingClientRect().top>=Math.max(document.querySelector('.topbar').getBoundingClientRect().bottom,mobileNavigation.matches?0:document.getElementById('workspace-nav').getBoundingClientRect().bottom)-1,navigationFocusRetained:document.activeElement.id===(mobileNavigation.matches?'nav-toggle':'tab-execution')})");
     if(!navigation.headingVisible || !navigation.navigationFocusRetained) throw new Error('Deep-scroll navigation obscured its heading or changed navigation focus');
     observations.sectionScroll.push(navigation);
   }
   await setViewport({width:430,height:1100});
   await execute("switchView('controls'); document.getElementById('nav-toggle').click()");
   await until("document.getElementById('nav-toggle').getAttribute('aria-expanded')==='true'");
-  const modal = await evaluate("document.getElementById('workspace-canvas').inert && !document.getElementById('workspace-nav').inert && document.getElementById('workspace-nav').getAttribute('aria-modal')==='true'");
+  const modal = await evaluate("document.getElementById('workspace-canvas').inert && document.getElementById('workspace-header').inert && !document.getElementById('workspace-nav').inert && document.getElementById('workspace-nav').getAttribute('aria-modal')==='true'");
   await key('Tab',9);
   const trapped = await evaluate("document.activeElement.classList.contains('brand')");
   await key('Tab',9,8);
   const reverseTrapped = await evaluate("document.activeElement.id==='tab-controls'");
+  await key('ArrowDown',40);
+  const mobileArrow = await evaluate("state.view==='evidence' && document.activeElement.id==='tab-evidence' && document.body.classList.contains('nav-open')");
+  await key('ArrowUp',38);
+  const mobileReverseArrow = await evaluate("state.view==='controls' && document.activeElement.id==='tab-controls' && document.body.classList.contains('nav-open')");
+  await key('ArrowRight',39);
+  const mobilePerpendicularArrowIgnored = await evaluate("state.view==='controls' && document.activeElement.id==='tab-controls' && document.body.classList.contains('nav-open')");
   await capture('navigation_mobile');
   await key('Escape',27);
-  const escaped = await evaluate("!document.body.classList.contains('nav-open') && !document.getElementById('workspace-canvas').inert && document.getElementById('workspace-nav').inert && document.activeElement.id==='nav-toggle'");
+  const escaped = await evaluate("!document.body.classList.contains('nav-open') && !document.getElementById('workspace-canvas').inert && !document.getElementById('workspace-header').inert && document.getElementById('workspace-nav').inert && document.activeElement.id==='nav-toggle'");
   await execute("document.getElementById('nav-toggle').click(); document.getElementById('tab-evidence').click()");
   const selected = await evaluate("state.view==='evidence' && !document.body.classList.contains('nav-open') && document.activeElement.id==='workspace-main'");
   await execute("document.querySelector('.metric-card[data-target=\"controls\"]').click()");
   const metricNavigation = await evaluate("state.view==='controls'");
   await execute("document.getElementById('nav-toggle').click(); document.getElementById('nav-close').click()");
-  const closeButton=await evaluate("!document.body.classList.contains('nav-open') && document.activeElement.id==='nav-toggle' && !document.getElementById('workspace-canvas').inert");
-  observations.mobileNavigation={modal,trapped,reverseTrapped,escaped,selected,metricNavigation,closeButton};
+  const closeButton=await evaluate("!document.body.classList.contains('nav-open') && document.activeElement.id==='nav-toggle' && !document.getElementById('workspace-canvas').inert && !document.getElementById('workspace-header').inert");
+  observations.mobileNavigation={modal,trapped,reverseTrapped,mobileArrow,mobileReverseArrow,mobilePerpendicularArrowIgnored,escaped,selected,metricNavigation,closeButton};
   if (!Object.values(observations.mobileNavigation).every(Boolean)) throw new Error('Mobile navigation or focus boundary failed');
   await execute("document.querySelector('.workspace-menu summary').click()");
   await key('Escape',27);
@@ -297,8 +353,8 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   await until("document.getElementById('status').classList.contains('error') && !state.busy");
   observations.invalidUTF8=await evaluate("state.inputSummary===null && state.project.results.length===0 && document.getElementById('status').textContent.includes('UTF-8')");
   if (!observations.invalidUTF8) throw new Error('Invalid UTF-8 was silently replaced');
-  await until("document.getElementById('status').getBoundingClientRect().top>=document.querySelector('.topbar').getBoundingClientRect().bottom-1 && document.getElementById('status').getBoundingClientRect().bottom<=innerHeight");
-  observations.failedActionFeedbackVisible=await evaluate("document.getElementById('status').getBoundingClientRect().top>=document.querySelector('.topbar').getBoundingClientRect().bottom-1 && document.getElementById('status').getBoundingClientRect().bottom<=innerHeight");
+  await until("document.getElementById('status').getBoundingClientRect().top>=Math.max(document.querySelector('.topbar').getBoundingClientRect().bottom,mobileNavigation.matches?0:document.getElementById('workspace-nav').getBoundingClientRect().bottom)-1 && document.getElementById('status').getBoundingClientRect().bottom<=innerHeight");
+  observations.failedActionFeedbackVisible=await evaluate("document.getElementById('status').getBoundingClientRect().top>=Math.max(document.querySelector('.topbar').getBoundingClientRect().bottom,mobileNavigation.matches?0:document.getElementById('workspace-nav').getBoundingClientRect().bottom)-1 && document.getElementById('status').getBoundingClientRect().bottom<=innerHeight");
   observations.plannedSelectionClearing=[];
   for (const positive of [true,false]) {
     const csv = fs.readFileSync(path.join('examples', positive ? 'positive_reference.csv' : 'negative_reference.csv'),'utf8');
@@ -422,7 +478,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
     await capture(viewport.name);
   }
   await execute("document.querySelector('.metric-panel').scrollIntoView({block:'start'})");
-  observations.metricHeadingVisible=await evaluate("document.querySelector('.metric-panel').getBoundingClientRect().top>=document.querySelector('.topbar').getBoundingClientRect().bottom");
+  observations.metricHeadingVisible=await evaluate("document.querySelector('.metric-panel').getBoundingClientRect().top>=Math.max(document.querySelector('.topbar').getBoundingClientRect().bottom,mobileNavigation.matches?0:document.getElementById('workspace-nav').getBoundingClientRect().bottom)");
   if (!observations.metricHeadingVisible) throw new Error('Metric heading was obscured by the header');
   await capture('evaluation_metrics_mobile');
   observations.evaluationSnapshotProtection = await execute(`
@@ -466,7 +522,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
     await setViewport(viewport);
     await execute("document.getElementById('annotation-panel').scrollIntoView({block:'start'})");
     if (await evaluate('document.documentElement.scrollWidth>innerWidth')) throw new Error('Annotation layout overflow');
-    if (await evaluate("document.getElementById('annotation-panel').getBoundingClientRect().top<document.querySelector('.topbar').getBoundingClientRect().bottom")) throw new Error('Judgment workbench heading was obscured');
+    if (await evaluate("document.getElementById('annotation-panel').getBoundingClientRect().top<Math.max(document.querySelector('.topbar').getBoundingClientRect().bottom,mobileNavigation.matches?0:document.getElementById('workspace-nav').getBoundingClientRect().bottom)")) throw new Error('Judgment workbench heading was obscured');
     await capture(viewport.name);
   }
   observations.reviewBundle = await execute("const archive=await api('/api/review-bundle',{project:state.project,network_audit:state.audit,evaluation_bundle:state.evaluationBundle,annotation_revisions:state.revisions},true); const bytes=new Uint8Array(await archive.arrayBuffer()); let encoded=''; for(let start=0;start<bytes.length;start+=16384) encoded+=String.fromCharCode(...bytes.subarray(start,start+16384)); const restored=await api('/api/open-bundle',{archive_base64:btoa(encoded)}); return {bytes:bytes.length,sameProject:JSON.stringify(restored.project)===JSON.stringify(state.project),sameEvaluation:JSON.stringify(restored.evaluation_bundle)===JSON.stringify(state.evaluationBundle),networkEvents:restored.network_audit_restored.length,revisions:restored.annotation_revisions.length};");
@@ -518,7 +574,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   if (!Object.values(observations.emptyReplacementClears).every(Boolean)) throw new Error('Empty workspace retained prior project details');
   observations.run_at = new Date().toISOString();
   observations.personalProjectAttributionOmitted = privateAttributionSourceCheck;
-  observations.scope = 'Local interface-phase checks with an explicitly selected headless QA profile. Responsive workspace, actual record counts, search and combined claim/class/evidence-state filters with reset preservation, scientific result and audit bindings, explicit execution-target selection, selection retention across unrelated renders and errors, no automatic target after planning, disabled unavailable execution actions, keyboard tabs, focusable panels, deep-scroll section navigation, visible failed-action feedback, one accessible save-status live region checked through the Chrome accessibility tree across responsive widths, destination focus after candidate, source-review and annotation workbenches open, mobile focus boundaries, file menus, reduced motion, text-only rendering, unsaved input protection and reversion, prepared downloads, cancelled and coherent project replacement, complete workspace reset, candidate, source and multi-case annotation draft protection, programmatic field tracking, procedure-specific fields, exact-byte UTF-8/BOM input inspection, reference and paired execution, explicit bootstrap coverage/seed recording, linked responsive reports and print styles, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, visible review headings, and review archive roundtrip. Evaluation snapshot hashes and bundle/partition invalidation, pending-input locking and failure recovery, stale-session renewal without automatic replay, a named outbound-preview dialog with initial Cancel focus and button/native-Escape cancellation, and a mocked interrupted hosted-request response are included. Dialog previews use fixed synthetic local mocked responses without any provider transmission. All computations and edited inputs were hypothetical software fixtures. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external page request was observed. Targeted small-text contrast ratios are computed from rendered styles; this does not assess every visual state. This is browser integration coverage, not a screen-reader, full accessibility, print-pagination, or scientific validation.';
+  observations.scope = 'Local interface-phase checks with an explicitly selected headless QA profile. Responsive academic workspace with a compact project summary, light desktop header, horizontal desktop and vertical mobile tab orientation, full-width stacked control records with visible claim bindings and readable body text, no conceptual hero artwork or promotional interface copy, exact navigation breakpoint checks at 760 and 761 pixels, actual record counts, search and combined claim/class/evidence-state filters with reset preservation, scientific result and audit bindings, explicit execution-target selection, selection retention across unrelated renders and errors, no automatic target after planning, disabled unavailable execution actions, keyboard tabs, focusable panels, deep-scroll section navigation, visible failed-action feedback, one accessible save-status live region checked through the Chrome accessibility tree across responsive widths, destination focus after candidate, source-review and annotation workbenches open, mobile focus boundaries, file menus, reduced motion, text-only rendering, unsaved input protection and reversion, prepared downloads, cancelled and coherent project replacement, complete workspace reset, candidate, source and multi-case annotation draft protection, programmatic field tracking, procedure-specific fields, exact-byte UTF-8/BOM input inspection, reference and paired execution, explicit bootstrap coverage/seed recording, linked responsive reports and print styles, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, visible review headings, and review archive roundtrip. Evaluation snapshot hashes and bundle/partition invalidation, pending-input locking and failure recovery, stale-session renewal without automatic replay, a named outbound-preview dialog with initial Cancel focus and button/native-Escape cancellation, and a mocked interrupted hosted-request response are included. Dialog previews use fixed synthetic local mocked responses without any provider transmission. All computations and edited inputs were hypothetical software fixtures. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external page request was observed. Targeted small-text contrast ratios are computed from rendered styles; this does not assess every visual state. This is browser integration coverage, not a screen-reader, full accessibility, print-pagination, or scientific validation.';
   if (externalRequests.length) throw new Error('UI checks observed an unexpected nonlocal page request');
   if (exceptions.length) throw new Error('UI checks observed a JavaScript exception');
   for(const [name,expected] of Object.entries(sourceHashes)) if(crypto.createHash('sha256').update(fs.readFileSync(name)).digest('hex')!==expected) throw new Error('Checked interface sources changed during the browser run');

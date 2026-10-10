@@ -1,5 +1,13 @@
 # Development changes
 
+## 0.6.4.dev0, 2026-10-10
+
+Replaced the previous visual shell with a compact white application header, horizontal desktop navigation, a light mobile drawer, and document-style project records. The project summary and record ledger show actual counts and identifiers. Control specifications use the available width for named scientific fields; typography, borders, spacing, and restrained blue actions support record reading.
+
+The six scientific workflows, evidence states, execution selection, review gates, local-memory handling, and exact-request approval boundary are retained. The software suite passed 175 tests with zero failures, errors, or skips in 12.233 seconds. Isolated browser checks covered 42 section/width combinations over seven widths, including the 760/761 navigation boundary, seven layout probes, and the retained local scientific/privacy workflows. Ten targeted contrast pairs ranged from 5.405 to 10.438:1; the save-state live region remained available in the Chrome accessibility tree at all seven widths. No JavaScript exception or external page request was recorded. Eighteen current screenshots match their retained capture hashes.
+
+Extracted-package, distribution contents, and offline clean wheel/source installation checks passed, including actual synthetic fixed-runner execution. The source distribution was built from 247 reviewed files before the four packaging records and final documentation links; the final source ZIP is exported separately from the later complete repository snapshot. Records bind the particular tested artifact bytes. Earlier observations remain tied to their own snapshots, including the initial Windows connection interruption with an unconfirmed cause. Independent scientific validation, full accessibility conformance, researcher usability review, and public publication remain pending.
+
 ## 0.6.3.dev0, 2026-10-10
 
 Execution requires an explicit compatible reviewed-control selection. Availability guidance explains missing review, input, or adapter prerequisites and points to the relevant specifications. Procedure choices, reference values, resampling settings, and assumptions are retained while selecting another control or refreshing the same project; no new scientific values are inferred. Planned controls remain excluded from another execution in that snapshot.
