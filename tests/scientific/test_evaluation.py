@@ -24,6 +24,17 @@ def bundle_payload():
 
 
 class EvaluationTests(unittest.TestCase):
+    def test_report_hash_binds_the_supplied_bundle_including_judgments(self):
+        from controlomics.evaluation import bundle_hash
+        data = bundle_payload()
+        first = self.parse(data)
+        report = evaluate(first)
+        self.assertEqual(report["bundle_sha256"], bundle_hash(first))
+        data["judgments"][0]["rationale"] = "A revised synthetic explanation."
+        changed = self.parse(data)
+        self.assertNotEqual(report["bundle_sha256"], evaluate(changed)["bundle_sha256"])
+        self.assertEqual(evaluate(changed)["metrics"], report["metrics"])
+
     def test_offline_runner_handles_maximum_length_case_identifiers(self):
         import json
         from tests.fixtures import ROOT

@@ -269,6 +269,7 @@ def evaluate(bundle: EvaluationBundle, partition: Partition | None = None):
     metrics["binary_quadratic_score"] = {"value": math.fsum(probabilities) / len(probabilities) if probabilities else None,
         "denominator": len(probabilities), "definition": "Mean squared error of supplied probability of appropriateness versus definite judgments, on the binary 0-to-1 convention. Lower is better; this alone is not calibration."}
     return {"format": "controlomics.evaluation_report.v0.1", "run_at": datetime.now(timezone.utc).isoformat(),
+        "bundle_sha256": bundle_hash(bundle),
         "controlomics_version": __version__, "dataset_id": bundle.dataset.dataset_id, "run_id": bundle.predictions.run_id,
         "provider": bundle.predictions.provider, "partition": partition or "ALL",
         "reference_origin": bundle.dataset.annotation_origin, "judgment_origin": bundle.judgment_origin,

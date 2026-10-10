@@ -18,6 +18,10 @@ Model policy and context remain separate. Strict proposals cannot supply citatio
 
 Browser JSON imports and context entries use the same duplicate-key-aware local parser before subsequent validation. Model completion requires one known target claim before sending. Editing cannot erase a reviewed specification, and re-review requires the current snapshot hash. These consistency boundaries do not authenticate the caller, source text, or researcher name. Evaluation origin labels are also unauthenticated caller attestations.
 
+Whole-project parsing checks fixed-runner hashes when the plan supplies one and rejects multiple result records for one execution, matching individual-result import. Evaluation reports hash their source bundle; changed bundles or partition selections invalidate displayed metrics. These bindings establish internal consistency, not genuine execution or independent scientific judgment.
+
+Explicit local exports use staged replacement to preserve existing files on ordinary failures. They reject nonregular destinations and conflicting CLI sidecar paths before writing or sending. Existing mode bits and Windows discretionary ACLs are retained; ACL-copy failures abort before writing staged content. POSIX owner/group changes must succeed before writing. Detected extended POSIX access controls and encrypted, read-only, or reparse-point Windows files require a new ordinary destination. Other security attributes, power-loss durability, filesystem races, and coordinated multi-file changes remain outside this guarantee. A process crash or denied cleanup can leave a staging file. Windows ACL handling uses [GetNamedSecurityInfo](https://learn.microsoft.com/en-us/windows/win32/api/aclapi/nf-aclapi-getnamedsecurityinfow) and [SetNamedSecurityInfo](https://learn.microsoft.com/en-us/windows/win32/api/aclapi/nf-aclapi-setnamedsecurityinfow) with protected-inheritance flags. An interrupted browser response is never automatically replayed; approved external transmission may already have occurred without a returned ledger.
+
 ## Execution
 
 Parsing never executes imported or generated code. Local computation invokes only a fixed template with explicit arguments and no shell. Artifact hashes are checked before importing the copied helper. The same bounded input bytes supply computation and hashing. Execution has a timeout and uses an owned temporary directory.
@@ -28,7 +32,7 @@ Do not commit keys, clinical identifiers, private sequences, raw datasets, or re
 
 ## Vulnerability reporting and supported versions
 
-Only the current `0.6.0.dev0` research preview is maintained. Older development snapshots receive no separate security fixes. There is no response-time guarantee or independent security certification.
+Only the current `0.6.1.dev0` research preview is maintained. Older development snapshots receive no separate security fixes. There is no response-time guarantee or independent security certification.
 
 Before uploading source, the repository owner must enable GitHub private vulnerability reporting in an empty public repository and verify that its Security page offers **Report a vulnerability**. Use that private channel for suspected vulnerabilities, with a minimal synthetic reproduction and affected version. Do not include credentials, identifying information, or real research data. Do not open a public issue for an undisclosed vulnerability.
 

@@ -2,6 +2,10 @@
 
 ## Scope
 
+Version 0.6.1.dev0 adds local export reliability, source-bound evaluation reports, pending-input protection, and recovery from an expired local session without reloading or replaying a request. Whole-project imports now enforce the existing runner-hash and single-result gates. [Current browser observations](docs/validation/ui_checks.json) use an isolated headless Chrome profile, synthetic inputs, and no recorded external page request. The [preceding privacy-phase observations](docs/validation/ui_checks_v0.6_before_reliability.json) remain separately retained. These are software checks; numerical source and findings remain frozen and independent scientific validation remains pending.
+
+[The reliability suite](docs/validation/software_checks_reliability_phase.json) passed 160 tests with zero failures, errors, or skips on Windows CPython 3.14.0. Checks include failed-save retention, destination conflicts before provider requests, existing protected Windows discretionary ACL retention, permission-copy failure, and whole-project result bindings. All 29 schema exports match, dependency consistency and Ruff checks pass, and workflow linting reports no findings. [Wheel smoke](docs/validation/package_checks_reliability_phase.json), [distribution contents](docs/validation/distribution_checks_reliability_phase.json), [clean wheel installation](docs/validation/install_checks_reliability_phase.json), and [clean source installation](docs/validation/sdist_install_checks_reliability_phase.json) identify their particular artifact snapshots. Native Linux/macOS permission behavior and hosted CI remain unobserved.
+
 Public repository preparation on 2026-10-07 added two release privacy tests and one image-metadata test, bringing the observed suite to 149 passing tests. Exported schemas, dependency consistency, static Python checks, workflow linting, distribution contents, MIT package metadata, and clean wheel and source installations passed locally. [The release handoff](docs/PUBLIC_RELEASE.md) separates these observations from future hosted CI, repository security settings, and independent scientific evaluation.
 
 Version 0.6.0.dev0 is an operational local research alpha with local input inspection, clearer scientific record bindings, and workspace continuity checks. Validation covers software behavior, specified scientific consistency rules, two explicitly mapped numerical adapters, publication identities, design interpretation, supplied-annotation arithmetic, and local interface operation. It does not establish biological control appropriateness, source entailment accuracy, hosted-model performance, or agent generalization.
@@ -20,7 +24,7 @@ Software and source-review fixtures are synthetic. Live publication checks, inde
 .\.venv\Scripts\python.exe scripts/generate_benchmark_dataset.py
 .\.venv\Scripts\controlomics.exe evaluate examples/benchmark.design.unassessed.json --output local_projects/evaluation.json
 .\.venv\Scripts\python.exe -m pip wheel . --no-deps --no-build-isolation --no-index --wheel-dir dist
-.\.venv\Scripts\python.exe scripts/check_package.py dist/controlomics-0.6.0.dev0-py3-none-any.whl --output local_projects/package_checks.json
+.\.venv\Scripts\python.exe scripts/check_package.py dist/controlomics-0.6.1.dev0-py3-none-any.whl --output local_projects/package_checks.json
 ```
 
 Unit, integration, scientific invariant, privacy, and adversarial tests cover strict parsing, references, unknown states, exact approval, URL/body binding, private DNS rejection, credential exclusion, source review, context mismatch, malformed metadata, strict generation settings, numeric calculations, fixed-script integrity, result bindings, CLI use, and local Host/Origin/token checks.

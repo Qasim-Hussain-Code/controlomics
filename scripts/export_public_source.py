@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import tomllib
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
@@ -18,7 +19,8 @@ def main():
     names = source_files()
     inventory = []
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    prefix = 'controlomics-0.6.0.dev0/'
+    metadata = tomllib.loads((ROOT / 'pyproject.toml').read_text(encoding='utf-8'))
+    prefix = 'controlomics-' + metadata['project']['version'] + '/'
     with zipfile.ZipFile(args.output, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
         for name in names:
             path = ROOT/name

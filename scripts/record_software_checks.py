@@ -8,6 +8,7 @@ import unittest
 from datetime import datetime, timezone
 from importlib.metadata import version
 from pathlib import Path
+from controlomics import __version__
 
 
 def main():
@@ -18,7 +19,7 @@ def main():
     started = time.perf_counter()
     suite = unittest.defaultTestLoader.discover(str(root/'tests'), top_level_dir=str(root))
     result = unittest.TextTestRunner(verbosity=1).run(suite)
-    record = {'recorded_at': datetime.now(timezone.utc).isoformat(), 'python': platform.python_version(),
+    record = {'recorded_at': datetime.now(timezone.utc).isoformat(), 'controlomics_version': __version__, 'python': platform.python_version(),
               'operating_system': platform.system(), 'pydantic': version('pydantic'), 'setuptools': version('setuptools'),
               'tests': result.testsRun, 'failures': len(result.failures), 'errors': len(result.errors),
               'skips': len(result.skipped), 'seconds': round(time.perf_counter()-started, 3),

@@ -1,6 +1,6 @@
 # Local workspace interface
 
-Version 0.6.0.dev0 presents the scientific workflow in a responsive research workspace. The navigation connects Analysis and claims, Controls, Evidence library, Execution, Scientific audit, and Evaluation. Open and Export keep file actions together; Save review bundle remains available in the header. The interface uses the existing local server and needs no frontend build step.
+Version 0.6.1.dev0 presents the scientific workflow in a responsive research workspace. The navigation connects Analysis and claims, Controls, Evidence library, Execution, Scientific audit, and Evaluation. Open and Export keep file actions together; Save review bundle remains available in the header. The interface uses the existing local server and needs no frontend build step.
 
 ## Visual structure
 
@@ -36,5 +36,11 @@ Forms retain native labels, required fields, and unselected scientific categorie
 ## Local operation
 
 No external images, fonts, UI libraries, analytics, or storage were added. Projects and form signatures remain in browser memory. Export needed tracks recorded revisions; Unrecorded inputs identifies edited form values, and reverting a form clears that state. Bundle prepared means a complete download was prepared, not verified on disk. Retain it before closing. The status also appears in the overview at narrow widths.
+
+Forms and file selectors are temporarily inert while an operation is pending. Navigation and recorded views remain available. Closing the page during an operation triggers the existing unsaved-work warning. Failed and interrupted operations restore editable inputs; they never automatically repeat a request. A stale local server session is renewed without replacing the browser workspace. Retry the rejected operation explicitly. An interrupted approved external request may already have transmitted content and may lack a returned ledger.
+
+Evaluation results display the complete recorded bundle SHA-256 and selected partition. Metrics exclude unrecorded judgment edits. Loading another validated bundle or selecting a different partition clears old metrics and disables their export until recalculation. Cancelled replacement preserves the earlier recorded bundle and report.
+
+The browser checker requires the exact task-owned headless profile through `--profile` and accepts separate loopback server, debugging port, output, and download locations. It checks the profile before interactions or browser shutdown. Current [reliability observations](validation/ui_checks.json) add metric invalidation, input locking, session renewal without replay, and interrupted-response handling to the earlier synthetic workflow checks. The interrupted hosted response is mocked; no hosted request or real reviewer annotation is submitted.
 
 Opening another project or starting an empty workspace asks before replacement. Candidate and source-review switching, example/draft application, and evaluation replacement protect unrecorded form edits. Judgment tracking includes all cases; changing the visible case alone is not a new judgment. Accepted project replacement resets prior forms, reviews, evaluations, input selection, credentials, previews, and the ledger. Public literature and hosted reasoning requests still require exact-payload approval. See [USAGE.md](USAGE.md), [PRIVACY.md](../PRIVACY.md), and [SECURITY.md](../SECURITY.md).

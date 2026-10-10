@@ -1,8 +1,10 @@
 # Public repository preparation
 
-This is a local preparation of the `0.6.0.dev0` research preview. It does not authorize or perform a GitHub push, public repository creation, package publication, release upload, or research-data disclosure.
+This is a local preparation of the `0.6.1.dev0` research preview. It does not authorize or perform a GitHub push, public repository creation, package publication, release upload, or research-data disclosure. The retained 0.6.0.dev0 release observations remain historical; the current preview adds export reliability, consistent result-import gates, source-bound evaluation metrics, and browser session recovery. Independent scientific validation remains pending.
 
 ## Owner decisions and external settings
+
+Current local reliability observations are retained separately: [160 software tests](validation/software_checks_reliability_phase.json), [isolated browser checks](validation/ui_checks.json), [extracted wheel](validation/package_checks_reliability_phase.json), [distribution contents](validation/distribution_checks_reliability_phase.json), [clean wheel installation](validation/install_checks_reliability_phase.json), and [clean source installation](validation/sdist_install_checks_reliability_phase.json). Records bind particular artifact hashes and should not be treated as checks of a later rebuild. The frozen numerical sources, independent-study requirements, and publication boundary are unchanged.
 
 The owner explicitly selected MIT. Its complete text is in [LICENSE](../LICENSE), and package metadata identifies MIT with that license file. The notice identifies the copyright holders collectively without disclosing personal names. Public bibliography and third-party dependencies retain their own attribution and terms; the project's license does not relicense them.
 
@@ -36,11 +38,11 @@ python scripts/export_schemas.py --check
 python -m pip check
 python scripts/check_release.py --history --output local_projects/release/source_checks.json
 python scripts/build_distributions.py
-python scripts/check_package.py dist/controlomics-0.6.0.dev0-py3-none-any.whl --output local_projects/release/package_checks.json
-python scripts/check_install.py --wheel dist/controlomics-0.6.0.dev0-py3-none-any.whl --output local_projects/release/install_checks.json
-python scripts/check_install.py --sdist dist/controlomics-0.6.0.dev0.tar.gz --output local_projects/release/sdist_install_checks.json
-python scripts/check_distribution_contents.py --wheel dist/controlomics-0.6.0.dev0-py3-none-any.whl --sdist dist/controlomics-0.6.0.dev0.tar.gz --output local_projects/release/distribution_checks.json
-python scripts/export_public_source.py --output dist/controlomics-0.6.0.dev0-source.zip --record local_projects/release/source_export.json
+python scripts/check_package.py dist/controlomics-0.6.1.dev0-py3-none-any.whl --output local_projects/release/package_checks.json
+python scripts/check_install.py --wheel dist/controlomics-0.6.1.dev0-py3-none-any.whl --output local_projects/release/install_checks.json
+python scripts/check_install.py --sdist dist/controlomics-0.6.1.dev0.tar.gz --output local_projects/release/sdist_install_checks.json
+python scripts/check_distribution_contents.py --wheel dist/controlomics-0.6.1.dev0-py3-none-any.whl --sdist dist/controlomics-0.6.1.dev0.tar.gz --output local_projects/release/distribution_checks.json
+python scripts/export_public_source.py --output dist/controlomics-0.6.1.dev0-source.zip --record local_projects/release/source_export.json
 ```
 
 Run the source check with `--require-license` for the owner-approved MIT release. A PASS for source hygiene does not activate external settings. The installation check uses a fresh temporary virtual environment and isolated imports outside the checkout; it may download public pinned dependencies. `--wheelhouse DIRECTORY` makes it offline using reviewed dependency wheels. Wheel smoke checks do not authenticate untrusted external wheels.

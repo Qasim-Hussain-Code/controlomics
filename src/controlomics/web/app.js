@@ -4,14 +4,41 @@ const $ = id => document.getElementById(id);
 const lines = text => text.split(/\r?\n/).map(value => value.trim()).filter(Boolean);
 const pairedBasis = "Complete-pair mean differences; independent pairs; sign-invariant differences for the permutation null; whole-pair resampling for the bootstrap.";
 function message(text, error = false) { $("status").textContent = text; $("status").className = error ? "status error" : state.busy ? "status busy" : "status"; $("status").setAttribute("role", error ? "alert" : "status"); $("status").setAttribute("aria-live", error ? "assertive" : "polite"); }
-async function action(work) { if (state.busy) return; state.busy = true; $("workspace-main").setAttribute("aria-busy", "true"); message("Processing the requested operation..."); try { await work(); } catch (error) { message(error.message || "Operation failed.", true); } finally { state.busy = false; $("status").classList.remove("busy"); $("workspace-main").setAttribute("aria-busy", "false"); } }
+function lockInputs(locked) { document.querySelectorAll("form, .file-label").forEach(element => { element.inert = locked; }); }
+async function action(work) {
+  if (state.busy) return;
+  const previousFocus = document.activeElement;
+  state.busy = true; lockInputs(true); $("workspace-main").setAttribute("aria-busy", "true"); message("Processing the requested operation...");
+  try { await work(); } catch (error) { message(error.message || "Operation failed.", true); }
+  finally {
+    state.busy = false; lockInputs(false); $("status").classList.remove("busy"); $("workspace-main").setAttribute("aria-busy", "false");
+    if (document.activeElement === document.body && previousFocus?.isConnected && !previousFocus.disabled && previousFocus.checkVisibility()) previousFocus.focus({preventScroll: true});
+  }
+}
+async function refreshSession() {
+  const response = await fetch("/api/session", {signal: AbortSignal.timeout(10000)});
+  if (!response.ok) throw new Error("Local session is unavailable. Keep this page open to retain unexported work.");
+  const data = await response.json();
+  if (typeof data.token !== "string" || !/^[A-Za-z0-9_-]{32,128}$/.test(data.token)) throw new Error("Invalid local session response.");
+  state.token = data.token;
+}
 async function api(path, body, binary = false) {
   if (!state.token) throw new Error("Local session is not ready. Reload the page.");
   const payload = JSON.stringify(body);
   if (new TextEncoder().encode(payload).length > 2 * 1024 * 1024) throw new Error("The local request exceeds 2 MiB including formatting and the project snapshot. Use the CLI for inputs near the file-size limit.");
-  const response = await fetch(path, {method: "POST", headers: {"Content-Type": "application/json", "X-Controlomics-Token": state.token}, body: payload});
+  let response;
+  try { response = await fetch(path, {method: "POST", headers: {"Content-Type": "application/json", "X-Controlomics-Token": state.token}, body: payload, signal: AbortSignal.timeout(90000)}); }
+  catch {
+    throw new Error("The local response was interrupted. Keep this page open to retain your work. No automatic retry was made." + (/\/api\/(model\/run|literature\/retrieve)$/.test(path) ? " The approved external request may already have been transmitted; its ledger may be unavailable." : ""));
+  }
+  if (response.status === 403) {
+    const previousToken = state.token;
+    try { await refreshSession(); } catch { throw new Error("Local authorization could not be renewed. Keep this page open and retain exports before reloading."); }
+    if (state.token !== previousToken) throw new Error("The local server session was renewed. Your workspace is retained. Retry the operation; external requests require a new preview and approval.");
+  }
   if (binary && response.ok) return response.blob();
-  const data = await response.json();
+  let data;
+  try { data = await response.json(); } catch { throw new Error("The local response was incomplete or invalid. Your workspace is retained; no automatic retry was made."); }
   if (data.network_audit?.length) { state.audit.push(...data.network_audit); recordChange(); }
   if (!response.ok || data.error) { render(); throw new Error(data.error || "Operation failed."); }
   return data;
@@ -35,7 +62,7 @@ function formSignature(form) {
 function trackForm(form) { if (formSignature(form) === state.formBaselines.get(form.id)) state.drafts.delete(form.id); else state.drafts.add(form.id); renderSaveState(); }
 function rememberForms() { queueMicrotask(() => document.querySelectorAll("form").forEach(form => state.formBaselines.set(form.id, formSignature(form)))); }
 function clearDraft(id) { state.drafts.delete(id); queueMicrotask(() => state.formBaselines.set(id, formSignature($(id)))); renderSaveState(); }
-function hasUnsavedWork() { return state.drafts.size > 0 || Boolean(state.project || state.evaluationBundle) && state.revision !== state.preparedRevision; }
+function hasUnsavedWork() { return state.busy || state.drafts.size > 0 || Boolean(state.project || state.evaluationBundle) && state.revision !== state.preparedRevision; }
 function confirmReplacement() { return !state.project && !state.evaluationBundle && !state.drafts.size || window.confirm("Replace the current workspace and its form inputs? Prepare and retain a review bundle first to keep recorded work. Unrecorded inputs are not included in bundles."); }
 function fillAnalysis(project) {
   const analysis = project.analysis, claim = project.claims[0], context = analysis.biological_context;
@@ -301,18 +328,21 @@ $("evaluation-form").addEventListener("submit", event => { event.preventDefault(
   if (!state.evaluationBundle) throw new Error("Choose a local evaluation bundle first.");
   const data = await api("/api/evaluate", {bundle: state.evaluationBundle, partition: $("evaluation-partition").value || null}); state.evaluation = data.evaluation;
   const report = data.evaluation, container = $("evaluation-result"); container.replaceChildren();
-  const overview = node("article", undefined, "panel"); overview.append(node("h3", report.dataset_id), field("Provider and partition", report.provider + " / " + report.partition), field("Annotation origins", "References: " + report.reference_origin + "; judgments: " + report.judgment_origin), field("Coverage", report.coverage.cases + " cases, " + report.coverage.recommendations + " recommendations, " + report.coverage.appropriateness_assessed + " assessed for appropriateness, " + report.coverage.uncertain_or_missing_appropriateness + " uncertain or missing.")); container.append(overview);
+  const overview = node("article", undefined, "panel"); overview.append(node("h3", report.dataset_id), field("Provider and partition", report.provider + " / " + report.partition), field("Recorded bundle SHA-256", report.bundle_sha256), node("p", "Metrics use the recorded bundle. Unrecorded judgment edits are excluded.", "muted"), field("Annotation origins", "References: " + report.reference_origin + "; judgments: " + report.judgment_origin), field("Coverage", report.coverage.cases + " cases, " + report.coverage.recommendations + " recommendations, " + report.coverage.appropriateness_assessed + " assessed for appropriateness, " + report.coverage.uncertain_or_missing_appropriateness + " uncertain or missing.")); container.append(overview);
   const panel = node("div", undefined, "panel metric-panel"), table = node("table"), head = node("thead"), header = node("tr"); for (const label of ["Metric", "Result", "Denominator", "Definition"]) header.append(node("th", label)); head.append(header); table.append(head);
   const body = node("tbody"); for (const [name, metric] of Object.entries(report.metrics)) { const row = node("tr"); row.append(node("td", name.replaceAll("_", " ")), node("td", metric.value === null ? "Unavailable" : String(Number(metric.value.toFixed(4)))), node("td", String(metric.denominator)), node("td", metric.definition)); [...row.children].forEach((cell, index) => { cell.dataset.label = ["Metric", "Result", "Denominator", "Definition"][index]; }); body.append(row); } table.append(body); panel.append(table); container.append(panel);
   const limits = node("article", undefined, "panel"); limits.append(field("Limitations", report.limitations.join(" ")), field("Interval interpretation", "The exported JSON includes descriptive Wilson intervals. Correlated cases and controls require a separate inferential design.")); container.append(limits);
   $("export-evaluation").disabled = false; clearDraft("evaluation-form"); message("Calculated local metrics with explicit denominators. Unassessed scientific quality remains unavailable.");
 }); });
 $("export-evaluation").addEventListener("click", () => { if (state.evaluation) download(JSON.stringify(state.evaluation, null, 2), "controlomics.evaluation.json"); });
+function invalidateEvaluation(notice = "The evaluation input changed. Calculate this recorded snapshot to see its metrics.") { state.evaluation = null; $("evaluation-result").replaceChildren(empty(notice)); $("export-evaluation").disabled = true; }
+$("evaluation-partition").addEventListener("change", () => invalidateEvaluation("The selected partition changed. Calculate metrics for this selection."));
 $("execution-adapter").addEventListener("change", () => { syncExecutionFields(); clearInputSummary(); render(); });
 $("paired-form").addEventListener("submit", event => { event.preventDefault(); action(async () => { accept(await api("/api/specify-paired", {project: requireProject(), claim_id: $("paired-claim").value, rationale: $("paired-rationale").value.trim(), assumptions: lines($("paired-assumptions").value)}), "Specified a paired statistical control. Researcher-supplied assumptions still need justification."); $("execution-adapter").value = "PAIRED_DIFFERENCE"; $("execution-adapter").dispatchEvent(new Event("change")); clearDraft("paired-form"); }); });
 async function loadAnnotationBundle(bundle, resetRevisions = true, prepared = undefined) {
   const data = prepared !== undefined ? prepared : bundle ? await api("/api/annotation-template", {bundle}) : null;
   if (resetRevisions && state.drafts.has("annotation-form") && !window.confirm("Replace the loaded evaluation and its unrecorded judgment edits? Record and export judgments first if you need to retain them.")) { message("Kept the current evaluation and judgment edits."); return false; }
+  invalidateEvaluation();
   state.evaluationBundle = data?.bundle || null; state.annotationHash = data?.bundle_sha256 || null;
   state.annotationDraft = data ? structuredClone(data.bundle) : null; state.annotationCase = null;
   if (resetRevisions) state.revisions = [];
@@ -357,10 +387,10 @@ $("annotation-form").addEventListener("submit", event => { event.preventDefault(
 $("export-evaluation-bundle").addEventListener("click", () => { if (state.evaluationBundle) download(JSON.stringify(state.evaluationBundle, null, 2), "controlomics.annotations.json"); });
 $("export-revisions").addEventListener("click", () => download(JSON.stringify(state.revisions, null, 2), "controlomics.annotation_revisions.json"));
 window.addEventListener("beforeunload", event => { if (hasUnsavedWork()) { event.preventDefault(); event.returnValue = ""; } });
-fetch("/api/session").then(response => response.json()).then(data => {
-  state.token = data.token; render();
+refreshSession().then(() => {
+  render();
   if (location.hash === "#demo=transcriptomics" || location.hash === "#demo=microscopy") {
     example(location.hash.endsWith("microscopy") ? "ml" : "rna");
     $("analysis-form").requestSubmit();
   }
-}).catch(() => message("Local session could not be initialized. Reload the page.", true));
+}).catch(() => message("Local session could not be initialized. Keep any existing workspace open and retain exports before reloading.", true));

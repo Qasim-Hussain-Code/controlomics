@@ -524,6 +524,8 @@ class ControlomicsProject(Record):
         controls = {item.control_id: item for item in self.candidates + self.controls}
         plans = {item.execution_id: item for item in self.execution_plans}
         results = {item.result_id: item for item in self.results}
+        if len({item.execution_id for item in self.results}) != len(self.results):
+            raise ValueError("an execution can have only one imported result")
         for claim in self.claims:
             if claim.analysis_id != self.analysis.analysis_id:
                 raise ValueError("claim refers to an unknown analysis")
@@ -565,6 +567,8 @@ class ControlomicsProject(Record):
             plan = plans[result.execution_id]
             if result.control_id != plan.control_id or result.random_seed != plan.random_seed:
                 raise ValueError("result control or seed differs from the execution plan")
+            if plan.code_sha256 is not None and [item.version for item in result.software_versions if item.name == "controlomics_fixed_runner"] != [plan.code_sha256]:
+                raise ValueError("result runner hash differs from the planned code")
             expected_inputs = {item.input_id for item in plan.required_inputs}
             hashed_inputs = [item.input_id for item in result.input_hashes]
             if len(hashed_inputs) != len(set(hashed_inputs)):

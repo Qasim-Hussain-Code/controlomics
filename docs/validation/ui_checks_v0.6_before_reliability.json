@@ -1,0 +1,367 @@
+{
+  "browser": "Chrome/154.0.8037.95",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1200,
+      "name": "controls",
+      "viewport": 1440,
+      "document": 1425,
+      "cards": 3,
+      "status": "Local design controls specified. Biological support and applicability remain unvalidated."
+    },
+    {
+      "width": 430,
+      "height": 1100,
+      "name": "mobile",
+      "viewport": 430,
+      "document": 415,
+      "cards": 3,
+      "status": "Local design controls specified. Biological support and applicability remain unvalidated."
+    }
+  ],
+  "exceptions": [],
+  "emptyWorkspace": {
+    "zeroCounts": true,
+    "savingDisabled": true,
+    "searchDisabled": true,
+    "view": "analysis"
+  },
+  "emptyDraftProtection": {
+    "tracked": true,
+    "retained": true,
+    "cleared": true
+  },
+  "programmaticDraftProtection": {
+    "tracked": true,
+    "retained": true,
+    "cleared": true
+  },
+  "recordCounts": true,
+  "preparedDownload": true,
+  "draftReversion": {
+    "changed": true,
+    "reverted": true
+  },
+  "executionFields": {
+    "reference": true,
+    "bootstrap": true,
+    "permutation": true
+  },
+  "controlSearch": {
+    "nameMatched": true,
+    "noMatch": true,
+    "classMatched": true,
+    "restored": true,
+    "unchanged": true
+  },
+  "keyboardNavigation": {
+    "arrow": true,
+    "end": true,
+    "home": true
+  },
+  "responsiveViews": [
+    {
+      "width": 375,
+      "document": 360,
+      "view": "analysis"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "controls"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "evidence"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "execution"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "audit"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "evaluation"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "analysis"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "controls"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "evidence"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "execution"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "audit"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "evaluation"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "analysis"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "controls"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "evidence"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "execution"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "audit"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "evaluation"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "analysis"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "controls"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "evidence"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "execution"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "audit"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "evaluation"
+    }
+  ],
+  "mobileNavigation": {
+    "modal": true,
+    "trapped": true,
+    "reverseTrapped": true,
+    "escaped": true,
+    "selected": true,
+    "metricNavigation": true,
+    "closeButton": true
+  },
+  "fileMenus": true,
+  "reducedMotion": true,
+  "textRendering": true,
+  "inputInspection": {
+    "rows": 4,
+    "zero": 2,
+    "one": 2,
+    "bom": true,
+    "sha256": "d065f0234a007ac927a1e7a8f0cacee0a13bf3e672871d7579612928753eeb96",
+    "results": 0,
+    "externalRequests": 0
+  },
+  "invalidUTF8": true,
+  "execution": {
+    "outcomes": [
+      "PASS",
+      "PASS"
+    ],
+    "pathways": [
+      "LOCAL",
+      "LOCAL"
+    ],
+    "audit": "INSUFFICIENT_EVIDENCE",
+    "externalRequests": 0,
+    "unsupportedControlsExcluded": true
+  },
+  "controlomicsVersion": "0.6.0.dev0",
+  "pairedExecution": {
+    "outcome": "INDETERMINATE",
+    "p": 0.25,
+    "input": "paired_units",
+    "remaining": 0
+  },
+  "executedRecordCounts": true,
+  "pairedBootstrap": {
+    "outcome": "INDETERMINATE",
+    "coverage": 0.9,
+    "seed": 17,
+    "method": "Complete-pair percentile bootstrap with linear quantile interpolation"
+  },
+  "report": {
+    "html": true,
+    "hasInputHashes": true,
+    "hasWarnings": true,
+    "hasConservativeAssessment": true
+  },
+  "reportLayout": [
+    {
+      "width": 1440,
+      "document": 1425,
+      "links": true,
+      "noScripts": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "links": true,
+      "noScripts": true
+    }
+  ],
+  "reportPrintStyles": true,
+  "narrative": {
+    "claim": "Features predict labels",
+    "category": "",
+    "support": ""
+  },
+  "claims": {
+    "claims": 2,
+    "profiles": 2,
+    "controlsByClaim": [
+      5,
+      5
+    ]
+  },
+  "claimFilter": {
+    "selected": true,
+    "combined": true,
+    "unchanged": true,
+    "visible": true
+  },
+  "multiClaimLayout": [
+    {
+      "width": 375,
+      "document": 360
+    },
+    {
+      "width": 430,
+      "document": 415
+    },
+    {
+      "width": 768,
+      "document": 753
+    },
+    {
+      "width": 1024,
+      "document": 1009
+    },
+    {
+      "width": 1440,
+      "document": 1425
+    }
+  ],
+  "recordBindings": {
+    "results": true,
+    "audits": true,
+    "resultCount": true,
+    "auditCount": true
+  },
+  "candidate": {
+    "status": "UNVERIFIED",
+    "id": "control.62f130e9aad94b539ce8f9ec46062138",
+    "revisionRecorded": true
+  },
+  "candidateDraftProtection": {
+    "retained": true,
+    "reverted": true
+  },
+  "duplicateImportRejected": true,
+  "evaluation": {
+    "origin": "UNASSESSED",
+    "precision": null,
+    "unavailableDisplayed": true,
+    "cases": 6
+  },
+  "metricHeadingVisible": true,
+  "annotations": {
+    "origin": "",
+    "reviewer": "",
+    "attested": false,
+    "unknown": true,
+    "matchesDisabled": true,
+    "savedOrigin": "UNASSESSED"
+  },
+  "annotationDraftProtection": true,
+  "judgmentCaseProtection": {
+    "navigationOnly": true,
+    "hiddenCaseProtected": true,
+    "reverted": true,
+    "unrecorded": true
+  },
+  "reviewBundle": {
+    "bytes": 19722,
+    "sameProject": true,
+    "sameEvaluation": true,
+    "networkEvents": 0,
+    "revisions": 0
+  },
+  "reviewForm": {
+    "statements": 2,
+    "attested": false,
+    "reviewer": ""
+  },
+  "sourceReviewDraftProtection": true,
+  "replacementCancelled": true,
+  "replacementCoherence": {
+    "formMatches": true,
+    "oldEvaluationCleared": true,
+    "oldReviewCleared": true,
+    "oldLedgerCleared": true,
+    "oldInputCleared": true,
+    "draftsCleared": true
+  },
+  "emptyReplacementClears": {
+    "project": true,
+    "ledger": true,
+    "preview": true,
+    "credential": true,
+    "zeroCounts": true,
+    "unrecorded": true
+  },
+  "run_at": "2026-10-07T09:34:12.198Z",
+  "personalProjectAttributionOmitted": true,
+  "scope": "Current privacy-phase screenshots re-rendered without personal project attribution. Responsive workspace, actual record counts, search and combined claim/class filters, scientific result and audit bindings, keyboard tabs, mobile focus boundaries, file menus, reduced motion, text-only rendering, unsaved input protection and reversion, prepared downloads, cancelled and coherent project replacement, complete workspace reset, candidate, source and multi-case annotation draft protection, programmatic field tracking, procedure-specific fields, exact-byte UTF-8/BOM input inspection, reference and paired execution, explicit bootstrap coverage/seed recording, linked responsive reports and print styles, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, visible review headings, and review archive roundtrip. All computations and edited inputs were hypothetical software fixtures. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external request was made. This is browser integration coverage, not a screen-reader, full accessibility, print-pagination, or scientific validation."
+}

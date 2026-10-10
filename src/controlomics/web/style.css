@@ -279,6 +279,7 @@ dialog::backdrop { background: rgba(18,39,52,.52); }
 @media(max-width:1100px) { .control-toolbar:has(#claim-filter-label:not([hidden])) { flex-wrap: wrap; } .control-toolbar:has(#claim-filter-label:not([hidden])) .search-field { flex-basis: 100%; } .control-toolbar:has(#claim-filter-label:not([hidden])) .class-filter { flex: 1; min-width: 0; } }
 .nav-close { display: none; }
 .input-actions { margin: 12px 0 19px; }
+form[inert], .file-label[inert] { opacity: .75; }
 .input-inspection { border: 1px solid #cddfd9; background: #f5faf8; padding: 21px; border-radius: 8px; margin-bottom: 23px; scroll-margin-top: 90px; }
 .input-inspection h3 { font-size: 14px; margin-bottom: 14px; }
 .input-dimensions { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 15px; }

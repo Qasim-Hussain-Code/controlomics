@@ -1,6 +1,6 @@
 # Complete agent architecture
 
-This describes the implemented local research alpha, version 0.6.0.dev0. Controlomics is a human-supervised scientific workflow with structured proposals, evidence review, restricted numerical tools, and conservative audits. Its default reasoning engine uses inspectable rules. An optional hosted language model can propose controls through the same record contracts. Scientific appropriateness and cross-domain generalization still require independent expert evaluation.
+This describes the implemented local research alpha, version 0.6.1.dev0. Controlomics is a human-supervised scientific workflow with structured proposals, evidence review, restricted numerical tools, and conservative audits. Its default reasoning engine uses inspectable rules. An optional hosted language model can propose controls through the same record contracts. Scientific appropriateness and cross-domain generalization still require independent expert evaluation.
 
 ## Overall flow
 
@@ -97,6 +97,10 @@ The current audit emits CONTROL_FAILURE if a relevant recorded technical control
 Projects and raw primary data remain local. Selected external fields must be explicitly SAFE, pass screening, and match the approved whole-request hash before transmission. Literature destinations are fixed provider routes; a model endpoint must pass the configured transport boundary. Credentials travel separately and do not enter previews, project exports, or reports. The ledger distinguishes NOT_STARTED, ATTEMPTED, and COMPLETED.
 
 The loopback server serves fixed assets, uses bounded requests, disables request logging/caching, and checks Host/Origin/token on mutations. Browser text nodes and report escaping reduce imported-content execution. Local OS software and browser extensions remain outside the application's trust boundary.
+
+`storage.py` stages explicit local exports beside their destination, flushes complete bytes, retains supported access restrictions, and replaces one file. Ordinary failures preserve earlier exports. CLI sidecars cannot alias each other or their protected inputs. See [security limits](../SECURITY.md) for supported permissions, rejected destinations, races, and the absence of a multi-file transaction. No automatic persistence is introduced.
+
+Pending browser operations make form inputs inert. A rejected stale session can be renewed without a reload, while interrupted responses are never automatically replayed. Evaluation reports identify the complete recorded source bundle by hash, and replacing a bundle or selecting another partition invalidates displayed metrics. Whole-project parsing enforces the same single-result and runner-hash bindings as individual-result import. These checks preserve record consistency rather than authenticating execution or judgment.
 
 Review archives exclude raw CSVs, full supplied source texts, authorization credentials, and outbound bodies. They can still contain confidential descriptions, excerpts, selected public queries, or reviewer identifiers. ZIP bounds and hashes check consistency, not authentic scientific provenance or anonymization. Researcher IDs can be pseudonymous; any real-identity mapping belongs in separately protected private records when the scientific study requires it.
 

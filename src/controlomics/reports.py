@@ -188,5 +188,5 @@ p{overflow-wrap:anywhere;margin:12px 0}p>strong{font-weight:600}a{color:#176157;
 
 
 def write_report(project, path: Path, network_audit=()):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(render_report(project, network_audit), encoding="utf-8", newline="\n")
+    from controlomics.storage import write_text_atomic
+    write_text_atomic(path, render_report(project, network_audit))

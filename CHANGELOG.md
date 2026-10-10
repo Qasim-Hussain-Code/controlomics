@@ -1,5 +1,13 @@
 # Development changes
 
+## 0.6.1.dev0, 2026-10-10
+
+Local project, JSON, report, and review-archive exports stage a complete file before replacing the destination. Conflicting CLI sidecar destinations and execution-package artifacts are rejected before writes or provider requests. A failed save retains the previous export; this is not a multi-file transaction or a power-loss guarantee.
+
+Evaluation reports record their source bundle hash. Replacing a bundle or changing the selected partition clears the old displayed metrics and disables their export. Pending operations protect form inputs; interrupted responses retain the workspace and never automatically replay a request. A stale local session can be renewed without reloading the page. Whole-project imports now enforce the same runner-hash and single-result bindings as individual result imports.
+
+The browser checker accepts a separate loopback server and verifies the exact selected headless profile before interacting with or closing Chrome. Numerical sources and the frozen synthetic findings remain unchanged. Independent scientific validation and public publication remain pending.
+
 ## 0.6.0.dev0, 2026-10-07
 
 Added local CSV inspection, explicit claim bindings in execution and audit views, consistent workspace replacement and unsaved-input handling, and pseudonymous reviewer labels. Review archives preserve linked records while excluding raw inputs and credentials. Project schema and ontology versions remain 0.1.0.

@@ -9,6 +9,7 @@ One lightweight Python package represents a scientific claim attached to an anal
 | Module | Responsibility |
 | --- | --- |
 | `schemas.py`, `project.py` | Strict immutable records, bounded JSON, relational checks, ten core schema exports |
+| `storage.py` | Complete staged exports, replacement after flush, and conflicting-output checks |
 | `workflow.py` | Claim intake, transitions, human review, context comparison, conservative audit |
 | `models.py`, `reasoning.py` | Inspectable operation rules, literal description draft, reference baseline, and interchangeable proposals |
 | `evaluation.py`, `formats.py` | Supplied annotations, partition checks, denominator-aware metrics, agreement, and workflow schemas |
@@ -44,5 +45,9 @@ The server binds to `127.0.0.1`, logs no requests, and stores no project databas
 The interface uses one responsive navigation shell around the six existing workflow sections. Summary counts derive from the current validated project. Control search, class, and claim filters affect rendering only. Project text is inserted through text nodes. Icons and the conceptual review motif are local inline SVG; system fonts avoid font downloads. A mobile modal navigation boundary uses inert content, keyboard focus handling, and explicit selected-tab semantics. Design details and the limits of accessibility checks appear in [INTERFACE.md](docs/INTERFACE.md).
 
 In-memory form signatures detect edits and reversions; record revisions track whether a complete bundle download was prepared. Passwords are excluded from signatures. No automatic persistence is introduced. Replacement validates the incoming records before asking to discard the current workspace, then resets prior forms, evidence reviews, evaluations, inputs, credentials, and previews. A prepared download is not proof that a file was retained on disk.
+
+Forms and file selectors are inert during pending operations, so responses cannot silently consume later user edits. Interrupted responses retain the browser workspace and do not trigger an automatic retry. A stale session token can be renewed locally without reloading; the rejected operation remains unsubmitted until the researcher retries it. An interrupted approved external request may already have transmitted content and may lack a returned ledger.
+
+Evaluation reports hash the complete recorded bundle, including supplied judgments. Loading another validated bundle or changing the selected partition clears the prior metric view and disables its export. CLI project, JSON, HTML, and review-archive exports stage a complete file beside the destination before replacement. This protects earlier files during ordinary write failures, but does not coordinate concurrent writers or make a multi-file transaction.
 
 The application design respects the supplied 16 GB RAM and approximately 10 GB free-storage limits. No model weights, containers, large datasets, or GPU software were installed. The optional isolated NumPy/SciPy comparison environment uses about 200.7 MB of files and is separate from application dependencies. Measurements appear in [VALIDATION.md](VALIDATION.md). See [ADR 0001](docs/adr/0001_local_scientific_core.md), [ADR 0002](docs/adr/0002_retrieval_and_execution_boundaries.md), [ADR 0003](docs/adr/0003_design_reasoning_and_evaluation.md), [ADR 0004](docs/adr/0004_paired_and_review_artifacts.md), and [ADR 0005](docs/adr/0005_local_inspection_and_workspace.md).

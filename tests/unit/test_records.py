@@ -11,6 +11,23 @@ from tests.fixtures import ROOT, executed_project, payload, reviewed_project
 
 
 class RecordTests(unittest.TestCase):
+    def test_whole_project_import_preserves_execution_result_guards(self):
+        import copy
+        from controlomics.server import handle_action
+        data = executed_project()
+        data["execution_plans"][0]["code_sha256"] = "a" * 64
+        data["results"][0]["software_versions"].append({"name": "controlomics_fixed_runner", "version": "a" * 64})
+        parse_project_json(json.dumps(data))
+        changed = copy.deepcopy(data)
+        changed["results"][0]["software_versions"][-1]["version"] = "b" * 64
+        duplicate = copy.deepcopy(data)
+        duplicate["results"].append({**duplicate["results"][0], "result_id": "result.duplicate"})
+        for invalid in (changed, duplicate):
+            with self.assertRaises(ValueError):
+                parse_project_json(json.dumps(invalid))
+            with self.assertRaises(ValueError):
+                handle_action("/api/analyze", {"project": invalid})
+
     def test_distinct_contexts_round_trip(self):
         for name in ("transcriptomics.project.json", "microscopy_ml.project.json"):
             with self.subTest(name=name):

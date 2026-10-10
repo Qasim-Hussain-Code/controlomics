@@ -16,6 +16,7 @@ from controlomics.privacy import SafeField, SafeTransport
 from controlomics.project import decode_json, export_json_schemas, load_project, save_project
 from controlomics.reports import write_report
 from controlomics.schemas import ControlResult, EvidenceIdentifier
+from controlomics.storage import require_distinct_outputs, write_bytes_atomic, write_text_atomic
 from controlomics.workflow import (CandidateSubmission, HumanReview, Intake, NewClaim, add_claim, apply_review,
     audit_project, import_evidence, new_project, propose, review_methods, specify_candidate)
 
@@ -33,8 +34,7 @@ def read_json(path):
 
 
 def write_json(path, value):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, allow_nan=False) + "\n", encoding="utf-8", newline="\n")
+    write_text_atomic(path, json.dumps(value, indent=2, allow_nan=False) + "\n")
 
 
 def main(argv=None):
@@ -147,6 +147,18 @@ def main(argv=None):
     annotate.add_argument("--revision-output", type=Path, required=True)
     args = parser.parse_args(argv)
     try:
+        if args.command in ("retrieve", "model-propose"):
+            require_distinct_outputs(args.output, args.audit_output)
+            require_distinct_outputs(args.project, args.audit_output)
+            if args.command == "model-propose":
+                require_distinct_outputs(args.context, args.audit_output)
+        elif args.command == "annotate":
+            require_distinct_outputs(args.output, args.revision_output)
+            require_distinct_outputs(args.bundle, args.revision_output)
+            require_distinct_outputs(args.submission, args.revision_output)
+        elif args.command == "package":
+            for name in ("config.json", "execution_plan.json", "control.json", "result.schema.json", "environment.json", "run_control.py", "stats.py", "verify_results.py", "manifest.json", "README.md"):
+                require_distinct_outputs(args.output, args.directory / name)
         if args.command == "inspect-input":
             from controlomics.inputs import MAX_INPUT, inspect_numeric_input
             with args.input.open("rb") as stream:
@@ -173,8 +185,7 @@ def main(argv=None):
             from controlomics.evaluation import EvaluationBundle
             content = create_review_bundle(load_project(args.project), read_json(args.network_audit) if args.network_audit else (),
                 read_typed(args.evaluation, EvaluationBundle) if args.evaluation else None, read_json(args.revisions) if args.revisions else ())
-            args.output.parent.mkdir(parents=True, exist_ok=True)
-            args.output.write_bytes(content)
+            write_bytes_atomic(args.output, content)
             print("Saved a local review archive. Review project descriptions and public query text before sharing.")
             return 0
         if args.command == "bundle-import":

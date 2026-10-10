@@ -53,11 +53,11 @@ jobs:
       - name: Build wheel and source distribution
         run: python scripts/build_distributions.py
       - name: Extracted wheel smoke check
-        run: python scripts/check_package.py dist/controlomics-0.6.0.dev0-py3-none-any.whl --output local_projects/ci_package_checks.json
+        run: python scripts/check_package.py dist/controlomics-0.6.1.dev0-py3-none-any.whl --output local_projects/ci_package_checks.json
       - name: Distribution privacy and contents
-        run: python scripts/check_distribution_contents.py --wheel dist/controlomics-0.6.0.dev0-py3-none-any.whl --sdist dist/controlomics-0.6.0.dev0.tar.gz --output local_projects/ci_distribution_checks.json
+        run: python scripts/check_distribution_contents.py --wheel dist/controlomics-0.6.1.dev0-py3-none-any.whl --sdist dist/controlomics-0.6.1.dev0.tar.gz --output local_projects/ci_distribution_checks.json
       - name: Installed wheel smoke check
-        run: python scripts/check_install.py --wheel dist/controlomics-0.6.0.dev0-py3-none-any.whl --output local_projects/ci_install_checks.json
+        run: python scripts/check_install.py --wheel dist/controlomics-0.6.1.dev0-py3-none-any.whl --output local_projects/ci_install_checks.json
       - name: Installed source distribution smoke check
         if: matrix.os == 'ubuntu-latest' && matrix.python == '3.14'
-        run: python scripts/check_install.py --sdist dist/controlomics-0.6.0.dev0.tar.gz --output local_projects/ci_sdist_checks.json
+        run: python scripts/check_install.py --sdist dist/controlomics-0.6.1.dev0.tar.gz --output local_projects/ci_sdist_checks.json

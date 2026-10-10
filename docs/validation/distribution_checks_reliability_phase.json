@@ -1,0 +1,21 @@
+{
+  "recorded_at": "2026-10-10T09:43:19.278074+00:00",
+  "artifacts": [
+    {
+      "artifact": "controlomics-0.6.1.dev0-py3-none-any.whl",
+      "sha256": "946e6f1d35256fa03bcb06db7c899400419e2814425603114ac5016ba29800fb",
+      "members": 29,
+      "bytes": 106261
+    },
+    {
+      "artifact": "controlomics-0.6.1.dev0.tar.gz",
+      "sha256": "a37ba54fc65747e3e6bb3e6babaac5137cfa9a42d593b1456746f518ce450d69",
+      "members": 255,
+      "bytes": 1504504
+    }
+  ],
+  "findings": [],
+  "status": "PASS",
+  "published": false,
+  "scope": "Our locally built distributions: member paths, scanned text, PNG metadata, required reproducibility files and tar ownership. No independent security certification."
+}

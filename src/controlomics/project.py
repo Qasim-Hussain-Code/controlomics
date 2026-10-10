@@ -5,6 +5,7 @@ from pathlib import Path
 
 from controlomics import SCHEMA_VERSION
 from controlomics.schemas import ControlomicsProject, PUBLIC_SCHEMAS
+from controlomics.storage import write_text_atomic
 
 MAX_PROJECT_BYTES = 2 * 1024 * 1024
 
@@ -47,8 +48,7 @@ def save_project(project: ControlomicsProject, path: Path):
     if len(content.encode("utf-8")) > MAX_PROJECT_BYTES:
         content = validated.model_dump_json() + "\n"
     parse_project_json(content)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(content, encoding="utf-8", newline="\n")
+    write_text_atomic(path, content)
 
 
 def load_project(path: Path) -> ControlomicsProject:
