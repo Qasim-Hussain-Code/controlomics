@@ -49,6 +49,8 @@ from controlomics.statistics import paired_permutation
 from controlomics.inputs import inspect_numeric_input
 from controlomics.artifacts import create_review_bundle, open_review_bundle
 from controlomics.project import parse_project_json
+from controlomics.models import MethodBaseline
+from controlomics.workflow import propose, review_methods
 assert Path(controlomics.__file__).is_relative_to(Path(sys.argv[1]))
 draft=handle_action('/api/interpret',{'description':'Question: A synthetic wheel check\\nClaim: A stated claim'})['draft']
 assert draft['fields']['claim']=='A stated claim'
@@ -62,7 +64,12 @@ summary=inspect_numeric_input(b'unit,label,value\\na,0,0\\nb,0,1\\nc,1,2\\nd,1,3
 assert summary.rows==4 and summary.complete_pairs is None
 project=parse_project_json(Path(sys.argv[2]).read_bytes())
 assert open_review_bundle(create_review_bundle(project))[0]==project
-print(json.dumps({'version':controlomics.__version__,'imported_extracted_wheel':True,'local_draft':True,'browser_assets':True,'evaluation_import':True,'paired_arithmetic':True,'review_archive_roundtrip':True,'local_input_inspection':True}))
+planned=review_methods(propose(project.model_copy(update={'candidates':()}), MethodBaseline()))
+executed=handle_action('/api/execute',{'project':planned.model_dump(mode='json'),'control_id':planned.controls[0].control_id,
+    'config':{'kind':'REFERENCE','expected_difference':2.0,'assumptions':['Synthetic installation units.']},
+    'csv':'unit,label,value\\na,0,0\\nb,0,1\\nc,1,2\\nd,1,3\\n'})['project']
+assert executed['results'][0]['outcome']=='PASS'
+print(json.dumps({'version':controlomics.__version__,'imported_extracted_wheel':True,'local_draft':True,'browser_assets':True,'evaluation_import':True,'paired_arithmetic':True,'review_archive_roundtrip':True,'local_input_inspection':True,'fixed_runner_execution':True}))
 """
         example = Path(__file__).resolve().parents[1] / "examples" / "transcriptomics.project.json"
         result = subprocess.run([sys.executable, "-I", "-c", script, temporary, str(example)], capture_output=True, text=True, timeout=20, check=True)

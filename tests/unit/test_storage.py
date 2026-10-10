@@ -10,11 +10,48 @@ from unittest.mock import patch
 from controlomics.cli import main, write_json
 from controlomics.project import load_project, parse_project_json, save_project
 from controlomics.reports import write_report
-from controlomics.storage import require_distinct_outputs, write_bytes_atomic
+from controlomics.storage import require_distinct_outputs, staged_directory, write_bytes_atomic
 from tests.fixtures import ROOT, payload
 
 
 class StorageTests(unittest.TestCase):
+    def test_directory_publication_failure_and_interrupt_cleanup(self):
+        with TemporaryDirectory() as temporary:
+            root, target = Path(temporary), Path(temporary) / "complete"
+            for failure in (OSError("synthetic write failure"), KeyboardInterrupt()):
+                with self.assertRaises(type(failure)):
+                    with staged_directory(target) as staged:
+                        (staged / "first.json").write_bytes(b"synthetic only")
+                        self.assertFalse(target.exists())
+                        raise failure
+                self.assertEqual(list(root.iterdir()), [])
+            with patch("controlomics.storage.os.rename", side_effect=OSError("synthetic rename failure")), self.assertRaises(OSError):
+                with staged_directory(target) as staged:
+                    (staged / "first.json").write_bytes(b"synthetic only")
+            self.assertEqual(list(root.iterdir()), [])
+            with staged_directory(target) as staged:
+                (staged / "first.json").write_bytes(b"complete")
+                self.assertFalse(target.exists())
+            self.assertEqual((target / "first.json").read_bytes(), b"complete")
+
+    def test_existing_directories_and_concurrent_destination_are_preserved(self):
+        with TemporaryDirectory() as temporary:
+            target = Path(temporary) / "retained"
+            target.mkdir()
+            with self.assertRaises(ValueError), staged_directory(target):
+                pass
+            self.assertEqual(list(target.iterdir()), [])
+            (target / "retained.json").write_bytes(b"retained")
+            with self.assertRaises(ValueError), staged_directory(target):
+                pass
+            new = target.parent / "new"
+            with self.assertRaises(ValueError), staged_directory(new) as staged:
+                (staged / "private.json").write_bytes(b"synthetic only")
+                new.mkdir()
+                (new / "other.json").write_bytes(b"retained")
+            self.assertEqual((new / "other.json").read_bytes(), b"retained")
+            self.assertFalse(list(target.parent.glob(".controlomics_directory_*")))
+
     def test_replacement_preserves_explicit_access_restrictions(self):
         with TemporaryDirectory() as temporary:
             target = Path(temporary) / "restricted.json"

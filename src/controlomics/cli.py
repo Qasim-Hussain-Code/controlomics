@@ -16,7 +16,7 @@ from controlomics.privacy import SafeField, SafeTransport
 from controlomics.project import decode_json, export_json_schemas, load_project, save_project
 from controlomics.reports import write_report
 from controlomics.schemas import ControlResult, EvidenceIdentifier
-from controlomics.storage import require_distinct_outputs, write_bytes_atomic, write_text_atomic
+from controlomics.storage import require_distinct_outputs, staged_directory, write_bytes_atomic, write_text_atomic
 from controlomics.workflow import (CandidateSubmission, HumanReview, Intake, NewClaim, add_claim, apply_review,
     audit_project, import_evidence, new_project, propose, review_methods, specify_candidate)
 
@@ -147,6 +147,13 @@ def main(argv=None):
     annotate.add_argument("--revision-output", type=Path, required=True)
     args = parser.parse_args(argv)
     try:
+        # Only project transformations support deliberate in-place updates.
+        project_updates = {"analyze", "add-claim", "specify-control", "specify-paired", "review", "retrieve", "model-propose", "package", "execute", "import-results"}
+        if hasattr(args, "output"):
+            for name in ("intake", "description", "dataset", "predictions", "bundle", "submission", "review", "context", "config", "input", "result", "first", "second", "network_audit", "evaluation", "revisions", "project"):
+                source = getattr(args, name, None)
+                if isinstance(source, Path) and not (name == "project" and args.command in project_updates) and not (name == "bundle" and args.command == "annotate"):
+                    require_distinct_outputs(source, args.output)
         if args.command in ("retrieve", "model-propose"):
             require_distinct_outputs(args.output, args.audit_output)
             require_distinct_outputs(args.project, args.audit_output)
@@ -157,7 +164,7 @@ def main(argv=None):
             require_distinct_outputs(args.bundle, args.revision_output)
             require_distinct_outputs(args.submission, args.revision_output)
         elif args.command == "package":
-            for name in ("config.json", "execution_plan.json", "control.json", "result.schema.json", "environment.json", "run_control.py", "stats.py", "verify_results.py", "manifest.json", "README.md"):
+            for name in ("config.json", "execution_plan.json", "control.json", "result.schema.json", "environment.json", "run_control.py", "stats.py", "export_storage.py", "verify_results.py", "manifest.json", "README.md"):
                 require_distinct_outputs(args.output, args.directory / name)
         if args.command == "inspect-input":
             from controlomics.inputs import MAX_INPUT, inspect_numeric_input
@@ -192,16 +199,14 @@ def main(argv=None):
             from controlomics.artifacts import MAX_ARCHIVE, open_review_bundle
             with args.archive.open("rb") as stream:
                 project, ledger, evaluation, revisions, manifest = open_review_bundle(stream.read(MAX_ARCHIVE + 1))
-            if args.directory.exists() and any(args.directory.iterdir()):
-                raise ValueError("review import directory must be new or empty")
-            args.directory.mkdir(parents=True, exist_ok=True)
-            save_project(project, args.directory / "project.json")
-            write_json(args.directory / "network_audit.json", ledger)
-            write_json(args.directory / "manifest.json", manifest.model_dump(mode="json"))
-            write_report(project, args.directory / "report.html", ledger)
-            if evaluation is not None:
-                write_json(args.directory / "evaluation.json", evaluation.model_dump(mode="json"))
-                write_json(args.directory / "annotation_revisions.json", revisions)
+            with staged_directory(args.directory) as staged:
+                save_project(project, staged / "project.json")
+                write_json(staged / "network_audit.json", ledger)
+                write_json(staged / "manifest.json", manifest.model_dump(mode="json"))
+                write_report(project, staged / "report.html", ledger)
+                if evaluation is not None:
+                    write_json(staged / "evaluation.json", evaluation.model_dump(mode="json"))
+                    write_json(staged / "annotation_revisions.json", revisions)
             print("Validated review records and regenerated the local report. Hashes are not authenticated provenance.")
             return 0
         if args.command == "serve":
@@ -319,5 +324,6 @@ def main(argv=None):
         print("Operation failed. Input content, credentials, and local paths are omitted.")
         return 1
     except KeyboardInterrupt:
-        return 0
+        print("Operation interrupted. A successful export is not implied; inspect any requested outputs before retrying.")
+        return 130
     return 0

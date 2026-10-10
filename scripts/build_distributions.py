@@ -1,6 +1,5 @@
 """Build local distributions using the already installed, pinned setuptools."""
 
-import shutil
 import subprocess
 import sys
 import tarfile
@@ -9,7 +8,11 @@ from io import BytesIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from check_release import ROOT, path_problem, source_files, text_findings
+if __package__:
+    from .check_release import ROOT, path_problem, source_files, text_findings, png_findings
+else:
+    from check_release import ROOT, path_problem, source_files, text_findings, png_findings
+from controlomics.storage import write_bytes_atomic
 
 
 def main():
@@ -31,7 +34,7 @@ def main():
             try:
                 findings = text_findings(raw.decode('utf-8'))
             except UnicodeDecodeError:
-                findings = [] if original.suffix == '.png' else [{'rule': 'unreviewed_binary'}]
+                findings = png_findings(raw) if original.suffix == '.png' else [{'rule': 'unreviewed_binary'}]
             if findings:
                 raise ValueError('public build inventory failed privacy screening')
             destination = public/name
@@ -53,11 +56,12 @@ def main():
                                 raise ValueError('wheel contains an excluded file')
                         elif '.dist-info/' not in member.filename:
                             raise ValueError('wheel contains an unexpected package')
-                shutil.copyfile(package, output/package.name)
+                write_bytes_atomic(output/package.name, package.read_bytes())
             elif package.name.endswith('.tar.gz'):
                 # Standard tar creation can retain the build account. Normalize
                 # archive ownership while preserving source bytes and paths.
-                with tarfile.open(package, 'r:gz') as source, tarfile.open(output/package.name, 'w:gz', format=tarfile.PAX_FORMAT) as target:
+                normalized = BytesIO()
+                with tarfile.open(package, 'r:gz') as source, tarfile.open(fileobj=normalized, mode='w:gz', format=tarfile.PAX_FORMAT) as target:
                     for member in source.getmembers():
                         if not (member.isfile() or member.isdir()) or member.name.startswith('/') or '..' in Path(member.name).parts:
                             raise ValueError('source archive contains an unsafe member')
@@ -72,6 +76,7 @@ def main():
                         member.uname = member.gname = ''
                         member.pax_headers = {key: value for key, value in member.pax_headers.items() if key in {'path', 'mtime'}}
                         target.addfile(member, BytesIO(raw) if raw is not None else None)
+                write_bytes_atomic(output/package.name, normalized.getvalue())
             else:
                 raise ValueError('unexpected build output')
             print('Built local distribution: ' + package.name)

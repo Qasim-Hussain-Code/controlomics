@@ -4,12 +4,37 @@ import json
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 from controlomics.cli import main
 from tests.fixtures import ROOT
 
 
 class CLITests(unittest.TestCase):
+    def test_auxiliary_inputs_cannot_be_overwritten_by_exports(self):
+        with TemporaryDirectory() as temporary, contextlib.redirect_stdout(io.StringIO()):
+            target = Path(temporary) / "input.csv"
+            original = (ROOT / "examples" / "positive_reference.csv").read_bytes()
+            target.write_bytes(original)
+            self.assertEqual(main(["inspect-input", str(target), "--output", str(target)]), 1)
+            self.assertEqual(target.read_bytes(), original)
+            config = Path(temporary) / "config.json"
+            original = (ROOT / "examples" / "reference_execution.json").read_bytes()
+            config.write_bytes(original)
+            self.assertEqual(main(["execute", "absent.project.json", "--control-id", "fixture", "--config", str(config),
+                "--input", str(target), "--output", str(config)]), 1)
+            self.assertEqual(config.read_bytes(), original)
+
+    def test_interrupted_command_returns_nonzero_and_retains_prior_output(self):
+        with TemporaryDirectory() as temporary:
+            target = Path(temporary) / "retained.json"
+            target.write_bytes(b"retained")
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output), patch("controlomics.cli.load_project", side_effect=KeyboardInterrupt()):
+                self.assertEqual(main(["analyze", "absent.project.json", "--output", str(target)]), 130)
+            self.assertIn("interrupted", output.getvalue())
+            self.assertEqual(target.read_bytes(), b"retained")
+
     def test_offline_analyze_report_and_execute_commands(self):
         with TemporaryDirectory() as directory, contextlib.redirect_stdout(io.StringIO()):
             folder = Path(directory)

@@ -1,6 +1,6 @@
 # Complete agent architecture
 
-This describes the implemented local research alpha, version 0.6.1.dev0. Controlomics is a human-supervised scientific workflow with structured proposals, evidence review, restricted numerical tools, and conservative audits. Its default reasoning engine uses inspectable rules. An optional hosted language model can propose controls through the same record contracts. Scientific appropriateness and cross-domain generalization still require independent expert evaluation.
+This describes the implemented local research alpha, version 0.6.2.dev0. Controlomics is a human-supervised scientific workflow with structured proposals, evidence review, restricted numerical tools, and conservative audits. Its default reasoning engine uses inspectable rules. An optional hosted language model can propose controls through the same record contracts. Scientific appropriateness and cross-domain generalization still require independent expert evaluation.
 
 ## Overall flow
 
@@ -87,6 +87,8 @@ Method review can record METHOD_BASED specifications without claiming empirical 
 The independent-group adapter accepts supported technical positive/negative references. The complete-pair adapter accepts its explicitly specified statistical null and an applicability rationale. General design questions, clustered or adjusted designs, and biological controls require suitable additional adapters.
 
 Local execution first validates the selected bytes, then runs the fixed hash-checked template in an owned temporary directory with explicit arguments and a timeout. A dispatched package supports execution in the researcher's environment and later result import. Model-generated prose never becomes executable code.
+
+New packages hash the fixed runner, numerical module, and standard-library export helper together. The runner protects its input and known package files from output conflicts and stages complete result files. Package construction and review restoration prepare owned directories before rename to an absent destination. Existing empty directories are rejected. Ordinary preparation failure attempts cleanup; races, process crashes, power loss, and coordinated project/package writes remain outside that guarantee. The local HTTP boundary limits connection workers to 16 and applies a 10-second read-inactivity timeout, including headers. It rejects ambiguous headers and returns redacted unexpected-operation errors without logging internal details.
 
 Technical PASS or FAIL requires an expected result and tolerance specified before execution. Permutation and bootstrap results remain INDETERMINATE for scientific pass/fail. Seeds, draw counts, input hashes, environment, method, effect, uncertainty, and warnings remain visible. Sampling independence, exchangeability, and sign invariance require scientific justification beyond file shape.
 

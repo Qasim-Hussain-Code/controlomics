@@ -1,6 +1,6 @@
 # Local workspace interface
 
-Version 0.6.1.dev0 presents the scientific workflow in a responsive research workspace. The navigation connects Analysis and claims, Controls, Evidence library, Execution, Scientific audit, and Evaluation. Open and Export keep file actions together; Save review bundle remains available in the header. The interface uses the existing local server and needs no frontend build step.
+Version 0.6.2.dev0 presents the scientific workflow in a responsive research workspace. The navigation connects Analysis and claims, Controls, Evidence library, Execution, Scientific audit, and Evaluation. Open and Export keep file actions together; Save review bundle remains available in the header. The interface uses the existing local server and needs no frontend build step.
 
 ## Visual structure
 

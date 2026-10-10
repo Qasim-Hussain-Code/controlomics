@@ -2,8 +2,36 @@
 
 import os
 import stat
+from contextlib import contextmanager
 from pathlib import Path
-from tempfile import NamedTemporaryFile
+from tempfile import NamedTemporaryFile, TemporaryDirectory
+
+
+def require_new_directory(path: Path):
+    """Never replace an existing directory, file, or final-component link."""
+    try:
+        Path(path).lstat()
+    except FileNotFoundError:
+        return
+    raise ValueError("choose a new directory that does not already exist")
+
+
+@contextmanager
+def staged_directory(path: Path):
+    """Prepare an owned directory before publishing it under a new name.
+
+    Ordinary preparation failures leave the destination absent. Cleanup can fail
+    or be interrupted; concurrent filesystem changes and power loss are outside
+    this guarantee. Empty existing directories are also rejected.
+    """
+    path = Path(path).absolute()
+    require_new_directory(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with TemporaryDirectory(dir=path.parent, prefix=".controlomics_directory_") as temporary:
+        staged = Path(temporary)
+        yield staged
+        require_new_directory(path)
+        os.rename(staged, path)
 
 
 def _copy_windows_dacl(source: Path, destination: Path):

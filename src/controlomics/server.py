@@ -8,6 +8,8 @@ import io
 import json
 import secrets
 import subprocess
+import threading
+import time
 import zipfile
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -27,6 +29,8 @@ from controlomics.workflow import (CandidateSubmission, HumanReview, Intake, New
 
 ASSETS = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "text/javascript"), "/style.css": ("style.css", "text/css")}
 MAX_BODY = 2 * 1024 * 1024
+MAX_CONNECTIONS = 16
+CONNECTION_TIMEOUT = 10
 
 
 def project_from(data):
@@ -167,16 +171,65 @@ class LocalServer(ThreadingHTTPServer):
         if type(port) is not int or not 0 <= port <= 65535:
             raise ValueError("invalid local port")
         self.session_token = secrets.token_urlsafe(32)
+        self.connection_slots = threading.BoundedSemaphore(MAX_CONNECTIONS)
         super().__init__(("127.0.0.1", port), Handler)
+
+    def process_request(self, request, client_address):
+        if not self.connection_slots.acquire(blocking=False):
+            # Reject without another worker. Briefly drain already arriving
+            # bytes after half-close to reduce resets that hide the response.
+            body = b'{"error":"Local server is busy. Retry the operation manually."}'
+            try:
+                request.settimeout(0.25)
+                request.sendall(b"HTTP/1.0 503 Service Unavailable\r\nContent-Type: application/json\r\nCache-Control: no-store\r\nConnection: close\r\nContent-Length: " + str(len(body)).encode("ascii") + b"\r\n\r\n" + body)
+                request.shutdown(1)
+                deadline, remaining = time.monotonic() + 0.05, 64 * 1024
+                while remaining > 0:
+                    interval = deadline - time.monotonic()
+                    if interval <= 0:
+                        break
+                    request.settimeout(interval)
+                    discarded = request.recv(min(4096, remaining))
+                    if not discarded:
+                        break
+                    remaining -= len(discarded)
+            except OSError:
+                pass
+            finally:
+                self.shutdown_request(request)
+            return
+        try:
+            super().process_request(request, client_address)
+        except BaseException:
+            self.connection_slots.release()
+            raise
+
+    def process_request_thread(self, request, client_address):
+        try:
+            super().process_request_thread(request, client_address)
+        finally:
+            self.connection_slots.release()
+
+    def handle_error(self, request, client_address):
+        # The default implementation prints tracebacks containing local paths.
+        pass
 
 
 class Handler(BaseHTTPRequestHandler):
+    def setup(self):
+        self.request.settimeout(CONNECTION_TIMEOUT)
+        super().setup()
+
     def log_message(self, format, *args):
         pass
 
+    def single_header(self, name):
+        values = self.headers.get_all(name, [])
+        return values[0] if len(values) == 1 else None
+
     def allowed_host(self):
         port = self.server.server_port
-        return self.headers.get("Host") in (f"127.0.0.1:{port}", f"localhost:{port}")
+        return self.single_header("Host") in (f"127.0.0.1:{port}", f"localhost:{port}")
 
     def reply(self, status, body, content_type="application/json", filename=None):
         if isinstance(body, dict):
@@ -207,25 +260,29 @@ class Handler(BaseHTTPRequestHandler):
             self.reply(404, {"error": "Resource not found."})
 
     def do_POST(self):
-        self.connection.settimeout(10)
         origins = (f"http://127.0.0.1:{self.server.server_port}", f"http://localhost:{self.server.server_port}")
         try:
-            token = self.headers.get("X-Controlomics-Token", "").encode("ascii")
+            token = (self.single_header("X-Controlomics-Token") or "").encode("ascii")
         except UnicodeError:
             token = b""
-        if not self.allowed_host() or self.headers.get("Origin") not in origins or not hmac.compare_digest(token, self.server.session_token.encode("ascii")):
+        if not self.allowed_host() or self.single_header("Origin") not in origins or not hmac.compare_digest(token, self.server.session_token.encode("ascii")):
             self.reply(403, {"error": "Local request authorization failed."})
             return
         try:
-            length = int(self.headers.get("Content-Length", "0"))
+            declared = self.single_header("Content-Length") or ""
+            if self.headers.get_all("Transfer-Encoding") or not declared.isascii() or not declared.isdecimal() or (self.single_header("Content-Type") or "").split(";")[0] != "application/json":
+                raise ValueError("ambiguous or unsupported body framing")
+            length = int(declared)
             raw = self.rfile.read(length) if 0 < length <= MAX_BODY else b""
         except (ValueError, OSError):
             self.reply(400, {"error": "Invalid local request body."})
             return
         try:
-            if not 0 < length <= MAX_BODY or len(raw) != length or self.headers.get("Content-Type", "").split(";")[0] != "application/json":
+            if not 0 < length <= MAX_BODY or len(raw) != length:
                 raise ValueError("invalid request size or content type")
             data = decode_json(raw)
+            if not isinstance(data, dict):
+                raise ValueError("local actions require a JSON object")
             result = handle_action(self.path, data)
             if isinstance(result, tuple):
                 self.reply(200, result[0], result[1], result[2])
@@ -233,6 +290,8 @@ class Handler(BaseHTTPRequestHandler):
                 self.reply(200, result)
         except (ValueError, OSError, TypeError, KeyError, IndexError, RecursionError, subprocess.TimeoutExpired):
             self.reply(400, {"error": "Operation failed. Private input, credentials, and local paths are omitted."})
+        except Exception:
+            self.reply(500, {"error": "Local operation failed unexpectedly. Private details are omitted; retry manually."})
 
 
 def serve_local(port=8765):

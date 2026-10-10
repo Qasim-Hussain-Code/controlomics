@@ -1,5 +1,13 @@
 # Development changes
 
+## 0.6.2.dev0, 2026-10-10
+
+Dispatched execution packages and review restores prepare complete directories before publishing them. Destinations must now be absent; existing empty directories are rejected as well. Ordinary preparation failures and interruptions clean the owned staging directory without exposing a partial destination. Crash cleanup, concurrent filesystem changes, and power-loss durability remain unqualified.
+
+The fixed runner preserves inputs and package files, rejects output aliases and hard links, and stages result exports through a hash-checked standard-library helper. CLI exports protect auxiliary inputs while retaining explicit in-place project and annotation updates. Interrupted commands return exit status 130 rather than success.
+
+The loopback server caps active connection workers at 16, times out inactive reads including headers, rejects ambiguous framing and authorization headers before reading the body, and returns redacted unexpected-operation failures. Source archives and normalized distributions retain earlier artifacts on ordinary failed writes; distribution builds apply the same PNG metadata screen as source exports. Clean-install checks now execute a synthetic fixed runner. Numerical procedures, frozen findings, independent-study requirements, and the publication boundary remain unchanged.
+
 ## 0.6.1.dev0, 2026-10-10
 
 Local project, JSON, report, and review-archive exports stage a complete file before replacing the destination. Conflicting CLI sidecar destinations and execution-package artifacts are rejected before writes or provider requests. A failed save retains the previous export; this is not a multi-file transaction or a power-loss guarantee.

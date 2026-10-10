@@ -6,6 +6,7 @@ import warnings
 import zipfile
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 from controlomics.artifacts import create_review_bundle, open_review_bundle
 from controlomics.evaluation import (AnnotationSubmission, EvaluationBundle, apply_annotations, bundle_hash,
@@ -153,6 +154,22 @@ class ReviewArtifactsTests(unittest.TestCase):
             self.assertEqual(load_project(folder / 'restored' / 'project.json'), self.project())
             self.assertIn('Controlomics scientific audit', (folder / 'restored' / 'report.html').read_text(encoding='utf-8'))
             self.assertEqual(main(['bundle-import', str(folder / 'review.zip'), '--directory', str(folder / 'restored')]), 1)
+
+    def test_failed_cli_restore_leaves_no_partial_records(self):
+        from contextlib import redirect_stdout
+        from controlomics.cli import main
+        with TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            archive, target = root / 'review.zip', root / 'restored'
+            raw = create_review_bundle(self.project())
+            archive.write_bytes(raw)
+            output = io.StringIO()
+            with redirect_stdout(output), patch('controlomics.cli.write_report', side_effect=OSError('private_sentinel')):
+                self.assertEqual(main(['bundle-import', str(archive), '--directory', str(target)]), 1)
+            self.assertNotIn('private_sentinel', output.getvalue())
+            self.assertFalse(target.exists())
+            self.assertEqual(list(root.iterdir()), [archive])
+            self.assertEqual(archive.read_bytes(), raw)
 
     def test_cli_annotations_emit_revision_bound_to_output(self):
         from contextlib import redirect_stdout

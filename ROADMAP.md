@@ -24,6 +24,8 @@ Six explicit design scenarios compare the two-reference baseline with operation 
 
 ## Next research work
 
+Version 0.6.2.dev0 extends export protection to staged execution packages and review restores with absent destinations, hashed runner export helpers, and auxiliary-input conflict checks. Local connection worker limits, inactive-header timeouts, strict request framing, and redacted unexpected failures address operational reliability. Source and distribution exports use complete staged replacements. These software changes leave numerical procedures and the independent research requirements unchanged.
+
 Version 0.6.1.dev0 adds staged single-file exports with supported access restrictions and checks conflicting sidecar paths before writes or provider requests. Whole-project imports preserve runner-hash and single-result consistency. New isolated browser checks cover evaluation invalidation, pending-input protection, and interrupted or expired local sessions. The numerical sources and frozen findings remain unchanged.
 
 Use [the proposed independent-study protocol](docs/INDEPENDENT_VALIDATION_PROTOCOL.md) to build an independently sourced benchmark with verified identities, expert annotations, adjudication, negative cases, domain-held-out partitions, and explicit abstentions. The local readiness audit distinguishes record completeness from verified scientific independence. The local tools implement stated denominators and missing-annotation handling; the proposed sampling and uncertainty design still need to be adopted for the actual cases before that study begins.

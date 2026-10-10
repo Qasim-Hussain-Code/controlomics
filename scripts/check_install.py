@@ -67,6 +67,8 @@ from controlomics.server import handle_action
 from controlomics.statistics import paired_permutation
 from controlomics.project import parse_project_json
 from controlomics.artifacts import create_review_bundle, open_review_bundle
+from controlomics.models import MethodBaseline
+from controlomics.workflow import propose, review_methods
 assert Path(controlomics.__file__).is_relative_to(Path(sys.prefix))
 metadata = importlib.metadata.metadata('controlomics')
 assert not any(metadata.get_all(key) for key in ('Author','Author-email','Maintainer','Maintainer-email'))
@@ -78,7 +80,12 @@ assets = Path(controlomics.__file__).parent/'web'
 assert all((assets/name).is_file() for name in ('index.html','app.js','style.css'))
 project = parse_project_json(Path(sys.argv[1]).read_bytes())
 assert open_review_bundle(create_review_bundle(project))[0]==project
-print(json.dumps({'version':controlomics.__version__, 'dependency_version':importlib.metadata.version('pydantic'), 'imported_clean_install':True, 'browser_assets':True, 'local_drafting':True, 'paired_arithmetic':True, 'review_bundle_roundtrip':True}))
+planned=review_methods(propose(project.model_copy(update={'candidates':()}), MethodBaseline()))
+executed=handle_action('/api/execute',{'project':planned.model_dump(mode='json'),'control_id':planned.controls[0].control_id,
+    'config':{'kind':'REFERENCE','expected_difference':2.0,'assumptions':['Synthetic installation units.']},
+    'csv':'unit,label,value\\na,0,0\\nb,0,1\\nc,1,2\\nd,1,3\\n'})['project']
+assert executed['results'][0]['outcome']=='PASS'
+print(json.dumps({'version':controlomics.__version__, 'dependency_version':importlib.metadata.version('pydantic'), 'imported_clean_install':True, 'browser_assets':True, 'local_drafting':True, 'paired_arithmetic':True, 'review_bundle_roundtrip':True, 'fixed_runner_execution':True}))
 '''
         result = subprocess.run([str(python), '-I', '-c', smoke, str(root/'examples/transcriptomics.project.json')],
                                 cwd=base, capture_output=True, text=True, check=True, timeout=30)

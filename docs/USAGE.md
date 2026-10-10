@@ -74,6 +74,8 @@ Run locally to use a fixed, hash-checked template in a temporary directory. Down
 
 Each control receives one execution plan per snapshot. Keep a separate original project for reruns. Clustered, temporal, covariate-adjusted, GPU, and specialist primary-analysis workflows require other adapters or external execution.
 
+The package destination must not already exist, even as an empty directory. Construction prepares all files in an owned staging directory before exposing it. Result outputs must differ from the input and package files; the fixed runner rejects path aliases and hard links. Result writes preserve an earlier file during ordinary export failure. Interrupted CLI or runner operations return 130; inspect requested outputs before retrying. A package and separately saved project are not one transaction.
+
 The original project examples contain hypothetical statistical specifications that remain readable but are not mapped to this runner. The explicit intake example above creates supported technical references. Preserve the distinction between a count-model or predictive-pipeline challenge and a generic mean-difference reference.
 
 ## Optional hosted reasoning

@@ -14,9 +14,10 @@ from typing import Annotated, Literal
 from pydantic import Field, model_validator
 
 from controlomics import __version__
-from controlomics import statistics
+from controlomics import statistics, storage
 from controlomics.privacy import canonical_json, digest
 from controlomics.project import decode_json
+from controlomics.storage import require_new_directory, staged_directory
 from controlomics.schemas import (
     ControlResult, DecisionRule, ExecutionPlan, InputRequirement, PrivacyPolicy, PrivacyRequirements,
     Identifier, Record, SoftwareVersion, Text,
@@ -90,6 +91,10 @@ def main():
     for name, expected in manifest["artifact_hashes"].items():
         if hashlib.sha256((base / name).read_bytes()).hexdigest() != expected:
             raise ValueError("execution artifact hash differs from the reviewed package")
+    from export_storage import require_distinct_outputs, write_text_atomic
+    require_distinct_outputs(args.input, args.output)
+    for name in ("config.json", "execution_plan.json", "control.json", "result.schema.json", "environment.json", "run_control.py", "stats.py", "export_storage.py", "verify_results.py", "manifest.json", "README.md", "project.json"):
+        require_distinct_outputs(args.output, base / name)
     from stats import read_numeric_bytes, mean_difference, permutation_test, bootstrap_difference, read_paired_bytes, paired_mean, paired_permutation, paired_bootstrap
     started = datetime.now(timezone.utc).isoformat()
     with args.input.open("rb") as stream:
@@ -133,7 +138,7 @@ def main():
             "coverage": result["coverage"], "method": "Complete-pair percentile bootstrap with linear quantile interpolation" if paired else "Within-group percentile bootstrap with linear quantile interpolation"}
         output["warnings"].append("Percentile intervals can have poor coverage for small, biased, or dependent samples.")
     output["completed_at"] = datetime.now(timezone.utc).isoformat()
-    args.output.write_text(json.dumps(output, indent=2, allow_nan=False) + "\\n", encoding="utf-8")
+    write_text_atomic(args.output, json.dumps(output, indent=2, allow_nan=False) + "\\n")
     print("Wrote a local numeric control result; raw input values were not printed.")
 
 if __name__ == "__main__":
@@ -142,6 +147,9 @@ if __name__ == "__main__":
     except (ValueError, OSError, OverflowError):
         print("Execution failed; input values and local paths are omitted.")
         raise SystemExit(1)
+    except KeyboardInterrupt:
+        print("Execution interrupted; no successful result is implied.")
+        raise SystemExit(130)
 '''
 
 VERIFIER = '''"""Verify schema and bindings using the installed Controlomics package."""
@@ -190,13 +198,12 @@ def build_package(project, control_id: str, config: ExecutionConfig, directory: 
         raise ValueError("paired adapter requires the explicit complete-pair control specification")
     if not paired and (control.scientific_level != "TECHNICAL" or control.control_class not in ("POSITIVE", "NEGATIVE")):
         raise ValueError("this numeric adapter only executes technical positive and negative reference specifications; other controls require an applicable adapter")
-    if directory.exists() and any(directory.iterdir()):
-        raise ValueError("execution package directory must be new or empty")
+    require_new_directory(directory)
     if any(plan.control_id == control_id for plan in project.execution_plans):
         raise ValueError("control already has an execution plan; create a separate project snapshot for a new run")
-    directory.mkdir(parents=True, exist_ok=True)
     stats_code = Path(statistics.__file__).read_text(encoding="utf-8").replace("\r\n", "\n")
-    code_hash = digest(RUNNER.encode() + stats_code.encode())
+    storage_code = Path(storage.__file__).read_text(encoding="utf-8").replace("\r\n", "\n")
+    code_hash = digest(RUNNER.encode() + stats_code.encode() + storage_code.encode())
     inputs = (InputRequirement(input_id="paired_units" if paired else "numeric_units",
         description="Complete pairs, independent across pair identifiers; raw data remain local." if paired else "Independent numeric units with group labels; raw data remain local.",
         format="UTF-8 CSV with columns pair,condition,value; exactly one condition 0 and 1 per pair" if paired else "UTF-8 CSV with columns unit,label,value; labels 0 or 1", privacy_class="RESTRICTED"),)
@@ -222,23 +229,26 @@ def build_package(project, control_id: str, config: ExecutionConfig, directory: 
     documents = {"config.json": config.model_dump(mode="json"), "execution_plan.json": plan.model_dump(mode="json"),
                  "control.json": control.model_dump(mode="json"), "result.schema.json": ControlResult.model_json_schema(),
                  "environment.json": {"execution": "Python >=3.11; standard library only", "verification": "Install controlomics " + __version__ + "; the repository lock records the observed development dependencies", "planned_python": platform.python_version()}}
-    for name, document in documents.items():
-        (directory / name).write_bytes(canonical_json(document) + b"\n")
-    (directory / "run_control.py").write_text(RUNNER, encoding="utf-8", newline="\n")
-    (directory / "stats.py").write_text(stats_code, encoding="utf-8", newline="\n")
-    (directory / "verify_results.py").write_text(VERIFIER, encoding="utf-8", newline="\n")
-    files = tuple(documents) + ("run_control.py", "stats.py", "verify_results.py")
-    hashes = {name: digest((directory / name).read_bytes()) for name in files}
-    (directory / "manifest.json").write_bytes(canonical_json({"format": "controlomics.execution.v0.1", "code_sha256": code_hash,
-        "artifact_hashes": hashes, "controlomics_version": __version__}) + b"\n")
-    (directory / "README.md").write_text(
+    with staged_directory(directory) as staged:
+        for name, document in documents.items():
+            (staged / name).write_bytes(canonical_json(document) + b"\n")
+        (staged / "run_control.py").write_text(RUNNER, encoding="utf-8", newline="\n")
+        (staged / "stats.py").write_text(stats_code, encoding="utf-8", newline="\n")
+        (staged / "export_storage.py").write_text(storage_code, encoding="utf-8", newline="\n")
+        (staged / "verify_results.py").write_text(VERIFIER, encoding="utf-8", newline="\n")
+        files = tuple(documents) + ("run_control.py", "stats.py", "export_storage.py", "verify_results.py")
+        hashes = {name: digest((staged / name).read_bytes()) for name in files}
+        (staged / "manifest.json").write_bytes(canonical_json({"format": "controlomics.execution.v0.1", "code_sha256": code_hash,
+            "artifact_hashes": hashes, "controlomics_version": __version__}) + b"\n")
+        (staged / "README.md").write_text(
         "# Local control execution\n\nReview control.json, config.json, assumptions, and code before execution. "
         "Review the selected adapter and required CSV layout. Pair identifiers do not establish independence across pairs. This runner does not justify exchangeability. "
         "The numeric input stays local. No model-generated code is executed.\n\n"
         "Run: `python run_control.py --input input.csv --output results.json`.\n\n"
         "Verify with the installed package: `python verify_results.py results.json`.\n\n"
         "Import: `controlomics import-results project.json results.json --output updated.project.json`.\n\n"
-        "The saved project snapshot should be retained separately. Artifact hashes detect changes relative to this manifest; "
+        "The output must differ from the input and all package files. Complete result files use staged replacement; "
+        "interrupted writes do not imply a completed result. The saved project snapshot should be retained separately. Artifact hashes detect changes relative to this manifest; "
         "they do not authenticate a maliciously replaced manifest or prove execution occurred.\n", encoding="utf-8", newline="\n")
     return updated
 

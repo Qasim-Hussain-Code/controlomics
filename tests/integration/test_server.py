@@ -1,10 +1,11 @@
 import http.client
 import json
+import socket
 import threading
 import unittest
 from unittest.mock import patch
 
-from controlomics.server import LocalServer, handle_action
+from controlomics.server import Handler, LocalServer, handle_action
 from tests.fixtures import payload
 
 
@@ -106,3 +107,113 @@ class ServerTests(unittest.TestCase):
                 handle_action("/api/literature/retrieve", {"project": {}, "provider": "europepmc",
                     "query": "public method", "public_confirmed": True, "approve_hash": "invalid"})
             search.assert_not_called()
+
+    def test_ambiguous_headers_are_rejected_before_body_read(self):
+        for header, value, expected in (("Host", f"127.0.0.1:{self.server.server_port}", 403),
+                ("Origin", self.headers()["Origin"], 403), ("X-Controlomics-Token", self.server.session_token, 403),
+                ("Content-Length", "1000", 400), ("Content-Type", "application/json", 400), ("Transfer-Encoding", "chunked", 400)):
+            with self.subTest(header=header):
+                connection = http.client.HTTPConnection("127.0.0.1", self.server.server_port, timeout=2)
+                try:
+                    connection.putrequest("POST", "/api/analyze")
+                    for name, content in self.headers().items():
+                        connection.putheader(name, content)
+                    connection.putheader("Content-Length", "1000")
+                    connection.putheader(header, value)
+                    connection.endheaders()
+                    response = connection.getresponse()
+                    self.assertEqual(response.status, expected)
+                    response.read()
+                finally:
+                    connection.close()
+
+    def test_nonobject_actions_and_unexpected_errors_are_redacted(self):
+        with patch("controlomics.server.handle_action") as action:
+            for data in ([], "private_sentinel", 4):
+                status, content, _ = self.request("/api/analyze", data, self.headers())
+                self.assertEqual(status, 400)
+                self.assertNotIn(b"private_sentinel", content)
+            action.assert_not_called()
+        with patch("controlomics.server.handle_action", side_effect=RuntimeError("private_sentinel")):
+            status, content, _ = self.request("/api/analyze", {}, self.headers())
+            self.assertEqual(status, 500)
+            self.assertNotIn(b"private_sentinel", content)
+        self.assertEqual(self.request("/api/session")[0], 200)
+
+    def test_worker_limit_rejects_excess_connections_and_recovers(self):
+        ready = threading.Event()
+        lock = threading.Lock()
+        count = 0
+        original_setup = Handler.setup
+
+        def observed_setup(handler):
+            nonlocal count
+            original_setup(handler)
+            with lock:
+                count += 1
+                if count == 2:
+                    ready.set()
+
+        with patch("controlomics.server.MAX_CONNECTIONS", 2), patch.object(Handler, "setup", observed_setup):
+            server = LocalServer(0)
+            thread = threading.Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            held = []
+            try:
+                for _ in range(2):
+                    client = socket.create_connection(("127.0.0.1", server.server_port), timeout=2)
+                    held.append(client)
+                    client.sendall(b"GET /api/session HTTP/1.1\r\n")
+                self.assertTrue(ready.wait(2), "Two workers did not start")
+                connection = http.client.HTTPConnection("127.0.0.1", server.server_port, timeout=2)
+                try:
+                    connection.request("GET", "/api/session")
+                    response = connection.getresponse()
+                    self.assertEqual(response.status, 503)
+                    self.assertIn(b"Retry", response.read())
+                finally:
+                    connection.close()
+                for client in held:
+                    client.close()
+                # Acquiring every slot waits for the two workers to finish,
+                # avoiding a timing-dependent retry or inspection of internals.
+                for _ in range(2):
+                    self.assertTrue(server.connection_slots.acquire(timeout=2))
+                for _ in range(2):
+                    server.connection_slots.release()
+                connection = http.client.HTTPConnection("127.0.0.1", server.server_port, timeout=2)
+                try:
+                    connection.request("GET", "/api/session")
+                    response = connection.getresponse()
+                    self.assertEqual(response.status, 200)
+                    response.read()
+                finally:
+                    connection.close()
+            finally:
+                for client in held:
+                    client.close()
+                server.shutdown()
+                server.server_close()
+                thread.join(timeout=3)
+
+    def test_idle_header_connection_times_out_and_releases_worker(self):
+        with patch("controlomics.server.CONNECTION_TIMEOUT", 0.1):
+            server = LocalServer(0)
+            thread = threading.Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            try:
+                with socket.create_connection(("127.0.0.1", server.server_port), timeout=2) as client:
+                    client.sendall(b"GET /api/session HTTP/1.1\r\n")
+                    self.assertEqual(client.recv(1024), b"")
+                connection = http.client.HTTPConnection("127.0.0.1", server.server_port, timeout=2)
+                try:
+                    connection.request("GET", "/api/session")
+                    response = connection.getresponse()
+                    self.assertEqual(response.status, 200)
+                    response.read()
+                finally:
+                    connection.close()
+            finally:
+                server.shutdown()
+                server.server_close()
+                thread.join(timeout=3)

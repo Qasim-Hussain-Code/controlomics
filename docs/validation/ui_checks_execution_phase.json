@@ -1,0 +1,402 @@
+{
+  "browser": "Chrome/154.0.8037.98",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1200,
+      "name": "controls",
+      "viewport": 1440,
+      "document": 1425,
+      "cards": 3,
+      "status": "Local design controls specified. Biological support and applicability remain unvalidated."
+    },
+    {
+      "width": 430,
+      "height": 1100,
+      "name": "mobile",
+      "viewport": 430,
+      "document": 415,
+      "cards": 3,
+      "status": "Local design controls specified. Biological support and applicability remain unvalidated."
+    }
+  ],
+  "exceptions": [],
+  "externalRequests": [],
+  "emptyWorkspace": {
+    "zeroCounts": true,
+    "savingDisabled": true,
+    "searchDisabled": true,
+    "view": "analysis"
+  },
+  "emptyDraftProtection": {
+    "tracked": true,
+    "retained": true,
+    "cleared": true
+  },
+  "programmaticDraftProtection": {
+    "tracked": true,
+    "retained": true,
+    "cleared": true
+  },
+  "recordCounts": true,
+  "preparedDownload": true,
+  "draftReversion": {
+    "changed": true,
+    "reverted": true
+  },
+  "executionFields": {
+    "reference": true,
+    "bootstrap": true,
+    "permutation": true
+  },
+  "controlSearch": {
+    "nameMatched": true,
+    "noMatch": true,
+    "classMatched": true,
+    "restored": true,
+    "unchanged": true
+  },
+  "keyboardNavigation": {
+    "arrow": true,
+    "end": true,
+    "home": true
+  },
+  "responsiveViews": [
+    {
+      "width": 375,
+      "document": 360,
+      "view": "analysis"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "controls"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "evidence"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "execution"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "audit"
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "evaluation"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "analysis"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "controls"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "evidence"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "execution"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "audit"
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "evaluation"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "analysis"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "controls"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "evidence"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "execution"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "audit"
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "evaluation"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "analysis"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "controls"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "evidence"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "execution"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "audit"
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "evaluation"
+    }
+  ],
+  "mobileNavigation": {
+    "modal": true,
+    "trapped": true,
+    "reverseTrapped": true,
+    "escaped": true,
+    "selected": true,
+    "metricNavigation": true,
+    "closeButton": true
+  },
+  "fileMenus": true,
+  "reducedMotion": true,
+  "textRendering": true,
+  "inputInspection": {
+    "rows": 4,
+    "zero": 2,
+    "one": 2,
+    "bom": true,
+    "sha256": "d065f0234a007ac927a1e7a8f0cacee0a13bf3e672871d7579612928753eeb96",
+    "results": 0,
+    "externalRequests": 0
+  },
+  "invalidUTF8": true,
+  "execution": {
+    "outcomes": [
+      "PASS",
+      "PASS"
+    ],
+    "pathways": [
+      "LOCAL",
+      "LOCAL"
+    ],
+    "audit": "INSUFFICIENT_EVIDENCE",
+    "externalRequests": 0,
+    "unsupportedControlsExcluded": true
+  },
+  "controlomicsVersion": "0.6.2.dev0",
+  "pairedExecution": {
+    "outcome": "INDETERMINATE",
+    "p": 0.25,
+    "input": "paired_units",
+    "remaining": 0
+  },
+  "executedRecordCounts": true,
+  "pairedBootstrap": {
+    "outcome": "INDETERMINATE",
+    "coverage": 0.9,
+    "seed": 17,
+    "method": "Complete-pair percentile bootstrap with linear quantile interpolation"
+  },
+  "report": {
+    "html": true,
+    "hasInputHashes": true,
+    "hasWarnings": true,
+    "hasConservativeAssessment": true
+  },
+  "reportLayout": [
+    {
+      "width": 1440,
+      "document": 1425,
+      "links": true,
+      "noScripts": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "links": true,
+      "noScripts": true
+    }
+  ],
+  "reportPrintStyles": true,
+  "narrative": {
+    "claim": "Features predict labels",
+    "category": "",
+    "support": ""
+  },
+  "claims": {
+    "claims": 2,
+    "profiles": 2,
+    "controlsByClaim": [
+      5,
+      5
+    ]
+  },
+  "claimFilter": {
+    "selected": true,
+    "combined": true,
+    "unchanged": true,
+    "visible": true
+  },
+  "multiClaimLayout": [
+    {
+      "width": 375,
+      "document": 360
+    },
+    {
+      "width": 430,
+      "document": 415
+    },
+    {
+      "width": 768,
+      "document": 753
+    },
+    {
+      "width": 1024,
+      "document": 1009
+    },
+    {
+      "width": 1440,
+      "document": 1425
+    }
+  ],
+  "recordBindings": {
+    "results": true,
+    "audits": true,
+    "resultCount": true,
+    "auditCount": true
+  },
+  "candidate": {
+    "status": "UNVERIFIED",
+    "id": "control.5a1cec6b40694890947d71069707ec12",
+    "revisionRecorded": true
+  },
+  "candidateDraftProtection": {
+    "retained": true,
+    "reverted": true
+  },
+  "duplicateImportRejected": true,
+  "evaluation": {
+    "origin": "UNASSESSED",
+    "precision": null,
+    "unavailableDisplayed": true,
+    "cases": 6
+  },
+  "metricHeadingVisible": true,
+  "evaluationSnapshotProtection": {
+    "hashVisible": true,
+    "replacementCleared": true,
+    "newHash": true,
+    "partitionCleared": true
+  },
+  "annotations": {
+    "origin": "",
+    "reviewer": "",
+    "attested": false,
+    "unknown": true,
+    "matchesDisabled": true,
+    "savedOrigin": "UNASSESSED"
+  },
+  "annotationDraftProtection": true,
+  "judgmentCaseProtection": {
+    "navigationOnly": true,
+    "hiddenCaseProtected": true,
+    "reverted": true,
+    "unrecorded": true
+  },
+  "reviewBundle": {
+    "bytes": 19722,
+    "sameProject": true,
+    "sameEvaluation": true,
+    "networkEvents": 0,
+    "revisions": 0
+  },
+  "reviewForm": {
+    "statements": 2,
+    "attested": false,
+    "reviewer": ""
+  },
+  "sourceReviewDraftProtection": true,
+  "replacementCancelled": true,
+  "replacementCoherence": {
+    "formMatches": true,
+    "oldEvaluationCleared": true,
+    "oldReviewCleared": true,
+    "oldLedgerCleared": true,
+    "oldInputCleared": true,
+    "draftsCleared": true
+  },
+  "pendingInputProtection": {
+    "pendingLocked": true,
+    "inputRetained": true,
+    "completedUnlocked": true,
+    "failedUnlocked": true
+  },
+  "sessionRecovery": {
+    "rejected": true,
+    "noAutomaticRetry": true,
+    "recovered": true,
+    "projectRetained": true
+  },
+  "interruptedRequest": {
+    "redacted": true,
+    "uncertainty": true,
+    "noAutomaticRetry": true,
+    "projectRetained": true
+  },
+  "emptyReplacementClears": {
+    "project": true,
+    "ledger": true,
+    "preview": true,
+    "credential": true,
+    "zeroCounts": true,
+    "unrecorded": true
+  },
+  "run_at": "2026-10-10T10:26:49.260Z",
+  "personalProjectAttributionOmitted": true,
+  "scope": "Local reliability-phase checks with an explicitly selected headless QA profile. Responsive workspace, actual record counts, search and combined claim/class filters, scientific result and audit bindings, keyboard tabs, mobile focus boundaries, file menus, reduced motion, text-only rendering, unsaved input protection and reversion, prepared downloads, cancelled and coherent project replacement, complete workspace reset, candidate, source and multi-case annotation draft protection, programmatic field tracking, procedure-specific fields, exact-byte UTF-8/BOM input inspection, reference and paired execution, explicit bootstrap coverage/seed recording, linked responsive reports and print styles, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, visible review headings, and review archive roundtrip. Added actual evaluation snapshot hashes and bundle/partition invalidation, pending-input locking and failure recovery, stale-session renewal without automatic replay, and a mocked interrupted hosted-request response. All computations and edited inputs were hypothetical software fixtures. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external page request was observed. This is browser integration coverage, not a screen-reader, full accessibility, print-pagination, or scientific validation.",
+  "controlomics_version": "0.6.2.dev0",
+  "source_hashes": {
+    "src/controlomics/server.py": "9a0846ce48bab71fbc33521d30676ea185de35d545f36da6718d82750dd164f3",
+    "src/controlomics/execution.py": "5c6b1e982c22576f14add5ce193d3c0fb9b9857ca6e9519533520412c1cdf017",
+    "src/controlomics/storage.py": "f39257699ce4dd2acf704016513085cd724a0b076578cae3cb6605ebbe3eef6d",
+    "src/controlomics/web/index.html": "7fae1a6c693cf2236f991882ee0dec619f3aaa8087ee524fb2e45628c49c78b0",
+    "src/controlomics/web/app.js": "8f0aab4fe0f634e8bfc066348cbf5186ba20ac59ac82c2139489e7272a53adc5",
+    "src/controlomics/web/style.css": "69959cbc1d566f95f05e83b8d5748f91588a38f6dd4b39df7fc08055ea86f262",
+    "scripts/check_ui.cjs": "7ab7b8462d99f7683e5f6131242af55c9fb236dc1947792e23b87680f972fabc"
+  }
+}

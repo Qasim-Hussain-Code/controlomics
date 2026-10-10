@@ -15,4 +15,4 @@ The network ledger accepts only known metadata fields, screened SAFE public text
 .\.venv\Scripts\controlomics.exe bundle-import local_projects/review.zip --directory local_projects/restored
 ```
 
-Use optional `--evaluation` and `--revisions` on export to include those records. Import requires a new or empty destination and writes only fixed filenames after validation. It regenerates the report. Revisions retain hashes rather than previous snapshot content; preserve earlier exported snapshots to inspect prior judgments and evidence.
+Use optional `--evaluation` and `--revisions` on export to include those records. Import requires an absent destination, including rejection of existing empty directories. It prepares only fixed filenames after validation, regenerates the report, and then exposes the complete directory. Ordinary preparation failures attempt staging cleanup; crashes or denied cleanup can leave files beside the destination. Revisions retain hashes rather than previous snapshot content; preserve earlier exported snapshots to inspect prior judgments and evidence.
