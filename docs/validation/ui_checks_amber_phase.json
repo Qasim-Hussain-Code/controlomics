@@ -1,0 +1,1287 @@
+{
+  "browser": "Chrome/154.0.8037.98",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1200,
+      "name": "controls",
+      "viewport": 1440,
+      "document": 1425,
+      "cards": 3,
+      "status": "Local design controls specified. Biological support and applicability remain unvalidated."
+    },
+    {
+      "width": 430,
+      "height": 1100,
+      "name": "mobile",
+      "viewport": 430,
+      "document": 415,
+      "cards": 3,
+      "status": "Local design controls specified. Biological support and applicability remain unvalidated."
+    }
+  ],
+  "exceptions": [],
+  "externalRequests": [],
+  "emptyWorkspace": {
+    "zeroCounts": true,
+    "savingDisabled": true,
+    "searchDisabled": true,
+    "executionUnselected": true,
+    "executionDisabled": true,
+    "availabilityExplained": true,
+    "panelsFocusable": true,
+    "view": "analysis"
+  },
+  "emptyDraftProtection": {
+    "tracked": true,
+    "retained": true,
+    "cleared": true
+  },
+  "programmaticDraftProtection": {
+    "tracked": true,
+    "retained": true,
+    "cleared": true
+  },
+  "targetedTextContrast": [
+    {
+      "selector": ".field strong",
+      "foreground": "rgb(89, 105, 123)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.628,
+      "passes": true
+    },
+    {
+      "selector": ".field p",
+      "foreground": "rgb(67, 83, 104)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 7.848,
+      "passes": true
+    },
+    {
+      "selector": ".evidence-state",
+      "foreground": "rgb(83, 97, 111)",
+      "background": "rgb(244, 246, 248)",
+      "ratio": 5.861,
+      "passes": true
+    },
+    {
+      "selector": ".metric-note",
+      "foreground": "rgb(89, 105, 123)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.628,
+      "passes": true
+    },
+    {
+      "selector": ".collection-count",
+      "foreground": "rgb(89, 105, 123)",
+      "background": "rgb(237, 240, 244)",
+      "ratio": 4.923,
+      "passes": true
+    },
+    {
+      "selector": ".control-index",
+      "foreground": "rgb(89, 105, 123)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.628,
+      "passes": true
+    },
+    {
+      "selector": ".eyebrow",
+      "foreground": "rgb(89, 105, 123)",
+      "background": "rgb(243, 244, 246)",
+      "ratio": 5.114,
+      "passes": true
+    },
+    {
+      "selector": ".badge.negative",
+      "foreground": "rgb(122, 90, 48)",
+      "background": "rgb(246, 240, 229)",
+      "ratio": 5.555,
+      "passes": true
+    },
+    {
+      "selector": ".card-foot",
+      "foreground": "rgb(89, 105, 123)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.628,
+      "passes": true
+    },
+    {
+      "selector": "#control-search::placeholder",
+      "foreground": "rgb(89, 105, 123)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.628,
+      "passes": true
+    },
+    {
+      "selector": ".brand-caption",
+      "foreground": "rgb(89, 64, 29)",
+      "background": "rgb(244, 166, 42)",
+      "ratio": 4.75,
+      "passes": true
+    },
+    {
+      "selector": "#workspace-tabs .tab:not(.active) > span:first-of-type",
+      "foreground": "rgb(53, 43, 30)",
+      "background": "rgb(244, 166, 42)",
+      "ratio": 6.818,
+      "passes": true
+    },
+    {
+      "selector": "#workspace-tabs .tab.active > span:first-of-type",
+      "foreground": "rgb(255, 255, 255)",
+      "background": "rgb(147, 64, 15)",
+      "ratio": 7.045,
+      "passes": true
+    },
+    {
+      "selector": "#export-bundle > span",
+      "foreground": "rgb(255, 255, 255)",
+      "background": "rgb(147, 64, 15)",
+      "ratio": 7.045,
+      "passes": true
+    },
+    {
+      "selector": ".badge:not(.negative)",
+      "foreground": "rgb(49, 94, 135)",
+      "background": "rgb(234, 240, 247)",
+      "ratio": 5.94,
+      "passes": true
+    },
+    {
+      "selector": "#workspace-tabs .tab:not(.active) .nav-count",
+      "foreground": "rgb(80, 54, 18)",
+      "background": "rgb(239, 185, 88)",
+      "ratio": 6.259,
+      "passes": true
+    },
+    {
+      "selector": "#workspace-tabs .tab.active .nav-count",
+      "foreground": "rgb(255, 255, 255)",
+      "background": "rgb(166, 80, 23)",
+      "ratio": 5.554,
+      "passes": true
+    },
+    {
+      "selector": ".session-note p",
+      "foreground": "rgb(86, 59, 30)",
+      "background": "rgb(245, 190, 101)",
+      "ratio": 6.096,
+      "passes": true
+    }
+  ],
+  "navigationFocusContrast": {
+    "foreground": "rgb(101, 51, 10)",
+    "background": "rgb(244, 166, 42)",
+    "ratio": 5.088,
+    "width": 3,
+    "focused": true,
+    "passes": true
+  },
+  "recordCounts": true,
+  "preparedDownload": true,
+  "draftReversion": {
+    "changed": true,
+    "reverted": true
+  },
+  "executionFields": {
+    "reference": true,
+    "bootstrap": true,
+    "permutation": true
+  },
+  "controlSearch": {
+    "nameMatched": true,
+    "noMatch": true,
+    "classMatched": true,
+    "restored": true,
+    "unchanged": true
+  },
+  "executionSelection": {
+    "unrelatedRenderRetained": true,
+    "errorRenderRetained": true,
+    "projectRetained": true,
+    "combinedStateFilter": true,
+    "unavailableStateEmpty": true,
+    "resetRestored": true,
+    "filterPreserved": true
+  },
+  "requestDialog": {
+    "named": true,
+    "cancelInitiallyFocused": true,
+    "buttonCancelled": true,
+    "onlyMockedPreviews": true,
+    "responsive": true,
+    "escapeCancelled": true
+  },
+  "keyboardNavigation": {
+    "arrow": true,
+    "reverseArrow": true,
+    "perpendicularArrowIgnored": true,
+    "reversePerpendicularArrowIgnored": true,
+    "end": true,
+    "home": true
+  },
+  "analysisSummaryVisible": true,
+  "responsiveViews": [
+    {
+      "width": 375,
+      "document": 360,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "evaluation",
+      "panelsFocusable": true
+    }
+  ],
+  "paletteLayout": [
+    {
+      "width": 375,
+      "mobile": true,
+      "orientation": "vertical",
+      "summaryHeight": 490.9375,
+      "ledgerHeight": 241,
+      "controlColumns": 1,
+      "palette": {
+        "header": [
+          255,
+          255,
+          255
+        ],
+        "nav": [
+          244,
+          166,
+          42
+        ],
+        "paper": [
+          255,
+          255,
+          255
+        ],
+        "canvas": [
+          243,
+          244,
+          246
+        ],
+        "action": [
+          147,
+          64,
+          15
+        ],
+        "activeNavigation": [
+          147,
+          64,
+          15
+        ],
+        "activeNavigationText": [
+          255,
+          255,
+          255
+        ]
+      },
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "verticalTabs": true,
+      "desktopSidebarClear": true,
+      "lightHeader": true,
+      "whitePaper": true,
+      "neutralCanvas": true,
+      "amberNavigation": true,
+      "deepOrangeActions": true,
+      "deepOrangeSelectedNavigation": true,
+      "headingVisible": true,
+      "responsiveControlGrid": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true
+    },
+    {
+      "width": 430,
+      "mobile": true,
+      "orientation": "vertical",
+      "summaryHeight": 459.625,
+      "ledgerHeight": 241,
+      "controlColumns": 1,
+      "palette": {
+        "header": [
+          255,
+          255,
+          255
+        ],
+        "nav": [
+          244,
+          166,
+          42
+        ],
+        "paper": [
+          255,
+          255,
+          255
+        ],
+        "canvas": [
+          243,
+          244,
+          246
+        ],
+        "action": [
+          147,
+          64,
+          15
+        ],
+        "activeNavigation": [
+          147,
+          64,
+          15
+        ],
+        "activeNavigationText": [
+          255,
+          255,
+          255
+        ]
+      },
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "verticalTabs": true,
+      "desktopSidebarClear": true,
+      "lightHeader": true,
+      "whitePaper": true,
+      "neutralCanvas": true,
+      "amberNavigation": true,
+      "deepOrangeActions": true,
+      "deepOrangeSelectedNavigation": true,
+      "headingVisible": true,
+      "responsiveControlGrid": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true
+    },
+    {
+      "width": 760,
+      "mobile": true,
+      "orientation": "vertical",
+      "summaryHeight": 342.3125,
+      "ledgerHeight": 211,
+      "controlColumns": 1,
+      "palette": {
+        "header": [
+          255,
+          255,
+          255
+        ],
+        "nav": [
+          244,
+          166,
+          42
+        ],
+        "paper": [
+          255,
+          255,
+          255
+        ],
+        "canvas": [
+          243,
+          244,
+          246
+        ],
+        "action": [
+          147,
+          64,
+          15
+        ],
+        "activeNavigation": [
+          147,
+          64,
+          15
+        ],
+        "activeNavigationText": [
+          255,
+          255,
+          255
+        ]
+      },
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "verticalTabs": true,
+      "desktopSidebarClear": true,
+      "lightHeader": true,
+      "whitePaper": true,
+      "neutralCanvas": true,
+      "amberNavigation": true,
+      "deepOrangeActions": true,
+      "deepOrangeSelectedNavigation": true,
+      "headingVisible": true,
+      "responsiveControlGrid": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true
+    },
+    {
+      "width": 761,
+      "mobile": false,
+      "orientation": "vertical",
+      "summaryHeight": 419,
+      "ledgerHeight": 226.78125,
+      "controlColumns": 1,
+      "palette": {
+        "header": [
+          255,
+          255,
+          255
+        ],
+        "nav": [
+          244,
+          166,
+          42
+        ],
+        "paper": [
+          255,
+          255,
+          255
+        ],
+        "canvas": [
+          243,
+          244,
+          246
+        ],
+        "action": [
+          147,
+          64,
+          15
+        ],
+        "activeNavigation": [
+          147,
+          64,
+          15
+        ],
+        "activeNavigationText": [
+          255,
+          255,
+          255
+        ]
+      },
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "verticalTabs": true,
+      "desktopSidebarClear": true,
+      "lightHeader": true,
+      "whitePaper": true,
+      "neutralCanvas": true,
+      "amberNavigation": true,
+      "deepOrangeActions": true,
+      "deepOrangeSelectedNavigation": true,
+      "headingVisible": true,
+      "responsiveControlGrid": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true
+    },
+    {
+      "width": 768,
+      "mobile": false,
+      "orientation": "vertical",
+      "summaryHeight": 419,
+      "ledgerHeight": 226.78125,
+      "controlColumns": 1,
+      "palette": {
+        "header": [
+          255,
+          255,
+          255
+        ],
+        "nav": [
+          244,
+          166,
+          42
+        ],
+        "paper": [
+          255,
+          255,
+          255
+        ],
+        "canvas": [
+          243,
+          244,
+          246
+        ],
+        "action": [
+          147,
+          64,
+          15
+        ],
+        "activeNavigation": [
+          147,
+          64,
+          15
+        ],
+        "activeNavigationText": [
+          255,
+          255,
+          255
+        ]
+      },
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "verticalTabs": true,
+      "desktopSidebarClear": true,
+      "lightHeader": true,
+      "whitePaper": true,
+      "neutralCanvas": true,
+      "amberNavigation": true,
+      "deepOrangeActions": true,
+      "deepOrangeSelectedNavigation": true,
+      "headingVisible": true,
+      "responsiveControlGrid": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true
+    },
+    {
+      "width": 1024,
+      "mobile": false,
+      "orientation": "vertical",
+      "summaryHeight": 289.609375,
+      "ledgerHeight": 121.390625,
+      "controlColumns": 2,
+      "palette": {
+        "header": [
+          255,
+          255,
+          255
+        ],
+        "nav": [
+          244,
+          166,
+          42
+        ],
+        "paper": [
+          255,
+          255,
+          255
+        ],
+        "canvas": [
+          243,
+          244,
+          246
+        ],
+        "action": [
+          147,
+          64,
+          15
+        ],
+        "activeNavigation": [
+          147,
+          64,
+          15
+        ],
+        "activeNavigationText": [
+          255,
+          255,
+          255
+        ]
+      },
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "verticalTabs": true,
+      "desktopSidebarClear": true,
+      "lightHeader": true,
+      "whitePaper": true,
+      "neutralCanvas": true,
+      "amberNavigation": true,
+      "deepOrangeActions": true,
+      "deepOrangeSelectedNavigation": true,
+      "headingVisible": true,
+      "responsiveControlGrid": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true
+    },
+    {
+      "width": 1440,
+      "mobile": false,
+      "orientation": "vertical",
+      "summaryHeight": 292.015625,
+      "ledgerHeight": 107.390625,
+      "controlColumns": 2,
+      "palette": {
+        "header": [
+          255,
+          255,
+          255
+        ],
+        "nav": [
+          244,
+          166,
+          42
+        ],
+        "paper": [
+          255,
+          255,
+          255
+        ],
+        "canvas": [
+          243,
+          244,
+          246
+        ],
+        "action": [
+          147,
+          64,
+          15
+        ],
+        "activeNavigation": [
+          147,
+          64,
+          15
+        ],
+        "activeNavigationText": [
+          255,
+          255,
+          255
+        ]
+      },
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "verticalTabs": true,
+      "desktopSidebarClear": true,
+      "lightHeader": true,
+      "whitePaper": true,
+      "neutralCanvas": true,
+      "amberNavigation": true,
+      "deepOrangeActions": true,
+      "deepOrangeSelectedNavigation": true,
+      "headingVisible": true,
+      "responsiveControlGrid": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true
+    }
+  ],
+  "longControlNames": [
+    {
+      "width": 375,
+      "documentFits": true,
+      "headingFits": true,
+      "fullText": true,
+      "projectRestored": true
+    },
+    {
+      "width": 430,
+      "documentFits": true,
+      "headingFits": true,
+      "fullText": true,
+      "projectRestored": true
+    },
+    {
+      "width": 760,
+      "documentFits": true,
+      "headingFits": true,
+      "fullText": true,
+      "projectRestored": true
+    },
+    {
+      "width": 761,
+      "documentFits": true,
+      "headingFits": true,
+      "fullText": true,
+      "projectRestored": true
+    },
+    {
+      "width": 768,
+      "documentFits": true,
+      "headingFits": true,
+      "fullText": true,
+      "projectRestored": true
+    },
+    {
+      "width": 1024,
+      "documentFits": true,
+      "headingFits": true,
+      "fullText": true,
+      "projectRestored": true
+    },
+    {
+      "width": 1440,
+      "documentFits": true,
+      "headingFits": true,
+      "fullText": true,
+      "projectRestored": true
+    }
+  ],
+  "saveStatusAccessibility": [
+    {
+      "width": 375,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 430,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 760,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 761,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 768,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 1024,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 1440,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    }
+  ],
+  "sectionScroll": [
+    {
+      "width": 375,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 430,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 760,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 761,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 768,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 1024,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 1440,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    }
+  ],
+  "mobileNavigation": {
+    "modal": true,
+    "trapped": true,
+    "reverseTrapped": true,
+    "mobileArrow": true,
+    "mobileReverseArrow": true,
+    "mobilePerpendicularArrowIgnored": true,
+    "escaped": true,
+    "selected": true,
+    "metricNavigation": true,
+    "closeButton": true
+  },
+  "fileMenus": true,
+  "reducedMotion": true,
+  "textRendering": true,
+  "inputInspection": {
+    "rows": 4,
+    "zero": 2,
+    "one": 2,
+    "bom": true,
+    "sha256": "d065f0234a007ac927a1e7a8f0cacee0a13bf3e672871d7579612928753eeb96",
+    "results": 0,
+    "externalRequests": 0
+  },
+  "invalidUTF8": true,
+  "failedActionFeedbackVisible": true,
+  "plannedSelectionClearing": [
+    {
+      "unselected": true,
+      "actionsDisabled": true,
+      "availabilityExplained": true
+    },
+    {
+      "unselected": true,
+      "actionsDisabled": true,
+      "availabilityExplained": true
+    }
+  ],
+  "execution": {
+    "outcomes": [
+      "PASS",
+      "PASS"
+    ],
+    "pathways": [
+      "LOCAL",
+      "LOCAL"
+    ],
+    "audit": "INSUFFICIENT_EVIDENCE",
+    "externalRequests": 0,
+    "unsupportedControlsExcluded": true
+  },
+  "controlomicsVersion": "0.6.7.dev0",
+  "pairedExecution": {
+    "outcome": "INDETERMINATE",
+    "p": 0.25,
+    "input": "paired_units",
+    "remaining": 0
+  },
+  "executedRecordCounts": true,
+  "pairedBootstrap": {
+    "outcome": "INDETERMINATE",
+    "coverage": 0.9,
+    "seed": 17,
+    "method": "Complete-pair percentile bootstrap with linear quantile interpolation"
+  },
+  "report": {
+    "html": true,
+    "hasInputHashes": true,
+    "hasWarnings": true,
+    "hasConservativeAssessment": true
+  },
+  "reportLayout": [
+    {
+      "width": 1440,
+      "document": 1425,
+      "links": true,
+      "noScripts": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "links": true,
+      "noScripts": true
+    }
+  ],
+  "reportPrintStyles": true,
+  "narrative": {
+    "claim": "Features predict labels",
+    "category": "",
+    "support": ""
+  },
+  "claims": {
+    "claims": 2,
+    "profiles": 2,
+    "controlsByClaim": [
+      5,
+      5
+    ]
+  },
+  "claimFilter": {
+    "selected": true,
+    "combined": true,
+    "combinedState": true,
+    "unchanged": true,
+    "visible": true
+  },
+  "multiClaimLayout": [
+    {
+      "width": 375,
+      "document": 360
+    },
+    {
+      "width": 430,
+      "document": 415
+    },
+    {
+      "width": 768,
+      "document": 753
+    },
+    {
+      "width": 1024,
+      "document": 1009
+    },
+    {
+      "width": 1440,
+      "document": 1425
+    }
+  ],
+  "recordBindings": {
+    "results": true,
+    "audits": true,
+    "resultCount": true,
+    "auditCount": true
+  },
+  "destinationFocus": {
+    "candidate": true,
+    "annotations": true,
+    "sourceReview": true
+  },
+  "candidate": {
+    "status": "UNVERIFIED",
+    "id": "control.5257dcaac6ed4f49932a8f23c078b527",
+    "revisionRecorded": true
+  },
+  "candidateDraftProtection": {
+    "retained": true,
+    "reverted": true
+  },
+  "duplicateImportRejected": true,
+  "evaluation": {
+    "origin": "UNASSESSED",
+    "precision": null,
+    "unavailableDisplayed": true,
+    "cases": 6
+  },
+  "metricHeadingVisible": true,
+  "evaluationSnapshotProtection": {
+    "hashVisible": true,
+    "replacementCleared": true,
+    "newHash": true,
+    "partitionCleared": true
+  },
+  "annotations": {
+    "origin": "",
+    "reviewer": "",
+    "attested": false,
+    "unknown": true,
+    "matchesDisabled": true,
+    "savedOrigin": "UNASSESSED"
+  },
+  "annotationDraftProtection": true,
+  "judgmentCaseProtection": {
+    "navigationOnly": true,
+    "hiddenCaseProtected": true,
+    "reverted": true,
+    "unrecorded": true
+  },
+  "reviewBundle": {
+    "bytes": 19777,
+    "sameProject": true,
+    "sameEvaluation": true,
+    "networkEvents": 0,
+    "revisions": 0
+  },
+  "reviewForm": {
+    "statements": 2,
+    "attested": false,
+    "reviewer": ""
+  },
+  "sourceReviewDraftProtection": true,
+  "replacementCancelled": true,
+  "replacementCoherence": {
+    "formMatches": true,
+    "oldEvaluationCleared": true,
+    "oldReviewCleared": true,
+    "oldLedgerCleared": true,
+    "oldInputCleared": true,
+    "draftsCleared": true
+  },
+  "pendingInputProtection": {
+    "pendingLocked": true,
+    "inputRetained": true,
+    "completedUnlocked": true,
+    "failedUnlocked": true
+  },
+  "sessionRecovery": {
+    "rejected": true,
+    "noAutomaticRetry": true,
+    "recovered": true,
+    "projectRetained": true
+  },
+  "interruptedRequest": {
+    "redacted": true,
+    "uncertainty": true,
+    "noAutomaticRetry": true,
+    "projectRetained": true
+  },
+  "emptyReplacementClears": {
+    "project": true,
+    "ledger": true,
+    "preview": true,
+    "credential": true,
+    "zeroCounts": true,
+    "unrecorded": true
+  },
+  "run_at": "2026-10-11T02:31:19.632Z",
+  "personalProjectAttributionOmitted": true,
+  "scope": "Local interface-phase checks with an explicitly selected headless QA profile. Restored sidebar workspace with rendered amber navigation, deep orange selected tabs and primary actions, dark brown navigation text, slate body text, neutral canvas and white paper surfaces, vertical desktop and mobile tab orientation, responsive two-column and single-column control cards with visible claim bindings and readable body text, long-token control-name wrapping with original project restoration, complete canonical project summary visibility, exact navigation breakpoint checks at 760 and 761 pixels, actual record counts, search and combined claim/class/evidence-state filters with reset preservation, scientific result and audit bindings, explicit execution-target selection, selection retention across unrelated renders and errors, no automatic target after planning, disabled unavailable execution actions, keyboard tabs, focusable panels, deep-scroll section navigation, visible failed-action feedback, one accessible save-status live region checked through the Chrome accessibility tree across responsive widths, destination focus after candidate, source-review and annotation workbenches open, mobile focus boundaries, file menus, reduced motion, text-only rendering, unsaved input protection and reversion, prepared downloads, cancelled and coherent project replacement, complete workspace reset, candidate, source and multi-case annotation draft protection, programmatic field tracking, procedure-specific fields, exact-byte UTF-8/BOM input inspection, reference and paired execution, explicit bootstrap coverage/seed recording, linked responsive reports and print styles, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, visible review headings, and review archive roundtrip. Evaluation snapshot hashes and bundle/partition invalidation, pending-input locking and failure recovery, stale-session renewal without automatic replay, a named outbound-preview dialog with initial Cancel focus and button/native-Escape cancellation, and a mocked interrupted hosted-request response are included. Dialog previews use fixed synthetic local mocked responses without any provider transmission. All computations and edited inputs were hypothetical software fixtures. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external page request was observed. Targeted small-text and focused-navigation-outline contrast ratios are computed from rendered styles; this does not assess every visual state. This is browser integration coverage, not a screen-reader, full accessibility, print-pagination, or scientific validation.",
+  "controlomics_version": "0.6.7.dev0",
+  "source_hashes": {
+    "src/controlomics/server.py": "9a0846ce48bab71fbc33521d30676ea185de35d545f36da6718d82750dd164f3",
+    "src/controlomics/execution.py": "5c6b1e982c22576f14add5ce193d3c0fb9b9857ca6e9519533520412c1cdf017",
+    "src/controlomics/storage.py": "f39257699ce4dd2acf704016513085cd724a0b076578cae3cb6605ebbe3eef6d",
+    "src/controlomics/web/index.html": "9394ccd6850d22fbef8051094302f73cf26ce90110e493cfae0ce924c4771666",
+    "src/controlomics/web/app.js": "f5a824067afa4b922e9bf297e8dc05fdbc5c9f7483f192970c6054af55b8b52f",
+    "src/controlomics/web/style.css": "a61edf641a3eea116e79dc67e09e2ca3c3ad1b83d2eb399c1bd4f10d11848501",
+    "scripts/check_ui.cjs": "38dfde6b11f9b52e5e8c87dfe67f588e3da0d603abb37bd09fab525ee41d0f41"
+  },
+  "screenshot_hashes": {
+    "ui_workspace.png": "e9accb854dac5df992869a5576cd47dab79e985a61d418e989cc55f58a582c15",
+    "ui_controls.png": "cc5ddf30731e2fc2694f62ad2bc111af3ab6cea6c8b05fdb82d82886492117ac",
+    "ui_mobile.png": "f1249bc96dbd2739b954af2f14e25d4e16c2d2b075603a773251d8583a0a1444",
+    "ui_request_dialog.png": "0f804e4eef998a2d4f0dd8784eb94a88fe27273d43bf8de66c1c42e88bbbbba1",
+    "ui_request_dialog_mobile.png": "a146ae34a4c7ad46686ad909810c16aa3b32e54051c5daa7072d9c04d962f44d",
+    "ui_analysis.png": "7c44d3b42337444f429c758a483a9acc140df4ffd569811c323b5a652658ba7c",
+    "ui_execution_mobile.png": "f3c31add43646064d96e9c59eaff01ebec2b568d08dbe8e7794151ebcba3be45",
+    "ui_execution.png": "fda085ffaf027ee203f8fcb8acb63f68981f0146a096c49417ca77bb15f81a18",
+    "ui_navigation_mobile.png": "56b77f9a5b02e19848e38bcf9940ce95ea435219b159368f2510c6738f122c3c",
+    "ui_input_inspection.png": "5e3f5d2df127de0a75ca95fcf3e05634342c7f73e181967a68b72a14006cf567",
+    "ui_report.png": "eedfcd027dc4385dda7081d858e4e6af248815b2802fbf617853076848b02137",
+    "ui_report_mobile.png": "35ad41bb1a7fc49ae109b3f96ee6a95f25fc1ae5a10111e2c9cccdb6db8c4ab2",
+    "ui_claims.png": "54cd7eead42827334e7f7d6409369223d428008c352b3c60f7db22ffb4ed4c00",
+    "ui_evaluation.png": "7cbf224361e76b6ad219355a18680f148284e8ccb1034c60012cac47b092d989",
+    "ui_evaluation_mobile.png": "f12576d9fcaa996e774eb4ca31a15d29f051d62df7b17d556ea25a94ca8cb809",
+    "ui_evaluation_metrics_mobile.png": "988c0ed38cdde1f93fb039742703c2a85cdf03f27a627f85d9d8694565e55180",
+    "ui_annotations.png": "b9c401917799221f90fc782b39f43ee6a63737bcf2edf6eb127fa59bb8ceddeb",
+    "ui_annotations_mobile.png": "0a54edbc29a678ac209a67f60a04b230e32b5db2aa258a7ac7ba66826e759290"
+  },
+  "browserShutdown": {
+    "debuggingEndpointClosed": true
+  }
+}

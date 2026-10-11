@@ -1,0 +1,42 @@
+{
+  "recorded_at": "2026-10-11T02:29:24.563792+00:00",
+  "controlomics_version": "0.6.7.dev0",
+  "python": "3.14.0",
+  "operating_system": "Windows",
+  "checks": {
+    "schema_exports": {
+      "status": "PASS",
+      "schemas": 29
+    },
+    "ruff": {
+      "status": "PASS",
+      "version": "ruff 0.14.14",
+      "scope": "src tests scripts"
+    },
+    "workflow_lint": {
+      "status": "PASS",
+      "version": "1.7.12"
+    },
+    "browser_checker_syntax": {
+      "status": "PASS",
+      "node": "v24.19.0"
+    },
+    "dependency_consistency": {
+      "status": "PASS"
+    },
+    "frozen_numerical_sources": {
+      "status": "PASS"
+    }
+  },
+  "source_hashes": {
+    "pyproject.toml": "71d14254373c7f4243b1b777ad7687e12860a72ed75a2664f91ee045572149a4",
+    "src/controlomics/__init__.py": "44efaac8749d0f1d34832b0e43a498eaf1b32cc3363c4a3d495286dec9d29413",
+    "src/controlomics/web/style.css": "a61edf641a3eea116e79dc67e09e2ca3c3ad1b83d2eb399c1bd4f10d11848501",
+    "scripts/check_ui.cjs": "38dfde6b11f9b52e5e8c87dfe67f588e3da0d603abb37bd09fab525ee41d0f41",
+    ".github/workflows/ci.yml": "f18512c632fbea08e686432b50b761a7954deeb82c89bff09f8282009f2f6e61"
+  },
+  "full_software_suite_rerun": false,
+  "prior_software_record": "software_checks_warm_phase.json",
+  "status": "PASS",
+  "scope": "Local static checks for a palette and release-metadata change. Application JavaScript, HTML, backend, scientific code, schemas, and tests are unchanged from the prior checked snapshot. The preceding 0.6.6 software rerun passed 175 tests; its initial unsuccessful attempt remains retained separately. No independent scientific validation, external provider request, or public publication."
+}
