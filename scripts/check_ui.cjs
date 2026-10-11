@@ -144,7 +144,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
       if (parts.length > 3 && parts[3] !== 1) throw new Error('Contrast probe requires opaque text and surface colors');
       return parts.slice(0,3).map(value=>{const scaled=value/255; return scaled<=0.04045?scaled/12.92:((scaled+0.055)/1.055)**2.4;}).reduce((sum,value,index)=>sum+value*[0.2126,0.7152,0.0722][index],0);
     };
-    return [['.field strong'],['.field p'],['.evidence-state'],['.metric-note'],['.collection-count'],['.control-index'],['.eyebrow'],['.badge.negative'],['.card-foot'],['#control-search','::placeholder'],['.brand-caption'],['#workspace-tabs .tab:not(.active) > span:first-of-type'],['#workspace-tabs .tab.active > span:first-of-type'],['#export-bundle > span'],['.badge:not(.negative)'],['#workspace-tabs .tab:not(.active) .nav-count'],['#workspace-tabs .tab.active .nav-count'],['.session-note p']].map(([selector,pseudo])=>{
+    return [['.field strong'],['.field p'],['.evidence-state'],['.metric-note'],['.collection-count'],['.control-index'],['.eyebrow'],['.badge.negative'],['.card-foot'],['#control-search','::placeholder'],['.brand-caption'],['#workspace-tabs .tab:not(.active) > span:first-of-type'],['#workspace-tabs .tab.active > span:first-of-type'],['#export-bundle > span'],['.badge:not(.negative)'],['#workspace-tabs .tab:not(.active) .nav-count'],['#workspace-tabs .tab.active .nav-count'],['.session-note p'],['.brand > span'],['.nav-heading'],['.nav-footer'],['.nav-version'],['.session-note strong']].map(([selector,pseudo])=>{
       const element=document.querySelector(selector), style=getComputedStyle(element,pseudo); let surface=element;
       while(surface && getComputedStyle(surface).backgroundColor==='rgba(0, 0, 0, 0)') surface=surface.parentElement;
       if(!surface) throw new Error('Contrast probe requires a defined opaque surface');
@@ -155,14 +155,39 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   `);
   if(!observations.targetedTextContrast.every(item=>item.passes)) throw new Error('A targeted small-text contrast pair remained below 4.5:1');
   await key('Tab',9);
-  observations.navigationFocusContrast=await execute(`
-    const tab=document.querySelector('#workspace-tabs .tab.active'); tab.focus();
-    const style=getComputedStyle(tab), background=getComputedStyle(document.getElementById('workspace-nav')).backgroundColor;
+  const navigationFocusContrast = async selector => execute(`
+    const target=document.querySelector(${JSON.stringify(selector)}); target.focus();
+    const style=getComputedStyle(target), background=getComputedStyle(document.getElementById('workspace-nav')).backgroundColor;
     const luminance=color=>color.match(/[\\d.]+/g).slice(0,3).map(Number).map(channel=>{const scaled=channel/255; return scaled<=0.04045?scaled/12.92:((scaled+0.055)/1.055)**2.4;}).reduce((sum,channel,index)=>sum+channel*[0.2126,0.7152,0.0722][index],0);
     const first=luminance(style.outlineColor),second=luminance(background),ratio=(Math.max(first,second)+0.05)/(Math.min(first,second)+0.05);
-    return {foreground:style.outlineColor,background,ratio:Number(ratio.toFixed(3)),width:Number.parseFloat(style.outlineWidth),focused:document.activeElement===tab,passes:document.activeElement===tab && style.outlineStyle!=='none' && Number.parseFloat(style.outlineWidth)>=2 && ratio>=3};
+    const focused=document.activeElement===target, focusVisible=target.matches(':focus-visible');
+    return {selector:${JSON.stringify(selector)},foreground:style.outlineColor,background,ratio:Number(ratio.toFixed(3)),width:Number.parseFloat(style.outlineWidth),focused,focusVisible,passes:focused && focusVisible && target.checkVisibility() && style.outlineStyle!=='none' && Number.parseFloat(style.outlineWidth)>=2 && ratio>=3};
   `);
+  observations.navigationFocusContrast=await navigationFocusContrast('#workspace-tabs .tab.active');
   if(!observations.navigationFocusContrast.passes) throw new Error('The focused navigation tab lacked a visible contrasting outline: '+JSON.stringify(observations.navigationFocusContrast));
+  observations.brandFocusContrast=await navigationFocusContrast('.brand');
+  if(!observations.brandFocusContrast.passes) throw new Error('The focused navigation brand lacked a visible contrasting outline: '+JSON.stringify(observations.brandFocusContrast));
+  observations.navigationHoverContrast=[];
+  for(const id of ['tab-analysis','tab-controls','tab-evidence','tab-execution','tab-audit','tab-evaluation']) {
+    const point=await evaluate(`(()=>{const box=document.getElementById(${JSON.stringify(id)}).getBoundingClientRect();return {x:box.left+box.width/2,y:box.top+box.height/2};})()`);
+    await command('Input.dispatchMouseEvent',{type:'mouseMoved',...point});
+    await pause(200);
+    const pairs=await execute(`
+      const tab=document.getElementById(${JSON.stringify(id)});
+      if(!tab.matches(':hover')) throw new Error('The navigation contrast probe did not enter a real hover state');
+      const luminance=color=>color.match(/[\\d.]+/g).slice(0,3).map(Number).map(channel=>{const scaled=channel/255;return scaled<=0.04045?scaled/12.92:((scaled+0.055)/1.055)**2.4;}).reduce((sum,channel,index)=>sum+channel*[0.2126,0.7152,0.0722][index],0);
+      return [...tab.querySelectorAll(':scope > span')].map(element=>{
+        let surface=element;
+        while(surface && getComputedStyle(surface).backgroundColor==='rgba(0, 0, 0, 0)')surface=surface.parentElement;
+        if(!surface)throw new Error('The navigation hover probe requires an opaque surface');
+        const foreground=getComputedStyle(element).color,background=getComputedStyle(surface).backgroundColor,first=luminance(foreground),second=luminance(background),ratio=(Math.max(first,second)+0.05)/(Math.min(first,second)+0.05);
+        return {tab:${JSON.stringify(id)},part:element.classList.contains('nav-count')?'count':'label',foreground,background,ratio:Number(ratio.toFixed(3)),passes:ratio>=4.5};
+      });
+    `);
+    if(!pairs.every(item=>item.passes)) throw new Error('A real hovered navigation text pair remained below 4.5:1: '+JSON.stringify(pairs));
+    observations.navigationHoverContrast.push(...pairs);
+  }
+  await command('Input.dispatchMouseEvent',{type:'mouseMoved',x:1100,y:10});
   observations.recordCounts = await evaluate(countsMatch);
   if (!observations.recordCounts) throw new Error('Workspace counts did not match project records');
   await execute("document.getElementById('export-bundle').click()");
@@ -296,9 +321,9 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
             lightHeader:headerColor.every(channel=>channel>=235),
             whitePaper:paperColor.every(channel=>channel>=250),
             neutralCanvas:canvasColor.every(channel=>channel>=240) && Math.max(...canvasColor)-Math.min(...canvasColor)<=12,
-            amberNavigation:navColor[0]>=220 && navColor[1]>=130 && navColor[1]<=190 && navColor[2]<=80 && navColor[0]>navColor[1] && navColor[1]>navColor[2],
-            deepOrangeActions:actionColor[0]>=120 && actionColor[0]<=170 && actionColor[1]>=40 && actionColor[1]<=90 && actionColor[2]<=45 && actionColor[0]>actionColor[1] && actionColor[1]>actionColor[2],
-            deepOrangeSelectedNavigation:activeColor.every((channel,index)=>channel===actionColor[index]) && activeText.every(channel=>channel>=250),
+            cinnabarNavigation:navColor.every((channel,index)=>channel===[157,52,31][index]),
+            burntOrangeActions:actionColor.every((channel,index)=>channel===[168,61,35][index]),
+            burntOrangeSelectedNavigation:activeColor.every((channel,index)=>channel===actionColor[index]) && activeText.every(channel=>channel===255),
             headingVisible:heading.top>=bar.bottom-1 && heading.bottom<innerHeight,
             responsiveControlGrid:declaredColumns===columns && boxes.length>=3 && boxes.every((box,index)=>Math.abs(box.left-boxes[index%columns].left)<=1 && Math.abs(box.width-boxes[index%columns].width)<=1 && (!index || index%columns!==0 || box.top>=boxes[index-1].bottom-1)) && (columns===1?Math.abs(boxes[0].width-list.width)<=2:Math.abs(boxes[0].top-boxes[1].top)<=1 && Math.abs(boxes[1].right-list.right)<=1),
             readableRecordText:bodyText.length>0 && bodyText.every(text=>text.font>=13 && text.line/text.font>=1.45),
@@ -340,6 +365,8 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   const modal = await evaluate("document.getElementById('workspace-canvas').inert && document.getElementById('workspace-header').inert && !document.getElementById('workspace-nav').inert && document.getElementById('workspace-nav').getAttribute('aria-modal')==='true'");
   await key('Tab',9);
   const trapped = await evaluate("document.activeElement.classList.contains('brand')");
+  observations.mobileBrandFocusContrast=await navigationFocusContrast('.brand');
+  if(!observations.mobileBrandFocusContrast.passes) throw new Error('The mobile navigation brand lacked a visible contrasting focus outline: '+JSON.stringify(observations.mobileBrandFocusContrast));
   await key('Tab',9,8);
   const reverseTrapped = await evaluate("document.activeElement.id==='tab-controls'");
   await key('ArrowDown',40);
@@ -348,6 +375,19 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   const mobileReverseArrow = await evaluate("state.view==='controls' && document.activeElement.id==='tab-controls' && document.body.classList.contains('nav-open')");
   await key('ArrowRight',39);
   const mobilePerpendicularArrowIgnored = await evaluate("state.view==='controls' && document.activeElement.id==='tab-controls' && document.body.classList.contains('nav-open')");
+  observations.mobileCloseFocusContrast=await navigationFocusContrast('#nav-close');
+  if(!observations.mobileCloseFocusContrast.passes) throw new Error('The mobile navigation close button lacked a visible contrasting focus outline: '+JSON.stringify(observations.mobileCloseFocusContrast));
+  observations.mobileCloseIconContrast=await execute(`
+    const icon=document.querySelector('#nav-close .icon'); let surface=icon;
+    while(surface && getComputedStyle(surface).backgroundColor==='rgba(0, 0, 0, 0)')surface=surface.parentElement;
+    if(!surface)throw new Error('The navigation close icon probe requires an opaque surface');
+    const foreground=getComputedStyle(icon).color,background=getComputedStyle(surface).backgroundColor;
+    const luminance=color=>color.match(/[\\d.]+/g).slice(0,3).map(Number).map(channel=>{const scaled=channel/255;return scaled<=0.04045?scaled/12.92:((scaled+0.055)/1.055)**2.4;}).reduce((sum,channel,index)=>sum+channel*[0.2126,0.7152,0.0722][index],0);
+    const first=luminance(foreground),second=luminance(background),ratio=(Math.max(first,second)+0.05)/(Math.min(first,second)+0.05);
+    return {foreground,background,ratio:Number(ratio.toFixed(3)),passes:icon.checkVisibility() && ratio>=3};
+  `);
+  if(!observations.mobileCloseIconContrast.passes) throw new Error('The mobile navigation close icon lacked readable contrast: '+JSON.stringify(observations.mobileCloseIconContrast));
+  await execute("document.getElementById('tab-controls').focus()");
   await capture('navigation_mobile');
   await key('Escape',27);
   const escaped = await evaluate("!document.body.classList.contains('nav-open') && !document.getElementById('workspace-canvas').inert && !document.getElementById('workspace-header').inert && document.getElementById('workspace-nav').inert && document.activeElement.id==='nav-toggle'");
@@ -602,7 +642,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   if (!Object.values(observations.emptyReplacementClears).every(Boolean)) throw new Error('Empty workspace retained prior project details');
   observations.run_at = new Date().toISOString();
   observations.personalProjectAttributionOmitted = privateAttributionSourceCheck;
-  observations.scope = 'Local interface-phase checks with an explicitly selected headless QA profile. Restored sidebar workspace with rendered amber navigation, deep orange selected tabs and primary actions, dark brown navigation text, slate body text, neutral canvas and white paper surfaces, vertical desktop and mobile tab orientation, responsive two-column and single-column control cards with visible claim bindings and readable body text, long-token control-name wrapping with original project restoration, complete canonical project summary visibility, exact navigation breakpoint checks at 760 and 761 pixels, actual record counts, search and combined claim/class/evidence-state filters with reset preservation, scientific result and audit bindings, explicit execution-target selection, selection retention across unrelated renders and errors, no automatic target after planning, disabled unavailable execution actions, keyboard tabs, focusable panels, deep-scroll section navigation, visible failed-action feedback, one accessible save-status live region checked through the Chrome accessibility tree across responsive widths, destination focus after candidate, source-review and annotation workbenches open, mobile focus boundaries, file menus, reduced motion, text-only rendering, unsaved input protection and reversion, prepared downloads, cancelled and coherent project replacement, complete workspace reset, candidate, source and multi-case annotation draft protection, programmatic field tracking, procedure-specific fields, exact-byte UTF-8/BOM input inspection, reference and paired execution, explicit bootstrap coverage/seed recording, linked responsive reports and print styles, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, visible review headings, and review archive roundtrip. Evaluation snapshot hashes and bundle/partition invalidation, pending-input locking and failure recovery, stale-session renewal without automatic replay, a named outbound-preview dialog with initial Cancel focus and button/native-Escape cancellation, and a mocked interrupted hosted-request response are included. Dialog previews use fixed synthetic local mocked responses without any provider transmission. All computations and edited inputs were hypothetical software fixtures. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external page request was observed. Targeted small-text and focused-navigation-outline contrast ratios are computed from rendered styles; this does not assess every visual state. This is browser integration coverage, not a screen-reader, full accessibility, print-pagination, or scientific validation.';
+  observations.scope = 'Local interface-phase checks with an explicitly selected headless QA profile. Sidebar workspace with rendered Cinnabar navigation, burnt orange selected tabs and primary actions, cream navigation text and dark text on a pale warm locality note, slate body text, neutral canvas and white paper surfaces, vertical desktop and mobile tab orientation, responsive two-column and single-column control cards with visible claim bindings and readable body text, long-token control-name wrapping with original project restoration, complete canonical project summary visibility, exact navigation breakpoint checks at 760 and 761 pixels, actual record counts, search and combined claim/class/evidence-state filters with reset preservation, scientific result and audit bindings, explicit execution-target selection, selection retention across unrelated renders and errors, no automatic target after planning, disabled unavailable execution actions, keyboard tabs, focusable panels, deep-scroll section navigation, visible failed-action feedback, one accessible save-status live region checked through the Chrome accessibility tree across responsive widths, destination focus after candidate, source-review and annotation workbenches open, mobile focus boundaries, file menus, reduced motion, text-only rendering, unsaved input protection and reversion, prepared downloads, cancelled and coherent project replacement, complete workspace reset, candidate, source and multi-case annotation draft protection, programmatic field tracking, procedure-specific fields, exact-byte UTF-8/BOM input inspection, reference and paired execution, explicit bootstrap coverage/seed recording, linked responsive reports and print styles, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, visible review headings, and review archive roundtrip. Evaluation snapshot hashes and bundle/partition invalidation, pending-input locking and failure recovery, stale-session renewal without automatic replay, a named outbound-preview dialog with initial Cancel focus and button/native-Escape cancellation, and a mocked interrupted hosted-request response are included. Dialog previews use fixed synthetic local mocked responses without any provider transmission. All computations and edited inputs were hypothetical software fixtures. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external page request was observed. Targeted small-text pairs, real hovered navigation label and count pairs, focused tab, brand and mobile close outlines, and the mobile close icon have contrast ratios computed from rendered styles; this does not assess every visual state. This is browser integration coverage, not a screen-reader, full accessibility, print-pagination, or scientific validation.';
   if (externalRequests.length) throw new Error('UI checks observed an unexpected nonlocal page request');
   if (exceptions.length) throw new Error('UI checks observed a JavaScript exception');
   for(const [name,expected] of Object.entries(sourceHashes)) if(crypto.createHash('sha256').update(fs.readFileSync(name)).digest('hex')!==expected) throw new Error('Checked interface sources changed during the browser run');

@@ -1,0 +1,58 @@
+{
+  "recorded_at": "2026-10-11T04:36:27.502373+00:00",
+  "controlomics_version": "0.6.8.dev0",
+  "python": "3.14.0",
+  "operating_system": "Windows",
+  "checks": {
+    "schema_exports": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output": "Schema exports match the Python definitions.\n"
+    },
+    "ruff": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output": "All checks passed!\n"
+    },
+    "workflow_lint": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output": ""
+    },
+    "application_javascript_syntax": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output": ""
+    },
+    "browser_checker_syntax": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output": ""
+    },
+    "dependency_consistency": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output": "No broken requirements found.\n"
+    },
+    "frozen_numerical_sources": {
+      "status": "PASS",
+      "changed_paths": []
+    }
+  },
+  "tool_versions": {
+    "ruff": "ruff 0.14.14",
+    "workflow_lint": "1.7.12",
+    "node": "v24.19.0"
+  },
+  "source_hashes": {
+    "pyproject.toml": "baea476698ebb99fbb7a53da90f845ce4d45cf30342f05750ba01e2c0929c5d1",
+    "src/controlomics/__init__.py": "1e306b6f02fa9dee9398f417f42dd135dfc373d569b6b0cca063c1d662a1bde1",
+    "src/controlomics/web/style.css": "d6487e77adb9e658dcc2989b6de75f4f80505f646c77bac7ed0c7c4a7e8e826d",
+    "scripts/check_ui.cjs": "c420d9a86ae2eeae5321af4edd9afc1b8adf7cc6dedadc915e1a462d2d5b8a8e",
+    ".github/workflows/ci.yml": "3be14ff05674119469037af7222b143b1781da47142f42c4b60605a21d3dff5e"
+  },
+  "full_software_suite_rerun": false,
+  "prior_software_record": "software_checks_warm_phase.json",
+  "status": "PASS",
+  "scope": "Local static checks for the Cinnabar palette and release metadata. Application JavaScript, HTML, backend, scientific code, schemas, and tests are unchanged. The prior 0.6.6 software rerun passed 175 tests; its initial unsuccessful attempt remains retained separately. No independent scientific validation, external provider request, or public publication."
+}
