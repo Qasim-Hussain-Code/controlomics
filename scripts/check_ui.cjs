@@ -114,6 +114,53 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   };
   const countsMatch = "['claims','controls','evidence','results'].every((name,index)=>Number(document.getElementById('metric-'+name).textContent)===[state.project.claims.length,state.project.controls.length+state.project.candidates.length,state.project.evidence.length,state.project.results.filter(item=>item.execution_status==='COMPLETED').length][index] && document.getElementById('nav-'+name).textContent===document.getElementById('metric-'+name).textContent)";
   const observations = {browser: (await command('Browser.getVersion')).product, viewports: [], exceptions, externalRequests};
+  const workspaceViews = ['analysis','controls','evidence','execution','audit','evaluation'];
+  const responsiveWidths = [375,430,760,761,768,1024,1440];
+  const clickElement = async id => {
+    const point=await execute(`
+      const target=document.getElementById(${JSON.stringify(id)});
+      target.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
+      if(!target.checkVisibility() || target.disabled || target.closest('[inert]')) throw new Error('Section-entry click target is unavailable');
+      const box=target.getBoundingClientRect();
+      return {x:box.left+box.width/2,y:box.top+box.height/2};
+    `);
+    await command('Input.dispatchMouseEvent',{type:'mouseMoved',...point});
+    await command('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...point});
+    await command('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...point});
+  };
+  const sectionEntry = async (view, phase) => {
+    // Use a real selection from a different section and a deep document scroll.
+    // Forcing scroll to zero after switchView would hide the reported regression.
+    await execute(`switchView(${JSON.stringify(view==='analysis'?'controls':'analysis')}); window.scrollTo({top:document.documentElement.scrollHeight,left:0,behavior:'instant'});`);
+    const mobile=await evaluate('mobileNavigation.matches');
+    if(mobile) {
+      await clickElement('nav-toggle');
+      await until("document.body.classList.contains('nav-open') && !document.getElementById('workspace-nav').inert");
+      await pause(250);
+    }
+    await clickElement('tab-'+view);
+    await until(`state.view===${JSON.stringify(view)} && !document.body.classList.contains('nav-open')`);
+    await pause(200);
+    const entry=await execute(`
+      const expected=${JSON.stringify(view)}, summary=document.getElementById('project-summary'), panel=document.getElementById('view-'+expected), header=document.querySelector('.topbar').getBoundingClientRect();
+      const heading=expected==='analysis'?document.getElementById('project-title'):panel.querySelector('.section-head h2'), box=heading.getBoundingClientRect();
+      const evaluation=document.getElementById('evaluation-form'), selected=document.getElementById('tab-'+expected);
+      const saveStatus=document.getElementById(innerWidth<=1250?'overview-save-state':'save-state'), saveBox=saveStatus.getBoundingClientRect(), saveFloor=saveStatus.closest('.topbar')?header.top:header.bottom;
+      return {width:innerWidth,phase:${JSON.stringify(phase)},view:state.view,mobile:mobileNavigation.matches,heading:heading.textContent,
+        documentFits:document.documentElement.scrollWidth<=innerWidth,
+        summaryScoped:summary.hidden===(expected!=='analysis') && summary.checkVisibility()===(expected==='analysis'),
+        singlePanel:document.querySelectorAll('.view:not([hidden])').length===1 && !panel.hidden && [...document.querySelectorAll('.view')].every(item=>item.checkVisibility()===(item===panel) && item.tabIndex===(item===panel?0:-1)),
+        selectedTab:selected.getAttribute('aria-selected')==='true' && document.querySelectorAll('.tab[aria-selected="true"]').length===1 && panel.getAttribute('aria-labelledby')===selected.id,
+        headingVisible:heading.checkVisibility() && box.top>=header.bottom-1 && box.bottom<=innerHeight,
+        focusRetained:document.activeElement.id===(mobileNavigation.matches?'workspace-main':'tab-'+expected),
+        saveStatusVisible:saveStatus.checkVisibility() && saveBox.width>1 && saveBox.height>1 && saveBox.left>=0 && saveBox.right<=innerWidth && saveBox.top>=saveFloor-1 && saveBox.bottom<=innerHeight && saveStatus.textContent===document.getElementById('save-state').textContent,
+        navigationClosed:!document.body.classList.contains('nav-open') && !document.getElementById('workspace-canvas').inert && !document.getElementById('workspace-header').inert,
+        evaluationIsolated:expected!=='evaluation' || document.getElementById('view-audit').hidden && !document.querySelector('#view-evaluation .audit-panel') && [...document.querySelectorAll('.audit-panel')].every(item=>!item.checkVisibility()),
+        evaluationAvailable:expected!=='evaluation' || evaluation.checkVisibility() && !evaluation.inert && !document.getElementById('evaluation-file').disabled && !evaluation.querySelector('button[type="submit"]').disabled};
+    `);
+    if(!Object.entries(entry).filter(([name])=>!['width','phase','view','mobile','heading'].includes(name)).every(([,passed])=>passed)) throw new Error('Section-specific entry failed: '+JSON.stringify(entry));
+    return entry;
+  };
   const privateAttributionSourceCheck = fs.readFileSync('src/controlomics/web/index.html','utf8').includes('<footer><span>Controlomics</span>');
   if (!privateAttributionSourceCheck) throw new Error('Workspace footer has unexpected attribution');
   await setViewport({width:1440,height:1000});
@@ -122,6 +169,13 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   observations.emptyWorkspace = await evaluate("({zeroCounts:[...document.querySelectorAll('.metric-value')].every(item=>item.textContent==='0'),savingDisabled:document.getElementById('export-bundle').disabled,searchDisabled:document.getElementById('control-search').disabled,executionUnselected:document.getElementById('execution-control').value==='',executionDisabled:document.getElementById('run-control').disabled && document.getElementById('download-package').disabled,availabilityExplained:document.getElementById('execution-availability').textContent.length>0,panelsFocusable:[...document.querySelectorAll('.view')].every(panel=>panel.tabIndex===(panel.hidden?-1:0)) && document.querySelectorAll('.view:not([hidden])').length===1,view:state.view})");
   if (observations.emptyWorkspace.view!=='analysis' || !Object.entries(observations.emptyWorkspace).filter(([name])=>name!=='view').every(([,passed])=>passed)) throw new Error('Empty workspace implied recorded results or unavailable actions');
   await capture('workspace');
+  observations.emptySectionEntry=[];
+  for(const width of responsiveWidths) {
+    await setViewport({width,height:900});
+    for(const view of workspaceViews) observations.emptySectionEntry.push(await sectionEntry(view,'empty'));
+  }
+  await setViewport({width:1440,height:1000});
+  await execute("switchView('analysis'); window.scrollTo({top:0,left:0,behavior:'instant'});");
   observations.emptyDraftProtection=await execute("const field=document.getElementById('analysis-form').elements.namedItem('question'); field.value='Synthetic unrecorded input'; field.dispatchEvent(new Event('input',{bubbles:true})); const tracked=hasUnsavedWork() && document.getElementById('save-state').textContent==='Unrecorded inputs'; const previousConfirm=window.confirm; window.confirm=()=>false; document.getElementById('new-workspace').click(); const retained=field.value==='Synthetic unrecorded input'; window.confirm=()=>true; document.getElementById('new-workspace').click(); window.confirm=previousConfirm; return {tracked,retained,cleared:field.value==='' && !hasUnsavedWork()};");
   if (!Object.values(observations.emptyDraftProtection).every(Boolean)) throw new Error('Empty-workspace input protection failed');
   observations.programmaticDraftProtection=await execute("const form=document.getElementById('analysis-form'); example('rna'); const tracked=state.drafts.has('analysis-form'); const question=form.elements.namedItem('question').value, prior=window.confirm; window.confirm=()=>false; example('ml'); const retained=form.elements.namedItem('question').value===question; window.confirm=()=>true; document.getElementById('new-workspace').click(); window.confirm=prior; return {tracked,retained,cleared:!hasUnsavedWork()};");
@@ -145,12 +199,18 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
       return parts.slice(0,3).map(value=>{const scaled=value/255; return scaled<=0.04045?scaled/12.92:((scaled+0.055)/1.055)**2.4;}).reduce((sum,value,index)=>sum+value*[0.2126,0.7152,0.0722][index],0);
     };
     return [['.field strong'],['.field p'],['.evidence-state'],['.metric-note'],['.collection-count'],['.control-index'],['.eyebrow'],['.badge.negative'],['.card-foot'],['#control-search','::placeholder'],['.brand-caption'],['#workspace-tabs .tab:not(.active) > span:first-of-type'],['#workspace-tabs .tab.active > span:first-of-type'],['#export-bundle > span'],['.badge:not(.negative)'],['#workspace-tabs .tab:not(.active) .nav-count'],['#workspace-tabs .tab.active .nav-count'],['.session-note p'],['.brand > span'],['.nav-heading'],['.nav-footer'],['.nav-version'],['.session-note strong']].map(([selector,pseudo])=>{
-      const element=document.querySelector(selector), style=getComputedStyle(element,pseudo); let surface=element;
+      const previousView=state.view;
+      if(selector==='.metric-note') switchView('analysis');
+      const element=[...document.querySelectorAll(selector)].find(item=>item.checkVisibility());
+      if(!element) throw new Error('Contrast probe requires visible rendered text: '+selector);
+      const style=getComputedStyle(element,pseudo); let surface=element;
       while(surface && getComputedStyle(surface).backgroundColor==='rgba(0, 0, 0, 0)') surface=surface.parentElement;
       if(!surface) throw new Error('Contrast probe requires a defined opaque surface');
       const foreground=style.color, background=getComputedStyle(surface).backgroundColor;
       const first=luminance(foreground), second=luminance(background), ratio=(Math.max(first,second)+0.05)/(Math.min(first,second)+0.05);
-      return {selector:selector+(pseudo||''),foreground,background,ratio:Number(ratio.toFixed(3)),passes:ratio>=4.5};
+      const rendered=element.checkVisibility();
+      if(selector==='.metric-note') switchView(previousView);
+      return {selector:selector+(pseudo||''),foreground,background,ratio:Number(ratio.toFixed(3)),rendered,passes:rendered && ratio>=4.5};
     });
   `);
   if(!observations.targetedTextContrast.every(item=>item.passes)) throw new Error('A targeted small-text contrast pair remained below 4.5:1');
@@ -292,10 +352,12 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   observations.longControlNames=[];
   observations.saveStatusAccessibility=[];
   observations.sectionScroll=[];
-  for (const width of [375,430,760,761,768,1024,1440]) {
+  observations.populatedSectionEntry=[];
+  observations.keyboardSectionEntry=[];
+  for (const width of responsiveWidths) {
     await setViewport({width,height:900});
-    for (const view of ['analysis','controls','evidence','execution','audit','evaluation']) {
-      await execute(`switchView(${JSON.stringify(view)}); window.scrollTo(0,0);`);
+    for (const view of workspaceViews) {
+      observations.populatedSectionEntry.push(await sectionEntry(view,'populated'));
       const layout=await evaluate("({width:innerWidth,document:document.documentElement.scrollWidth,view:state.view,panelsFocusable:[...document.querySelectorAll('.view')].every(panel=>panel.tabIndex===(panel.hidden?-1:0)) && document.querySelectorAll('.view:not([hidden])').length===1})");
       if (layout.document>width || !layout.panelsFocusable) throw new Error('Responsive view overflow or panel focus mismatch: '+JSON.stringify(layout));
       observations.responsiveViews.push(layout);
@@ -324,6 +386,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
             cinnabarNavigation:navColor.every((channel,index)=>channel===[157,52,31][index]),
             burntOrangeActions:actionColor.every((channel,index)=>channel===[168,61,35][index]),
             burntOrangeSelectedNavigation:activeColor.every((channel,index)=>channel===actionColor[index]) && activeText.every(channel=>channel===255),
+            overviewHidden:document.getElementById('project-summary').hidden && summary.height===0 && ledger.height===0,
             headingVisible:heading.top>=bar.bottom-1 && heading.bottom<innerHeight,
             responsiveControlGrid:declaredColumns===columns && boxes.length>=3 && boxes.every((box,index)=>Math.abs(box.left-boxes[index%columns].left)<=1 && Math.abs(box.width-boxes[index%columns].width)<=1 && (!index || index%columns!==0 || box.top>=boxes[index-1].bottom-1)) && (columns===1?Math.abs(boxes[0].width-list.width)<=2:Math.abs(boxes[0].top-boxes[1].top)<=1 && Math.abs(boxes[1].right-list.right)<=1),
             readableRecordText:bodyText.length>0 && bodyText.every(text=>text.font>=13 && text.line/text.font>=1.45),
@@ -358,6 +421,32 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
     const navigation=await evaluate("({width:innerWidth,headingVisible:document.querySelector('#view-execution .section-head').getBoundingClientRect().top>=document.querySelector('.topbar').getBoundingClientRect().bottom-1,navigationFocusRetained:document.activeElement.id===(mobileNavigation.matches?'nav-toggle':'tab-execution')})");
     if(!navigation.headingVisible || !navigation.navigationFocusRetained) throw new Error('Deep-scroll navigation obscured its heading or changed navigation focus');
     observations.sectionScroll.push(navigation);
+    for(const [view,keyName,keyCode,origin] of [['evaluation','End',35,'analysis'],['analysis','Home',36,'evaluation']]) {
+      await execute(`switchView(${JSON.stringify(origin)}); window.scrollTo({top:document.documentElement.scrollHeight,left:0,behavior:'instant'});`);
+      if(await evaluate('mobileNavigation.matches')) {
+        await clickElement('nav-toggle');
+        await until("document.body.classList.contains('nav-open')");
+        await pause(250);
+      }
+      await execute(`document.getElementById('tab-'+${JSON.stringify(origin)}).focus({preventScroll:true});`);
+      await key(keyName,keyCode);
+      await until(`state.view===${JSON.stringify(view)} && document.activeElement.id===${JSON.stringify('tab-'+view)}`);
+      if(await evaluate('mobileNavigation.matches')) {
+        await key('Escape',27);
+        await until("!document.body.classList.contains('nav-open')");
+      }
+      await pause(200);
+      const keyboardEntry=await execute(`
+        const expected=${JSON.stringify(view)}, heading=expected==='analysis'?document.getElementById('project-title'):document.querySelector('#view-'+expected+' .section-head h2'), box=heading.getBoundingClientRect();
+        return {width:innerWidth,key:${JSON.stringify(keyName)},view:state.view,mobile:mobileNavigation.matches,
+          summaryScoped:document.getElementById('project-summary').hidden===(expected!=='analysis'),
+          headingVisible:heading.checkVisibility() && box.top>=document.querySelector('.topbar').getBoundingClientRect().bottom-1 && box.bottom<=innerHeight,
+          navigationFocusRetained:document.activeElement.id===(mobileNavigation.matches?'nav-toggle':'tab-'+expected),
+          singlePanel:document.querySelectorAll('.view:not([hidden])').length===1 && !document.getElementById('view-'+expected).hidden};
+      `);
+      if(!Object.entries(keyboardEntry).filter(([name])=>!['width','key','view','mobile'].includes(name)).every(([,passed])=>passed)) throw new Error('Deep-scroll keyboard section entry failed: '+JSON.stringify(keyboardEntry));
+      observations.keyboardSectionEntry.push(keyboardEntry);
+    }
   }
   await setViewport({width:430,height:1100});
   await execute("switchView('controls'); document.getElementById('nav-toggle').click()");
@@ -393,7 +482,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   const escaped = await evaluate("!document.body.classList.contains('nav-open') && !document.getElementById('workspace-canvas').inert && !document.getElementById('workspace-header').inert && document.getElementById('workspace-nav').inert && document.activeElement.id==='nav-toggle'");
   await execute("document.getElementById('nav-toggle').click(); document.getElementById('tab-evidence').click()");
   const selected = await evaluate("state.view==='evidence' && !document.body.classList.contains('nav-open') && document.activeElement.id==='workspace-main'");
-  await execute("document.querySelector('.metric-card[data-target=\"controls\"]').click()");
+  await execute("switchView('analysis'); const card=document.querySelector('.metric-card[data-target=\"controls\"]'); if(!card.checkVisibility()) throw new Error('Analysis count-card navigation is hidden'); card.click();");
   const metricNavigation = await evaluate("state.view==='controls'");
   await execute("document.getElementById('nav-toggle').click(); document.getElementById('nav-close').click()");
   const closeButton=await evaluate("!document.body.classList.contains('nav-open') && document.activeElement.id==='nav-toggle' && !document.getElementById('workspace-canvas').inert && !document.getElementById('workspace-header').inert");
@@ -643,6 +732,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   observations.run_at = new Date().toISOString();
   observations.personalProjectAttributionOmitted = privateAttributionSourceCheck;
   observations.scope = 'Local interface-phase checks with an explicitly selected headless QA profile. Sidebar workspace with rendered Cinnabar navigation, burnt orange selected tabs and primary actions, cream navigation text and dark text on a pale warm locality note, slate body text, neutral canvas and white paper surfaces, vertical desktop and mobile tab orientation, responsive two-column and single-column control cards with visible claim bindings and readable body text, long-token control-name wrapping with original project restoration, complete canonical project summary visibility, exact navigation breakpoint checks at 760 and 761 pixels, actual record counts, search and combined claim/class/evidence-state filters with reset preservation, scientific result and audit bindings, explicit execution-target selection, selection retention across unrelated renders and errors, no automatic target after planning, disabled unavailable execution actions, keyboard tabs, focusable panels, deep-scroll section navigation, visible failed-action feedback, one accessible save-status live region checked through the Chrome accessibility tree across responsive widths, destination focus after candidate, source-review and annotation workbenches open, mobile focus boundaries, file menus, reduced motion, text-only rendering, unsaved input protection and reversion, prepared downloads, cancelled and coherent project replacement, complete workspace reset, candidate, source and multi-case annotation draft protection, programmatic field tracking, procedure-specific fields, exact-byte UTF-8/BOM input inspection, reference and paired execution, explicit bootstrap coverage/seed recording, linked responsive reports and print styles, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, visible review headings, and review archive roundtrip. Evaluation snapshot hashes and bundle/partition invalidation, pending-input locking and failure recovery, stale-session renewal without automatic replay, a named outbound-preview dialog with initial Cancel focus and button/native-Escape cancellation, and a mocked interrupted hosted-request response are included. Dialog previews use fixed synthetic local mocked responses without any provider transmission. All computations and edited inputs were hypothetical software fixtures. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external page request was observed. Targeted small-text pairs, real hovered navigation label and count pairs, focused tab, brand and mobile close outlines, and the mobile close icon have contrast ratios computed from rendered styles; this does not assess every visual state. This is browser integration coverage, not a screen-reader, full accessibility, print-pagination, or scientific validation.';
+  observations.scope = 'Section-entry regression checks include 42 empty and 42 populated section/width combinations selected by real desktop or mobile navigation clicks from deep scroll, an overview visible only in Analysis, section-specific entry headings, a visibly rendered save-state label in every section at all widths with a separate single live announcement, Evaluation isolated from audit records and available without a project, and 14 real keyboard Home/End selections with mobile Escape dismissal. Count-card text contrast is sampled while Analysis is rendered. These extend the retained workflows: ' + observations.scope;
   if (externalRequests.length) throw new Error('UI checks observed an unexpected nonlocal page request');
   if (exceptions.length) throw new Error('UI checks observed a JavaScript exception');
   for(const [name,expected] of Object.entries(sourceHashes)) if(crypto.createHash('sha256').update(fs.readFileSync(name)).digest('hex')!==expected) throw new Error('Checked interface sources changed during the browser run');

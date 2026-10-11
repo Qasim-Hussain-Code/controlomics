@@ -1,0 +1,54 @@
+{
+  "format": "controlomics.synthetic_reference_repetition.v0.1",
+  "started_at": "2026-10-11T10:59:11.809327+00:00",
+  "completed_at": "2026-10-11T10:59:21.278359+00:00",
+  "controlomics_version": "0.6.9.dev0",
+  "protocol_sha256": "a7b1c5c458a7af1f7a57511bc1e145bbe8501777fa34277d8a98ec3c00dda6cc",
+  "source_sha256": {
+    "src/controlomics/statistics.py": "3c56a1c6bd78f749b79e8689cfe2d87b96bafa406fd83e943b939530e9145cea",
+    "scripts/scientific_reference.py": "a2f54ca27d1d657ee159fb3f369ba53af3a929aaae1552a5384711d1186d1dec",
+    "scripts/run_numerical_validation.py": "525adfb2e2c028d6e05ca9a12bbeab1b61e24f5e1d5bde5067e8f2e1a5d631ea"
+  },
+  "frozen_source_hashes_match": true,
+  "simulations_rerun": false,
+  "outbound_requests_performed": false,
+  "independent_expert_validation": "PENDING",
+  "scientific_control_selection_validated": false,
+  "scope": "Repeat only retained exact permutation and explicitly indexed percentile-bootstrap comparisons against the existing pinned SciPy environment using generated synthetic inputs. No simulation, biological experiment, expert annotation, provider request, package download, or installation.",
+  "limitations": [
+    "Independently maintained reference software is not an independent scientific expert.",
+    "Absolute-tail alignment differs from native SciPy two-sided conventions.",
+    "Identical explicit bootstrap indices test endpoint calculation, not RNG equivalence.",
+    "The retained 7000 synthetic simulations and their undercoverage observations were not rerun.",
+    "Hashes are equality fingerprints, not authenticated provenance or anonymization."
+  ],
+  "reference_environment": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "scipy": "1.18.1",
+    "package_metadata_sha256": {
+      "numpy": "b082c52ccbe3b880bae177c35171b52ed6c947f3ad71e3762f2723f60a411de0",
+      "scipy": "c8313d18ca0168ff291fe0a3b50532f3a18b14547695e9aa7ca1c1ce6eca92dc"
+    },
+    "python_executable_sha256": "7bcdf892816a8d651e89f008cfc2f1544a41f13089af70a227b9fc54ced8551f"
+  },
+  "reference_environment_sha256": "d0fb4a9a12d6464beaa32336655a246a289159169d7826b947fa7191a97cb719",
+  "scalar_comparisons": 896,
+  "status": "PASS",
+  "source_hashes_unchanged_after_run": true,
+  "protocol_unchanged_after_run": true,
+  "seconds": 9.47,
+  "numeric_reference_agreement": {
+    "reference_software": {
+      "python": "3.14.0",
+      "numpy": "2.4.6",
+      "scipy": "1.18.1"
+    },
+    "request_sha256": "5b22d5a64a0b9fe60b3a1aa780e82c2ee72c49e9f10e75b22a6a595ba09dd12e",
+    "case_count": 128,
+    "all_matched": true,
+    "native_tail_definition_differences": 36
+  },
+  "reference_results_match_retained_record": true,
+  "full_observation_sha256": "c4d1f2c3741ed80a4520597ba6507a31969968254534288a7d72216e9b63fe14"
+}

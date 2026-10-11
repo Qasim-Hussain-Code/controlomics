@@ -93,7 +93,23 @@ const viewNames = {analysis: "Analysis & claims", controls: "Controls", evidence
 const mobileNavigation = window.matchMedia("(max-width:760px)");
 function syncNavigation() { $("workspace-tabs").setAttribute("aria-orientation", "vertical"); const open = mobileNavigation.matches && document.body.classList.contains("nav-open"); $("nav-toggle").setAttribute("aria-expanded", String(open)); $("nav-toggle").setAttribute("aria-label", open ? "Close navigation" : "Open navigation"); $("workspace-nav").inert = mobileNavigation.matches && !open; $("workspace-canvas").inert = open; $("workspace-header").inert = open; if (mobileNavigation.matches) $("workspace-nav").setAttribute("aria-hidden", String(!open)); else $("workspace-nav").removeAttribute("aria-hidden"); if (open) { $("workspace-nav").setAttribute("role", "dialog"); $("workspace-nav").setAttribute("aria-modal", "true"); } else { $("workspace-nav").removeAttribute("role"); $("workspace-nav").removeAttribute("aria-modal"); } }
 function closeNavigation(returnFocus = false) { document.body.classList.remove("nav-open"); syncNavigation(); if (returnFocus) $("nav-toggle").focus(); }
-function switchView(name, closeMenu = true) { if (!viewNames[name]) return; const changed = state.view !== name; state.view = name; document.querySelectorAll(".view").forEach(view => { view.hidden = view.id !== "view-" + name; view.tabIndex = view.hidden ? -1 : 0; }); document.querySelectorAll(".tab").forEach(tab => { const selected = tab.dataset.view === name; tab.classList.toggle("active", selected); tab.setAttribute("aria-selected", String(selected)); tab.tabIndex = selected ? 0 : -1; }); $("current-section").textContent = viewNames[name]; document.title = viewNames[name] + " | Controlomics"; if (changed) $("view-" + name).scrollIntoView({block: "start", behavior: "instant"}); if (closeMenu && document.body.classList.contains("nav-open")) { closeNavigation(); $("workspace-main").focus({preventScroll: true}); } }
+function switchView(name, closeMenu = true) {
+  if (!viewNames[name]) return;
+  const changed = state.view !== name;
+  state.view = name;
+  $("project-summary").hidden = name !== "analysis";
+  document.querySelectorAll(".view").forEach(view => { view.hidden = view.id !== "view-" + name; view.tabIndex = view.hidden ? -1 : 0; });
+  document.querySelectorAll(".tab").forEach(tab => { const selected = tab.dataset.view === name; tab.classList.toggle("active", selected); tab.setAttribute("aria-selected", String(selected)); tab.tabIndex = selected ? 0 : -1; });
+  $("current-section").textContent = viewNames[name];
+  document.title = viewNames[name] + " | Controlomics";
+  const closingNavigation = closeMenu && document.body.classList.contains("nav-open");
+  if (closingNavigation) closeNavigation();
+  if (changed || closingNavigation) {
+    const destination = name === "analysis" ? $("project-summary") : $("view-" + name);
+    destination.scrollIntoView({block: "start", behavior: "instant"});
+  }
+  if (closingNavigation) $("workspace-main").focus({preventScroll: true});
+}
 function node(tag, text, className) { const element = document.createElement(tag); if (text !== undefined) element.textContent = text; if (className) element.className = className; return element; }
 function field(label, value) { const wrapper = node("div", undefined, "field"); wrapper.append(node("strong", label), node("p", value || "Not supplied")); return wrapper; }
 function empty(text) { return node("p", text, "empty"); }

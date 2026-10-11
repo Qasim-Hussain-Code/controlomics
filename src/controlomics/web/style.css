@@ -48,6 +48,7 @@ button, .button, summary { -webkit-tap-highlight-color: transparent; }
 .workspace-canvas { margin-left: var(--sidebar); min-height: 100vh; }
 .topbar { position: sticky; top: 0; z-index: 30; min-height: 74px; padding: 15px 34px; display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--paper); border-bottom: 1px solid var(--line); }
 .breadcrumb { display: flex; align-items: center; gap: 13px; font-size: 12px; min-width: 0; }
+.section-context { display: flex; flex-direction: column; min-width: 0; gap: 1px; }
 .breadcrumb-root { color: var(--muted); }
 .breadcrumb-divider { color: #b4c0cf; }
 .breadcrumb strong { font-weight: 550; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -67,6 +68,7 @@ button, .button, summary { -webkit-tap-highlight-color: transparent; }
 .icon-button { display: none; padding: 7px; background: transparent; color: var(--ink); border-color: var(--line); min-width: 34px; }
 .nav-scrim { display: none; }
 main { max-width: 1420px; margin: 0 auto; padding: 32px 34px 58px; outline: none; scroll-margin-top: 90px; }
+.project-summary { scroll-margin-top: 90px; }
 .workspace-overview { display: grid; grid-template-columns: minmax(0,1fr) 300px; align-items: center; gap: 28px; padding: 4px 0 28px; }
 .overview-copy { min-width: 0; }
 .overview-kicker { display: flex; align-items: center; gap: 8px; color: #59697b; font-size: 10px; font-weight: 650; letter-spacing: .14em; }

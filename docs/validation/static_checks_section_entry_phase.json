@@ -1,0 +1,61 @@
+{
+  "recorded_at": "2026-10-11T11:10:09.937815+00:00",
+  "controlomics_version": "0.6.9.dev0",
+  "python": "3.14.0",
+  "operating_system": "Windows",
+  "checks": {
+    "schema_exports": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output": "Schema exports match the Python definitions.\n"
+    },
+    "ruff": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output": "All checks passed!\n"
+    },
+    "workflow_lint": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output": ""
+    },
+    "application_javascript_syntax": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output": ""
+    },
+    "browser_checker_syntax": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output": ""
+    },
+    "dependency_consistency": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output": "No broken requirements found.\n"
+    },
+    "frozen_numerical_sources": {
+      "status": "PASS",
+      "changed_paths": []
+    }
+  },
+  "tool_versions": {
+    "ruff": "ruff 0.14.14",
+    "workflow_lint": "1.7.12",
+    "node": "v24.19.0"
+  },
+  "schema_count": 29,
+  "source_hashes": {
+    "pyproject.toml": "d002a718fdb5a0fde9bc1db088064a939018f6a7f3b17ad0bf0146f0d32ca215",
+    "src/controlomics/__init__.py": "255439fe2d4cfedf89ad5cebf848e9ced2ab0075a54326ba88b13094eceda022",
+    "src/controlomics/web/index.html": "b228802e2c316e33fb11d011bb8ee306c8592cb6c2c37f64016003cde84be424",
+    "src/controlomics/web/app.js": "983184ff0a1e197289d7af4fe8cbd60d787fb23b05cd2e5c70d1968cac7e4f4a",
+    "src/controlomics/web/style.css": "01c60ff6c1eb6ab488251f43c06a7dc7fdf20e572cd1d9d3f1df54a3f4574792",
+    "scripts/check_ui.cjs": "418616ff5d91e66037164be3134cc649fdd84518668484ec3fe3b6908db42287",
+    ".github/workflows/ci.yml": "121b005d84cc1c0981d1f0a212aea1966468a87c3feeb676c8ca6aa2fd82977e"
+  },
+  "full_software_suite_rerun": true,
+  "software_record": "software_checks_section_entry_phase.json",
+  "status": "PASS",
+  "scope": "Local static checks for section-specific navigation, narrow-header save-state visibility and release metadata. The full synthetic/mocked software suite is recorded separately. Backend, scientific code, schemas and tests are unchanged. No independent expert validation, provider request or publication."
+}

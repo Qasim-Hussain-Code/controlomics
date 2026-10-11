@@ -1,0 +1,83 @@
+{
+  "manifest": {
+    "format": "controlomics.study_readiness_repetition_manifest.v0.1",
+    "recorded_at": "2026-10-11T11:00:29.333096+00:00",
+    "controlomics_version": "0.6.9.dev0",
+    "python": "3.14.0",
+    "pydantic": "2.12.4",
+    "command": ".venv/Scripts/python.exe scripts/check_study_readiness.py --bundle examples/benchmark.design.unassessed.json --output <private-readiness-record>",
+    "command_exit_code": 0,
+    "input_sha256": "74d1c6834dfefb7144e5f12858d3c4cf0101543bb0206a325db64ae523f0b439",
+    "readiness_observation_sha256": "b80578c260066bc3f74b4d3f966a1e82db2586a91ef85f6a723fe7b94d09a20e",
+    "source_sha256_observed_after_command": {
+      "scripts/check_study_readiness.py": "5dc056626684f0b2116d93495392a1cf19eced228bfc14c5ab9192208fa0c4c7",
+      "src/controlomics/evaluation.py": "d14242479d895474cc14afa93a96300285abb74c9f028ae9e2bd226de471baa8",
+      "src/controlomics/project.py": "ce8eefa078240e5e27a9c92d4e746c1765a3733aa9f6c0fa31b9956794375ff3",
+      "src/controlomics/privacy.py": "2f1b10137438838296da21a282d54707bd992715fa5beae8b50c95ea3934101d",
+      "src/controlomics/formats.py": "dbf0e09fdb0339fefaaf7e9114627891f56ec2f6746b5120ff1061662dbdb844",
+      "src/controlomics/schemas.py": "996785ad235c0965dca53122ffa6f5b73174a3e20c95d94a66ed301c003ae7fb"
+    },
+    "record_contract_status": "INCOMPLETE",
+    "partition_case_counts": {
+      "DEVELOPMENT": 6
+    },
+    "declared_distinct_expert_judgment_names": 0,
+    "scientific_independence_verified": false,
+    "independent_expert_validation": "PENDING",
+    "scope": "Aggregate record-contract audit of the public unassessed development bundle only. Exit success means the audit executed, not that study requirements were met. No new cases, human reviews, adjudication, package installation, or outbound request."
+  },
+  "readiness": {
+    "format": "controlomics.study_readiness.v0.1",
+    "recorded_at": "2026-10-11T10:59:11.831158+00:00",
+    "record_contract_status": "INCOMPLETE",
+    "checks": {
+      "same_reference_and_prediction_snapshots": true,
+      "expert_reference_origin_declared": false,
+      "expert_judgment_origin_declared": false,
+      "two_distinct_expert_judgment_names_declared": false,
+      "minimum_test_cases": false,
+      "minimum_test_source_groups": false,
+      "essential_references_defined_for_every_test_case": false,
+      "all_test_recommendations_assessed": false
+    },
+    "missing_record_requirements": [
+      "expert_reference_origin_declared",
+      "expert_judgment_origin_declared",
+      "two_distinct_expert_judgment_names_declared",
+      "minimum_test_cases",
+      "minimum_test_source_groups",
+      "essential_references_defined_for_every_test_case",
+      "all_test_recommendations_assessed"
+    ],
+    "prespecified_record_minima": {
+      "test_cases": 100,
+      "test_source_groups": 100
+    },
+    "bundle_count": 1,
+    "declared_distinct_expert_judgment_names": 0,
+    "partition_case_counts": {
+      "DEVELOPMENT": 6
+    },
+    "test_source_groups": 0,
+    "test_coverage_by_sheet": [
+      {
+        "cases": 0,
+        "recommendations": 0,
+        "appropriateness_assessed": 0,
+        "unsupported_assessed": 0,
+        "reference_recall_cases": 0
+      }
+    ],
+    "bundle_sha256": [
+      "9fe506f24b9d558fd5bd6b323762971e25e6383238a630423022f9b8071a1f10"
+    ],
+    "scientific_independence_verified": false,
+    "scope": "Metadata, immutable snapshot identity, declared origins and coverage only. No names, descriptions, source text, raw measurements or file paths are exported. Hashes are not anonymization.",
+    "human_verification_still_required": [
+      "Real case provenance, source/cohort independence and data-use permission.",
+      "Actual reviewer expertise, independence and truthful attestations; distinct names do not establish distinct people.",
+      "A predefined scientific protocol, sampling justification, blinded review and retained adjudication.",
+      "Scientific interpretation of measured outcomes and limitations, including negative results."
+    ]
+  }
+}

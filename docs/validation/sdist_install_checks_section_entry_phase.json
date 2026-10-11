@@ -1,0 +1,22 @@
+{
+  "recorded_at": "2026-10-11T11:14:15.122472+00:00",
+  "artifact": "controlomics-0.6.9.dev0.tar.gz",
+  "artifact_sha256": "4e2b74c55b9c12a27a124eec8aae7b82ad5f3bdf143f888ee9547d86231f76d7",
+  "installed_artifact_snapshot_bound_to_hash": true,
+  "artifact_type": "SOURCE_DISTRIBUTION",
+  "clean_environment": true,
+  "cli_validation": true,
+  "dependency_installation": "LOCAL_WHEELS",
+  "smoke": {
+    "version": "0.6.9.dev0",
+    "dependency_version": "2.12.4",
+    "imported_clean_install": true,
+    "browser_assets": true,
+    "local_drafting": true,
+    "paired_arithmetic": true,
+    "review_bundle_roundtrip": true,
+    "fixed_runner_execution": true
+  },
+  "status": "PASS",
+  "scope": "Fresh virtual environment; isolated imports and CLI from outside the source checkout. No provider or research requests."
+}
