@@ -1,6 +1,38 @@
 # Validation
 
-## Scope
+## Current prototype remediation
+
+Version 0.6.10.dev0 addresses prototype audit findings in review-state transitions, imported evidence gates, judgment missingness, Wilson boundaries, local execution budgets, privacy screening, server binding and response headers, claim-linked evidence, and lexical design cues. Existing hosted and researcher-drafted candidates remain unreviewed until an explicit review action. The Cinnabar interface and section-specific navigation are retained.
+
+Prototype acceptance covers reproducible technical, synthetic numerical, interface, privacy, packaging, and AI-assisted reasoning checks. These checks do not establish biological efficacy, empirical control suitability, or cross-domain generalization. Earlier observations retain their original versions and source or artifact bindings.
+
+The [current software suite](docs/validation/software_checks_audit_remediation_phase.json) passed 224 tests with zero failures, errors, or skips in 14.149 seconds including discovery and recording, on Windows CPython 3.14.0, Pydantic 2.12.4, and setuptools 83.0.0. [Current static checks](docs/validation/static_checks_audit_remediation_phase.json) passed seven check groups, including all 29 schema exports, Ruff 0.14.14, actionlint 1.7.12, Node 24.19.0 syntax checks, dependency consistency, and unchanged frozen numerical source hashes.
+
+The [fresh offline numerical repetition](docs/validation/numeric_checks_audit_remediation_phase.json) matched all 896 scalar comparisons across 128 cases and reproduced every retained count across all 7,000 synthetic trials in 376.284 seconds. It used the unchanged frozen protocol and numerical sources with existing NumPy 2.4.6 and SciPy 1.18.1. Two zero-event Wilson endpoints now equal zero exactly; trial counts and point estimates are unchanged. Requested 95% percentile intervals still covered the null truth in only 74.1% to 93.9% of trials.
+
+[Isolated Chrome 154 checks](docs/validation/ui_checks_audit_remediation_phase.json) and [Edge 155 checks](docs/validation/ui_edge_checks_audit_remediation_phase.json) each passed 84 real section-entry clicks across seven widths, 14 Home/End selections, and all nine judgment-state assertions. Untouched items were excluded from agreement; explicit uncertainty remained a nominal label. Each browser exercised four synthetic DEVELOPMENT_FIXTURE annotation submissions, not actual human reviews. Each record binds eight source hashes and 18 distinct current-phase capture hashes, preserving older screenshots. No JavaScript exception or external page request was observed.
+
+The [remediation coverage record](docs/validation/audit_remediation_checks_audit_remediation_phase.json) identifies 15 fixed finding scopes and two documentation clarifications, with no unresolved defect in those inspected scopes.
+
+Current [extracted-package checks](docs/validation/package_checks_audit_remediation_phase.json), [distribution checks](docs/validation/distribution_checks_audit_remediation_phase.json), [clean wheel installation](docs/validation/install_checks_audit_remediation_phase.json), and [clean source installation](docs/validation/sdist_install_checks_audit_remediation_phase.json) passed for their recorded artifact hashes, including actual synthetic fixed-runner execution. Clean installations used only local dependency wheels. The distributions retain the reviewed snapshot from before packaging records and final documentation links were added; the later complete source ZIP requires its own source binding. These developer remediation checks do not replace the original separate audit harness. Earlier records do not attest the changed runtime. No artifact has been published.
+
+The judgment regression checks distinguish untouched dimensions from explicitly uncertain judgments. Optional assessed flags preserve missingness in new annotations and reviewer agreement. Older assessed snapshots without these flags retain their recorded uncertain labels and original canonical bytes; historical nulls cannot reveal whether the item was deliberately marked uncertain or skipped. Consistent records and declared origins do not authenticate actual review.
+
+One synthetic local-budget observation completed a 2,000-row, 2,000-draw permutation workload, exactly four million row-by-draw units, in 1.744 seconds and removed its owned temporary directory. A 4,002,000-unit request was rejected before package creation or subprocess execution. A 20-million-unit dispatched configuration remained accepted but was not executed. This is one workstation observation, not a performance guarantee; the 35-second local timeout remains an operational limit.
+
+The current browsers checked 375, 430, 760, 761, 768, 1024, and 1440 pixel widths. Each retained 42 responsive layout checks and measured 24 rendered text pairs from 4.923 to 7.848:1. In the workbench-generated sheets, two assessed paired labels yielded observed agreement 0.5 and kappa 0; explicitly adding uncertainty produced three paired labels and kappa approximately 0.5. Skipped dimensions were excluded. The actual launcher-supplied browser PIDs and all profile-owned processes disappeared; debugging endpoint refusal was separately observed.
+
+Two earlier browser-checking attempts stopped on native-select sequencing and fixed-header click-target alignment. Those instrumentation failures and the separately successful checks remain retained. After the successful Chrome checker, an independent one-second closure probe timed out; a separate five-second probe observed Windows connection refusal 10061 with its PID absent and no profile-owned processes. The successful checker was not rerun for that probe.
+
+A separate read-only synthetic state probe accepted 49 valid combinations and rejected 32 contradictory combinations among 81 value/assessment-flag configurations. The earlier 224-test suite passed in 69.192 seconds and remains retained separately in private evidence. Browser-checker instrumentation was subsequently refined. Before final source binding, one new regression test's extra terminal blank line was removed and the two current public browser JSON records had their line endings normalized. The original bytes were preserved locally; Python AST and parsed JSON equality were verified. Runtime code, test assertions, and browser observations were unchanged. The complete 224-test suite was then rerun on the normalized source and passed in 14.149 seconds including discovery and recording; all seven static check groups were refreshed and passed. The immutable distributions retain the earlier reviewed build snapshot, including the test's original terminal formatting; that test remains AST-equivalent to the final source. The original separate 69-test audit harness was not rerun or replaced. Native Linux and macOS, Python 3.11 through 3.13, hosted CI, screen readers, and real-data generalization were outside the performed checks. No live provider request or actual human review was performed.
+
+The current wheel contains 29 members and is 113,320 bytes; the source distribution contains 365 members and is 4,718,187 bytes. Their actual SHA-256 values and runtime assets match the records. Distribution screening reported no findings; metadata omits personal attribution and retains matching MIT license text. Clean installations used new environments, isolated imports and CLI calls outside the source checkout, and only local dependency wheels.
+
+The distributions were built once from 333 reviewed public files before the four packaging records and final documentation links were added. Pre-build pattern screening reported no findings in 6,784,674 source bytes, 21 commits, and 974 reachable Git objects; Git integrity checks passed. Pattern screening cannot establish complete recognition of private material. The later complete source ZIP needs a separate source check; immutable package observations do not attest that later documentation snapshot.
+
+An initial new 13-test targeted run had 12 passes and one harness error: a dispatched-plan assertion referenced execution_pathway instead of the actual pathway field. Correcting that test field did not change runtime behavior or the intended assertion; the separate 13-test run passed in 0.756 seconds and the final full suite passed 224 tests. The initial error is retained in notes and the tool transcript rather than a raw log file; the corrected run has a retained raw log. The additional state probe first encountered a module-path invocation error, also retained separately, before its recorded 81-combination observation. These outcomes are distinct from the final-source passing results and the browser instrumentation failures above.
+
+## Earlier section-entry observations
 
 Version 0.6.9.dev0 corrects section entry: the project overview and four record-count cards appear only in Analysis & claims. Controls, Evidence library, Execution, Scientific audit, and Evaluation begin with their own heading and content. Scientific audit presents conservative assessments of project claims; Evaluation records supplied benchmark judgments and calculates metrics for their recorded bundle. The mobile drawer closes before the destination is scrolled into view, and the header retains a visible export-state label at narrow widths in every section. The selected Cinnabar palette, scientific state gates, numerical procedures, and privacy boundaries remain.
 
@@ -144,7 +176,7 @@ Software and source-review fixtures are synthetic. Live publication checks, inde
 .\.venv\Scripts\python.exe scripts/generate_benchmark_dataset.py
 .\.venv\Scripts\controlomics.exe evaluate examples/benchmark.design.unassessed.json --output local_projects/evaluation.json
 .\.venv\Scripts\python.exe -m pip wheel . --no-deps --no-build-isolation --no-index --wheel-dir dist
-.\.venv\Scripts\python.exe scripts/check_package.py dist/controlomics-0.6.9.dev0-py3-none-any.whl --output local_projects/package_checks.json
+.\.venv\Scripts\python.exe scripts/check_package.py dist/controlomics-0.6.10.dev0-py3-none-any.whl --output local_projects/package_checks.json
 ```
 
 Unit, integration, scientific invariant, privacy, and adversarial tests cover strict parsing, references, unknown states, exact approval, URL/body binding, private DNS rejection, credential exclusion, source review, context mismatch, malformed metadata, strict generation settings, numeric calculations, fixed-script integrity, result bindings, CLI use, and local Host/Origin/token checks.
@@ -248,7 +280,7 @@ The complete Chrome 154 interface check passed again with no recorded JavaScript
 
 [The complete architecture walkthrough](docs/AGENT_ARCHITECTURE.md) now documents every implemented component, data flow, human/automatic decision boundary, local memory, optional model interface, privacy transport, fixed execution, provenance, artifacts, evaluation, and scientific limitations.
 
-## Independent expert and biological evaluation pending
+## Earlier empirical-study scope
 
 ControlomicsBench still requires independently sourced cases, expert control annotations, adjudication, negative examples, source and domain partitions, and potential training-contamination assessment. A model must not supply its own sole reference answers.
 

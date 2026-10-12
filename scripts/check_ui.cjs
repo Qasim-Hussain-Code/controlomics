@@ -8,14 +8,17 @@
 // Run node scripts/check_ui.cjs --profile <that exact QA directory> from the repository root. This performs only
 // hypothetical local actions, saves validation artifacts, and closes that QA
 // browser. Never attach it to a normal user profile or private project session.
+// Supply --browser-pid with the verified task-owned browser PID to observe
+// process exit separately from the debugging endpoint closing.
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
+const {spawnSync} = require('node:child_process');
 const {parseArgs} = require('node:util');
 const {values} = parseArgs({options: {
   server: {type:'string',default:'http://127.0.0.1:8765'},
   'debug-port': {type:'string',default:'9227'},
-  profile: {type:'string'}, output: {type:'string',default:'docs/validation'},
+  profile: {type:'string'}, 'browser-pid': {type:'string'}, output: {type:'string',default:'docs/validation'},
   downloads: {type:'string',default:'local_projects/ui-check/downloads'}
 }});
 const serverURL = new URL(values.server);
@@ -23,6 +26,8 @@ if (serverURL.protocol !== 'http:' || serverURL.hostname !== '127.0.0.1' || serv
 const serverOrigin = serverURL.origin;
 const debugPort = Number(values['debug-port']);
 if (!Number.isInteger(debugPort) || debugPort < 1 || debugPort > 65535 || !values.profile) throw new Error('Supply a valid debug port and the exact task-owned --profile directory');
+const browserPID = values['browser-pid'] === undefined ? null : Number(values['browser-pid']);
+if (browserPID !== null && (!Number.isSafeInteger(browserPID) || browserPID < 1 || browserPID === process.pid)) throw new Error('Supply a valid task-owned browser PID');
 const expectedProfile = path.resolve(values.profile), outputDirectory = path.resolve(values.output);
 fs.mkdirSync(outputDirectory,{recursive:true});
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -61,7 +66,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   const browserArguments = (await command('Browser.getBrowserCommandLine')).arguments;
   const profileArgument = browserArguments.find(argument=>argument.startsWith('--user-data-dir='));
   if (!browserArguments.includes('--headless=new') || !profileArgument || path.resolve(profileArgument.slice('--user-data-dir='.length)) !== expectedProfile) throw new Error('Refusing to use or close a browser outside the explicitly selected headless QA profile');
-  const checkedSources=['src/controlomics/server.py','src/controlomics/execution.py','src/controlomics/storage.py','src/controlomics/web/index.html','src/controlomics/web/app.js','src/controlomics/web/style.css','scripts/check_ui.cjs'];
+  const checkedSources=['src/controlomics/server.py','src/controlomics/execution.py','src/controlomics/storage.py','src/controlomics/evaluation.py','src/controlomics/web/index.html','src/controlomics/web/app.js','src/controlomics/web/style.css','scripts/check_ui.cjs'];
   const sourceHashes=Object.fromEntries(checkedSources.map(name=>[name,crypto.createHash('sha256').update(fs.readFileSync(name)).digest('hex')]));
   const screenshotHashes={};
   await command('Page.enable'); await command('Runtime.enable'); await command('Network.enable'); await command('Accessibility.enable');
@@ -198,7 +203,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
       if (parts.length > 3 && parts[3] !== 1) throw new Error('Contrast probe requires opaque text and surface colors');
       return parts.slice(0,3).map(value=>{const scaled=value/255; return scaled<=0.04045?scaled/12.92:((scaled+0.055)/1.055)**2.4;}).reduce((sum,value,index)=>sum+value*[0.2126,0.7152,0.0722][index],0);
     };
-    return [['.field strong'],['.field p'],['.evidence-state'],['.metric-note'],['.collection-count'],['.control-index'],['.eyebrow'],['.badge.negative'],['.card-foot'],['#control-search','::placeholder'],['.brand-caption'],['#workspace-tabs .tab:not(.active) > span:first-of-type'],['#workspace-tabs .tab.active > span:first-of-type'],['#export-bundle > span'],['.badge:not(.negative)'],['#workspace-tabs .tab:not(.active) .nav-count'],['#workspace-tabs .tab.active .nav-count'],['.session-note p'],['.brand > span'],['.nav-heading'],['.nav-footer'],['.nav-version'],['.session-note strong']].map(([selector,pseudo])=>{
+    return [['.field strong'],['.field p'],['.evidence-state'],['.metric-note'],['.collection-count'],['.control-index'],['.eyebrow'],['.badge.negative'],['.card-foot'],['#control-search','::placeholder'],['.brand-caption'],['#workspace-tabs .tab:not(.active) > span:first-of-type'],['#workspace-tabs .tab.active > span:first-of-type'],['#export-bundle > span'],['.badge:not(.negative)'],['#workspace-tabs .tab:not(.active) .nav-count'],['#workspace-tabs .tab.active .nav-count'],['.session-note p'],['.brand > span'],['.nav-heading'],['.nav-footer'],['.nav-version'],['.session-note strong'],['.breadcrumb-divider']].map(([selector,pseudo])=>{
       const previousView=state.view;
       if(selector==='.metric-note') switchView('analysis');
       const element=[...document.querySelectorAll(selector)].find(item=>item.checkVisibility());
@@ -214,6 +219,10 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
     });
   `);
   if(!observations.targetedTextContrast.every(item=>item.passes)) throw new Error('A targeted small-text contrast pair remained below 4.5:1');
+  observations.breadcrumbSeparator=await execute("const separator=document.querySelector('.breadcrumb-divider'); return {decorative:separator.getAttribute('aria-hidden')==='true',visible:separator.checkVisibility(),readableColor:getComputedStyle(separator).color===getComputedStyle(document.querySelector('.breadcrumb-root')).color};");
+  const separatorNode=await accessibilityNode("document.querySelector('.breadcrumb-divider')");
+  observations.breadcrumbSeparator.accessibilityIgnored=separatorNode?.ignored===true;
+  if(!Object.values(observations.breadcrumbSeparator).every(Boolean)) throw new Error('Decorative breadcrumb separator is exposed or lacks the readable breadcrumb color');
   await key('Tab',9);
   const navigationFocusContrast = async selector => execute(`
     const target=document.querySelector(${JSON.stringify(selector)}); target.focus();
@@ -675,6 +684,81 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
     return {navigationOnly,hiddenCaseProtected,reverted:!state.drafts.has('annotation-form'),unrecorded:state.evaluationBundle.judgment_origin==='UNASSESSED' && state.revisions.length===0};
   `);
   if (!Object.values(observations.judgmentCaseProtection).every(Boolean)) throw new Error('Judgment edit protection ignored a hidden case or counted case navigation as an edit');
+  // Exercise the real workbench against synthetic DEVELOPMENT_FIXTURE sheets.
+  // The required attestation boolean is fixture data, not a human review.
+  await setViewport({width:1440,height:1200});
+  const annotationFixture=JSON.parse(evaluationBundle);
+  annotationFixture.dataset.cases=annotationFixture.dataset.cases.slice(0,1);
+  annotationFixture.predictions.cases=annotationFixture.predictions.cases.slice(0,1);
+  const fixtureCase=annotationFixture.predictions.cases[0], fixtureControl=structuredClone(fixtureCase.controls[0]);
+  fixtureCase.controls=Array.from({length:7},(_,index)=>({...structuredClone(fixtureControl),control_id:'synthetic.annotation.'+(index+1),description:'Synthetic annotation-state fixture '+(index+1)}));
+  annotationFixture.judgments=fixtureCase.controls.map(control=>({case_id:fixtureCase.case_id,control_id:control.control_id,appropriate:null,unsupported:null,matched_reference_ids:[],rationale:'Synthetic state fixture; no scientific recommendation judgment.'}));
+  annotationFixture.evidence_decisions=['CITATION_IDENTITY','STATEMENT_ENTAILMENT','CONTEXT_COMPATIBILITY'].map((layer,index)=>({case_id:fixtureCase.case_id,unit_id:'synthetic.evidence.'+(index+1),layer,predicted_decision:true,reference_decision:null,rationale:'Synthetic evidence-state fixture; no source review.'}));
+  const openFixture=async bundle=>{
+    await execute(`await loadAnnotationBundle(${JSON.stringify(bundle)}); document.getElementById('open-annotations').click();`);
+    await until("document.getElementById('annotation-panel').open && !state.busy");
+  };
+  const selectJudgment=async (id,value)=>{
+    const index=await evaluate(`Array.from(document.getElementById(${JSON.stringify(id)}).options).findIndex(option=>option.value===${JSON.stringify(value)})`);
+    if(index<0) throw new Error('Synthetic workbench choice is missing');
+    await execute(`const target=document.getElementById(${JSON.stringify(id)}); target.scrollIntoView({block:'center',behavior:'instant'}); const box=target.getBoundingClientRect(); if(document.elementFromPoint(box.left+box.width/2,box.top+box.height/2)!==target) throw new Error('Workbench select click is obscured');`);
+    await clickElement(id);
+    // Dismiss the native popup before driving the focused select. Its popup
+    // consumes keys asynchronously on Windows; closed-select keys are direct.
+    await key('Escape',27); await pause(150); await key('Home',36);
+    for(let item=0;item<index;item++) await key('ArrowDown',40);
+    await key('Tab',9);
+    const actual=await evaluate(`document.getElementById(${JSON.stringify(id)}).value`);
+    if(actual!==value) throw new Error('Real-key annotation selector did not choose the intended state: '+JSON.stringify({id,expected:value,actual}));
+  };
+  const recordFixture=async name=>{
+    const previousHash=await evaluate('state.annotationHash');
+    await selectJudgment('annotation-origin','DEVELOPMENT_FIXTURE');
+    await clickElement('annotation-reviewer'); await command('Input.insertText',{text:'Synthetic software fixture '+name});
+    await clickElement('annotation-attestation');
+    await execute("document.querySelector('#annotation-form button[type=submit]').id='qa-record-annotations';");
+    await clickElement('qa-record-annotations');
+    await until("!state.busy && state.annotationHash!=="+JSON.stringify(previousHash));
+    return evaluate('structuredClone(state.evaluationBundle)');
+  };
+  const compareFixtureSheets=(first,second)=>{
+    const interpreter=path.resolve(process.platform==='win32'?'.venv/Scripts/python.exe':'.venv/bin/python');
+    const result=spawnSync(interpreter,['-c','import json,sys; from controlomics.evaluation import EvaluationBundle,compare_annotations; d=json.load(sys.stdin); print(json.dumps(compare_annotations(EvaluationBundle.model_validate_json(json.dumps(d["first"])), EvaluationBundle.model_validate_json(json.dumps(d["second"])))))'],{input:JSON.stringify({first,second}),encoding:'utf8',timeout:30000});
+    if(result.status!==0) throw new Error('Synthetic workbench agreement comparison failed: '+(result.stderr||result.error?.message||result.status));
+    return JSON.parse(result.stdout);
+  };
+  await openFixture(annotationFixture);
+  observations.annotationJudgmentStates=await execute("const submission=annotationSubmission(); return {untouchedRecommendationsOmitted:submission.judgments.length===0,untouchedEvidencePredictionsRetained:submission.evidence_decisions.length===3 && submission.evidence_decisions.every(item=>item.reference_assessed===false && item.reference_decision===null),allSelectorsNotJudged:[...document.querySelectorAll('#annotation-controls select,#annotation-evidence select')].every(select=>select.value==='' && select.options[0].text==='Not judged' && select.options[1].value==='uncertain')};");
+  await selectJudgment('ann-appropriate-0','true'); await selectJudgment('ann-unsupported-0','false');
+  await selectJudgment('ann-appropriate-1','false'); await selectJudgment('ann-unsupported-1','false');
+  await selectJudgment('ann-unsupported-2','true');
+  const sheetA=await recordFixture('A');
+  observations.annotationJudgmentStates.partialDimensionsPreserved=await evaluate("state.evaluationBundle.judgments.length===3 && document.getElementById('ann-appropriate-2').value==='' && document.getElementById('ann-unsupported-2').value==='true' && state.evaluationBundle.judgments[2].appropriate_assessed===false && state.evaluationBundle.judgments[2].unsupported_assessed===true && state.revisions.length===1 && state.revisions[0].updated_sha256===state.annotationHash && !state.drafts.has('annotation-form')");
+  await openFixture(annotationFixture);
+  await selectJudgment('ann-appropriate-0','true'); await selectJudgment('ann-unsupported-0','false');
+  await selectJudgment('ann-appropriate-1','true'); await selectJudgment('ann-unsupported-1','false');
+  await selectJudgment('ann-unsupported-2','false');
+  const sheetB=await recordFixture('B');
+  const omittedAgreement=compareFixtureSheets(sheetA,sheetB);
+  observations.annotationJudgmentStates.untouchedAgreementExcluded=omittedAgreement.paired_recommendations===2 && omittedAgreement.observed_agreement===0.5 && omittedAgreement.expected_marginal_agreement===0.5 && omittedAgreement.cohen_kappa===0;
+  observations.annotationAgreement={untouchedOmitted:{pairedRecommendations:omittedAgreement.paired_recommendations,observedAgreement:omittedAgreement.observed_agreement,cohenKappa:omittedAgreement.cohen_kappa}};
+  const priorBHash=await evaluate('state.annotationHash');
+  await selectJudgment('ann-appropriate-2','uncertain');
+  await selectJudgment('ann-evidence-0','uncertain'); await selectJudgment('ann-evidence-1','true');
+  const uncertainB=await recordFixture('B explicit uncertainty');
+  observations.annotationJudgmentStates.evidenceStatesPreserved=await evaluate("document.getElementById('ann-evidence-0').value==='uncertain' && document.getElementById('ann-evidence-1').value==='true' && document.getElementById('ann-evidence-2').value==='' && state.evaluationBundle.evidence_decisions[0].reference_assessed===true && state.evaluationBundle.evidence_decisions[0].reference_decision===null && state.evaluationBundle.evidence_decisions[2].reference_assessed===false");
+  observations.annotationJudgmentStates.revisionChainBound=await evaluate("state.revisions.length===2 && state.revisions[1].previous_sha256==="+JSON.stringify(priorBHash)+" && state.revisions[1].updated_sha256===state.annotationHash && state.evaluation===null && document.getElementById('export-evaluation').disabled");
+  await openFixture(sheetA); await selectJudgment('ann-appropriate-2','uncertain');
+  const uncertainA=await recordFixture('A explicit uncertainty'), uncertainAgreement=compareFixtureSheets(uncertainA,uncertainB);
+  observations.annotationJudgmentStates.explicitUncertaintyIncluded=uncertainAgreement.paired_recommendations===3 && Math.abs(uncertainAgreement.observed_agreement-2/3)<1e-12 && Math.abs(uncertainAgreement.cohen_kappa-0.5)<1e-12;
+  observations.annotationAgreement.explicitUncertainty={pairedRecommendations:uncertainAgreement.paired_recommendations,observedAgreement:uncertainAgreement.observed_agreement,cohenKappa:uncertainAgreement.cohen_kappa};
+  const legacyFixture=structuredClone(uncertainB);
+  for(const item of legacyFixture.judgments) { delete item.appropriate_assessed; delete item.unsupported_assessed; }
+  for(const item of legacyFixture.evidence_decisions) delete item.reference_assessed;
+  await openFixture(legacyFixture);
+  observations.annotationJudgmentStates.legacyExplicitUncertaintyPreserved=await evaluate("document.getElementById('ann-appropriate-2').value==='uncertain' && document.getElementById('ann-evidence-0').value==='uncertain' && document.getElementById('ann-evidence-2').value==='uncertain' && !Object.hasOwn(state.evaluationBundle.judgments[2],'appropriate_assessed') && !Object.hasOwn(state.evaluationBundle.evidence_decisions[2],'reference_assessed') && !state.drafts.has('annotation-form')");
+  if(!Object.values(observations.annotationJudgmentStates).every(Boolean)) throw new Error('Untouched, partial, explicit uncertain or legacy workbench judgment states were conflated: '+JSON.stringify(observations.annotationJudgmentStates));
+  await openFixture(JSON.parse(evaluationBundle));
   for (const viewport of [{width:1440,height:1200,name:'annotations'}, {width:430,height:1100,name:'annotations_mobile'}]) {
     await setViewport(viewport);
     await execute("document.getElementById('annotation-panel').scrollIntoView({block:'start'})");
@@ -733,6 +817,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   observations.personalProjectAttributionOmitted = privateAttributionSourceCheck;
   observations.scope = 'Local interface-phase checks with an explicitly selected headless QA profile. Sidebar workspace with rendered Cinnabar navigation, burnt orange selected tabs and primary actions, cream navigation text and dark text on a pale warm locality note, slate body text, neutral canvas and white paper surfaces, vertical desktop and mobile tab orientation, responsive two-column and single-column control cards with visible claim bindings and readable body text, long-token control-name wrapping with original project restoration, complete canonical project summary visibility, exact navigation breakpoint checks at 760 and 761 pixels, actual record counts, search and combined claim/class/evidence-state filters with reset preservation, scientific result and audit bindings, explicit execution-target selection, selection retention across unrelated renders and errors, no automatic target after planning, disabled unavailable execution actions, keyboard tabs, focusable panels, deep-scroll section navigation, visible failed-action feedback, one accessible save-status live region checked through the Chrome accessibility tree across responsive widths, destination focus after candidate, source-review and annotation workbenches open, mobile focus boundaries, file menus, reduced motion, text-only rendering, unsaved input protection and reversion, prepared downloads, cancelled and coherent project replacement, complete workspace reset, candidate, source and multi-case annotation draft protection, programmatic field tracking, procedure-specific fields, exact-byte UTF-8/BOM input inspection, reference and paired execution, explicit bootstrap coverage/seed recording, linked responsive reports and print styles, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, visible review headings, and review archive roundtrip. Evaluation snapshot hashes and bundle/partition invalidation, pending-input locking and failure recovery, stale-session renewal without automatic replay, a named outbound-preview dialog with initial Cancel focus and button/native-Escape cancellation, and a mocked interrupted hosted-request response are included. Dialog previews use fixed synthetic local mocked responses without any provider transmission. All computations and edited inputs were hypothetical software fixtures. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external page request was observed. Targeted small-text pairs, real hovered navigation label and count pairs, focused tab, brand and mobile close outlines, and the mobile close icon have contrast ratios computed from rendered styles; this does not assess every visual state. This is browser integration coverage, not a screen-reader, full accessibility, print-pagination, or scientific validation.';
   observations.scope = 'Section-entry regression checks include 42 empty and 42 populated section/width combinations selected by real desktop or mobile navigation clicks from deep scroll, an overview visible only in Analysis, section-specific entry headings, a visibly rendered save-state label in every section at all widths with a separate single live announcement, Evaluation isolated from audit records and available without a project, and 14 real keyboard Home/End selections with mobile Escape dismissal. Count-card text contrast is sampled while Analysis is rendered. These extend the retained workflows: ' + observations.scope;
+  observations.scope += ' Audit-remediation checks exercise real-key Not judged, explicit Uncertain and partial-dimension choices, four synthetic DEVELOPMENT_FIXTURE submissions through the actual local annotation API, imported assessed nulls, retained evidence predictions, revision chains, and backend agreement calculated from the workbench-generated sheets. Their required human_attested booleans are synthetic contract fixtures and do not represent human benchmark or source review. The first two sheets yield two paired labels and kappa 0; explicit uncertainty yields three paired labels and kappa 0.5. The decorative breadcrumb is ignored in the accessibility tree and its rendered contrast is included. Browser process exit, when a verified PID is supplied, is measured separately from endpoint refusal.';
   if (externalRequests.length) throw new Error('UI checks observed an unexpected nonlocal page request');
   if (exceptions.length) throw new Error('UI checks observed a JavaScript exception');
   for(const [name,expected] of Object.entries(sourceHashes)) if(crypto.createHash('sha256').update(fs.readFileSync(name)).digest('hex')!==expected) throw new Error('Checked interface sources changed during the browser run');
@@ -748,7 +833,18 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
     await pause(250);
   }
   if(!endpointClosed) throw new Error('Task-owned browser debugging endpoint remained open after shutdown');
-  observations.browserShutdown={debuggingEndpointClosed:true};
+  observations.browserShutdown={debuggingEndpointClosed:true,processExitObserved:false};
+  if(browserPID!==null) {
+    let processExited=false;
+    for(let attempt=0;attempt<160;attempt++) {
+      try { process.kill(browserPID,0); }
+      catch(error) { if(error.code==='ESRCH') { processExited=true; break; } throw error; }
+      await pause(250);
+    }
+    if(!processExited) throw new Error('Task-owned browser process remained alive after Browser.close and the separate exit wait');
+    observations.browserShutdown.processExitObserved=true;
+    observations.browserShutdown.processObservation='Verified launcher-supplied browser PID no longer exists; endpoint closure was measured separately.';
+  } else observations.browserShutdown.processObservation='Browser PID was not supplied; only debugging-endpoint closure was measured.';
   fs.writeFileSync(path.join(outputDirectory,'ui_checks.json'),JSON.stringify(observations,null,2)+'\n');
   console.log(JSON.stringify(observations,null,2));
 })().catch(error=>{console.error(error.message);process.exit(1);});

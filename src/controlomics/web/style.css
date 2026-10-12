@@ -50,7 +50,7 @@ button, .button, summary { -webkit-tap-highlight-color: transparent; }
 .breadcrumb { display: flex; align-items: center; gap: 13px; font-size: 12px; min-width: 0; }
 .section-context { display: flex; flex-direction: column; min-width: 0; gap: 1px; }
 .breadcrumb-root { color: var(--muted); }
-.breadcrumb-divider { color: #b4c0cf; }
+.breadcrumb-divider { color: var(--muted); }
 .breadcrumb strong { font-weight: 550; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .exports { display: flex; align-items: center; gap: 9px; flex-shrink: 0; }
 .local-indicator { display: inline-flex; align-items: center; gap: 7px; margin-right: 12px; color: var(--muted); font-size: 11px; }

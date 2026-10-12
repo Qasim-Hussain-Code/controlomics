@@ -583,6 +583,18 @@
           "title": "Rationale",
           "type": "string"
         },
+        "reference_assessed": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Assessed"
+        },
         "reference_decision": {
           "anyOf": [
             {
@@ -904,6 +916,18 @@
           ],
           "title": "Appropriate"
         },
+        "appropriate_assessed": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Appropriate Assessed"
+        },
         "case_id": {
           "maxLength": 100,
           "minLength": 1,
@@ -952,6 +976,18 @@
             }
           ],
           "title": "Unsupported"
+        },
+        "unsupported_assessed": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unsupported Assessed"
         }
       },
       "required": [

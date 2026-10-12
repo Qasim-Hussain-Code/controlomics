@@ -16,7 +16,8 @@ from pydantic import AwareDatetime, Field, model_validator
 
 from controlomics import __version__
 from controlomics.evaluation import AnnotationRevision, EvaluationBundle, bundle_hash
-from controlomics.privacy import PreparedRequest, SafeField, canonical_json, digest, screen_text
+from controlomics.privacy import (PreparedRequest, SafeField, canonical_json, digest,
+    is_public_unicast_address, screen_text)
 from controlomics.project import decode_json, parse_project_json
 from controlomics.reports import render_report
 from controlomics.schemas import Identifier, Record, Sha256, Text
@@ -63,7 +64,7 @@ class NetworkAuditEvent(Record):
             address = ipaddress.ip_address(parts.hostname)
         except ValueError:
             address = None
-        if address is not None and not address.is_global:
+        if address is not None and not is_public_unicast_address(str(address)):
             raise ValueError("audit destination is not public")
         if self.purpose == "LITERATURE":
             prepared = PreparedRequest(self.purpose, self.method, self.url,
@@ -76,6 +77,8 @@ class NetworkAuditEvent(Record):
             raise ValueError("completed audit requires a response receipt")
         if self.status != "COMPLETED" and (self.response_sha256 is not None or self.response_bytes is not None):
             raise ValueError("incomplete audit cannot assert a response receipt")
+        if self.status == "BLOCKED" and self.payload_transmission != "NOT_STARTED":
+            raise ValueError("a blocked request cannot record payload transmission")
         return self
 
 

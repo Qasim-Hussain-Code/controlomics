@@ -6,7 +6,9 @@ import hmac
 import base64
 import io
 import json
+import os
 import secrets
+import socket
 import subprocess
 import threading
 import time
@@ -17,7 +19,7 @@ from tempfile import TemporaryDirectory
 from urllib.parse import urlsplit
 
 from controlomics.evidence import Crossref, EuropePMC
-from controlomics.execution import ExecutionConfig, build_package, execute_local, import_result
+from controlomics.execution import ExecutionConfig, LocalExecutionError, build_package, execute_local, import_result
 from controlomics.models import MessagesProvider, MethodBaseline
 from controlomics.reasoning import NarrativeInput, describe_design, interpret_narrative
 from controlomics.privacy import SafeField, SafeTransport
@@ -25,9 +27,16 @@ from controlomics.project import decode_json, parse_project_json, save_project
 from controlomics.reports import render_report
 from controlomics.schemas import ControlResult
 from controlomics.workflow import (CandidateSubmission, HumanReview, Intake, NewClaim, add_claim, apply_review,
-    audit_project, import_evidence, new_project, propose, review_methods, review_template, specify_candidate)
+    audit_project, import_evidence, new_project, propose, propose_and_review_new, review_methods, review_template,
+    specify_candidate)
 
 ASSETS = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "text/javascript"), "/style.css": ("style.css", "text/css")}
+SECURITY_HEADERS = (
+    ("Cache-Control", "no-store"),
+    ("X-Content-Type-Options", "nosniff"),
+    ("Referrer-Policy", "no-referrer"),
+    ("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"),
+)
 MAX_BODY = 2 * 1024 * 1024
 MAX_CONNECTIONS = 16
 CONNECTION_TIMEOUT = 10
@@ -90,10 +99,10 @@ def handle_action(path, data):
             intake = Intake.model_validate_json(json.dumps(data["intake"]))
             project = new_project(intake)
         provider = MethodBaseline() if data.get("reasoner") == "reference" else None
-        return workspace(audit_project(review_methods(propose(project, provider))))
+        return workspace(audit_project(propose_and_review_new(project, provider)))
     if path == "/api/add-claim":
         submission = NewClaim.model_validate_json(json.dumps(data["claim"]))
-        return workspace(audit_project(review_methods(propose(add_claim(project_from(data), submission)))))
+        return workspace(audit_project(propose_and_review_new(add_claim(project_from(data), submission))))
     if path == "/api/specify-control":
         submission = CandidateSubmission.model_validate_json(json.dumps(data["specification"]))
         return workspace(audit_project(specify_candidate(project_from(data), submission)))
@@ -165,7 +174,12 @@ def handle_action(path, data):
 
 class LocalServer(ThreadingHTTPServer):
     daemon_threads = True
-    allow_reuse_address = True
+    allow_reuse_address = os.name != "nt"
+
+    def server_bind(self):
+        if os.name == "nt" and hasattr(socket, "SO_EXCLUSIVEADDRUSE"):
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        super().server_bind()
 
     def __init__(self, port=8765):
         if type(port) is not int or not 0 <= port <= 65535:
@@ -181,7 +195,8 @@ class LocalServer(ThreadingHTTPServer):
             body = b'{"error":"Local server is busy. Retry the operation manually."}'
             try:
                 request.settimeout(0.25)
-                request.sendall(b"HTTP/1.0 503 Service Unavailable\r\nContent-Type: application/json\r\nCache-Control: no-store\r\nConnection: close\r\nContent-Length: " + str(len(body)).encode("ascii") + b"\r\n\r\n" + body)
+                security = b"".join(name.encode("ascii") + b": " + value.encode("ascii") + b"\r\n" for name, value in SECURITY_HEADERS)
+                request.sendall(b"HTTP/1.0 503 Service Unavailable\r\nContent-Type: application/json\r\n" + security + b"Connection: close\r\nContent-Length: " + str(len(body)).encode("ascii") + b"\r\n\r\n" + body)
                 request.shutdown(1)
                 deadline, remaining = time.monotonic() + 0.05, 64 * 1024
                 while remaining > 0:
@@ -231,16 +246,18 @@ class Handler(BaseHTTPRequestHandler):
         port = self.server.server_port
         return self.single_header("Host") in (f"127.0.0.1:{port}", f"localhost:{port}")
 
+    def end_headers(self):
+        # Includes default HTTP error responses as well as application replies.
+        for name, value in SECURITY_HEADERS:
+            self.send_header(name, value)
+        super().end_headers()
+
     def reply(self, status, body, content_type="application/json", filename=None):
         if isinstance(body, dict):
             body = json.dumps(body, allow_nan=False).encode()
         self.send_response(status)
         self.send_header("Content-Type", content_type + ("; charset=utf-8" if content_type.startswith("text/") else ""))
         self.send_header("Content-Length", str(len(body)))
-        self.send_header("Cache-Control", "no-store")
-        self.send_header("X-Content-Type-Options", "nosniff")
-        self.send_header("Referrer-Policy", "no-referrer")
-        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
         if filename:
             self.send_header("Content-Disposition", 'attachment; filename="' + filename + '"')
         self.end_headers()
@@ -288,6 +305,8 @@ class Handler(BaseHTTPRequestHandler):
                 self.reply(200, result[0], result[1], result[2])
             else:
                 self.reply(200, result)
+        except LocalExecutionError as error:
+            self.reply(400, {"error": str(error), "code": error.code})
         except (ValueError, OSError, TypeError, KeyError, IndexError, RecursionError, subprocess.TimeoutExpired):
             self.reply(400, {"error": "Operation failed. Private input, credentials, and local paths are omitted."})
         except Exception:

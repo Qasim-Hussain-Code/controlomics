@@ -468,8 +468,6 @@
       "enum": [
         "EVIDENCE_BACKED",
         "METHOD_BASED",
-        "AGENT_PROPOSED",
-        "UNVERIFIED",
         "CONFLICTING_EVIDENCE",
         "INSUFFICIENT_EVIDENCE"
       ],

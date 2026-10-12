@@ -107,11 +107,18 @@ class RecommendationJudgment(Record):
     control_id: Identifier
     appropriate: bool | None
     unsupported: bool | None
+    # Absent legacy flags retain their recorded origin-based meaning and bytes.
+    appropriate_assessed: bool | None = Field(default=None, exclude_if=lambda value: value is None)
+    unsupported_assessed: bool | None = Field(default=None, exclude_if=lambda value: value is None)
     matched_reference_ids: tuple[Identifier, ...] = ()
     rationale: Text
 
     @model_validator(mode="after")
     def reference_matches(self):
+        if self.appropriate_assessed is False and (self.appropriate is not None or self.matched_reference_ids):
+            raise ValueError("unjudged appropriateness cannot assert a value or reference matches")
+        if self.unsupported_assessed is False and self.unsupported is not None:
+            raise ValueError("unjudged unsupported status cannot assert a value")
         if self.matched_reference_ids and self.appropriate is not True:
             raise ValueError("reference coverage requires an appropriate recommendation judgment")
         if len(self.matched_reference_ids) != len(set(self.matched_reference_ids)):
@@ -125,7 +132,14 @@ class EvidenceDecision(Record):
     layer: Literal["CITATION_IDENTITY", "STATEMENT_ENTAILMENT", "CONTEXT_COMPATIBILITY"]
     predicted_decision: bool
     reference_decision: bool | None
+    reference_assessed: bool | None = Field(default=None, exclude_if=lambda value: value is None)
     rationale: Text
+
+    @model_validator(mode="after")
+    def reference_assessment(self):
+        if self.reference_assessed is False and self.reference_decision is not None:
+            raise ValueError("unjudged evidence reference cannot assert a value")
+        return self
 
 
 class EvaluationBundle(Record):
@@ -155,11 +169,15 @@ class EvaluationBundle(Record):
                 raise ValueError("matched reference does not belong to the judged case")
             if self.judgment_origin == "UNASSESSED" and (judgment.appropriate is not None or judgment.unsupported is not None or judgment.matched_reference_ids):
                 raise ValueError("unassessed sheets cannot contain asserted judgments")
+            if self.judgment_origin == "UNASSESSED" and (judgment.appropriate_assessed is True or judgment.unsupported_assessed is True):
+                raise ValueError("unassessed sheets cannot contain explicit uncertain judgments")
         units = [(item.layer, item.unit_id) for item in self.evidence_decisions]
         if len(units) != len(set(units)) or any(item.case_id not in cases for item in self.evidence_decisions):
             raise ValueError("evidence decisions require unique units and known cases")
         if self.judgment_origin == "UNASSESSED" and any(item.reference_decision is not None for item in self.evidence_decisions):
             raise ValueError("unassessed sheets cannot assert evidence reference decisions")
+        if self.judgment_origin == "UNASSESSED" and any(item.reference_assessed is True for item in self.evidence_decisions):
+            raise ValueError("unassessed sheets cannot contain explicit uncertain evidence judgments")
         if self.judgment_origin == "EXPERT_ATTESTATION" and self.annotator is None:
             raise ValueError("expert judgments require an explicitly supplied annotator")
         return self
@@ -276,6 +294,8 @@ def evaluate(bundle: EvaluationBundle, partition: Partition | None = None):
         "annotators": {"references": bundle.dataset.annotator, "judgments": bundle.annotator}, "metrics": metrics,
         "coverage": {"cases": len(cases), "recommendations": sum(len(item.controls) for item in predictions.values()),
             "appropriateness_assessed": len(judged), "unsupported_assessed": len(unsupported),
+            "appropriateness_uncertain": sum(item.appropriate is None and item.appropriate_assessed is not False for item in judgments.values()) if eligible else 0,
+            "appropriateness_missing": sum(len(item.controls) for item in predictions.values()) - sum(item.appropriate_assessed is not False for item in judgments.values()) if eligible else sum(len(item.controls) for item in predictions.values()),
             "uncertain_or_missing_appropriateness": sum(len(item.controls) for item in predictions.values()) - len(judged),
             "completely_judged_cases": len(complete_cases), "reference_recall_cases": len(coverage_known),
             "finding_annotated_cases": finding_cases, "blocked_executions": states.count("BLOCKED"), "not_run": states.count("NOT_RUN")},
@@ -289,7 +309,8 @@ def evaluate(bundle: EvaluationBundle, partition: Partition | None = None):
 def annotation_template(dataset: EvaluationDataset, predictions: PredictionRun):
     return EvaluationBundle(dataset=dataset, predictions=predictions, judgment_origin="UNASSESSED",
         judgments=tuple(RecommendationJudgment(case_id=case.case_id, control_id=control.control_id,
-            appropriate=None, unsupported=None, rationale="Unassessed. Supply a source-based judgment and its limitations.")
+            appropriate=None, unsupported=None, appropriate_assessed=False, unsupported_assessed=False,
+            rationale="Unassessed. Supply a source-based judgment and its limitations.")
             for case in predictions.cases for control in case.controls))
 
 
@@ -324,8 +345,8 @@ def compare_annotations(first: EvaluationBundle, second: EvaluationBundle):
         raise ValueError("paired annotation comparison requires the same dataset and predictions")
     if "UNASSESSED" in (first.judgment_origin, second.judgment_origin):
         raise ValueError("unassessed annotation sheets have no agreement measurement")
-    left = {(item.case_id, item.control_id): item.appropriate for item in first.judgments}
-    right = {(item.case_id, item.control_id): item.appropriate for item in second.judgments}
+    left = {(item.case_id, item.control_id): item.appropriate for item in first.judgments if item.appropriate_assessed is not False}
+    right = {(item.case_id, item.control_id): item.appropriate for item in second.judgments if item.appropriate_assessed is not False}
     paired = sorted(left.keys() & right.keys())
     count = len(paired)
     counts_left, counts_right = Counter(left[key] for key in paired), Counter(right[key] for key in paired)

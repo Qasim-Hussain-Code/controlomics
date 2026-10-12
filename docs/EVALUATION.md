@@ -17,6 +17,8 @@ Recreate these records locally:
 .\.venv\Scripts\controlomics.exe evaluate local_projects/unassessed.json --output local_projects/evaluation.json
 ```
 
+The reference dataset run ablates operation-specific proposals and finding codes, retaining the two-reference baseline. Project audits retain full conservative design diagnostics regardless of proposal reasoner. A reference proposal run therefore does not suppress a known project warning; the development finding-code comparison uses the separately defined dataset output.
+
 In the Evaluation tab, open a bundle, choose a declared partition, and calculate its metrics. All computation remains local. Export the report before closing the page. The CLI supports DEVELOPMENT, VALIDATION, or TEST filtering. A partition without cases is rejected rather than reported as zero performance.
 
 ## Record contracts
@@ -24,6 +26,8 @@ In the Evaluation tab, open a bundle, choose a declared partition, and calculate
 Structural schemas are in `schemas/workflow/0.1.0`. Python validation additionally enforces reference integrity, partition isolation, and annotation-state rules. Each dataset contains at most 200 cases. Each case identifies its partition, source group, optional publication identifiers, explicit intake for runnable baselines, reference controls, and expected finding codes when assessed.
 
 A prediction run covers every case exactly once, including explicit full abstentions. Each recommendation has an ID, class, level, description, and optional probability of appropriateness. Findings and execution states are separate observations. A recommendation judgment references the exact case and recommendation, states appropriate or inappropriate or uncertain, independently states unsupported or supported or uncertain, and identifies any appropriate reference matches. Evidence decisions separately assess citation identity, statement entailment, and context compatibility.
+
+Optional `appropriate_assessed`, `unsupported_assessed`, and `reference_assessed` flags distinguish an explicit uncertain judgment from a dimension nobody assessed. A false flag requires a null value for that dimension; unassessed appropriateness cannot assert reference matches. A true flag with a null value records explicit uncertainty. Blank templates supply false flags. New workbench submissions preserve untouched dimensions as unassessed; choosing Uncertain is a deliberate judgment. Older snapshots without these flags retain their origin-based interpretation and canonical bytes; uncertainty already recorded in them cannot be retrospectively separated from skipped items.
 
 Origins are UNASSESSED, DEVELOPMENT_FIXTURE, and EXPERT_ATTESTATION. UNASSESSED bundles cannot assert recommendation or evidence reference judgments. An expert origin requires an explicitly supplied annotator name, which remains an unauthenticated attestation. Do not change origin or fill judgments merely to produce a score. Reference origin and judgment origin remain separately visible in reports.
 
@@ -44,7 +48,7 @@ Source groups and shared normalized publication identifiers cannot cross partiti
 
 Unknown and missing judgments are excluded from definite-decision denominators and counted in coverage. Incompletely judged cases are excluded from reference recall; explicitly abstained cases with assessed references remain in recall and contribute uncovered references. Distinct matches prevent duplicated recommendations from increasing coverage. Always inspect coverage alongside the conditional metrics, since missing judgments can make a narrow score misleading.
 
-A zero denominator yields null, displayed as Unavailable. Descriptive Wilson intervals accompany ratios. Correlated cases, references, recommendations, and repeated source material violate an independent-binomial interpretation; scientific uncertainty requires a separately specified design.
+A zero denominator yields null, displayed as Unavailable. Descriptive Wilson intervals accompany ratios, with exact endpoints of zero for zero successes and one for all successes. Correlated cases, references, recommendations, and repeated source material violate an independent-binomial interpretation; scientific uncertainty requires a separately specified design.
 
 The binary quadratic score uses mean `(p-y)^2` on the single-probability 0-to-1 convention. The original [Brier paper, 1950](https://journals.ametsoc.org/doi/abs/10.1175/1520-0493%281950%29078%3C0001%3AVOFEIT%3E2.0.CO%3B2) motivates quadratic probability scoring, with a different multicategory scaling. This scalar score alone does not demonstrate calibration. Local baselines supply no appropriateness probabilities.
 
@@ -56,9 +60,9 @@ Independent annotation sheets must retain the same dataset and predictions. Comp
 .\.venv\Scripts\controlomics.exe compare-annotations local_projects/reviewer_a.json local_projects/reviewer_b.json --output local_projects/agreement.json
 ```
 
-The report gives paired and missing units, observed agreement, marginal expected agreement, and Cohen's kappa. UNCERTAIN is a nominal category; a missing judgment is not agreement. Degenerate marginals yield no kappa. See [Cohen, 1960](https://journals.sagepub.com/doi/abs/10.1177/001316446002000104). Agreement does not establish correctness, independent recruitment, or authenticated reviewers.
+The report gives paired and missing units, observed agreement, marginal expected agreement, and Cohen's kappa. UNCERTAIN is a nominal category only for an assessed dimension; false assessed flags and absent judgments are missing units rather than agreement. Definite labels retain their ordinary meaning. Degenerate marginals yield no kappa. See [Cohen, 1960](https://journals.sagepub.com/doi/abs/10.1177/001316446002000104). Agreement does not establish correctness, independent recruitment, or authenticated reviewers.
 
-## Independent research still required
+## Scientific performance claims
 
 Predefine the target populations, outcomes, annotation rubric, sample sizes, source and domain partitions, adjudication, and statistical analysis before evaluating models. Experts should judge exact claims, control roles, biological applicability, contradictory evidence, missing critical controls, and negative cases without treating one model's answer as sole truth. Retain independent sheets and adjudicated records separately.
 
@@ -66,8 +70,8 @@ Compare the reference baseline, method checklists, retrieval-only reasoning, and
 
 ## Local judgment entry
 
-The Evaluation workbench accepts imported case/reference/prediction snapshots and records actual supplied recommendation judgments and evidence reference decisions. It keeps unknown labels and requires an explicit origin, reviewer, and attestation. Submission binds the canonical snapshot hash. Dataset references, prediction controls, and predicted evidence decisions cannot be changed through this action. Revision receipts retain old and new hashes with time and declared reviewer. Keep prior snapshots separately; hashes cannot recover old content. The workbench neither verifies expertise nor supplies expert reference answers.
+The Evaluation workbench accepts imported case/reference/prediction snapshots and records actual supplied recommendation judgments and evidence reference decisions. It starts unassessed and requires an explicit origin, reviewer, and attestation. Recording one item does not convert untouched items into uncertain judgments. Submission binds the canonical snapshot hash. Dataset references, prediction controls, and predicted evidence decisions cannot be changed through this action. Revision receipts retain old and new hashes with time and declared reviewer. Keep prior snapshots separately; hashes cannot recover old content. The workbench neither verifies expertise nor supplies expert reference answers.
 
 ## Expert-study preparation
 
-[The proposed independent validation protocol](INDEPENDENT_VALIDATION_PROTOCOL.md) specifies case-level essential-control coverage, source-independent sampling, blinded reference/recommendation review, adjudication, paired comparisons, and local privacy. It is a proposed design, not a completed expert study or public preregistration. The `scripts/check_study_readiness.py` audit checks immutable snapshots, declared origins, source-group counts, and definite test annotations without exporting descriptions, reviewer names, or file paths. Its record checks cannot establish genuine expertise or independence. The current [readiness observation](validation/study_readiness.json) remains INCOMPLETE because only unassessed development fixtures are available.
+[The proposed independent validation protocol](INDEPENDENT_VALIDATION_PROTOCOL.md) specifies case-level essential-control coverage, source-independent sampling, blinded reference/recommendation review, adjudication, paired comparisons, and local privacy. It is a separately scoped empirical study design rather than prototype acceptance. The `scripts/check_study_readiness.py` audit checks immutable snapshots, declared origins, source-group counts, and definite test annotations without exporting descriptions, reviewer names, or file paths. Its record checks cannot establish genuine expertise or independence. The [earlier readiness observation](validation/study_readiness.json) retains its original result and input scope; prototype checks test this tool through synthetic contracts.

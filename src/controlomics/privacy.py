@@ -17,6 +17,14 @@ from controlomics.schemas import PrivacyClass
 
 MAX_RESPONSE_BYTES = 2 * 1024 * 1024
 ALLOWED_FIELDS = {"public_query", "public_identifier", "question", "analysis_summary", "claim", "method", "organism"}
+CREDENTIAL_PATTERNS = {
+    "private_key": r"-----BEGIN .*PRIVATE KEY-----",
+    "aws_access_key": r"\b(?:AKIA|ASIA)[A-Z0-9]{16}\b",
+    "github_token": r"(?<![A-Za-z0-9])(?:ghp_[A-Za-z0-9_-]{12,}|gh[ousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,})",
+    "provider_key": r"(?<![A-Za-z0-9])(?:sk-[A-Za-z0-9_-]{12,}|hf_[A-Za-z0-9_-]{12,}|AIza[A-Za-z0-9_-]{35})",
+    "bearer_token": r"(?i:\bBearer)\s+[A-Za-z0-9._~+/=-]{16,}",
+    "named_credential": r"\b(?:password|api[_ -]?key|token)\s*[:=]\s*\S+",
+}
 
 
 def canonical_json(value) -> bytes:
@@ -29,13 +37,26 @@ def digest(value: bytes) -> str:
 
 def screen_text(text: str) -> PrivacyClass:
     patterns = (
-        r"\b(?:sk-|ghp_|hf_)[A-Za-z0-9_-]{12,}", r"-----BEGIN .*PRIVATE KEY-----",
-        r"\bAKIA[A-Z0-9]{16}\b", r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}",
+        *CREDENTIAL_PATTERNS.values(), r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}",
         r"[A-Za-z]:[\\/]", r"(?:/home/|/Users/|\\\\)[^\s]+",
         r"\b(?:patient|subject|clinical|medical_record)[ _-]?(?:id|identifier|number)\s*[:=]",
-        r"\b[ACGTNacgtn]{80,}\b", r"\b(?:password|api[_ -]?key|token)\s*[:=]\s*\S+",
+        r"(?i:\bMRN)\s*[:#=]?\s*\d{5,}\b",
+        # Alphabetic boundaries also detect underscore-prefixed sequence-like runs.
+        r"(?<![A-Za-z])[ACGTUNacgtun]{80,}(?![A-Za-z])",
+        r"(?<![A-Za-z])[ACDEFGHIKLMNPQRSTVWY]{60,}(?![A-Za-z])",
     )
-    return "RESTRICTED" if any(re.search(pattern, text) for pattern in patterns) else "SENSITIVE_SCIENTIFIC"
+    if any(re.search(pattern, text) for pattern in patterns):
+        return "RESTRICTED"
+    # Count bases across separated blocks without joining arbitrary scientific prose.
+    blocks = r"(?<![A-Za-z])[ACGTUNacgtun]{4,}(?:\s+[ACGTUNacgtun]{4,})+(?![A-Za-z])"
+    if any(len(re.sub(r"\s", "", match.group())) >= 80 for match in re.finditer(blocks, text)):
+        return "RESTRICTED"
+    return "SENSITIVE_SCIENTIFIC"
+
+
+def is_public_unicast_address(address: str) -> bool:
+    ip = ipaddress.ip_address(address)
+    return ip.is_global and not ip.is_multicast and not ip.is_reserved
 
 
 @dataclass(frozen=True)
@@ -141,7 +162,7 @@ class SafeTransport:
         self.audit.append(event)
         try:
             addresses = socket.getaddrinfo(host, 443, type=socket.SOCK_STREAM)
-            if not addresses or any(not ipaddress.ip_address(address[4][0]).is_global for address in addresses):
+            if not addresses or any(not is_public_unicast_address(address[4][0]) for address in addresses):
                 raise TransportError("nonpublic destinations are disabled")
             headers = {"Accept": "application/json", "User-Agent": "Controlomics/0.2 scientific-metadata-client"}
             if prepared.body is not None:

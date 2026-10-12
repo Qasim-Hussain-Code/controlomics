@@ -1,0 +1,3096 @@
+{
+  "browser": "Edg/155.0.4283.45",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1200,
+      "name": "controls",
+      "viewport": 1440,
+      "document": 1425,
+      "cards": 3,
+      "status": "Local design controls specified. Biological support and applicability remain unvalidated."
+    },
+    {
+      "width": 430,
+      "height": 1100,
+      "name": "mobile",
+      "viewport": 430,
+      "document": 415,
+      "cards": 3,
+      "status": "Local design controls specified. Biological support and applicability remain unvalidated."
+    }
+  ],
+  "exceptions": [],
+  "externalRequests": [],
+  "emptyWorkspace": {
+    "zeroCounts": true,
+    "savingDisabled": true,
+    "searchDisabled": true,
+    "executionUnselected": true,
+    "executionDisabled": true,
+    "availabilityExplained": true,
+    "panelsFocusable": true,
+    "view": "analysis"
+  },
+  "emptySectionEntry": [
+    {
+      "width": 375,
+      "phase": "empty",
+      "view": "analysis",
+      "mobile": true,
+      "heading": "No project open",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 375,
+      "phase": "empty",
+      "view": "controls",
+      "mobile": true,
+      "heading": "Control specifications",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 375,
+      "phase": "empty",
+      "view": "evidence",
+      "mobile": true,
+      "heading": "Publication records and source review",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 375,
+      "phase": "empty",
+      "view": "execution",
+      "mobile": true,
+      "heading": "Local execution",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 375,
+      "phase": "empty",
+      "view": "audit",
+      "mobile": true,
+      "heading": "Scientific audit",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 375,
+      "phase": "empty",
+      "view": "evaluation",
+      "mobile": true,
+      "heading": "Evaluation records",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 430,
+      "phase": "empty",
+      "view": "analysis",
+      "mobile": true,
+      "heading": "No project open",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 430,
+      "phase": "empty",
+      "view": "controls",
+      "mobile": true,
+      "heading": "Control specifications",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 430,
+      "phase": "empty",
+      "view": "evidence",
+      "mobile": true,
+      "heading": "Publication records and source review",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 430,
+      "phase": "empty",
+      "view": "execution",
+      "mobile": true,
+      "heading": "Local execution",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 430,
+      "phase": "empty",
+      "view": "audit",
+      "mobile": true,
+      "heading": "Scientific audit",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 430,
+      "phase": "empty",
+      "view": "evaluation",
+      "mobile": true,
+      "heading": "Evaluation records",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 760,
+      "phase": "empty",
+      "view": "analysis",
+      "mobile": true,
+      "heading": "No project open",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 760,
+      "phase": "empty",
+      "view": "controls",
+      "mobile": true,
+      "heading": "Control specifications",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 760,
+      "phase": "empty",
+      "view": "evidence",
+      "mobile": true,
+      "heading": "Publication records and source review",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 760,
+      "phase": "empty",
+      "view": "execution",
+      "mobile": true,
+      "heading": "Local execution",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 760,
+      "phase": "empty",
+      "view": "audit",
+      "mobile": true,
+      "heading": "Scientific audit",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 760,
+      "phase": "empty",
+      "view": "evaluation",
+      "mobile": true,
+      "heading": "Evaluation records",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 761,
+      "phase": "empty",
+      "view": "analysis",
+      "mobile": false,
+      "heading": "No project open",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 761,
+      "phase": "empty",
+      "view": "controls",
+      "mobile": false,
+      "heading": "Control specifications",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 761,
+      "phase": "empty",
+      "view": "evidence",
+      "mobile": false,
+      "heading": "Publication records and source review",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 761,
+      "phase": "empty",
+      "view": "execution",
+      "mobile": false,
+      "heading": "Local execution",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 761,
+      "phase": "empty",
+      "view": "audit",
+      "mobile": false,
+      "heading": "Scientific audit",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 761,
+      "phase": "empty",
+      "view": "evaluation",
+      "mobile": false,
+      "heading": "Evaluation records",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 768,
+      "phase": "empty",
+      "view": "analysis",
+      "mobile": false,
+      "heading": "No project open",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 768,
+      "phase": "empty",
+      "view": "controls",
+      "mobile": false,
+      "heading": "Control specifications",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 768,
+      "phase": "empty",
+      "view": "evidence",
+      "mobile": false,
+      "heading": "Publication records and source review",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 768,
+      "phase": "empty",
+      "view": "execution",
+      "mobile": false,
+      "heading": "Local execution",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 768,
+      "phase": "empty",
+      "view": "audit",
+      "mobile": false,
+      "heading": "Scientific audit",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 768,
+      "phase": "empty",
+      "view": "evaluation",
+      "mobile": false,
+      "heading": "Evaluation records",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1024,
+      "phase": "empty",
+      "view": "analysis",
+      "mobile": false,
+      "heading": "No project open",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1024,
+      "phase": "empty",
+      "view": "controls",
+      "mobile": false,
+      "heading": "Control specifications",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1024,
+      "phase": "empty",
+      "view": "evidence",
+      "mobile": false,
+      "heading": "Publication records and source review",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1024,
+      "phase": "empty",
+      "view": "execution",
+      "mobile": false,
+      "heading": "Local execution",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1024,
+      "phase": "empty",
+      "view": "audit",
+      "mobile": false,
+      "heading": "Scientific audit",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1024,
+      "phase": "empty",
+      "view": "evaluation",
+      "mobile": false,
+      "heading": "Evaluation records",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1440,
+      "phase": "empty",
+      "view": "analysis",
+      "mobile": false,
+      "heading": "No project open",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1440,
+      "phase": "empty",
+      "view": "controls",
+      "mobile": false,
+      "heading": "Control specifications",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1440,
+      "phase": "empty",
+      "view": "evidence",
+      "mobile": false,
+      "heading": "Publication records and source review",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1440,
+      "phase": "empty",
+      "view": "execution",
+      "mobile": false,
+      "heading": "Local execution",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1440,
+      "phase": "empty",
+      "view": "audit",
+      "mobile": false,
+      "heading": "Scientific audit",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1440,
+      "phase": "empty",
+      "view": "evaluation",
+      "mobile": false,
+      "heading": "Evaluation records",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    }
+  ],
+  "emptyDraftProtection": {
+    "tracked": true,
+    "retained": true,
+    "cleared": true
+  },
+  "programmaticDraftProtection": {
+    "tracked": true,
+    "retained": true,
+    "cleared": true
+  },
+  "targetedTextContrast": [
+    {
+      "selector": ".field strong",
+      "foreground": "rgb(89, 105, 123)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.628,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".field p",
+      "foreground": "rgb(67, 83, 104)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 7.848,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".evidence-state",
+      "foreground": "rgb(83, 97, 111)",
+      "background": "rgb(244, 246, 248)",
+      "ratio": 5.861,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".metric-note",
+      "foreground": "rgb(89, 105, 123)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.628,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".collection-count",
+      "foreground": "rgb(89, 105, 123)",
+      "background": "rgb(237, 240, 244)",
+      "ratio": 4.923,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".control-index",
+      "foreground": "rgb(89, 105, 123)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.628,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".eyebrow",
+      "foreground": "rgb(89, 105, 123)",
+      "background": "rgb(243, 244, 246)",
+      "ratio": 5.114,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".badge.negative",
+      "foreground": "rgb(122, 90, 48)",
+      "background": "rgb(246, 240, 229)",
+      "ratio": 5.555,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".card-foot",
+      "foreground": "rgb(89, 105, 123)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.628,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": "#control-search::placeholder",
+      "foreground": "rgb(89, 105, 123)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.628,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".brand-caption",
+      "foreground": "rgb(255, 230, 214)",
+      "background": "rgb(157, 52, 31)",
+      "ratio": 5.957,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": "#workspace-tabs .tab:not(.active) > span:first-of-type",
+      "foreground": "rgb(255, 247, 239)",
+      "background": "rgb(157, 52, 31)",
+      "ratio": 6.725,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": "#workspace-tabs .tab.active > span:first-of-type",
+      "foreground": "rgb(255, 255, 255)",
+      "background": "rgb(168, 61, 35)",
+      "ratio": 6.256,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": "#export-bundle > span",
+      "foreground": "rgb(255, 255, 255)",
+      "background": "rgb(168, 61, 35)",
+      "ratio": 6.256,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".badge:not(.negative)",
+      "foreground": "rgb(49, 94, 135)",
+      "background": "rgb(234, 240, 247)",
+      "ratio": 5.94,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": "#workspace-tabs .tab:not(.active) .nav-count",
+      "foreground": "rgb(255, 247, 239)",
+      "background": "rgb(177, 62, 38)",
+      "ratio": 5.522,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": "#workspace-tabs .tab.active .nav-count",
+      "foreground": "rgb(255, 255, 255)",
+      "background": "rgb(177, 62, 38)",
+      "ratio": 5.855,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".session-note p",
+      "foreground": "rgb(83, 43, 29)",
+      "background": "rgb(241, 196, 170)",
+      "ratio": 7.635,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".brand > span",
+      "foreground": "rgb(255, 247, 239)",
+      "background": "rgb(157, 52, 31)",
+      "ratio": 6.725,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".nav-heading",
+      "foreground": "rgb(255, 230, 214)",
+      "background": "rgb(157, 52, 31)",
+      "ratio": 5.957,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".nav-footer",
+      "foreground": "rgb(255, 230, 214)",
+      "background": "rgb(157, 52, 31)",
+      "ratio": 5.957,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".nav-version",
+      "foreground": "rgb(255, 230, 214)",
+      "background": "rgb(157, 52, 31)",
+      "ratio": 5.957,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".session-note strong",
+      "foreground": "rgb(83, 43, 29)",
+      "background": "rgb(241, 196, 170)",
+      "ratio": 7.635,
+      "rendered": true,
+      "passes": true
+    },
+    {
+      "selector": ".breadcrumb-divider",
+      "foreground": "rgb(89, 105, 123)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.628,
+      "rendered": true,
+      "passes": true
+    }
+  ],
+  "breadcrumbSeparator": {
+    "decorative": true,
+    "visible": true,
+    "readableColor": true,
+    "accessibilityIgnored": true
+  },
+  "navigationFocusContrast": {
+    "selector": "#workspace-tabs .tab.active",
+    "foreground": "rgb(255, 209, 164)",
+    "background": "rgb(157, 52, 31)",
+    "ratio": 5.063,
+    "width": 3,
+    "focused": true,
+    "focusVisible": true,
+    "passes": true
+  },
+  "brandFocusContrast": {
+    "selector": ".brand",
+    "foreground": "rgb(255, 209, 164)",
+    "background": "rgb(157, 52, 31)",
+    "ratio": 5.063,
+    "width": 3,
+    "focused": true,
+    "focusVisible": true,
+    "passes": true
+  },
+  "navigationHoverContrast": [
+    {
+      "tab": "tab-analysis",
+      "part": "label",
+      "foreground": "rgb(255, 247, 239)",
+      "background": "rgb(130, 40, 25)",
+      "ratio": 8.736,
+      "passes": true
+    },
+    {
+      "tab": "tab-analysis",
+      "part": "count",
+      "foreground": "rgb(255, 247, 239)",
+      "background": "rgb(177, 62, 38)",
+      "ratio": 5.522,
+      "passes": true
+    },
+    {
+      "tab": "tab-controls",
+      "part": "label",
+      "foreground": "rgb(255, 255, 255)",
+      "background": "rgb(168, 61, 35)",
+      "ratio": 6.256,
+      "passes": true
+    },
+    {
+      "tab": "tab-controls",
+      "part": "count",
+      "foreground": "rgb(255, 255, 255)",
+      "background": "rgb(177, 62, 38)",
+      "ratio": 5.855,
+      "passes": true
+    },
+    {
+      "tab": "tab-evidence",
+      "part": "label",
+      "foreground": "rgb(255, 247, 239)",
+      "background": "rgb(130, 40, 25)",
+      "ratio": 8.736,
+      "passes": true
+    },
+    {
+      "tab": "tab-evidence",
+      "part": "count",
+      "foreground": "rgb(255, 247, 239)",
+      "background": "rgb(177, 62, 38)",
+      "ratio": 5.522,
+      "passes": true
+    },
+    {
+      "tab": "tab-execution",
+      "part": "label",
+      "foreground": "rgb(255, 247, 239)",
+      "background": "rgb(130, 40, 25)",
+      "ratio": 8.736,
+      "passes": true
+    },
+    {
+      "tab": "tab-execution",
+      "part": "count",
+      "foreground": "rgb(255, 247, 239)",
+      "background": "rgb(177, 62, 38)",
+      "ratio": 5.522,
+      "passes": true
+    },
+    {
+      "tab": "tab-audit",
+      "part": "label",
+      "foreground": "rgb(255, 247, 239)",
+      "background": "rgb(130, 40, 25)",
+      "ratio": 8.736,
+      "passes": true
+    },
+    {
+      "tab": "tab-evaluation",
+      "part": "label",
+      "foreground": "rgb(255, 247, 239)",
+      "background": "rgb(130, 40, 25)",
+      "ratio": 8.736,
+      "passes": true
+    }
+  ],
+  "recordCounts": true,
+  "preparedDownload": true,
+  "draftReversion": {
+    "changed": true,
+    "reverted": true
+  },
+  "executionFields": {
+    "reference": true,
+    "bootstrap": true,
+    "permutation": true
+  },
+  "controlSearch": {
+    "nameMatched": true,
+    "noMatch": true,
+    "classMatched": true,
+    "restored": true,
+    "unchanged": true
+  },
+  "executionSelection": {
+    "unrelatedRenderRetained": true,
+    "errorRenderRetained": true,
+    "projectRetained": true,
+    "combinedStateFilter": true,
+    "unavailableStateEmpty": true,
+    "resetRestored": true,
+    "filterPreserved": true
+  },
+  "requestDialog": {
+    "named": true,
+    "cancelInitiallyFocused": true,
+    "buttonCancelled": true,
+    "onlyMockedPreviews": true,
+    "responsive": true,
+    "escapeCancelled": true
+  },
+  "keyboardNavigation": {
+    "arrow": true,
+    "reverseArrow": true,
+    "perpendicularArrowIgnored": true,
+    "reversePerpendicularArrowIgnored": true,
+    "end": true,
+    "home": true
+  },
+  "analysisSummaryVisible": true,
+  "responsiveViews": [
+    {
+      "width": 375,
+      "document": 360,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 375,
+      "document": 360,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 760,
+      "document": 745,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 761,
+      "document": 746,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 768,
+      "document": 753,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1009,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1024,
+      "document": 1024,
+      "view": "evaluation",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "analysis",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "controls",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "evidence",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "execution",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1425,
+      "view": "audit",
+      "panelsFocusable": true
+    },
+    {
+      "width": 1440,
+      "document": 1440,
+      "view": "evaluation",
+      "panelsFocusable": true
+    }
+  ],
+  "paletteLayout": [
+    {
+      "width": 375,
+      "mobile": true,
+      "orientation": "vertical",
+      "summaryHeight": 0,
+      "ledgerHeight": 0,
+      "controlColumns": 1,
+      "palette": {
+        "header": [
+          255,
+          255,
+          255
+        ],
+        "nav": [
+          157,
+          52,
+          31
+        ],
+        "paper": [
+          255,
+          255,
+          255
+        ],
+        "canvas": [
+          243,
+          244,
+          246
+        ],
+        "action": [
+          168,
+          61,
+          35
+        ],
+        "activeNavigation": [
+          168,
+          61,
+          35
+        ],
+        "activeNavigationText": [
+          255,
+          255,
+          255
+        ]
+      },
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "verticalTabs": true,
+      "desktopSidebarClear": true,
+      "lightHeader": true,
+      "whitePaper": true,
+      "neutralCanvas": true,
+      "cinnabarNavigation": true,
+      "burntOrangeActions": true,
+      "burntOrangeSelectedNavigation": true,
+      "overviewHidden": true,
+      "headingVisible": true,
+      "responsiveControlGrid": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true
+    },
+    {
+      "width": 430,
+      "mobile": true,
+      "orientation": "vertical",
+      "summaryHeight": 0,
+      "ledgerHeight": 0,
+      "controlColumns": 1,
+      "palette": {
+        "header": [
+          255,
+          255,
+          255
+        ],
+        "nav": [
+          157,
+          52,
+          31
+        ],
+        "paper": [
+          255,
+          255,
+          255
+        ],
+        "canvas": [
+          243,
+          244,
+          246
+        ],
+        "action": [
+          168,
+          61,
+          35
+        ],
+        "activeNavigation": [
+          168,
+          61,
+          35
+        ],
+        "activeNavigationText": [
+          255,
+          255,
+          255
+        ]
+      },
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "verticalTabs": true,
+      "desktopSidebarClear": true,
+      "lightHeader": true,
+      "whitePaper": true,
+      "neutralCanvas": true,
+      "cinnabarNavigation": true,
+      "burntOrangeActions": true,
+      "burntOrangeSelectedNavigation": true,
+      "overviewHidden": true,
+      "headingVisible": true,
+      "responsiveControlGrid": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true
+    },
+    {
+      "width": 760,
+      "mobile": true,
+      "orientation": "vertical",
+      "summaryHeight": 0,
+      "ledgerHeight": 0,
+      "controlColumns": 1,
+      "palette": {
+        "header": [
+          255,
+          255,
+          255
+        ],
+        "nav": [
+          157,
+          52,
+          31
+        ],
+        "paper": [
+          255,
+          255,
+          255
+        ],
+        "canvas": [
+          243,
+          244,
+          246
+        ],
+        "action": [
+          168,
+          61,
+          35
+        ],
+        "activeNavigation": [
+          168,
+          61,
+          35
+        ],
+        "activeNavigationText": [
+          255,
+          255,
+          255
+        ]
+      },
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "verticalTabs": true,
+      "desktopSidebarClear": true,
+      "lightHeader": true,
+      "whitePaper": true,
+      "neutralCanvas": true,
+      "cinnabarNavigation": true,
+      "burntOrangeActions": true,
+      "burntOrangeSelectedNavigation": true,
+      "overviewHidden": true,
+      "headingVisible": true,
+      "responsiveControlGrid": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true
+    },
+    {
+      "width": 761,
+      "mobile": false,
+      "orientation": "vertical",
+      "summaryHeight": 0,
+      "ledgerHeight": 0,
+      "controlColumns": 1,
+      "palette": {
+        "header": [
+          255,
+          255,
+          255
+        ],
+        "nav": [
+          157,
+          52,
+          31
+        ],
+        "paper": [
+          255,
+          255,
+          255
+        ],
+        "canvas": [
+          243,
+          244,
+          246
+        ],
+        "action": [
+          168,
+          61,
+          35
+        ],
+        "activeNavigation": [
+          168,
+          61,
+          35
+        ],
+        "activeNavigationText": [
+          255,
+          255,
+          255
+        ]
+      },
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "verticalTabs": true,
+      "desktopSidebarClear": true,
+      "lightHeader": true,
+      "whitePaper": true,
+      "neutralCanvas": true,
+      "cinnabarNavigation": true,
+      "burntOrangeActions": true,
+      "burntOrangeSelectedNavigation": true,
+      "overviewHidden": true,
+      "headingVisible": true,
+      "responsiveControlGrid": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true
+    },
+    {
+      "width": 768,
+      "mobile": false,
+      "orientation": "vertical",
+      "summaryHeight": 0,
+      "ledgerHeight": 0,
+      "controlColumns": 1,
+      "palette": {
+        "header": [
+          255,
+          255,
+          255
+        ],
+        "nav": [
+          157,
+          52,
+          31
+        ],
+        "paper": [
+          255,
+          255,
+          255
+        ],
+        "canvas": [
+          243,
+          244,
+          246
+        ],
+        "action": [
+          168,
+          61,
+          35
+        ],
+        "activeNavigation": [
+          168,
+          61,
+          35
+        ],
+        "activeNavigationText": [
+          255,
+          255,
+          255
+        ]
+      },
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "verticalTabs": true,
+      "desktopSidebarClear": true,
+      "lightHeader": true,
+      "whitePaper": true,
+      "neutralCanvas": true,
+      "cinnabarNavigation": true,
+      "burntOrangeActions": true,
+      "burntOrangeSelectedNavigation": true,
+      "overviewHidden": true,
+      "headingVisible": true,
+      "responsiveControlGrid": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true
+    },
+    {
+      "width": 1024,
+      "mobile": false,
+      "orientation": "vertical",
+      "summaryHeight": 0,
+      "ledgerHeight": 0,
+      "controlColumns": 2,
+      "palette": {
+        "header": [
+          255,
+          255,
+          255
+        ],
+        "nav": [
+          157,
+          52,
+          31
+        ],
+        "paper": [
+          255,
+          255,
+          255
+        ],
+        "canvas": [
+          243,
+          244,
+          246
+        ],
+        "action": [
+          168,
+          61,
+          35
+        ],
+        "activeNavigation": [
+          168,
+          61,
+          35
+        ],
+        "activeNavigationText": [
+          255,
+          255,
+          255
+        ]
+      },
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "verticalTabs": true,
+      "desktopSidebarClear": true,
+      "lightHeader": true,
+      "whitePaper": true,
+      "neutralCanvas": true,
+      "cinnabarNavigation": true,
+      "burntOrangeActions": true,
+      "burntOrangeSelectedNavigation": true,
+      "overviewHidden": true,
+      "headingVisible": true,
+      "responsiveControlGrid": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true
+    },
+    {
+      "width": 1440,
+      "mobile": false,
+      "orientation": "vertical",
+      "summaryHeight": 0,
+      "ledgerHeight": 0,
+      "controlColumns": 2,
+      "palette": {
+        "header": [
+          255,
+          255,
+          255
+        ],
+        "nav": [
+          157,
+          52,
+          31
+        ],
+        "paper": [
+          255,
+          255,
+          255
+        ],
+        "canvas": [
+          243,
+          244,
+          246
+        ],
+        "action": [
+          168,
+          61,
+          35
+        ],
+        "activeNavigation": [
+          168,
+          61,
+          35
+        ],
+        "activeNavigationText": [
+          255,
+          255,
+          255
+        ]
+      },
+      "expectedOrientation": true,
+      "navigationBoundary": true,
+      "verticalTabs": true,
+      "desktopSidebarClear": true,
+      "lightHeader": true,
+      "whitePaper": true,
+      "neutralCanvas": true,
+      "cinnabarNavigation": true,
+      "burntOrangeActions": true,
+      "burntOrangeSelectedNavigation": true,
+      "overviewHidden": true,
+      "headingVisible": true,
+      "responsiveControlGrid": true,
+      "readableRecordText": true,
+      "explicitClaimBinding": true
+    }
+  ],
+  "longControlNames": [
+    {
+      "width": 375,
+      "documentFits": true,
+      "headingFits": true,
+      "fullText": true,
+      "projectRestored": true
+    },
+    {
+      "width": 430,
+      "documentFits": true,
+      "headingFits": true,
+      "fullText": true,
+      "projectRestored": true
+    },
+    {
+      "width": 760,
+      "documentFits": true,
+      "headingFits": true,
+      "fullText": true,
+      "projectRestored": true
+    },
+    {
+      "width": 761,
+      "documentFits": true,
+      "headingFits": true,
+      "fullText": true,
+      "projectRestored": true
+    },
+    {
+      "width": 768,
+      "documentFits": true,
+      "headingFits": true,
+      "fullText": true,
+      "projectRestored": true
+    },
+    {
+      "width": 1024,
+      "documentFits": true,
+      "headingFits": true,
+      "fullText": true,
+      "projectRestored": true
+    },
+    {
+      "width": 1440,
+      "documentFits": true,
+      "headingFits": true,
+      "fullText": true,
+      "projectRestored": true
+    }
+  ],
+  "saveStatusAccessibility": [
+    {
+      "width": 375,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 430,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 760,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 761,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 768,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 1024,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    },
+    {
+      "width": 1440,
+      "singleDeclaredLiveStatus": true,
+      "overviewDuplicateHidden": true,
+      "liveRegionAccessible": true
+    }
+  ],
+  "sectionScroll": [
+    {
+      "width": 375,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 430,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 760,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 761,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 768,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 1024,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    },
+    {
+      "width": 1440,
+      "headingVisible": true,
+      "navigationFocusRetained": true
+    }
+  ],
+  "populatedSectionEntry": [
+    {
+      "width": 375,
+      "phase": "populated",
+      "view": "analysis",
+      "mobile": true,
+      "heading": "Does a hypothetical treatment change transcript abundance?",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 375,
+      "phase": "populated",
+      "view": "controls",
+      "mobile": true,
+      "heading": "Control specifications",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 375,
+      "phase": "populated",
+      "view": "evidence",
+      "mobile": true,
+      "heading": "Publication records and source review",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 375,
+      "phase": "populated",
+      "view": "execution",
+      "mobile": true,
+      "heading": "Local execution",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 375,
+      "phase": "populated",
+      "view": "audit",
+      "mobile": true,
+      "heading": "Scientific audit",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 375,
+      "phase": "populated",
+      "view": "evaluation",
+      "mobile": true,
+      "heading": "Evaluation records",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 430,
+      "phase": "populated",
+      "view": "analysis",
+      "mobile": true,
+      "heading": "Does a hypothetical treatment change transcript abundance?",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 430,
+      "phase": "populated",
+      "view": "controls",
+      "mobile": true,
+      "heading": "Control specifications",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 430,
+      "phase": "populated",
+      "view": "evidence",
+      "mobile": true,
+      "heading": "Publication records and source review",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 430,
+      "phase": "populated",
+      "view": "execution",
+      "mobile": true,
+      "heading": "Local execution",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 430,
+      "phase": "populated",
+      "view": "audit",
+      "mobile": true,
+      "heading": "Scientific audit",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 430,
+      "phase": "populated",
+      "view": "evaluation",
+      "mobile": true,
+      "heading": "Evaluation records",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 760,
+      "phase": "populated",
+      "view": "analysis",
+      "mobile": true,
+      "heading": "Does a hypothetical treatment change transcript abundance?",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 760,
+      "phase": "populated",
+      "view": "controls",
+      "mobile": true,
+      "heading": "Control specifications",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 760,
+      "phase": "populated",
+      "view": "evidence",
+      "mobile": true,
+      "heading": "Publication records and source review",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 760,
+      "phase": "populated",
+      "view": "execution",
+      "mobile": true,
+      "heading": "Local execution",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 760,
+      "phase": "populated",
+      "view": "audit",
+      "mobile": true,
+      "heading": "Scientific audit",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 760,
+      "phase": "populated",
+      "view": "evaluation",
+      "mobile": true,
+      "heading": "Evaluation records",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 761,
+      "phase": "populated",
+      "view": "analysis",
+      "mobile": false,
+      "heading": "Does a hypothetical treatment change transcript abundance?",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 761,
+      "phase": "populated",
+      "view": "controls",
+      "mobile": false,
+      "heading": "Control specifications",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 761,
+      "phase": "populated",
+      "view": "evidence",
+      "mobile": false,
+      "heading": "Publication records and source review",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 761,
+      "phase": "populated",
+      "view": "execution",
+      "mobile": false,
+      "heading": "Local execution",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 761,
+      "phase": "populated",
+      "view": "audit",
+      "mobile": false,
+      "heading": "Scientific audit",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 761,
+      "phase": "populated",
+      "view": "evaluation",
+      "mobile": false,
+      "heading": "Evaluation records",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 768,
+      "phase": "populated",
+      "view": "analysis",
+      "mobile": false,
+      "heading": "Does a hypothetical treatment change transcript abundance?",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 768,
+      "phase": "populated",
+      "view": "controls",
+      "mobile": false,
+      "heading": "Control specifications",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 768,
+      "phase": "populated",
+      "view": "evidence",
+      "mobile": false,
+      "heading": "Publication records and source review",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 768,
+      "phase": "populated",
+      "view": "execution",
+      "mobile": false,
+      "heading": "Local execution",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 768,
+      "phase": "populated",
+      "view": "audit",
+      "mobile": false,
+      "heading": "Scientific audit",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 768,
+      "phase": "populated",
+      "view": "evaluation",
+      "mobile": false,
+      "heading": "Evaluation records",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1024,
+      "phase": "populated",
+      "view": "analysis",
+      "mobile": false,
+      "heading": "Does a hypothetical treatment change transcript abundance?",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1024,
+      "phase": "populated",
+      "view": "controls",
+      "mobile": false,
+      "heading": "Control specifications",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1024,
+      "phase": "populated",
+      "view": "evidence",
+      "mobile": false,
+      "heading": "Publication records and source review",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1024,
+      "phase": "populated",
+      "view": "execution",
+      "mobile": false,
+      "heading": "Local execution",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1024,
+      "phase": "populated",
+      "view": "audit",
+      "mobile": false,
+      "heading": "Scientific audit",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1024,
+      "phase": "populated",
+      "view": "evaluation",
+      "mobile": false,
+      "heading": "Evaluation records",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1440,
+      "phase": "populated",
+      "view": "analysis",
+      "mobile": false,
+      "heading": "Does a hypothetical treatment change transcript abundance?",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1440,
+      "phase": "populated",
+      "view": "controls",
+      "mobile": false,
+      "heading": "Control specifications",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1440,
+      "phase": "populated",
+      "view": "evidence",
+      "mobile": false,
+      "heading": "Publication records and source review",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1440,
+      "phase": "populated",
+      "view": "execution",
+      "mobile": false,
+      "heading": "Local execution",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1440,
+      "phase": "populated",
+      "view": "audit",
+      "mobile": false,
+      "heading": "Scientific audit",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    },
+    {
+      "width": 1440,
+      "phase": "populated",
+      "view": "evaluation",
+      "mobile": false,
+      "heading": "Evaluation records",
+      "documentFits": true,
+      "summaryScoped": true,
+      "singlePanel": true,
+      "selectedTab": true,
+      "headingVisible": true,
+      "focusRetained": true,
+      "saveStatusVisible": true,
+      "navigationClosed": true,
+      "evaluationIsolated": true,
+      "evaluationAvailable": true
+    }
+  ],
+  "keyboardSectionEntry": [
+    {
+      "width": 375,
+      "key": "End",
+      "view": "evaluation",
+      "mobile": true,
+      "summaryScoped": true,
+      "headingVisible": true,
+      "navigationFocusRetained": true,
+      "singlePanel": true
+    },
+    {
+      "width": 375,
+      "key": "Home",
+      "view": "analysis",
+      "mobile": true,
+      "summaryScoped": true,
+      "headingVisible": true,
+      "navigationFocusRetained": true,
+      "singlePanel": true
+    },
+    {
+      "width": 430,
+      "key": "End",
+      "view": "evaluation",
+      "mobile": true,
+      "summaryScoped": true,
+      "headingVisible": true,
+      "navigationFocusRetained": true,
+      "singlePanel": true
+    },
+    {
+      "width": 430,
+      "key": "Home",
+      "view": "analysis",
+      "mobile": true,
+      "summaryScoped": true,
+      "headingVisible": true,
+      "navigationFocusRetained": true,
+      "singlePanel": true
+    },
+    {
+      "width": 760,
+      "key": "End",
+      "view": "evaluation",
+      "mobile": true,
+      "summaryScoped": true,
+      "headingVisible": true,
+      "navigationFocusRetained": true,
+      "singlePanel": true
+    },
+    {
+      "width": 760,
+      "key": "Home",
+      "view": "analysis",
+      "mobile": true,
+      "summaryScoped": true,
+      "headingVisible": true,
+      "navigationFocusRetained": true,
+      "singlePanel": true
+    },
+    {
+      "width": 761,
+      "key": "End",
+      "view": "evaluation",
+      "mobile": false,
+      "summaryScoped": true,
+      "headingVisible": true,
+      "navigationFocusRetained": true,
+      "singlePanel": true
+    },
+    {
+      "width": 761,
+      "key": "Home",
+      "view": "analysis",
+      "mobile": false,
+      "summaryScoped": true,
+      "headingVisible": true,
+      "navigationFocusRetained": true,
+      "singlePanel": true
+    },
+    {
+      "width": 768,
+      "key": "End",
+      "view": "evaluation",
+      "mobile": false,
+      "summaryScoped": true,
+      "headingVisible": true,
+      "navigationFocusRetained": true,
+      "singlePanel": true
+    },
+    {
+      "width": 768,
+      "key": "Home",
+      "view": "analysis",
+      "mobile": false,
+      "summaryScoped": true,
+      "headingVisible": true,
+      "navigationFocusRetained": true,
+      "singlePanel": true
+    },
+    {
+      "width": 1024,
+      "key": "End",
+      "view": "evaluation",
+      "mobile": false,
+      "summaryScoped": true,
+      "headingVisible": true,
+      "navigationFocusRetained": true,
+      "singlePanel": true
+    },
+    {
+      "width": 1024,
+      "key": "Home",
+      "view": "analysis",
+      "mobile": false,
+      "summaryScoped": true,
+      "headingVisible": true,
+      "navigationFocusRetained": true,
+      "singlePanel": true
+    },
+    {
+      "width": 1440,
+      "key": "End",
+      "view": "evaluation",
+      "mobile": false,
+      "summaryScoped": true,
+      "headingVisible": true,
+      "navigationFocusRetained": true,
+      "singlePanel": true
+    },
+    {
+      "width": 1440,
+      "key": "Home",
+      "view": "analysis",
+      "mobile": false,
+      "summaryScoped": true,
+      "headingVisible": true,
+      "navigationFocusRetained": true,
+      "singlePanel": true
+    }
+  ],
+  "mobileBrandFocusContrast": {
+    "selector": ".brand",
+    "foreground": "rgb(255, 209, 164)",
+    "background": "rgb(157, 52, 31)",
+    "ratio": 5.063,
+    "width": 3,
+    "focused": true,
+    "focusVisible": true,
+    "passes": true
+  },
+  "mobileCloseFocusContrast": {
+    "selector": "#nav-close",
+    "foreground": "rgb(255, 209, 164)",
+    "background": "rgb(157, 52, 31)",
+    "ratio": 5.063,
+    "width": 3,
+    "focused": true,
+    "focusVisible": true,
+    "passes": true
+  },
+  "mobileCloseIconContrast": {
+    "foreground": "rgb(255, 247, 239)",
+    "background": "rgb(157, 52, 31)",
+    "ratio": 6.725,
+    "passes": true
+  },
+  "mobileNavigation": {
+    "modal": true,
+    "trapped": true,
+    "reverseTrapped": true,
+    "mobileArrow": true,
+    "mobileReverseArrow": true,
+    "mobilePerpendicularArrowIgnored": true,
+    "escaped": true,
+    "selected": true,
+    "metricNavigation": true,
+    "closeButton": true
+  },
+  "fileMenus": true,
+  "reducedMotion": true,
+  "textRendering": true,
+  "inputInspection": {
+    "rows": 4,
+    "zero": 2,
+    "one": 2,
+    "bom": true,
+    "sha256": "d065f0234a007ac927a1e7a8f0cacee0a13bf3e672871d7579612928753eeb96",
+    "results": 0,
+    "externalRequests": 0
+  },
+  "invalidUTF8": true,
+  "failedActionFeedbackVisible": true,
+  "plannedSelectionClearing": [
+    {
+      "unselected": true,
+      "actionsDisabled": true,
+      "availabilityExplained": true
+    },
+    {
+      "unselected": true,
+      "actionsDisabled": true,
+      "availabilityExplained": true
+    }
+  ],
+  "execution": {
+    "outcomes": [
+      "PASS",
+      "PASS"
+    ],
+    "pathways": [
+      "LOCAL",
+      "LOCAL"
+    ],
+    "audit": "INSUFFICIENT_EVIDENCE",
+    "externalRequests": 0,
+    "unsupportedControlsExcluded": true
+  },
+  "controlomicsVersion": "0.6.10.dev0",
+  "pairedExecution": {
+    "outcome": "INDETERMINATE",
+    "p": 0.25,
+    "input": "paired_units",
+    "remaining": 0
+  },
+  "executedRecordCounts": true,
+  "pairedBootstrap": {
+    "outcome": "INDETERMINATE",
+    "coverage": 0.9,
+    "seed": 17,
+    "method": "Complete-pair percentile bootstrap with linear quantile interpolation"
+  },
+  "report": {
+    "html": true,
+    "hasInputHashes": true,
+    "hasWarnings": true,
+    "hasConservativeAssessment": true
+  },
+  "reportLayout": [
+    {
+      "width": 1440,
+      "document": 1425,
+      "links": true,
+      "noScripts": true
+    },
+    {
+      "width": 430,
+      "document": 415,
+      "links": true,
+      "noScripts": true
+    }
+  ],
+  "reportPrintStyles": true,
+  "narrative": {
+    "claim": "Features predict labels",
+    "category": "",
+    "support": ""
+  },
+  "claims": {
+    "claims": 2,
+    "profiles": 2,
+    "controlsByClaim": [
+      5,
+      5
+    ]
+  },
+  "claimFilter": {
+    "selected": true,
+    "combined": true,
+    "combinedState": true,
+    "unchanged": true,
+    "visible": true
+  },
+  "multiClaimLayout": [
+    {
+      "width": 375,
+      "document": 360
+    },
+    {
+      "width": 430,
+      "document": 415
+    },
+    {
+      "width": 768,
+      "document": 753
+    },
+    {
+      "width": 1024,
+      "document": 1009
+    },
+    {
+      "width": 1440,
+      "document": 1425
+    }
+  ],
+  "recordBindings": {
+    "results": true,
+    "audits": true,
+    "resultCount": true,
+    "auditCount": true
+  },
+  "destinationFocus": {
+    "candidate": true,
+    "annotations": true,
+    "sourceReview": true
+  },
+  "candidate": {
+    "status": "UNVERIFIED",
+    "id": "control.eb6b3d4beee14938944235dbc40ed239",
+    "revisionRecorded": true
+  },
+  "candidateDraftProtection": {
+    "retained": true,
+    "reverted": true
+  },
+  "duplicateImportRejected": true,
+  "evaluation": {
+    "origin": "UNASSESSED",
+    "precision": null,
+    "unavailableDisplayed": true,
+    "cases": 6
+  },
+  "metricHeadingVisible": true,
+  "evaluationSnapshotProtection": {
+    "hashVisible": true,
+    "replacementCleared": true,
+    "newHash": true,
+    "partitionCleared": true
+  },
+  "annotations": {
+    "origin": "",
+    "reviewer": "",
+    "attested": false,
+    "unknown": true,
+    "matchesDisabled": true,
+    "savedOrigin": "UNASSESSED"
+  },
+  "annotationDraftProtection": true,
+  "judgmentCaseProtection": {
+    "navigationOnly": true,
+    "hiddenCaseProtected": true,
+    "reverted": true,
+    "unrecorded": true
+  },
+  "annotationJudgmentStates": {
+    "untouchedRecommendationsOmitted": true,
+    "untouchedEvidencePredictionsRetained": true,
+    "allSelectorsNotJudged": true,
+    "partialDimensionsPreserved": true,
+    "untouchedAgreementExcluded": true,
+    "evidenceStatesPreserved": true,
+    "revisionChainBound": true,
+    "explicitUncertaintyIncluded": true,
+    "legacyExplicitUncertaintyPreserved": true
+  },
+  "annotationAgreement": {
+    "untouchedOmitted": {
+      "pairedRecommendations": 2,
+      "observedAgreement": 0.5,
+      "cohenKappa": 0
+    },
+    "explicitUncertainty": {
+      "pairedRecommendations": 3,
+      "observedAgreement": 0.6666666666666666,
+      "cohenKappa": 0.49999999999999994
+    }
+  },
+  "reviewBundle": {
+    "bytes": 19740,
+    "sameProject": true,
+    "sameEvaluation": true,
+    "networkEvents": 0,
+    "revisions": 0
+  },
+  "reviewForm": {
+    "statements": 2,
+    "attested": false,
+    "reviewer": ""
+  },
+  "sourceReviewDraftProtection": true,
+  "replacementCancelled": true,
+  "replacementCoherence": {
+    "formMatches": true,
+    "oldEvaluationCleared": true,
+    "oldReviewCleared": true,
+    "oldLedgerCleared": true,
+    "oldInputCleared": true,
+    "draftsCleared": true
+  },
+  "pendingInputProtection": {
+    "pendingLocked": true,
+    "inputRetained": true,
+    "completedUnlocked": true,
+    "failedUnlocked": true
+  },
+  "sessionRecovery": {
+    "rejected": true,
+    "noAutomaticRetry": true,
+    "recovered": true,
+    "projectRetained": true
+  },
+  "interruptedRequest": {
+    "redacted": true,
+    "uncertainty": true,
+    "noAutomaticRetry": true,
+    "projectRetained": true
+  },
+  "emptyReplacementClears": {
+    "project": true,
+    "ledger": true,
+    "preview": true,
+    "credential": true,
+    "zeroCounts": true,
+    "unrecorded": true
+  },
+  "run_at": "2026-10-12T03:16:59.381Z",
+  "personalProjectAttributionOmitted": true,
+  "scope": "Section-entry regression checks include 42 empty and 42 populated section/width combinations selected by real desktop or mobile navigation clicks from deep scroll, an overview visible only in Analysis, section-specific entry headings, a visibly rendered save-state label in every section at all widths with a separate single live announcement, Evaluation isolated from audit records and available without a project, and 14 real keyboard Home/End selections with mobile Escape dismissal. Count-card text contrast is sampled while Analysis is rendered. These extend the retained workflows: Local interface-phase checks with an explicitly selected headless QA profile. Sidebar workspace with rendered Cinnabar navigation, burnt orange selected tabs and primary actions, cream navigation text and dark text on a pale warm locality note, slate body text, neutral canvas and white paper surfaces, vertical desktop and mobile tab orientation, responsive two-column and single-column control cards with visible claim bindings and readable body text, long-token control-name wrapping with original project restoration, complete canonical project summary visibility, exact navigation breakpoint checks at 760 and 761 pixels, actual record counts, search and combined claim/class/evidence-state filters with reset preservation, scientific result and audit bindings, explicit execution-target selection, selection retention across unrelated renders and errors, no automatic target after planning, disabled unavailable execution actions, keyboard tabs, focusable panels, deep-scroll section navigation, visible failed-action feedback, one accessible save-status live region checked through the Chrome accessibility tree across responsive widths, destination focus after candidate, source-review and annotation workbenches open, mobile focus boundaries, file menus, reduced motion, text-only rendering, unsaved input protection and reversion, prepared downloads, cancelled and coherent project replacement, complete workspace reset, candidate, source and multi-case annotation draft protection, programmatic field tracking, procedure-specific fields, exact-byte UTF-8/BOM input inspection, reference and paired execution, explicit bootstrap coverage/seed recording, linked responsive reports and print styles, description drafting, candidate editing, multi-claim, unassessed evaluation, blank judgment workbench, visible review headings, and review archive roundtrip. Evaluation snapshot hashes and bundle/partition invalidation, pending-input locking and failure recovery, stale-session renewal without automatic replay, a named outbound-preview dialog with initial Cancel focus and button/native-Escape cancellation, and a mocked interrupted hosted-request response are included. Dialog previews use fixed synthetic local mocked responses without any provider transmission. All computations and edited inputs were hypothetical software fixtures. Recorded public identity metadata was used only to display the source-review form; no human source review or benchmark judgment was submitted, and no external page request was observed. Targeted small-text pairs, real hovered navigation label and count pairs, focused tab, brand and mobile close outlines, and the mobile close icon have contrast ratios computed from rendered styles; this does not assess every visual state. This is browser integration coverage, not a screen-reader, full accessibility, print-pagination, or scientific validation. Audit-remediation checks exercise real-key Not judged, explicit Uncertain and partial-dimension choices, four synthetic DEVELOPMENT_FIXTURE submissions through the actual local annotation API, imported assessed nulls, retained evidence predictions, revision chains, and backend agreement calculated from the workbench-generated sheets. Their required human_attested booleans are synthetic contract fixtures and do not represent human benchmark or source review. The first two sheets yield two paired labels and kappa 0; explicit uncertainty yields three paired labels and kappa 0.5. The decorative breadcrumb is ignored in the accessibility tree and its rendered contrast is included. Browser process exit, when a verified PID is supplied, is measured separately from endpoint refusal.",
+  "controlomics_version": "0.6.10.dev0",
+  "source_hashes": {
+    "src/controlomics/server.py": "a3e9a6d4c3b4397ad5dba527a302d5552ccfa6535f5b64e84f0358007df82c72",
+    "src/controlomics/execution.py": "efbe661faa5b482651ce52709c5c0794fc5ba74316fdc9354ee515d3622664b7",
+    "src/controlomics/storage.py": "f39257699ce4dd2acf704016513085cd724a0b076578cae3cb6605ebbe3eef6d",
+    "src/controlomics/evaluation.py": "0407d6ceeca53813761fdaa7e68465a88ea018735e92b9bd2282c8b14640ae45",
+    "src/controlomics/web/index.html": "c45ef97cbb481244aea7fd9b5e1b2ac52c248d461b519089ea7f0dab908c8205",
+    "src/controlomics/web/app.js": "5cdfa8f8935b6e8974bb283cba144e1f7e115db5e6559a3b91cdd7b160fb34a4",
+    "src/controlomics/web/style.css": "256ad2b37de2bb92f0970dc25b8f19082fe5ad42659cde689b156d273db1efb2",
+    "scripts/check_ui.cjs": "21d0ffb172c55bad32525337b9290cfeb0b4aa17d0cee886693707452162ee28"
+  },
+  "screenshot_hashes": {
+    "ui_edge_audit_remediation_workspace.png": "82c37bb0fe106d20ca80f819a98a4234ef247344c3d81751363cf8f7ec118a2c",
+    "ui_edge_audit_remediation_controls.png": "3f30edcc88923477644efadf43279faa8c4893988ed94e144edf1d4174725825",
+    "ui_edge_audit_remediation_mobile.png": "5e604422aa5eac332a14e3974e491dd0dbf84c3bd97ab5442326709f73a6a205",
+    "ui_edge_audit_remediation_request_dialog.png": "9a508dbb1075864e8f4aec693841b4592aa85f9bb574e6030e54d19afdfe0e67",
+    "ui_edge_audit_remediation_request_dialog_mobile.png": "f560bb3eaf42591b3585cb3a8e1d4ff32ad40caa11ef100cee6c454d60a77ff6",
+    "ui_edge_audit_remediation_analysis.png": "d5625b570c20ad2fdfa336d0981e0268701e35c1b89648cf5ffb5ff0543de38e",
+    "ui_edge_audit_remediation_execution_mobile.png": "eeff31344d25c5369edfb757ad68dbb8dec4a39982715ad4b222e38108213254",
+    "ui_edge_audit_remediation_execution.png": "e25a1b8268287023db8316ce662e62f7dd07bef34a249ba118e5f1c699892d1b",
+    "ui_edge_audit_remediation_navigation_mobile.png": "b756c4a5d68a6f9280db1a1d54c9765505692020d6ba2d4bff08d925e2474028",
+    "ui_edge_audit_remediation_input_inspection.png": "9df5ca586cbe64bd018e5323774000c6579373accaf4a95726c5a293847c2c08",
+    "ui_edge_audit_remediation_report.png": "9aecf71765fe5a64eae1d3e6f1bef165487fd888f10eb6ac6f0f6ae2aa01a707",
+    "ui_edge_audit_remediation_report_mobile.png": "683a34ff938a940f8378bb558b5e0de9fb37970d018691a19e9c3267f0cf9507",
+    "ui_edge_audit_remediation_claims.png": "5d69ad9ff0b48f82eaf1cf7a405645f8e3da77be1a397780983fb59963394eea",
+    "ui_edge_audit_remediation_evaluation.png": "579e9c1c1902690b7bbe65360b05c7564a669a507ddefe51351a06b9705274be",
+    "ui_edge_audit_remediation_evaluation_mobile.png": "7e80d41167e8e401e23f850bf7932ff183e76f74c1cf8f16253c2d975f68eb76",
+    "ui_edge_audit_remediation_evaluation_metrics_mobile.png": "7ca0543ec8f063124c9cc89b3900f21776304e517df7d8ef46ccba2956c5a320",
+    "ui_edge_audit_remediation_annotations.png": "d9daa6d8dc2325e49f129650376970ef224343a8ab8e1248c548e1305da5da46",
+    "ui_edge_audit_remediation_annotations_mobile.png": "b01d3b3e1dfb402e845f59d4aa760786d9c9637e091790d7e595c1cd99c4353f"
+  },
+  "browserShutdown": {
+    "debuggingEndpointClosed": true,
+    "processExitObserved": true,
+    "processObservation": "Verified launcher-supplied browser PID no longer exists; endpoint closure was measured separately."
+  },
+  "capture_export": {
+    "scope": "Current phase filenames; PNG bytes unchanged. Prior public captures are preserved.",
+    "original_checker_record_sha256": "9025c1e798ff95ba0a50f23cc8ce304133178b9b9baab2c0ec25850b88d7311a"
+  },
+  "owned_browser_verification": {
+    "exact_headless_profile_verified": true,
+    "launcher_pid_absent": true,
+    "profile_owned_browser_processes_remaining": 0,
+    "independent_refusal_verified": true
+  }
+}

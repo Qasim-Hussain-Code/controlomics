@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "controlomics"
-version = "0.6.9.dev0"
+version = "0.6.10.dev0"
 description = "Structured scientific controls and evidence records for computational biology"
 readme = "README.md"
 license = "MIT"

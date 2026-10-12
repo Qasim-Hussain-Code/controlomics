@@ -30,11 +30,12 @@ class ResearchWorkspaceTests(unittest.TestCase):
             draft_control = MethodBaseline().propose(None, None).controls[0].model_dump(mode="json")
             data = handle_action("/api/specify-control", {"project": data["project"], "specification": {
                 "claim_id": claim_id, "control": draft_control}})
-            candidate = data["project"]["candidates"][0]
+            # Earlier imported candidates stay unreviewed; the new draft is appended.
+            candidate = data["project"]["candidates"][-1]
             self.assertEqual(candidate["claim_tested"], claim_id)
             self.assertEqual(candidate["evidence_status"], "UNVERIFIED")
             saved = parse_project_json(json.dumps(data["project"]))
-            self.assertEqual(saved.candidates[0].control_id, candidate["control_id"])
+            self.assertEqual(saved.candidates[-1].control_id, candidate["control_id"])
             reviewed = handle_action("/api/method-review", {"project": data["project"]})["project"]
             self.assertEqual(len(reviewed["candidates"]), 0)
             self.assertEqual(reviewed["controls"][-1]["evidence_status"], "METHOD_BASED")

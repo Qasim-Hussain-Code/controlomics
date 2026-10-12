@@ -267,16 +267,39 @@ def import_result(project, result: ControlResult):
         provenance=project.provenance + (event("EXECUTION_RESULT_IMPORT", [result.result_id, result.control_id, result.execution_id]),))
 
 
+LOCAL_RESAMPLING_BUDGET = 4_000_000
+LOCAL_EXECUTION_TIMEOUT = 35
+
+
+class LocalExecutionError(ValueError):
+    """A fixed public failure reason that contains no input values or paths."""
+
+    MESSAGES = {
+        "LOCAL_RESAMPLING_BUDGET": "Local resampling budget exceeded. Reduce the number of draws or use a dispatched execution package.",
+        "LOCAL_EXECUTION_TIMEOUT": "Local execution exceeded its time limit. Reduce the workload or use a dispatched execution package. No result was imported.",
+    }
+
+    def __init__(self, code):
+        self.code = code
+        super().__init__(self.MESSAGES[code])
+
+
 def execute_local(project, control_id, config, raw_input: bytes):
     # Only this fixed, hash-checked template is executable. Model text is never code.
-    (statistics.read_paired_bytes if config.adapter == "PAIRED_DIFFERENCE" else statistics.read_numeric_bytes)(raw_input)
+    parsed = (statistics.read_paired_bytes if config.adapter == "PAIRED_DIFFERENCE" else statistics.read_numeric_bytes)(raw_input)
+    units = len(parsed) if config.adapter == "PAIRED_DIFFERENCE" else len(parsed[0])
+    if config.kind != "REFERENCE" and units * config.draws > LOCAL_RESAMPLING_BUDGET:
+        raise LocalExecutionError("LOCAL_RESAMPLING_BUDGET")
     with TemporaryDirectory(prefix="controlomics_execution_") as temporary:
         folder = Path(temporary) / "package"
         updated = build_package(project, control_id, config, folder, pathway="LOCAL")
         input_path, result_path = Path(temporary) / "input.csv", Path(temporary) / "result.json"
         input_path.write_bytes(raw_input)
-        process = subprocess.run([sys.executable, str(folder / "run_control.py"), "--input", str(input_path),
-            "--output", str(result_path)], capture_output=True, text=True, timeout=35, check=False)
+        try:
+            process = subprocess.run([sys.executable, str(folder / "run_control.py"), "--input", str(input_path),
+                "--output", str(result_path)], capture_output=True, text=True, timeout=LOCAL_EXECUTION_TIMEOUT, check=False)
+        except subprocess.TimeoutExpired:
+            raise LocalExecutionError("LOCAL_EXECUTION_TIMEOUT") from None
         if process.returncode != 0:
             raise ValueError("fixed-template local control execution failed")
         content = result_path.read_bytes()

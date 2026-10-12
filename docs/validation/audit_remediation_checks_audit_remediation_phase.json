@@ -1,0 +1,224 @@
+{
+  "format": "controlomics.prototype_remediation.v0.1",
+  "recorded_at": "2026-10-12T03:33:49.385175+00:00",
+  "controlomics_version": "0.6.10.dev0",
+  "baseline_revision": "5734ff41df59549e05dcade90a070e53ea654bde",
+  "status": "PASS",
+  "acceptance_scope": "All recorded current-source software, static, numerical and two-browser remediation checks pass with no unresolved defect in these finding scopes. Distribution and installation checks are recorded separately.",
+  "findings": [
+    {
+      "id": "F01",
+      "scope": "Review transitions",
+      "resolution": "FIXED",
+      "verification": [
+        "tests/integration/test_scientific_gates.py"
+      ]
+    },
+    {
+      "id": "F02",
+      "scope": "Reviewed import contracts",
+      "resolution": "FIXED",
+      "verification": [
+        "tests/integration/test_scientific_gates.py"
+      ]
+    },
+    {
+      "id": "F03",
+      "scope": "Skipped and partial judgments",
+      "resolution": "FIXED",
+      "verification": [
+        "tests/scientific/test_judgment_states.py",
+        "scripts/check_ui.cjs"
+      ]
+    },
+    {
+      "id": "F04",
+      "scope": "Wilson boundary endpoints",
+      "resolution": "FIXED",
+      "verification": [
+        "tests/scientific/test_audit_math.py"
+      ]
+    },
+    {
+      "id": "F05",
+      "scope": "Bounded local resampling and timeout cleanup",
+      "resolution": "FIXED",
+      "verification": [
+        "tests/integration/test_runtime_audit.py"
+      ]
+    },
+    {
+      "id": "F06",
+      "scope": "Outbound sequence and credential screening",
+      "resolution": "FIXED",
+      "verification": [
+        "tests/privacy/test_audit_boundaries.py"
+      ]
+    },
+    {
+      "id": "F07",
+      "scope": "Exclusive Windows listener",
+      "resolution": "FIXED",
+      "verification": [
+        "tests/integration/test_runtime_audit.py"
+      ]
+    },
+    {
+      "id": "F08",
+      "scope": "Blocked ledger consistency",
+      "resolution": "FIXED",
+      "verification": [
+        "tests/privacy/test_audit_boundaries.py"
+      ]
+    },
+    {
+      "id": "F09",
+      "scope": "Claim-linked audit evidence",
+      "resolution": "FIXED",
+      "verification": [
+        "tests/integration/test_scientific_gates.py"
+      ]
+    },
+    {
+      "id": "F10",
+      "scope": "Lexical design false positives",
+      "resolution": "FIXED",
+      "verification": [
+        "tests/scientific/test_reasoning_audit.py"
+      ]
+    },
+    {
+      "id": "F11",
+      "scope": "Decorative breadcrumb accessibility and contrast",
+      "resolution": "FIXED",
+      "verification": [
+        "scripts/check_ui.cjs"
+      ]
+    },
+    {
+      "id": "F12",
+      "scope": "Default and overload HTTP security headers",
+      "resolution": "FIXED",
+      "verification": [
+        "tests/integration/test_runtime_audit.py"
+      ]
+    },
+    {
+      "id": "F13",
+      "scope": "Public unicast destinations",
+      "resolution": "FIXED",
+      "verification": [
+        "tests/privacy/test_audit_boundaries.py"
+      ]
+    },
+    {
+      "id": "F14",
+      "scope": "Overflowing JSON number rejection",
+      "resolution": "FIXED",
+      "verification": [
+        "tests/privacy/test_audit_boundaries.py"
+      ]
+    },
+    {
+      "id": "F15",
+      "scope": "Separate browser process exit observation",
+      "resolution": "FIXED",
+      "verification": [
+        "scripts/check_ui.cjs"
+      ]
+    },
+    {
+      "id": "F16",
+      "scope": "Print scope",
+      "resolution": "CLARIFIED",
+      "verification": [
+        "docs/INTERFACE.md",
+        "docs/USAGE.md"
+      ]
+    },
+    {
+      "id": "F17",
+      "scope": "Reference ablation scope",
+      "resolution": "CLARIFIED",
+      "verification": [
+        "docs/DESIGN_RULES.md",
+        "docs/EVALUATION.md"
+      ]
+    }
+  ],
+  "records_sha256": {
+    "software_checks_audit_remediation_phase.json": "84913f7b186f5f7bf7f3513d2cc70c7c72eefbe74132808951160351683928a9",
+    "static_checks_audit_remediation_phase.json": "3a33329cd914c8795224fa4b69663c52ac86e2363b2da1db6cf70f87b4abbf6a",
+    "numeric_checks_audit_remediation_phase.json": "7fecd8c54af522e1bc73f59c9ef408ca91dd154bb798dce0fecff9b8908b8acf",
+    "ui_checks_audit_remediation_phase.json": "14cfc1684b7638c6d74bf1512aad67315d10cc36c116d6c38528fe80322318f4",
+    "ui_edge_checks_audit_remediation_phase.json": "7585db97d4379a4caaf54604c5b4dd7782f487bc6bd1bc5699229a9772c56b92"
+  },
+  "software_tested_runtime_and_tests_unchanged": true,
+  "software_suite_rerun_after_test_whitespace_cleanup": true,
+  "subsequent_static_source_changes": [
+    "scripts/check_ui.cjs",
+    "tests/integration/test_scientific_gates.py"
+  ],
+  "source_normalization": [
+    {
+      "path": "tests/integration/test_scientific_gates.py",
+      "before_sha256": "b65c1377109ab7db2112cb9499602453fffb69daa7a9233f22eb61d4cae5bbb3",
+      "after_sha256": "8e748a9d48418f4f0d3a3f6ed905d30935454954cc6901627310e9cf48a05566",
+      "semantic_contents_unchanged": true
+    },
+    {
+      "path": "docs/validation/ui_checks_audit_remediation_phase.json",
+      "before_sha256": "49755dcf2e9e22ceaf9ebdde0b908858f8d16eb349a8c1b502e3d13f90ab3ccc",
+      "after_sha256": "14cfc1684b7638c6d74bf1512aad67315d10cc36c116d6c38528fe80322318f4",
+      "semantic_contents_unchanged": true
+    },
+    {
+      "path": "docs/validation/ui_edge_checks_audit_remediation_phase.json",
+      "before_sha256": "f8138f707948bfad21995343edff2a271609ddcfa0ea64d167578884bcc836e7",
+      "after_sha256": "7585db97d4379a4caaf54604c5b4dd7782f487bc6bd1bc5699229a9772c56b92",
+      "semantic_contents_unchanged": true
+    }
+  ],
+  "local_execution_boundary": {
+    "rows": 2000,
+    "draws": 2000,
+    "unit_draws": 4000000,
+    "configured_local_budget": 4000000,
+    "configured_timeout_seconds": 35,
+    "seconds": 1.744,
+    "boundary_run_outcome": "COMPLETED",
+    "owned_directories_cleaned": true,
+    "oversized_rows": 2000,
+    "oversized_draws": 2001,
+    "oversized_unit_draws": 4002000,
+    "oversized_error_code": "LOCAL_RESAMPLING_BUDGET",
+    "oversized_rejected_before_package_and_subprocess": true,
+    "dispatched_draws": 10000,
+    "dispatched_unit_draws": 20000000,
+    "dispatch_configuration_accepted": true,
+    "dispatched_execution_performed": false,
+    "outbound_requests_performed": false
+  },
+  "additional_state_probe": {
+    "evaluation_value_flag_combinations": 81,
+    "valid_combinations": 49,
+    "contradictory_combinations_rejected": 32,
+    "checks": [
+      "Definite appropriateness and unsupported denominators",
+      "Missing versus explicit uncertain appropriateness counts",
+      "Paired agreement exclusion of unjudged appropriateness",
+      "Runtime and schema byte bindings against current static record"
+    ],
+    "review_outcome": "No additional concrete bypass or regression found within inspected scope."
+  },
+  "limitations": [
+    "One observed boundary runtime is not a performance guarantee; the separate timeout remains in force.",
+    "Legacy assessed null judgments cannot reveal whether an old workbench row was skipped or explicitly uncertain. Original archives retain their supplied meaning and bytes.",
+    "Human identity, expertise, independence and imported review receipts are not authenticated.",
+    "All data and submissions in these tests are synthetic or mocked. No biological experiment, real-data assessment or live provider request was performed.",
+    "These are developer remediation checks of the independent audit findings, not a rerun or replacement of its original 69-test harness.",
+    "Native Linux, macOS, Python 3.11 through 3.13, hosted CI, screen readers and real-data generalization were not tested."
+  ],
+  "published": false,
+  "pushed": false
+}

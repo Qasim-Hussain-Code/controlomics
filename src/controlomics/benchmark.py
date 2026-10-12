@@ -26,7 +26,11 @@ def wilson(successes, count):
     denominator = 1 + z * z / count
     center = (estimate + z * z / (2 * count)) / denominator
     radius = z * math.sqrt(estimate * (1 - estimate) / count + z * z / (4 * count * count)) / denominator
-    return [max(0, center - radius), min(1, center + radius)]
+    # At the boundaries the score interval includes exactly zero or one.
+    # Floating-point cancellation can otherwise move an endpoint inward.
+    lower = 0.0 if successes == 0 else max(0.0, center - radius)
+    upper = 1.0 if successes == count else min(1.0, center + radius)
+    return [lower, upper]
 
 
 def run_benchmark(trials=100, seed=827):

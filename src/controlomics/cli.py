@@ -9,7 +9,7 @@ from urllib.parse import urlsplit
 
 from controlomics import __version__
 from controlomics.evidence import Crossref, EuropePMC, resolved_match
-from controlomics.execution import ExecutionConfig, build_package, execute_local, import_result
+from controlomics.execution import ExecutionConfig, LocalExecutionError, build_package, execute_local, import_result
 from controlomics.models import MessagesProvider, MethodBaseline
 from controlomics.reasoning import NarrativeInput, describe_design, interpret_narrative
 from controlomics.privacy import SafeField, SafeTransport
@@ -18,7 +18,7 @@ from controlomics.reports import write_report
 from controlomics.schemas import ControlResult, EvidenceIdentifier
 from controlomics.storage import require_distinct_outputs, staged_directory, write_bytes_atomic, write_text_atomic
 from controlomics.workflow import (CandidateSubmission, HumanReview, Intake, NewClaim, add_claim, apply_review,
-    audit_project, import_evidence, new_project, propose, review_methods, specify_candidate)
+    audit_project, import_evidence, new_project, propose, propose_and_review_new, specify_candidate)
 
 
 def read_typed(path, model):
@@ -264,9 +264,9 @@ def main(argv=None):
             print("Wrote a local scientific report. Review its contents before sharing.")
             return 0
         if args.command == "analyze":
-            updated = audit_project(review_methods(propose(project, MethodBaseline() if args.reasoner == "reference" else None)))
+            updated = audit_project(propose_and_review_new(project, MethodBaseline() if args.reasoner == "reference" else None))
         elif args.command == "add-claim":
-            updated = audit_project(review_methods(propose(add_claim(project, read_typed(args.submission, NewClaim)))))
+            updated = audit_project(propose_and_review_new(add_claim(project, read_typed(args.submission, NewClaim))))
         elif args.command == "specify-control":
             updated = audit_project(specify_candidate(project, read_typed(args.submission, CandidateSubmission)))
         elif args.command == "review":
@@ -320,6 +320,9 @@ def main(argv=None):
             updated = audit_project(import_result(project, read_typed(args.result, ControlResult)))
         save_project(updated, args.output)
         print("Wrote an updated local project. Evidence states and limitations remain explicit.")
+    except LocalExecutionError as error:
+        print(str(error))
+        return 1
     except (ValueError, OSError, RecursionError, KeyError, IndexError, TypeError, subprocess.TimeoutExpired):
         print("Operation failed. Input content, credentials, and local paths are omitted.")
         return 1

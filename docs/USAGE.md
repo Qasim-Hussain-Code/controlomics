@@ -12,13 +12,15 @@ Enter the research question, analysis description, methods, observed result, sci
 
 The local reasoner specifies positive known-signal and negative signal-absent technical references, then adds design-dependent challenges with inspectable cues. All remain provisional specifications with explicit assumptions and limitations. It abstains from naming experimentally validated biological entities. Their METHOD_BASED state is not empirical validation. Inspect Design interpretation in Audit and [DESIGN_RULES.md](DESIGN_RULES.md).
 
-Use Draft fields from a local description to extract explicitly stated input, then confirm each field and choose the claim and support categories. Claims in this analysis adds a separately categorized claim and its own controls. Specify a control creates a researcher candidate; Edit specification revises an unreviewed candidate without promoting it. Reviewed specifications require a separate retained snapshot for content changes.
+Use Draft fields from a local description to extract explicitly stated input, then confirm each field and choose the claim and support categories. Claims in this analysis adds a separately categorized claim and its own controls. Specify a control creates a researcher candidate; Edit specification revises an unreviewed candidate without promoting it. Review method specifications is an explicit action for existing researcher or hosted candidates. Creating local built-in proposals may review only those newly created specifications. Adding claims, repeating analysis, and opening saved JSON preserve existing unreviewed candidates. Reviewed specifications require a separate retained snapshot for content changes.
 
 Inspect Controls and Scientific audit. Projects remain in browser memory. Save a review bundle or export the project, report, and network audit before closing the page. Opening a project performs structural checks and a new conservative audit. Receipts in imported files are not authenticated merely because parsing succeeds.
 
 The workspace shows Export needed for recorded changes, Unrecorded inputs for edited form values, and Bundle prepared after preparing a complete review download. Reverting a form removes its draft indicator. Retain the actual downloaded file; preparation does not verify disk storage. Unrecorded edits, full source text, and raw CSV files are excluded from bundles. A browser close warning helps protect work but supplies no recovery mechanism.
 
 Open > Start empty workspace clears the project and its inputs after confirmation. Opening another project, restoring a review bundle, or creating a replacement analysis also asks before discarding current work. Incoming records are validated first. Accepted replacement clears earlier review and judgment forms, evaluations, raw input selection, credentials, request previews, and ledger displays. Opening another candidate or source-review control asks before discarding that form's unrecorded edits. Applying an example or description draft also protects edited analysis fields. Judgment edits remain tracked across case switches; navigating cases alone does not change a judgment.
+
+Print an exported standalone scientific report using the browser's print function. Printing the interactive workspace is unsupported. Report print styles are included; pagination is not qualified for every browser or paper size.
 
 ## Literature
 
@@ -61,7 +63,7 @@ The same inspection is available without a project:
 
 Browser imports reject invalid UTF-8. The local request limit includes JSON formatting and the project snapshot, so a file near the size limit may require CLI use. Summary hashes are neither anonymization nor authenticated provenance.
 
-Run locally to use a fixed, hash-checked template in a temporary directory. Download an execution package to move computation to another environment. The package contains scripts, configuration, environment information, schemas, artifact hashes, and a planned project snapshot. Running it requires Python 3.11 or newer; schema verification requires the installed Controlomics package. It performs no external requests.
+Run locally to use a fixed, hash-checked template in a temporary directory. Local resampling allows at most four million rows multiplied by requested draws for independent inputs, or complete pairs multiplied by draws for paired inputs, and has a 35-second runner timeout. Reduce the workload or download a dispatched package if that local budget is exceeded. A valid larger configuration can still be packaged for a suitable environment. The package contains scripts, configuration, environment information, schemas, artifact hashes, and a planned project snapshot. Running it requires Python 3.11 or newer; schema verification requires the installed Controlomics package. It performs no external requests.
 
 ```powershell
 .\.venv\Scripts\controlomics.exe new examples/hypothetical_intake.json --output local_projects/intake.project.json
@@ -82,7 +84,7 @@ The original project examples contain hypothetical statistical specifications th
 
 ## Optional hosted reasoning
 
-The local baseline requires no key. Optional Messages-compatible HTTPS endpoints use a provider-independent protocol, including compatible institutional or hosted open-weight services. Model identity is configuration rather than a project dependency. No live hosted model was configured or evaluated during development.
+The local baseline requires no key. The optional `MessagesProvider` uses a chat-completion JSON contract over HTTPS: it sends `model`, `messages`, `temperature`, `max_tokens`, and `stream`, and reads response text from `choices[0].message.content`. Its generic Messages-compatible name does not imply compatibility with every provider's native Messages API. Configure an endpoint or gateway that implements this exact contract; a different native contract needs an adapter. Model identity is configuration rather than a project dependency. No live hosted model was configured or evaluated during development.
 
 Supply manually minimized public fields such as `question`, `analysis_summary`, `claim`, `method`, or `organism`. The interface displays the full request before approval. It never serializes the project into the model request. Credentials are entered separately, passed as authorization headers, and excluded from request previews, audit values, project files, and reports. Do not place credentials in endpoint URLs or context fields.
 
@@ -116,7 +118,7 @@ The CLI `specify-paired PROJECT SUBMISSION --output OUTPUT` accepts a JSON submi
 
 ## Judgment workbench and review archives
 
-Choose an evaluation file and Open judgment workbench in Evaluation. Inspect case descriptions, reference definitions, recommendations, and any imported evidence predictions. Unknown is the default. Select appropriate and unsupported judgments independently, explain them, and match reference controls only when appropriate. Case switching retains draft edits. Recording judgments requires the actual reviewer's name, declared origin, and explicit attestation. The recorded snapshot preserves dataset references and predictions. Calculate metrics again after editing. Development fixture labels are not independent expert validation.
+Choose an evaluation file and Open judgment workbench in Evaluation. Inspect case descriptions, reference definitions, recommendations, and any imported evidence predictions. Not judged is the default; selecting Uncertain records an explicit judgment rather than a skipped item. Select appropriate and unsupported judgments independently, explain them, and match reference controls only when appropriate. Untouched dimensions stay unassessed when other judgments are recorded. Case switching retains draft edits. Recording judgments requires a reviewer identifier, declared origin, and explicit attestation. The identifier may be pseudonymous. The recorded snapshot preserves dataset references and predictions. Calculate metrics again after editing. Development fixture labels are not independent expert validation.
 
 Export annotated bundle and Export annotation revisions retain the recorded snapshot and revision hash chain. Earlier snapshot content must be saved separately. CLI `annotate BUNDLE SUBMISSION --output OUTPUT --revision-output REVISION` applies the same binding and validation. AnnotationSubmission requires the exact canonical bundle hash; the `/api/annotation-template` local action returns it. Python `bundle_hash` provides the equivalent for scripts. Predictions and reference definitions cannot be changed through annotation submission.
 

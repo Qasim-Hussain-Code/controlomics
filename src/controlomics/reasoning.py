@@ -45,11 +45,19 @@ PATTERNS = {
 
 
 def describe_design(analysis, claim):
-    text = "\n".join((analysis.analysis_description, *analysis.methods, claim.statement,
-        *claim.assumptions, analysis.design.data_partition or "", *analysis.design.independence_assumptions,
-        *analysis.design.covariates))
-    cues = [DesignCue(facet=facet, basis="Text contains the provisional design cue: " + match.group())
-        for facet, pattern in PATTERNS.items() if (match := re.search(pattern, text, re.IGNORECASE))]
+    operation_text = "\n".join((analysis.analysis_description, *analysis.methods, claim.statement,
+        *claim.assumptions, analysis.design.data_partition or "", *analysis.design.covariates))
+    text = "\n".join((operation_text, *analysis.design.independence_assumptions))
+    cues = []
+    for facet, pattern in PATTERNS.items():
+        # An independence assumption is not a declaration of an analysis operation.
+        cue_text = operation_text if facet in {"PREDICTION", "ASSOCIATION", "RANKING"} else text
+        if facet == "PREDICTION":
+            cue_text = re.sub(r"\bgenetically\s+predict\w*\b", " ", cue_text, flags=re.IGNORECASE)
+        elif facet == "RANKING":
+            cue_text = re.sub(r"\b(?:signed[-\s]+rank|rank[-\s]+sum)\b", " ", cue_text, flags=re.IGNORECASE)
+        if match := re.search(pattern, cue_text, re.IGNORECASE):
+            cues.append(DesignCue(facet=facet, basis="Text contains the provisional design cue: " + match.group()))
     facets = {item.facet for item in cues}
     for category, facet in (("PREDICTIVE", "PREDICTION"), ("COMPARATIVE", "GROUP_COMPARISON"),
                             ("ASSOCIATIONAL", "ASSOCIATION")):

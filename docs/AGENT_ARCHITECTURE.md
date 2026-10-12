@@ -1,6 +1,6 @@
 # Complete agent architecture
 
-This describes the implemented local research alpha, version 0.6.9.dev0. Controlomics is a human-supervised scientific workflow with structured proposals, evidence review, restricted numerical tools, and conservative audits. Its default reasoning engine uses inspectable rules. An optional hosted language model can propose controls through the same record contracts. Scientific appropriateness and cross-domain generalization still require independent expert evaluation.
+This describes the implemented local research alpha, version 0.6.10.dev0. Controlomics is a human-supervised scientific workflow with structured proposals, evidence review, restricted numerical tools, and conservative audits. Its default reasoning engine uses inspectable rules. An optional hosted language model can propose controls through the same record contracts. Prototype checks cover implemented contracts and synthetic workflows; they do not demonstrate empirical scientific appropriateness or cross-domain generalization.
 
 ## Overall flow
 
@@ -11,7 +11,7 @@ flowchart TD
     CORE --> THINK[Local design reasoner or reference baseline]
     THINK --> CAND[Unreviewed control candidates]
     CORE --> GATE[Minimized public fields and exact request approval]
-    GATE --> LLM[Optional Messages-compatible model]
+    GATE --> LLM[Optional chat-completion JSON endpoint]
     LLM --> CAND
     GATE --> PUB[Europe PMC or Crossref]
     PUB --> EVID[Publication identity records]
@@ -43,7 +43,7 @@ The diagram shows available operations, not an automatic sequence that sends req
 | Workflow coordinator | `workflow.py` | Creates projects and claims, records proposals and edits, applies review gates, imports evidence/results, and runs the claim audit. Returns replacement validated snapshots with provenance events. |
 | Description drafting and design diagnosis | `reasoning.py` | Extracts explicitly labeled or stated phrases for researcher confirmation. Detects provisional analytical cues and emits inspectable review questions. Missing design information remains missing. |
 | Local proposal engines | `MethodBaseline` and `DesignReasoner` in `models.py` | The reference baseline supplies known-signal and absent-signal technical specifications. The default design reasoner adds applicable null, specificity, robustness, confounder, and falsification specifications from stated operation cues. |
-| Optional language-model adapter | `ModelProvider`, `MessagesProvider`, `DraftControl`, `Proposal` in `models.py` | Accepts selected public question, analysis summary, claim, method, and organism fields. Sends a constrained Messages-compatible request and validates JSON proposals. A proposal cannot supply verified evidence, citations, or runnable code. |
+| Optional language-model adapter | `ModelProvider`, `MessagesProvider`, `DraftControl`, `Proposal` in `models.py` | Accepts selected public question, analysis summary, claim, method, and organism fields. Sends a constrained chat-completion JSON request and validates JSON proposals. A proposal cannot supply verified evidence, citations, or runnable code. |
 | Outbound privacy and transport | `privacy.py` | Screens and classifies selected fields, builds an exact request preview, checks its approval hash, restricts HTTPS/DNS/redirect behavior, bounds responses, separates credentials, and records request outcomes. |
 | Literature identity layer | `evidence.py` | Europe PMC and Crossref search or identifier resolution. Preserves publication metadata, identifier aliases, response hashes, licensing notes, and identity receipts. Consolidates connected aliases while retaining warnings. |
 | Local input inspection | `inputs.py` | Checks independent-group or complete-pair CSV structure, finite values, identifiers, dimensions, and original-byte SHA-256. Returns summaries without retained measurements or unit identifiers. Does not execute the control. |
@@ -70,11 +70,13 @@ The browser restores its earlier six-section vertical navigation layout and mobi
 
 ## How reasoning works
 
-The local description parser drafts fields from supplied text. Suggested claim categories still need confirmation; causal language does not establish causal support. The design rules look for prediction, comparison, association, ranking, overlap/enrichment, similarity, dependent units, temporal structure, batch structure, and causal interpretation.
+The local description parser drafts fields from supplied text. Suggested claim categories still need confirmation; causal language does not establish causal support. The design rules inspect methods, analysis and claim assumptions, descriptions, and design fields for prediction, comparison, association, ranking, overlap/enrichment, similarity, dependent units, temporal structure, batch structure, and causal interpretation. Rank-test phrases are distinguished from entity ranking; genetically predicted quantities alone do not imply predictive-model evaluation.
 
 These cues trigger questions about selection leakage, independent replication, exchangeability, background choice, confounding, matched reference selection, and alternative explanations. Recommendations retain their trigger, rationale, expected behavior, failure interpretation, method basis, priority, and uncertainty. The rules do not select empirically validated biological entities from text alone.
 
-The optional model interface shares these constrained output records. Its fixed request uses temperature zero, a token budget of 3,000, and no streaming; these settings do not establish determinism or correct reasoning. Model health is recorded as configured and untested. A completed live model benchmark has not been performed. The implementation does not contain an autonomous tool-selection/replanning loop, multiple collaborating agents, a vector database, or a trained local model.
+The optional model interface shares these constrained output records. Despite the `MessagesProvider` class name, its concrete contract is a chat-completion JSON object containing `model` and `messages`, with response text at `choices[0].message.content`. A provider or gateway must support that exact contract; the generic name does not establish native-provider compatibility. Its fixed request uses temperature zero, a token budget of 3,000, and no streaming; these settings do not establish determinism or correct reasoning. Model health is recorded as configured and untested. A completed live model benchmark has not been performed. The implementation does not contain an autonomous tool-selection/replanning loop, multiple collaborating agents, a vector database, or a trained local model.
+
+The reference reasoner changes proposal generation and the finding codes emitted by dataset runs. Project audits keep the full conservative design diagnostics whichever proposal reasoner was selected. This preserves warnings while allowing a separately labeled development ablation of proposals and dataset findings.
 
 ## Evidence gates and scientific states
 
@@ -82,19 +84,19 @@ Publication identity, statement entailment, and context applicability are separa
 
 Human review addresses the candidate's exact rationale and expected behavior using local source text, excerpts, locators, relationship labels, and context. Software checks excerpt presence and record relationships. Human attestations supply the scientific support judgment. The implemented evidence gate requires support for both exact statements, a context MATCH, and no contradiction to record EVIDENCE_BACKED. Mixed support and contradiction can yield CONFLICTING_EVIDENCE. Incomplete support or context yields INSUFFICIENT_EVIDENCE.
 
-Method review can record METHOD_BASED specifications without claiming empirical biological validation. `VerifiedControl` means a review record exists, including unsuccessful reviews. Candidate edits cannot overwrite reviewed specifications; source re-review must identify the current reviewed snapshot. Reviewer identifiers and attestations do not authenticate identity, expertise, or independence.
+Method review can record METHOD_BASED technical or statistical specifications without claiming empirical biological validation. Only newly created built-in local candidates receive automatic method review during their proposal action. Existing hosted or researcher-drafted candidates remain unreviewed when adding claims, repeating analysis, or opening projects; their method review is an explicit action. `VerifiedControl` means a review record exists, including unsuccessful reviews. Imported reviewed records must have a supported reviewed state, and EVIDENCE_BACKED requires the recorded human-kind statement support. Candidate edits cannot overwrite reviewed specifications; source re-review must identify the current reviewed snapshot. Reviewer identifiers and attestations do not authenticate identity, expertise, or independence.
 
 ## Execution and interpretation
 
 The independent-group adapter accepts supported technical positive/negative references. The complete-pair adapter accepts its explicitly specified statistical null and an applicability rationale. General design questions, clustered or adjusted designs, and biological controls require suitable additional adapters.
 
-Local execution first validates the selected bytes, then runs the fixed hash-checked template in an owned temporary directory with explicit arguments and a timeout. A dispatched package supports execution in the researcher's environment and later result import. Model-generated prose never becomes executable code.
+Local execution first validates the selected bytes and checks a four-million numeric-unit-by-draw resampling budget, then runs the fixed hash-checked template in an owned temporary directory with explicit arguments and a 35-second timeout. Independent rows and complete pairs are the respective counted units. Budget and timeout failures explain how to reduce the workload or use a dispatched package; no result is imported. A dispatched package can retain larger valid configurations for execution in the researcher's environment and later result import. Model-generated prose never becomes executable code.
 
 New packages hash the fixed runner, numerical module, and standard-library export helper together. The runner protects its input and known package files from output conflicts and stages complete result files. Package construction and review restoration prepare owned directories before rename to an absent destination. Existing empty directories are rejected. Ordinary preparation failure attempts cleanup; races, process crashes, power loss, and coordinated project/package writes remain outside that guarantee. The local HTTP boundary limits connection workers to 16 and applies a 10-second read-inactivity timeout, including headers. It rejects ambiguous headers and returns redacted unexpected-operation errors without logging internal details.
 
 Technical PASS or FAIL requires an expected result and tolerance specified before execution. Permutation and bootstrap results remain INDETERMINATE for scientific pass/fail. Seeds, draw counts, input hashes, environment, method, effect, uncertainty, and warnings remain visible. Sampling independence, exchangeability, and sign invariance require scientific justification beyond file shape.
 
-The current audit emits CONTROL_FAILURE if a relevant recorded technical control failed; otherwise it emits INSUFFICIENT_EVIDENCE. It also reports missing control classes, design concerns, causal overstatement, and context limitations. The schema offers richer future assessment categories, but the implemented audit does not automatically certify a claim as ROBUST.
+The current audit emits CONTROL_FAILURE if a relevant recorded technical control failed; otherwise it emits INSUFFICIENT_EVIDENCE. It also reports missing control classes, design concerns, causal overstatement, and context limitations. Evidence availability is determined from the assessed claim's linked control evidence; an unrelated publication elsewhere in the project does not fill that gap. The schema offers richer future assessment categories, but the implemented audit does not automatically certify a claim as ROBUST.
 
 ## Privacy, artifacts, and trust boundaries
 
@@ -110,8 +112,8 @@ Review archives exclude raw CSVs, full supplied source texts, authorization cred
 
 ## Evaluation and current validation
 
-Evaluation keeps reference annotations, predictions, recommendation judgments, and evidence decisions separate. It checks declared partitions and source overlap, reports missing judgments, and computes conditional precision, critical/reference recall, unsupported rates, evidence-layer decisions, abstention, execution success, optional probability scores, and annotation agreement. Source semantics, contamination, and actual reviewer independence still need human curation.
+Evaluation keeps reference annotations, predictions, recommendation judgments, and evidence decisions separate. Per-dimension assessed flags preserve the difference between skipped and explicitly uncertain judgments. Agreement excludes missing units. It checks declared partitions and source overlap, reports coverage, and computes conditional precision, critical/reference recall, unsupported rates, evidence-layer decisions, abstention, execution success, optional probability scores, and annotation agreement. Source semantics, contamination, and actual reviewer independence are properties of the supplied study records rather than authenticated software outputs.
 
-The completed numerical phase matched 896 scalar comparisons across 128 synthetic cases against SciPy after explicit definition alignment. Seven scenarios used 7,000 total trials and revealed small-sample percentile undercoverage. See [numerical findings](NUMERICAL_VALIDATION.md). The existing six development cases remain unassessed. Independent expert control-selection validation remains pending; [the proposed study protocol](INDEPENDENT_VALIDATION_PROTOCOL.md) defines the actual case and annotation work required.
+The completed numerical phase matched 896 scalar comparisons across 128 synthetic cases against SciPy after explicit definition alignment. Seven scenarios used 7,000 total trials and revealed small-sample percentile undercoverage. See [numerical findings](NUMERICAL_VALIDATION.md). The existing six development cases remain unassessed. [The proposed study protocol](INDEPENDENT_VALIDATION_PROTOCOL.md) separately describes empirical control-selection research. It is outside technical prototype acceptance.
 
 The application requires Python and Pydantic. The browser uses plain HTML, CSS, and JavaScript with local assets. Optional isolated NumPy/SciPy and existing Node/Chrome support development validation. Public hosting, remote multiuser operation, and hosted-model performance are not qualified by these local checks.

@@ -1,0 +1,364 @@
+{
+  "format": "controlomics.synthetic_numerical_repetition_summary.v0.1",
+  "controlomics_version": "0.6.10.dev0",
+  "python": "3.14.0",
+  "operating_system": "Windows",
+  "started_at": "2026-10-11T14:40:19.188186+00:00",
+  "completed_at": "2026-10-11T14:46:34.338049+00:00",
+  "seconds": 376.284,
+  "protocol_sha256": "a7b1c5c458a7af1f7a57511bc1e145bbe8501777fa34277d8a98ec3c00dda6cc",
+  "source_sha256": {
+    "src/controlomics/statistics.py": "3c56a1c6bd78f749b79e8689cfe2d87b96bafa406fd83e943b939530e9145cea",
+    "scripts/scientific_reference.py": "a2f54ca27d1d657ee159fb3f369ba53af3a929aaae1552a5384711d1186d1dec",
+    "scripts/run_numerical_validation.py": "525adfb2e2c028d6e05ca9a12bbeab1b61e24f5e1d5bde5067e8f2e1a5d631ea",
+    "src/controlomics/benchmark.py": "b193a1f5daa957a1a682a6e4da90e03afe0378a185fa7652354515475312e708",
+    "src/controlomics/execution.py": "efbe661faa5b482651ce52709c5c0794fc5ba74316fdc9354ee515d3622664b7",
+    "src/controlomics/__init__.py": "89dbe213fb11999f61901aef6f7f941c0735a2ec28c2396fbbb22e4e5bdced8c"
+  },
+  "frozen_sources_match": true,
+  "source_hashes_unchanged_after_run": true,
+  "protocol_unchanged_after_run": true,
+  "reference_environment": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "scipy": "1.18.1",
+    "python_executable_sha256": "7bcdf892816a8d651e89f008cfc2f1544a41f13089af70a227b9fc54ced8551f",
+    "package_metadata_sha256": {
+      "numpy": "b082c52ccbe3b880bae177c35171b52ed6c947f3ad71e3762f2723f60a411de0",
+      "scipy": "c8313d18ca0168ff291fe0a3b50532f3a18b14547695e9aa7ca1c1ce6eca92dc"
+    }
+  },
+  "reference_environment_sha256": "d0fb4a9a12d6464beaa32336655a246a289159169d7826b947fa7191a97cb719",
+  "scalar_comparisons": 896,
+  "numeric_reference_agreement": {
+    "reference_software": {
+      "python": "3.14.0",
+      "numpy": "2.4.6",
+      "scipy": "1.18.1"
+    },
+    "request_sha256": "5b22d5a64a0b9fe60b3a1aa780e82c2ee72c49e9f10e75b22a6a595ba09dd12e",
+    "case_count": 128,
+    "all_matched": true,
+    "native_tail_definition_differences": 36
+  },
+  "reference_observations_match_retained": true,
+  "previous_record": "docs/validation/numerical_checks.json",
+  "previous_record_sha256": "a2532941d48c2f3064bd1fd86f7ff06251ddc37769877331330b1e74a23bd182",
+  "fresh_full_result_sha256": "0390afaa549f10af58a082615979e6fc1c6d750beaeffcde1f7442a623ede2ab",
+  "fresh_full_result_bytes": 140626,
+  "simulations_rerun": true,
+  "synthetic_trials": 7000,
+  "synthetic_simulations": [
+    {
+      "scenario_id": "independent_normal_n4",
+      "adapter": "INDEPENDENT_REFERENCE",
+      "distribution": "NORMAL",
+      "units_per_group_or_pairs": 4,
+      "trials": 1000,
+      "permutation_mode": "EXACT",
+      "permutation_assignments_or_draws": 70,
+      "measurements": {
+        "null_rejection": {
+          "numerator": 23,
+          "denominator": 1000,
+          "estimate": 0.023,
+          "wilson_95_interval": [
+            0.015374276932992918,
+            0.03427645066222667
+          ]
+        },
+        "shifted_rejection": {
+          "numerator": 139,
+          "denominator": 1000,
+          "estimate": 0.139,
+          "wilson_95_interval": [
+            0.11893638905078911,
+            0.16182653057578172
+          ]
+        },
+        "null_interval_coverage": {
+          "numerator": 854,
+          "denominator": 1000,
+          "estimate": 0.854,
+          "wilson_95_interval": [
+            0.8307599284226275,
+            0.8745307265695994
+          ]
+        }
+      }
+    },
+    {
+      "scenario_id": "independent_normal_n8",
+      "adapter": "INDEPENDENT_REFERENCE",
+      "distribution": "NORMAL",
+      "units_per_group_or_pairs": 8,
+      "trials": 1000,
+      "permutation_mode": "MONTE_CARLO",
+      "permutation_assignments_or_draws": 499,
+      "measurements": {
+        "null_rejection": {
+          "numerator": 44,
+          "denominator": 1000,
+          "estimate": 0.044,
+          "wilson_95_interval": [
+            0.0329382145884185,
+            0.058551789150407776
+          ]
+        },
+        "shifted_rejection": {
+          "numerator": 463,
+          "denominator": 1000,
+          "estimate": 0.463,
+          "wilson_95_interval": [
+            0.43229566915425255,
+            0.49398751097367855
+          ]
+        },
+        "null_interval_coverage": {
+          "numerator": 924,
+          "denominator": 1000,
+          "estimate": 0.924,
+          "wilson_95_interval": [
+            0.9059043568759517,
+            0.9388505519282977
+          ]
+        }
+      }
+    },
+    {
+      "scenario_id": "independent_laplace_n4",
+      "adapter": "INDEPENDENT_REFERENCE",
+      "distribution": "LAPLACE",
+      "units_per_group_or_pairs": 4,
+      "trials": 1000,
+      "permutation_mode": "EXACT",
+      "permutation_assignments_or_draws": 70,
+      "measurements": {
+        "null_rejection": {
+          "numerator": 13,
+          "denominator": 1000,
+          "estimate": 0.013,
+          "wilson_95_interval": [
+            0.0076128203893510256,
+            0.022114442375579666
+          ]
+        },
+        "shifted_rejection": {
+          "numerator": 109,
+          "denominator": 1000,
+          "estimate": 0.109,
+          "wilson_95_interval": [
+            0.09116003338451377,
+            0.12983249175119035
+          ]
+        },
+        "null_interval_coverage": {
+          "numerator": 849,
+          "denominator": 1000,
+          "estimate": 0.849,
+          "wilson_95_interval": [
+            0.8254750432083057,
+            0.8698538793687768
+          ]
+        }
+      }
+    },
+    {
+      "scenario_id": "paired_normal_n3",
+      "adapter": "PAIRED_DIFFERENCE",
+      "distribution": "NORMAL",
+      "units_per_group_or_pairs": 3,
+      "trials": 1000,
+      "permutation_mode": "EXACT",
+      "permutation_assignments_or_draws": 8,
+      "measurements": {
+        "null_rejection": {
+          "numerator": 0,
+          "denominator": 1000,
+          "estimate": 0.0,
+          "wilson_95_interval": [
+            0.0,
+            0.0038267584855551234
+          ]
+        },
+        "shifted_rejection": {
+          "numerator": 0,
+          "denominator": 1000,
+          "estimate": 0.0,
+          "wilson_95_interval": [
+            0.0,
+            0.0038267584855551234
+          ]
+        },
+        "null_interval_coverage": {
+          "numerator": 741,
+          "denominator": 1000,
+          "estimate": 0.741,
+          "wilson_95_interval": [
+            0.7129617374007885,
+            0.7671937650091739
+          ]
+        }
+      }
+    },
+    {
+      "scenario_id": "paired_normal_n8",
+      "adapter": "PAIRED_DIFFERENCE",
+      "distribution": "NORMAL",
+      "units_per_group_or_pairs": 8,
+      "trials": 1000,
+      "permutation_mode": "EXACT",
+      "permutation_assignments_or_draws": 256,
+      "measurements": {
+        "null_rejection": {
+          "numerator": 55,
+          "denominator": 1000,
+          "estimate": 0.055,
+          "wilson_95_interval": [
+            0.04249742737476844,
+            0.07090838767737563
+          ]
+        },
+        "shifted_rejection": {
+          "numerator": 665,
+          "denominator": 1000,
+          "estimate": 0.665,
+          "wilson_95_interval": [
+            0.6351640508403955,
+            0.6935731188593715
+          ]
+        },
+        "null_interval_coverage": {
+          "numerator": 867,
+          "denominator": 1000,
+          "estimate": 0.867,
+          "wilson_95_interval": [
+            0.8445423199288764,
+            0.8866488393427261
+          ]
+        }
+      }
+    },
+    {
+      "scenario_id": "paired_normal_n20",
+      "adapter": "PAIRED_DIFFERENCE",
+      "distribution": "NORMAL",
+      "units_per_group_or_pairs": 20,
+      "trials": 1000,
+      "permutation_mode": "MONTE_CARLO",
+      "permutation_assignments_or_draws": 499,
+      "measurements": {
+        "null_rejection": {
+          "numerator": 41,
+          "denominator": 1000,
+          "estimate": 0.041,
+          "wilson_95_interval": [
+            0.030364971082098315,
+            0.0551479932076413
+          ]
+        },
+        "shifted_rejection": {
+          "numerator": 986,
+          "denominator": 1000,
+          "estimate": 0.986,
+          "wilson_95_interval": [
+            0.9766379658824644,
+            0.9916424248695761
+          ]
+        },
+        "null_interval_coverage": {
+          "numerator": 939,
+          "denominator": 1000,
+          "estimate": 0.939,
+          "wilson_95_interval": [
+            0.9224198811757163,
+            0.9522202248739662
+          ]
+        }
+      }
+    },
+    {
+      "scenario_id": "paired_laplace_n8",
+      "adapter": "PAIRED_DIFFERENCE",
+      "distribution": "LAPLACE",
+      "units_per_group_or_pairs": 8,
+      "trials": 1000,
+      "permutation_mode": "EXACT",
+      "permutation_assignments_or_draws": 256,
+      "measurements": {
+        "null_rejection": {
+          "numerator": 44,
+          "denominator": 1000,
+          "estimate": 0.044,
+          "wilson_95_interval": [
+            0.0329382145884185,
+            0.058551789150407776
+          ]
+        },
+        "shifted_rejection": {
+          "numerator": 509,
+          "denominator": 1000,
+          "estimate": 0.509,
+          "wilson_95_interval": [
+            0.47804015149447454,
+            0.5398909668527856
+          ]
+        },
+        "null_interval_coverage": {
+          "numerator": 868,
+          "denominator": 1000,
+          "estimate": 0.868,
+          "wilson_95_interval": [
+            0.8456051419027083,
+            0.8875783638519231
+          ]
+        }
+      }
+    }
+  ],
+  "all_retained_counts_reproduced": true,
+  "wilson_boundary_corrections": [
+    {
+      "scenario_id": "paired_normal_n3",
+      "measurement": "null_rejection",
+      "numerator": 0,
+      "denominator": 1000,
+      "previous_interval": [
+        2.168404344971009e-19,
+        0.0038267584855551234
+      ],
+      "current_interval": [
+        0.0,
+        0.0038267584855551234
+      ]
+    },
+    {
+      "scenario_id": "paired_normal_n3",
+      "measurement": "shifted_rejection",
+      "numerator": 0,
+      "denominator": 1000,
+      "previous_interval": [
+        2.168404344971009e-19,
+        0.0038267584855551234
+      ],
+      "current_interval": [
+        0.0,
+        0.0038267584855551234
+      ]
+    }
+  ],
+  "unexpected_differences": [],
+  "outbound_requests_performed": false,
+  "installations_performed": false,
+  "scientific_control_selection_validated": false,
+  "status": "PASS",
+  "scope": "Complete fresh repetition of 896 scalar comparisons across 128 synthetic cases and all 7000 simulation trials using the retained frozen protocol and existing pinned reference environment. PASS reports reference agreement and reproducible counts, not coverage adequacy or scientific performance.",
+  "limitations": [
+    "Synthetic computational agreement does not establish biological efficacy, empirical control suitability, or cross-domain generalization.",
+    "Native SciPy two-sided and aligned absolute-tail definitions differ in 36 retained cases.",
+    "Shared explicit bootstrap indices test endpoint calculations, not RNG-stream equivalence.",
+    "The requested 95% percentile intervals covered the null truth in 74.1% to 93.9% of these synthetic trials; undercoverage remains reported.",
+    "Exact boundary endpoints for Wilson intervals replace inward floating-point roundoff without changing trial counts or point estimates.",
+    "Hashes identify matching bytes; they are not authenticated provenance."
+  ]
+}

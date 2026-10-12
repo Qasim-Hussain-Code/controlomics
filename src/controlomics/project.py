@@ -1,6 +1,7 @@
 """Bounded local JSON parsing and machine-readable schema export."""
 
 import json
+import math
 from pathlib import Path
 
 from controlomics import SCHEMA_VERSION
@@ -23,12 +24,21 @@ def _reject_constant(value):
     raise ValueError("nonfinite JSON numbers are not permitted")
 
 
+def _finite_float(text):
+    # Overflowing exponent literals bypass json.loads' parse_constant hook.
+    value = float(text)
+    if not math.isfinite(value):
+        raise ValueError("nonfinite JSON numbers are not permitted")
+    return value
+
+
 def decode_json(content: bytes | str):
     if isinstance(content, str):
         content = content.encode("utf-8")
     if len(content) > MAX_PROJECT_BYTES:
         raise ValueError("JSON exceeds the local size limit")
-    return json.loads(content, object_pairs_hook=_unique_keys, parse_constant=_reject_constant)
+    return json.loads(content, object_pairs_hook=_unique_keys, parse_constant=_reject_constant,
+        parse_float=_finite_float)
 
 
 def parse_project_json(content: bytes | str) -> ControlomicsProject:

@@ -26,7 +26,7 @@ Additional records describe claim relationships, privacy policy, biological cont
 
 ## Evidence and interpretation
 
-Evidence states are EVIDENCE_BACKED, METHOD_BASED, AGENT_PROPOSED, UNVERIFIED, CONFLICTING_EVIDENCE, and INSUFFICIENT_EVIDENCE. Candidate generation cannot silently promote a recommendation. Publication identity and statement support require different receipts. Licensing may limit what source content can be retained or reported.
+Evidence states are EVIDENCE_BACKED, METHOD_BASED, AGENT_PROPOSED, UNVERIFIED, CONFLICTING_EVIDENCE, and INSUFFICIENT_EVIDENCE. Candidate generation cannot silently promote an existing recommendation. Newly created built-in local specifications can undergo the method gate during creation; existing hosted and researcher-drafted candidates require an explicit review action. Imports enforce reviewed-state prerequisites, including human-kind support for EVIDENCE_BACKED statements and restriction of METHOD_BASED to technical or statistical levels. Publication identity and statement support require different receipts. Licensing may limit what source content can be retained or reported.
 
 Context review should consider organism, strain, cell type, tissue, disease, experimental condition, target, assay, method, modality, scale, intervention, time, reference database, and software assumptions where relevant. Unknown values are not matches. Known mismatches must be visible. Partial compatibility requires explicit limitations. The initial schema checks recorded comparisons, not their truth or completeness.
 

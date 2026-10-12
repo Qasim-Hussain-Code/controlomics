@@ -395,21 +395,33 @@ async function loadAnnotationBundle(bundle, resetRevisions = true, prepared = un
   $("annotation-panel").hidden = !data; $("export-evaluation-bundle").disabled = !data; $("export-revisions").disabled = !data;
   $("annotation-attestation").checked = false; $("annotation-reviewer").value = ""; $("annotation-origin").value = ""; $("evaluation-file").value = "";
   if (!data) return true;
+  // Preserve explicit uncertainty in older assessed snapshots. New flags retain
+  // partial judgments without treating an untouched dimension as uncertainty.
+  const assessed = data.bundle.judgment_origin !== "UNASSESSED";
+  for (const item of state.annotationDraft.judgments) {
+    item.appropriate_assessed ??= assessed;
+    item.unsupported_assessed ??= assessed;
+  }
+  for (const item of state.annotationDraft.evidence_decisions) item.reference_assessed ??= assessed;
   for (const prediction of state.annotationDraft.predictions.cases) for (const control of prediction.controls) {
-    if (!state.annotationDraft.judgments.some(item => item.case_id === prediction.case_id && item.control_id === control.control_id)) state.annotationDraft.judgments.push({case_id: prediction.case_id, control_id: control.control_id, appropriate: null, unsupported: null, matched_reference_ids: [], rationale: "No judgment recorded."});
+    if (!state.annotationDraft.judgments.some(item => item.case_id === prediction.case_id && item.control_id === control.control_id)) state.annotationDraft.judgments.push({case_id: prediction.case_id, control_id: control.control_id, appropriate: null, unsupported: null, appropriate_assessed: false, unsupported_assessed: false, matched_reference_ids: [], rationale: "No judgment recorded."});
   }
   options($("annotation-case"), data.bundle.dataset.cases.map(item => [item.case_id, item.case_id + ": " + item.description]));
   renderAnnotationCase();
   return true;
 }
-function annotationBoolean(label, id, value, parent) { const wrapper = node("label", label), select = node("select"); select.id = id; options(select, [["", "Unknown"], ["true", "Yes"], ["false", "No"]]); select.value = value === null ? "" : String(value); wrapper.append(select); parent.append(wrapper); return select; }
+function annotationBoolean(label, id, value, parent, assessed) { const wrapper = node("label", label), select = node("select"); select.id = id; options(select, [["", "Not judged"], ["uncertain", "Uncertain"], ["true", "Yes"], ["false", "No"]]); select.value = assessed ? value === null ? "uncertain" : String(value) : ""; wrapper.append(select); parent.append(wrapper); return select; }
 function annotationText(label, id, value, parent) { const wrapper = node("label", label), input = node("textarea"); input.id = id; input.rows = 2; input.required = true; input.maxLength = 12000; input.value = value; wrapper.append(input); parent.append(wrapper); }
 function saveAnnotationCase() {
   if (!state.annotationCase || !state.annotationDraft) return;
-  const bool = id => $(id).value === "" ? null : $(id).value === "true";
+  const bool = id => ["", "uncertain"].includes($(id).value) ? null : $(id).value === "true";
   const judgments = state.annotationDraft.judgments.filter(item => item.case_id === state.annotationCase);
-  judgments.forEach((item, index) => { item.appropriate = bool("ann-appropriate-" + index); item.unsupported = bool("ann-unsupported-" + index); item.rationale = $("ann-rationale-" + index).value.trim(); item.matched_reference_ids = item.appropriate === true ? [...$("ann-matches-" + index).querySelectorAll("input:checked")].map(input => input.value) : []; });
-  state.annotationDraft.evidence_decisions.filter(item => item.case_id === state.annotationCase).forEach((item, index) => { item.reference_decision = bool("ann-evidence-" + index); item.rationale = $("ann-evidence-rationale-" + index).value.trim(); });
+  judgments.forEach((item, index) => { item.appropriate_assessed = $("ann-appropriate-" + index).value !== ""; item.unsupported_assessed = $("ann-unsupported-" + index).value !== ""; item.appropriate = bool("ann-appropriate-" + index); item.unsupported = bool("ann-unsupported-" + index); item.rationale = $("ann-rationale-" + index).value.trim(); item.matched_reference_ids = item.appropriate === true ? [...$("ann-matches-" + index).querySelectorAll("input:checked")].map(input => input.value) : []; });
+  state.annotationDraft.evidence_decisions.filter(item => item.case_id === state.annotationCase).forEach((item, index) => { item.reference_assessed = $("ann-evidence-" + index).value !== ""; item.reference_decision = bool("ann-evidence-" + index); item.rationale = $("ann-evidence-rationale-" + index).value.trim(); });
+}
+function annotationSubmission() {
+  saveAnnotationCase();
+  return {bundle_sha256: state.annotationHash, judgment_origin: $("annotation-origin").value, annotator: $("annotation-reviewer").value.trim(), human_attested: $("annotation-attestation").checked, judgments: state.annotationDraft.judgments.filter(item => item.appropriate_assessed || item.unsupported_assessed), evidence_decisions: state.annotationDraft.evidence_decisions};
 }
 function renderAnnotationCase() {
   const bundle = state.annotationDraft; if (!bundle) return;
@@ -419,16 +431,16 @@ function renderAnnotationCase() {
   $("annotation-controls").replaceChildren(); $("annotation-evidence").replaceChildren();
   bundle.judgments.filter(item => item.case_id === current.case_id).forEach((item, index) => {
     const control = prediction.controls.find(control => control.control_id === item.control_id), panel = node("fieldset", undefined, "statement-panel"); panel.append(node("legend", control.control_class + " / " + control.scientific_level), field("Recommendation", control.description));
-    const grid = node("div", undefined, "grid"), appropriate = annotationBoolean("Appropriate for this case", "ann-appropriate-" + index, item.appropriate, grid); annotationBoolean("Unsupported recommendation", "ann-unsupported-" + index, item.unsupported, grid); panel.append(grid);
+    const grid = node("div", undefined, "grid"), appropriate = annotationBoolean("Appropriate for this case", "ann-appropriate-" + index, item.appropriate, grid, item.appropriate_assessed); annotationBoolean("Unsupported recommendation", "ann-unsupported-" + index, item.unsupported, grid, item.unsupported_assessed); panel.append(grid);
     const matches = node("div"); matches.id = "ann-matches-" + index; matches.append(node("p", "References covered, only for appropriate recommendations"));
     for (const reference of current.references) { const label = node("label", undefined, "check"), checkbox = node("input"); checkbox.type = "checkbox"; checkbox.value = reference.reference_id; checkbox.checked = item.matched_reference_ids.includes(reference.reference_id); checkbox.disabled = appropriate.value !== "true"; label.append(checkbox, node("span", reference.reference_id + ": " + reference.description)); matches.append(label); }
     appropriate.addEventListener("change", () => matches.querySelectorAll("input").forEach(input => { input.disabled = appropriate.value !== "true"; if (input.disabled) input.checked = false; })); panel.append(matches); annotationText("Reason for the supplied judgments", "ann-rationale-" + index, item.rationale, panel); $("annotation-controls").append(panel);
   });
-  bundle.evidence_decisions.filter(item => item.case_id === current.case_id).forEach((item, index) => { const panel = node("fieldset", undefined, "statement-panel"); panel.append(node("legend", item.layer), field("Imported prediction", item.unit_id + ": " + item.predicted_decision)); annotationBoolean("Reference decision", "ann-evidence-" + index, item.reference_decision, panel); annotationText("Reason for the evidence reference judgment", "ann-evidence-rationale-" + index, item.rationale, panel); $("annotation-evidence").append(panel); });
+  bundle.evidence_decisions.filter(item => item.case_id === current.case_id).forEach((item, index) => { const panel = node("fieldset", undefined, "statement-panel"); panel.append(node("legend", item.layer), field("Imported prediction", item.unit_id + ": " + item.predicted_decision)); annotationBoolean("Reference decision", "ann-evidence-" + index, item.reference_decision, panel, item.reference_assessed); annotationText("Reason for the evidence reference judgment", "ann-evidence-rationale-" + index, item.rationale, panel); $("annotation-evidence").append(panel); });
 }
 $("annotation-case").addEventListener("change", () => { saveAnnotationCase(); renderAnnotationCase(); });
 $("open-annotations").addEventListener("click", () => action(async () => { if ($("evaluation-file").files[0] && !await loadAnnotationBundle(await fileJSON($("evaluation-file")))) return; if (!state.evaluationBundle) throw new Error("Choose a local evaluation bundle first."); $("annotation-panel").open = true; $("annotation-panel").scrollIntoView({block: "start"}); focusDestination($("annotation-panel").querySelector("summary")); message("Opened imported recommendations and reference definitions. No new judgments have been recorded."); }));
-$("annotation-form").addEventListener("submit", event => { event.preventDefault(); action(async () => { saveAnnotationCase(); if (!$("annotation-attestation").checked) throw new Error("A real reviewer must attest the judgments."); const submission = {bundle_sha256: state.annotationHash, judgment_origin: $("annotation-origin").value, annotator: $("annotation-reviewer").value.trim(), human_attested: true, judgments: state.annotationDraft.judgments, evidence_decisions: state.annotationDraft.evidence_decisions}; const data = await api("/api/annotate", {bundle: state.evaluationBundle, submission}); state.revisions.push(data.revision); await loadAnnotationBundle(data.bundle, false); state.evaluation = null; $("evaluation-result").replaceChildren(empty("Judgments changed. Calculate the current snapshot to see updated metrics.")); $("export-evaluation").disabled = true; message("Recorded supplied judgments and snapshot hashes. Export this bundle and revisions; identities remain unauthenticated."); }); });
+$("annotation-form").addEventListener("submit", event => { event.preventDefault(); action(async () => { if (!$("annotation-attestation").checked) throw new Error("A real reviewer must attest the judgments."); const data = await api("/api/annotate", {bundle: state.evaluationBundle, submission: annotationSubmission()}); state.revisions.push(data.revision); await loadAnnotationBundle(data.bundle, false); state.evaluation = null; $("evaluation-result").replaceChildren(empty("Judgments changed. Calculate the current snapshot to see updated metrics.")); $("export-evaluation").disabled = true; message("Recorded supplied judgments and snapshot hashes. Export this bundle and revisions; identities remain unauthenticated."); }); });
 $("export-evaluation-bundle").addEventListener("click", () => { if (state.evaluationBundle) download(JSON.stringify(state.evaluationBundle, null, 2), "controlomics.annotations.json"); });
 $("export-revisions").addEventListener("click", () => download(JSON.stringify(state.revisions, null, 2), "controlomics.annotation_revisions.json"));
 window.addEventListener("beforeunload", event => { if (hasUnsavedWork()) { event.preventDefault(); event.returnValue = ""; } });

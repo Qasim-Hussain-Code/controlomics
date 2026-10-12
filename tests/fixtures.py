@@ -48,7 +48,8 @@ def reviewed_project(status="EVIDENCE_BACKED"):
         control["supporting_evidence"] = [{
             "evidence_id": "evidence.synthetic", "statement": statement, "relationship": "SUPPORTS",
             "locator": "synthetic fixture only", "rationale": "Synthetic entailment fixture.",
-            "entailment_check": receipt(),
+            # Mirrors the recorded receipt kind only; no human review occurred.
+            "entailment_check": {**receipt(), "reviewer_kind": "HUMAN"},
         } for statement in (control["scientific_rationale"], control["expected_behavior"])]
     return data
 

@@ -297,7 +297,7 @@ class ControlCandidate(Record):
 class VerifiedControl(ControlCandidate):
     """A reviewed control record, including reviews that find insufficient evidence."""
 
-    evidence_status: EvidenceStatus
+    evidence_status: Literal["EVIDENCE_BACKED", "METHOD_BASED", "CONFLICTING_EVIDENCE", "INSUFFICIENT_EVIDENCE"]
     verification: VerificationRecord
 
     @model_validator(mode="after")
@@ -305,16 +305,17 @@ class VerifiedControl(ControlCandidate):
         supporting = [link for link in self.supporting_evidence if link.relationship == "SUPPORTS"]
         contradicting = [link for link in self.supporting_evidence if link.relationship == "CONTRADICTS"]
         if self.evidence_status == "EVIDENCE_BACKED":
-            if not any(link.statement == self.scientific_rationale for link in supporting):
-                raise ValueError("evidence-backed rationale requires statement-specific support")
-            if not any(link.statement == self.expected_behavior for link in supporting):
-                raise ValueError("evidence-backed expected behavior requires statement-specific support")
+            human_supported = {link.statement for link in supporting
+                if link.entailment_check is not None and link.entailment_check.reviewer_kind == "HUMAN"}
+            if not {self.scientific_rationale, self.expected_behavior} <= human_supported:
+                raise ValueError("evidence-backed rationale and expected behavior require human statement-specific attestations")
             if contradicting:
                 raise ValueError("contradictory evidence cannot be hidden by an evidence-backed status")
             if self.context_compatibility.status not in ("MATCH", "PARTIAL"):
                 raise ValueError("evidence-backed controls require assessed context compatibility")
-        if self.evidence_status == "METHOD_BASED" and (self.evidence_required or self.method_basis is None):
-            raise ValueError("method-based controls require a method basis and no biological evidence gate")
+        if self.evidence_status == "METHOD_BASED" and (self.evidence_required or self.method_basis is None
+                or self.scientific_level not in ("TECHNICAL", "STATISTICAL")):
+            raise ValueError("method-based controls require a technical or statistical method basis and no biological evidence gate")
         if self.evidence_status == "CONFLICTING_EVIDENCE" and not (supporting and contradicting):
             raise ValueError("conflicting evidence requires both support and contradiction")
         return self
