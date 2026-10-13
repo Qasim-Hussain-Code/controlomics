@@ -123,7 +123,8 @@
     "src/controlomics/web/index.html": "7ac5c30062485d725487536bffb6a7431ecb9063a3c1033084fa5b7d2aa242ac",
     "src/controlomics/web/style.css": "9f1c5e5d32299b8f4dd1a91b9451a856be3b0d7a5f1cd32b3bdd855312a951a2",
     "gunicorn.conf.py": "6d79e87def693f443c2f9a9f5bbe7708fb6f125ba8ca9a065f0f05e043e33e51",
-    "render.yaml": "81c67ebd8decd7eccca5465985c59d914aaafdd4c457cf4d6aa244d555a1fcbd"
+    "render.yaml": "81c67ebd8decd7eccca5465985c59d914aaafdd4c457cf4d6aa244d555a1fcbd",
+    "scripts/build_distributions.py": "5411c8ec0d092c92c27320af6368d3253dc3d765e2e4633ccf46c25c1209142d"
   },
   "frozen_numerical_sources_unchanged": {
     "scope": "Frozen numerical sources; no new simulation or scientific validation inferred.",
@@ -150,7 +151,8 @@
   "prior_failures_retained": [
     "Consent modal Tab escaped to BODY; fixed with an explicit Tab boundary and submission focus. Current Chrome and Edge passed unchanged assertions.",
     "WSL DrvFs did not support an unlinked heartbeat file. The retained first startup probe failed before its checks; the final Linux tmpfs heartbeat and real timeout probes passed.",
-    "Earlier browser startup, async fixture, field-name and CLI inspection errors remain separate private harness/environment records."
+    "Earlier browser startup, async fixture, field-name and CLI inspection errors remain separate private harness/environment records.",
+    "Hosted CI run 38481194815 failed all nine jobs on the build-helper entry point. The failed run is retained; subsequent source and runs have separate identities."
   ],
   "not_performed": [
     "Live Render deployment and TLS/proxy verification",
@@ -159,7 +161,17 @@
     "Screen-reader validation",
     "Human scientific review"
   ],
-  "hosted_ci": "NOT_YET_RUN_FOR_THIS_SOURCE",
+  "hosted_ci": {
+    "initial_run": {
+      "id": 38481194815,
+      "source_revision": "56054482e16095e1f8d13ddc225b09dada6af06c",
+      "status": "FAIL",
+      "jobs_failed": 9,
+      "cause": "Build-helper argument parsing inherited unittest discovery arguments on a direct Python call. All jobs retained one test error.",
+      "fix": "Programmatic main defaults to an empty argument sequence; only the script entry point reads sys.argv. Original privacy assertion is unchanged."
+    },
+    "fixed_source_run": "NOT_YET_RUN"
+  },
   "deployment": "NOT_CREATED",
   "limitations": [
     "Synthetic technical acceptance does not establish scientific control suitability, biological efficacy, or cross-domain generalization.",

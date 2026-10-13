@@ -16,11 +16,11 @@ else:
 from controlomics.storage import write_bytes_atomic
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+def main(argv=()):
+    parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     parser.add_argument('--output-dir', type=Path, default=ROOT/'dist',
                         help='Directory for new local distribution candidates.')
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     # Build from a reviewed public inventory, never from this machine's private
     # working directory or stale egg-info manifest.
     revision = subprocess.run(['git', '-c', f'safe.directory={ROOT.as_posix()}', 'rev-parse', 'HEAD'],
@@ -88,4 +88,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])
