@@ -231,6 +231,22 @@ class LocalServer(ThreadingHTTPServer):
 
 
 class Handler(BaseHTTPRequestHandler):
+    # The stdlib default omits status and headers on malformed request lines.
+    default_request_version = "HTTP/1.0"
+
+    def parse_request(self):
+        parsed = super().parse_request()
+        if self.request_version == "HTTP/0.9":
+            self.request_version = "HTTP/1.0"
+            self.send_error(400, "Legacy HTTP requests are unsupported.")
+            return False
+        return parsed
+
+    def send_error(self, code, message=None, explain=None):
+        if self.request_version == "HTTP/0.9":
+            self.request_version = self.default_request_version
+        super().send_error(code, message, explain)
+
     def setup(self):
         self.request.settimeout(CONNECTION_TIMEOUT)
         super().setup()

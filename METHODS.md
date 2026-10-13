@@ -6,7 +6,7 @@ Researchers explicitly supply analysis, claim, category, support, context, and d
 
 The reference baseline specifies known-signal positive and signal-absent negative technical references, with abstention from unsupported biological selection. The default reasoner adds conditional specifications based on textual operation cues, supplied categories, and design fields. Cues and findings remain inspectable, provisional, and versioned; rules cannot establish actual design or biological relevance. Literal local description drafts preserve missing fields for researcher confirmation. See [the design rules](docs/DESIGN_RULES.md).
 
-Optional Messages-compatible providers produce constrained proposals from selected public fields, attached to one known claim. Citation and verification fields are unavailable to proposals. No hosted model was evaluated.
+The optional `MessagesProvider` produces constrained proposals from selected public fields, attached to one known claim. Its concrete API contract is chat-completion JSON: the request contains `model`, `messages`, `temperature`, `max_tokens`, and `stream`, and response text must occur at `choices[0].message.content`. A supplied credential uses a separate Bearer authorization header. The class name does not imply compatibility with native Messages APIs; use an endpoint or gateway implementing this contract, or a separate adapter. Citation and verification fields are unavailable to proposals. No hosted model was evaluated.
 
 ## Evidence and review
 

@@ -8,6 +8,8 @@ Alternatives considered: automatic full-project model calls, a single literature
 
 Decision: use an offline method baseline and an optional Messages-compatible provider. Retrieve literature through Europe PMC and Crossref. Require exact-request approval and SAFE selected fields before external calls. Connect to checked public IPs with hostname-verified TLS and disable redirects. Separate publication identity from human-attested entailment and context. Execute only fixed independent-unit numeric templates locally or through exported packages.
 
+Implementation qualification: the `MessagesProvider` name above refers to the configurable proposal interface. The implemented endpoint contract uses chat-completion JSON with response text at `choices[0].message.content`; native Messages APIs require a compatible gateway or a separate adapter. See [the current interface contract](../USAGE.md).
+
 Scientific rationale: citation existence does not imply support or applicability. Generic technical reference specifications cannot substitute for biological controls. Prespecified technical reference decisions are distinct from open-ended statistical interpretation. Conservative audit outcomes preserve abstention.
 
 Technical rationale: retain Pydantic as the sole runtime dependency. Use the standard library for HTTP, statistics, temporary packages, bounded subprocess execution, and loopback serving. Source hashes, input snapshots, seeds, and software versions make the narrow adapters inspectable.

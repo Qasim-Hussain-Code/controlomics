@@ -1,5 +1,13 @@
 # Development changes
 
+## 0.6.11.dev0, 2026-10-12
+
+Interrupted outbound requests retain consistent ledger states after sending begins. Protein-like screening includes U and X, and recognized identifier and named-credential labels are case-insensitive. Malformed HTTP responses carry status and security headers; explicit HTTP/0.9 is rejected.
+
+Clarified the cue-dependent operation-unrecognized question and the hosted adapter's chat-completion JSON contract. Browser verification saves completed functional observations before checking shutdown, retaining them with a separate shutdown status when that check fails.
+
+Exact verification results and source/artifact scope are recorded in [VALIDATION.md](VALIDATION.md). Prototype checks concern technical and synthetic behavior rather than empirical scientific performance. Historical records remain attached to their original snapshots. No artifact has been published.
+
 ## 0.6.10.dev0, 2026-10-12
 
 Version 0.6.10.dev0 addresses prototype audit findings in review-state transitions, imported evidence gates, judgment missingness, Wilson boundaries, local execution budgets, privacy screening, server binding and response headers, claim-linked evidence, and lexical design cues. Existing hosted and researcher-drafted candidates remain unreviewed until an explicit review action. The Cinnabar interface and section-specific navigation are retained.

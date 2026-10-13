@@ -1,0 +1,156 @@
+{
+  "recorded_at": "2026-10-12T11:03:30.747423+00:00",
+  "controlomics_version": "0.6.11.dev0",
+  "base_revision": "b6ac5d35a3e789069d38c2bd0384b2aacab47c32",
+  "source_hashes": {
+    "src/controlomics/privacy.py": "bb4a8b574d9ad6adda5387e8ecc680e9b8ac6f0b49f940af8d2889b6234e84c4",
+    "src/controlomics/server.py": "c422468ae001915b0348d4e51ae9abfc20f86a502763150256d06f4c168302f0",
+    "scripts/check_ui.cjs": "0ce530db5f6e76d092b0f49a82c596dd1eea4eaa63e47723eb3cbcff652ca986",
+    "scripts/check_ui_shutdown.cjs": "3c2a11eb1fe1508dd7bb90437032eaeaf28c6b4b00cb9958ac603863769c6fff",
+    "scripts/test_ui_shutdown.cjs": "014667831a9654d5bacb85725cc250b0588fd11b3b420308e7cfb9d611cd7541",
+    "tests/privacy/test_interrupted_transport.py": "554a8d35b3e5834ab8d63d051e94309dba7cbd9254e9e1055febdd9b7f57406f",
+    "tests/privacy/test_residual_screening.py": "9cee83fed0d3c3ede821e51d4e4c7f0c1c7d07b9ee47fee8afd883479ea94178",
+    "tests/integration/test_http_request_lines.py": "4586444d9280a5c99abad2b9a61a1e39eff404d101b0364ca7d36c16035a524f",
+    "METHODS.md": "3ac9c67874bfaec600e29b6d5056586efd0362d86b548218e661efa7f4c78715",
+    "docs/DESIGN_RULES.md": "415a9cc0d21aecb931c3384b905167841a75b6950bc5118a16f9d595d9d7e881",
+    "SECURITY.md": "f2494647e87b767e4e05bc12f14c9f2555956550026ac26025cb7eba5cff6ea2",
+    "docs/PROJECT_FORMAT.md": "17b1dbe774c0c4a59118feabc7edb4781b2b43bb8fc424c74228ae99d2623827",
+    "docs/INTERFACE.md": "dd5b3d1f2a01affdc3127c030da8a2d811f16f63c2fbffd5a7f26da9af5d658f"
+  },
+  "findings": {
+    "N01": {
+      "disposition": "FIXED",
+      "scope": "Incomplete interrupted transport retains FAILED after sending starts; phases preserved, original interrupt propagates; CLI ledgers remain usable in reports and review archives."
+    },
+    "F06_residual": {
+      "disposition": "FIXED_REPORTED_TRIGGERS",
+      "scope": "Reported uppercase U/X protein-like tokens and case-insensitive contextual credential and patient/medical identifier labels. General confidential-text recognition remains incomplete."
+    },
+    "N02": {
+      "disposition": "FIXED",
+      "scope": "Malformed request-line errors carry HTTP status and security headers. Explicit HTTP/0.9 rejected; versionless two-word GET replies retain framing and normal Host checks."
+    },
+    "N03": {
+      "disposition": "DOCUMENTATION_CLARIFIED",
+      "scope": "operation_uncertain requires no text or category cue; no new reasoning quality claim or changed development expectations."
+    },
+    "N04": {
+      "disposition": "DOCUMENTATION_CLARIFIED",
+      "scope": "METHODS and ADR implementation note identify actual chat-completion request/response shape; class name does not imply native Messages API compatibility."
+    },
+    "N05": {
+      "disposition": "CHECKER_IMPROVED",
+      "scope": "Before-shutdown checkpoint and final observations retained on lifecycle failure; actual process-exit and endpoint-refusal checks remain separate with unchanged 40-second process bound."
+    }
+  },
+  "original_auditor_trigger_replay": {
+    "tests": 9,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "seconds": 67.115,
+    "status": "PASS",
+    "test_selection": [
+      "audit_tests.test_privacy_transport.F06Screening",
+      "audit_tests.test_privacy_transport.InterruptedTransmissionProbe",
+      "audit_tests.test_server_http.F12Headers.test_headers_on_requests_parsed_as_http09"
+    ],
+    "auditor_files_unchanged": true,
+    "auditor_files_checked": 35,
+    "scope": "Developer replay of unchanged selected private auditor tests on 0.6.11.dev0; fresh outputs; synthetic and mocked only. Not a new independent audit."
+  },
+  "software_record": "software_checks_audit_followup_phase.json",
+  "initial_software_record": "software_checks_audit_followup_initial_attempt.json",
+  "isolated_authorization_repetitions": {
+    "tests": 20,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "status": "PASS",
+    "scope": "Twenty unchanged isolated repetitions of the initial Windows connection-abort test; no runtime or assertion changes."
+  },
+  "static_record": "static_checks_audit_followup_phase.json",
+  "numerical_suite_rerun": false,
+  "frozen_numerical_sources_unchanged": true,
+  "limitations": [
+    "Developer remediation checks do not replace the separate audit or establish an independent PASS verdict.",
+    "Synthetic inputs and mocked services only; no live external requests.",
+    "Initial full-suite Windows connection abort retained; cause unconfirmed.",
+    "No biological efficacy, empirical control suitability, cross-domain generalization, or authenticated expertise established."
+  ],
+  "records_sha256": {
+    "software_checks_audit_followup_phase.json": "03967c961eb1e2aac0366322ecf0a864a2b6ef3ed3ae4c6d6190fc727b71cb61",
+    "software_checks_audit_followup_initial_attempt.json": "18fc9cd5edf570be0d4397473b00539aac8bccb63165899911a618974a3ffec4",
+    "static_checks_audit_followup_phase.json": "9152fb1dfe70f2775f6e9c24358dd9eb8bdfc83939520b323c79def1f932b902",
+    "package_checks_audit_followup_phase.json": "e7266e1725e1d9f3803fe936a074d2a2ea0280f98dcf8742c206498787c4f106",
+    "distribution_checks_audit_followup_phase.json": "804dbe4f0f68caad42999413f5c32173a9c7e70d1a9f767d7d2fe6f0e63ae221",
+    "install_checks_audit_followup_phase.json": "07cb75dbc214082cd930c369063a8f65a3ab3231865a346248c1c7fad8e47cc9",
+    "sdist_install_checks_audit_followup_phase.json": "b4af95f33c8a7d0ccd7047f37356b0e16ea1fd26a02410ac6d5284a9ea7e223e",
+    "ui_checks_audit_followup_phase.json": "0ce0621d8b942a97b90f69be9cdc5c7d1c353f8ae567296cd64b1f4accec0794",
+    "ui_edge_checks_audit_followup_phase.json": "107e69607f1de5bb9374df24fb812083d6fffab763160e2c4dcdab7c5b31a173",
+    "numeric_checks_audit_remediation_phase.json": "7fecd8c54af522e1bc73f59c9ef408ca91dd154bb798dce0fecff9b8908b8acf"
+  },
+  "browser_outcomes": {
+    "ui_checks_audit_followup_phase.json": {
+      "functional_checks_complete": true,
+      "checker_shutdown_status": "ERROR",
+      "separate_owned_handle_followup": {
+        "processExitVerifiedFromOwnedHandle": true,
+        "endpointConnectionRefused": true,
+        "processReturnCode": 0,
+        "scope": "Separate supervisor observation using the exact retained launch handle after the checker returned; preserves the original checker lifecycle status.",
+        "separateWaitBoundSeconds": 120,
+        "launcherElapsedSeconds": 231.095,
+        "followupRecordWrittenAtUtc": "2026-10-12T11:15:52.484044+00:00",
+        "rawFollowupRecordSha256": "387e776478960576b032e47094045124f37e0e60d6890d7b7934a1b62dec5a61"
+      }
+    },
+    "ui_edge_checks_audit_followup_phase.json": {
+      "functional_checks_complete": true,
+      "checker_shutdown_status": "PASS",
+      "separate_owned_handle_followup": {
+        "processExitVerifiedFromOwnedHandle": true,
+        "endpointConnectionRefused": true,
+        "processReturnCode": 0,
+        "scope": "Separate supervisor observation using the exact retained launch handle after the checker returned; preserves the original checker lifecycle status.",
+        "separateWaitBoundSeconds": 120,
+        "launcherElapsedSeconds": 85.056,
+        "followupRecordWrittenAtUtc": "2026-10-13T05:15:20.006985+00:00",
+        "rawFollowupRecordSha256": "28c72d396c3c8faf0f53b7739dfbb0de0939979593e6bd2ce1879f6441bdbe3a"
+      }
+    }
+  },
+  "source_normalization": {
+    "observations": [
+      {
+        "path": "docs/validation/ui_checks_audit_followup_phase.json",
+        "before_sha256": "2fc6338b3f1ebd2318cd62c4e0656823fcb3a82b8e36d4a78965ca02be10f2ab",
+        "after_sha256": "0ce0621d8b942a97b90f69be9cdc5c7d1c353f8ae567296cd64b1f4accec0794",
+        "verification": "PARSED_JSON_EQUAL"
+      },
+      {
+        "path": "docs/validation/ui_edge_checks_audit_followup_phase.json",
+        "before_sha256": "510dbe413c2e9dc4e92ebf61c9327ef16239ca6a50b4a3f6352fbc25f690667e",
+        "after_sha256": "107e69607f1de5bb9374df24fb812083d6fffab763160e2c4dcdab7c5b31a173",
+        "verification": "PARSED_JSON_EQUAL"
+      },
+      {
+        "path": "tests/privacy/test_residual_screening.py",
+        "before_sha256": "f54e9a90d3796c444c28e5615b289f09c51cfce78bb3422e70bf73a0fac26416",
+        "after_sha256": "9cee83fed0d3c3ede821e51d4e4c7f0c1c7d07b9ee47fee8afd883479ea94178",
+        "verification": "PYTHON_AST_EQUAL"
+      }
+    ],
+    "runtime_unchanged": true,
+    "test_assertions_unchanged": true,
+    "original_bytes_preserved": true
+  },
+  "normalization_followup": {
+    "privacy_tests": 6,
+    "privacy_tests_status": "PASS",
+    "static_groups": 10,
+    "static_status": "PASS",
+    "full_suite_repeated": false,
+    "scope": "Formatting-only change with equal Python AST and parsed JSON; successful prior full suite retained, affected privacy tests and static checks rerun."
+  }
+}

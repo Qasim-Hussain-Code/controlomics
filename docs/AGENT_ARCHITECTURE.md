@@ -1,6 +1,6 @@
 # Complete agent architecture
 
-This describes the implemented local research alpha, version 0.6.10.dev0. Controlomics is a human-supervised scientific workflow with structured proposals, evidence review, restricted numerical tools, and conservative audits. Its default reasoning engine uses inspectable rules. An optional hosted language model can propose controls through the same record contracts. Prototype checks cover implemented contracts and synthetic workflows; they do not demonstrate empirical scientific appropriateness or cross-domain generalization.
+This describes the implemented local research alpha, version 0.6.11.dev0. Controlomics is a human-supervised scientific workflow with structured proposals, evidence review, restricted numerical tools, and conservative audits. Its default reasoning engine uses inspectable rules. An optional hosted language model can propose controls through the same record contracts. Prototype checks cover implemented contracts and synthetic workflows; they do not demonstrate empirical scientific appropriateness or cross-domain generalization.
 
 ## Overall flow
 

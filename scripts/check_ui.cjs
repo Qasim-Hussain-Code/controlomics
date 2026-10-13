@@ -14,6 +14,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const {spawnSync} = require('node:child_process');
+const {processSnapshot,retainShutdownObservations} = require('./check_ui_shutdown.cjs');
 const {parseArgs} = require('node:util');
 const {values} = parseArgs({options: {
   server: {type:'string',default:'http://127.0.0.1:8765'},
@@ -30,6 +31,7 @@ const browserPID = values['browser-pid'] === undefined ? null : Number(values['b
 if (browserPID !== null && (!Number.isSafeInteger(browserPID) || browserPID < 1 || browserPID === process.pid)) throw new Error('Supply a valid task-owned browser PID');
 const expectedProfile = path.resolve(values.profile), outputDirectory = path.resolve(values.output);
 fs.mkdirSync(outputDirectory,{recursive:true});
+if(['ui_checks.json','ui_checks_before_shutdown.json'].some(name=>fs.existsSync(path.join(outputDirectory,name)))) throw new Error('Use a fresh output directory to preserve previous UI observations');
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 (async () => {
@@ -66,7 +68,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   const browserArguments = (await command('Browser.getBrowserCommandLine')).arguments;
   const profileArgument = browserArguments.find(argument=>argument.startsWith('--user-data-dir='));
   if (!browserArguments.includes('--headless=new') || !profileArgument || path.resolve(profileArgument.slice('--user-data-dir='.length)) !== expectedProfile) throw new Error('Refusing to use or close a browser outside the explicitly selected headless QA profile');
-  const checkedSources=['src/controlomics/server.py','src/controlomics/execution.py','src/controlomics/storage.py','src/controlomics/evaluation.py','src/controlomics/web/index.html','src/controlomics/web/app.js','src/controlomics/web/style.css','scripts/check_ui.cjs'];
+  const checkedSources=['src/controlomics/server.py','src/controlomics/execution.py','src/controlomics/storage.py','src/controlomics/evaluation.py','src/controlomics/web/index.html','src/controlomics/web/app.js','src/controlomics/web/style.css','scripts/check_ui.cjs','scripts/check_ui_shutdown.cjs'];
   const sourceHashes=Object.fromEntries(checkedSources.map(name=>[name,crypto.createHash('sha256').update(fs.readFileSync(name)).digest('hex')]));
   const screenshotHashes={};
   await command('Page.enable'); await command('Runtime.enable'); await command('Network.enable'); await command('Accessibility.enable');
@@ -110,7 +112,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
     await pause(200);
     const screenshot = await command('Page.captureScreenshot', {format:'png',captureBeyondViewport:false});
     const filename='ui_' + name + '.png', raw=Buffer.from(screenshot.data,'base64');
-    fs.writeFileSync(path.join(outputDirectory,filename),raw);
+    fs.writeFileSync(path.join(outputDirectory,filename),raw,{flag:'wx'});
     screenshotHashes[filename]=crypto.createHash('sha256').update(raw).digest('hex');
   };
   const key = async (name, code, modifiers=0) => {
@@ -570,7 +572,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
     observations.reportLayout.push(layout);
     const screenshot=await command('Page.captureScreenshot',{format:'png',captureBeyondViewport:false},reportSession);
     const filename='ui_'+viewport.name+'.png', raw=Buffer.from(screenshot.data,'base64');
-    fs.writeFileSync(path.join(outputDirectory,filename),raw);
+    fs.writeFileSync(path.join(outputDirectory,filename),raw,{flag:'wx'});
     screenshotHashes[filename]=crypto.createHash('sha256').update(raw).digest('hex');
   }
   await command('Emulation.setEmulatedMedia',{media:'print'},reportSession);
@@ -825,26 +827,14 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   observations.source_hashes=sourceHashes;
   observations.screenshot_hashes=screenshotHashes;
   closingBrowser = true;
-  await command('Browser.close'); socket.close();
-  let endpointClosed = false;
-  for(let attempt=0;attempt<20;attempt++) {
-    try { await fetch('http://127.0.0.1:'+debugPort+'/json/version',{signal:AbortSignal.timeout(500)}); }
-    catch(error) { if(error.cause?.code==='ECONNREFUSED') { endpointClosed=true; break; } }
-    await pause(250);
-  }
-  if(!endpointClosed) throw new Error('Task-owned browser debugging endpoint remained open after shutdown');
-  observations.browserShutdown={debuggingEndpointClosed:true,processExitObserved:false};
-  if(browserPID!==null) {
-    let processExited=false;
-    for(let attempt=0;attempt<160;attempt++) {
-      try { process.kill(browserPID,0); }
-      catch(error) { if(error.code==='ESRCH') { processExited=true; break; } throw error; }
-      await pause(250);
+  const final=await retainShutdownObservations({observations,outputDirectory,
+    requestClose:()=>command('Browser.close'),closeConnection:()=>socket.close(),
+    checkProcess:browserPID===null?null:timeout=>processSnapshot(browserPID,timeout),
+    checkEndpoint:async()=>{
+      try { await fetch('http://127.0.0.1:'+debugPort+'/json/version',{signal:AbortSignal.timeout(500)}); return {closed:false,status:'RESPONDING'}; }
+      catch(error) { return error.cause?.code==='ECONNREFUSED'?{closed:true}:{closed:false,status:'NO_REFUSAL_OBSERVED'}; }
     }
-    if(!processExited) throw new Error('Task-owned browser process remained alive after Browser.close and the separate exit wait');
-    observations.browserShutdown.processExitObserved=true;
-    observations.browserShutdown.processObservation='Verified launcher-supplied browser PID no longer exists; endpoint closure was measured separately.';
-  } else observations.browserShutdown.processObservation='Browser PID was not supplied; only debugging-endpoint closure was measured.';
-  fs.writeFileSync(path.join(outputDirectory,'ui_checks.json'),JSON.stringify(observations,null,2)+'\n');
-  console.log(JSON.stringify(observations,null,2));
+  });
+  console.log(JSON.stringify(final,null,2));
+  if(['ERROR','TIMED_OUT'].includes(final.browserShutdown.status)) throw new Error('Browser shutdown verification '+final.browserShutdown.status+' at '+final.browserShutdown.failureStage+'; completed functional observations were retained.');
 })().catch(error=>{console.error(error.message);process.exit(1);});

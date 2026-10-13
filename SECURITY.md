@@ -14,6 +14,8 @@ Interface availability messages and disabled execution buttons supplement server
 
 POST authorization is checked before waiting for the body; non-ASCII tokens are rejected and truncated bodies cannot be parsed. Browser imports reject invalid UTF-8 instead of silently replacing bytes. CSV decoding accepts an optional UTF-8 byte-order mark while hashes retain the original bytes. The local JSON request budget includes formatting and the project snapshot, so files near the 2 MiB limit may require CLI use.
 
+Malformed request-line errors use an HTTP status line and the same security headers as other replies. Explicit HTTP/0.9 requests are rejected with a framed HTTP/1.0 error. Empty connections and read timeouts may close without a response.
+
 ## External transport
 
 HTTPS URLs cannot include credentials, fragments, or nonstandard ports. Provider preparation binds selected public fields to URLs or messages, and exact approval is checked before connection. DNS addresses must be globally routable; TLS uses a checked address and the original hostname. Redirects are rejected. Responses are bounded to 2 MiB with socket timeouts. Errors omit private input and response content.
@@ -38,7 +40,7 @@ Do not commit keys, clinical identifiers, private sequences, raw datasets, or re
 
 ## Vulnerability reporting and supported versions
 
-Only the current `0.6.10.dev0` research preview is maintained. Older development snapshots receive no separate security fixes. There is no response-time guarantee or independent security certification.
+Only the current `0.6.11.dev0` research preview is maintained. Older development snapshots receive no separate security fixes. There is no response-time guarantee or independent security certification.
 
 Before uploading source, the repository owner must enable GitHub private vulnerability reporting in an empty public repository and verify that its Security page offers **Report a vulnerability**. Use that private channel for suspected vulnerabilities, with a minimal synthetic reproduction and affected version. Do not include credentials, identifying information, or real research data. Do not open a public issue for an undisclosed vulnerability.
 

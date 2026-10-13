@@ -23,7 +23,7 @@ CREDENTIAL_PATTERNS = {
     "github_token": r"(?<![A-Za-z0-9])(?:ghp_[A-Za-z0-9_-]{12,}|gh[ousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,})",
     "provider_key": r"(?<![A-Za-z0-9])(?:sk-[A-Za-z0-9_-]{12,}|hf_[A-Za-z0-9_-]{12,}|AIza[A-Za-z0-9_-]{35})",
     "bearer_token": r"(?i:\bBearer)\s+[A-Za-z0-9._~+/=-]{16,}",
-    "named_credential": r"\b(?:password|api[_ -]?key|token)\s*[:=]\s*\S+",
+    "named_credential": r"(?i:\b(?:password|api[_ -]?key|token))\s*[:=]\s*\S+",
 }
 
 
@@ -39,11 +39,14 @@ def screen_text(text: str) -> PrivacyClass:
     patterns = (
         *CREDENTIAL_PATTERNS.values(), r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}",
         r"[A-Za-z]:[\\/]", r"(?:/home/|/Users/|\\\\)[^\s]+",
-        r"\b(?:patient|subject|clinical|medical_record)[ _-]?(?:id|identifier|number)\s*[:=]",
+        r"(?i:\b(?:patient|subject|clinical|medical[ _-]?record)[ _-]?(?:id|identifier|number))\s*[:=]",
         r"(?i:\bMRN)\s*[:#=]?\s*\d{5,}\b",
         # Alphabetic boundaries also detect underscore-prefixed sequence-like runs.
         r"(?<![A-Za-z])[ACGTUNacgtun]{80,}(?![A-Za-z])",
         r"(?<![A-Za-z])[ACDEFGHIKLMNPQRSTVWY]{60,}(?![A-Za-z])",
+        # U or X must not split a protein token. Require a protein-specific
+        # letter so RNA runs retain their separate nucleotide threshold.
+        r"(?<![A-Za-z])(?=[A-Z]*[DEFHIKLMPQRSVWY])[ACDEFGHIKLMNPQRSTVWYUX]{60,}(?![A-Za-z])",
     )
     if any(re.search(pattern, text) for pattern in patterns):
         return "RESTRICTED"
@@ -197,3 +200,8 @@ class SafeTransport:
         except (OSError, ValueError, RecursionError, http.client.HTTPException):
             event["status"] = "FAILED"
             raise TransportError("external request failed; response content and credentials are omitted") from None
+        finally:
+            # Interruptions propagate to the caller, which may still export this ledger.
+            # Once sending starts, an incomplete request cannot remain BLOCKED.
+            if event["status"] == "BLOCKED" and event["payload_transmission"] != "NOT_STARTED":
+                event["status"] = "FAILED"

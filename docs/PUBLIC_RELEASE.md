@@ -1,22 +1,14 @@
 # Public repository preparation
 
-This is a local preparation of the `0.6.10.dev0` research preview. It does not authorize or perform a GitHub push, public repository creation, package publication, release upload, or research-data disclosure. Final source exports require their own snapshot check.
+This is a local preparation of the `0.6.11.dev0` research preview. It does not authorize or perform a GitHub push, public repository creation, package publication, release upload, or research-data disclosure. Final source exports require their own snapshot check.
 
 ## Current prototype remediation
 
-Version 0.6.10.dev0 addresses prototype audit findings in review-state transitions, imported evidence gates, judgment missingness, Wilson boundaries, local execution budgets, privacy screening, server binding and response headers, claim-linked evidence, and lexical design cues. Existing hosted and researcher-drafted candidates remain unreviewed until an explicit review action. The Cinnabar interface and section-specific navigation are retained.
+Version 0.6.11.dev0 follows up the recorded prototype audit. Outbound requests interrupted after transmission starts retain a FAILED ledger event and its transmission phase, so the record remains usable in reports and review bundles. Screening now recognizes uppercase protein-like runs containing U or X and matches identifier and named-credential labels without regard to case. Screening remains a limited pattern check.
 
-Prototype acceptance covers reproducible technical, synthetic numerical, interface, privacy, packaging, and AI-assisted reasoning checks. These checks do not establish biological efficacy, empirical control suitability, or cross-domain generalization. Earlier observations retain their original versions and source or artifact bindings.
+Malformed HTTP replies retain status lines and security headers, and explicit HTTP/0.9 requests are rejected. Design-rule documentation now explains when category-derived cues suppress the operation-unrecognized question. Methods documentation specifies the actual chat-completion JSON contract rather than implying native Messages API compatibility. Completed functional browser observations are saved before shutdown verification; a failed or timed-out shutdown preserves those observations with a separate shutdown status.
 
-The [current software suite](validation/software_checks_audit_remediation_phase.json) passed 224 tests with zero failures, errors, or skips in 14.149 seconds including discovery and recording, on Windows CPython 3.14.0, Pydantic 2.12.4, and setuptools 83.0.0. [Current static checks](validation/static_checks_audit_remediation_phase.json) passed seven check groups, including all 29 schema exports, Ruff 0.14.14, actionlint 1.7.12, Node 24.19.0 syntax checks, dependency consistency, and unchanged frozen numerical source hashes.
-
-The [fresh offline numerical repetition](validation/numeric_checks_audit_remediation_phase.json) matched all 896 scalar comparisons across 128 cases and reproduced every retained count across all 7,000 synthetic trials in 376.284 seconds. It used the unchanged frozen protocol and numerical sources with existing NumPy 2.4.6 and SciPy 1.18.1. Two zero-event Wilson endpoints now equal zero exactly; trial counts and point estimates are unchanged. Requested 95% percentile intervals still covered the null truth in only 74.1% to 93.9% of trials.
-
-[Isolated Chrome 154 checks](validation/ui_checks_audit_remediation_phase.json) and [Edge 155 checks](validation/ui_edge_checks_audit_remediation_phase.json) each passed 84 real section-entry clicks across seven widths, 14 Home/End selections, and all nine judgment-state assertions. Untouched items were excluded from agreement; explicit uncertainty remained a nominal label. Each browser exercised four synthetic DEVELOPMENT_FIXTURE annotation submissions, not actual human reviews. Each record binds eight source hashes and 18 distinct current-phase capture hashes, preserving older screenshots. No JavaScript exception or external page request was observed.
-
-The [remediation coverage record](validation/audit_remediation_checks_audit_remediation_phase.json) identifies 15 fixed finding scopes and two documentation clarifications, with no unresolved defect in those inspected scopes.
-
-Current [extracted-package checks](validation/package_checks_audit_remediation_phase.json), [distribution checks](validation/distribution_checks_audit_remediation_phase.json), [clean wheel installation](validation/install_checks_audit_remediation_phase.json), and [clean source installation](validation/sdist_install_checks_audit_remediation_phase.json) passed for their recorded artifact hashes, including actual synthetic fixed-runner execution. Clean installations used only local dependency wheels. The distributions retain the reviewed snapshot from before packaging records and final documentation links were added; the later complete source ZIP requires its own source binding. These developer remediation checks do not replace the original separate audit harness. Earlier records do not attest the changed runtime. No artifact has been published.
+Prototype validation concerns implemented technical and synthetic workflows. These checks do not establish biological efficacy, empirical control suitability, or cross-domain generalization. See [VALIDATION.md](../VALIDATION.md) for exact current evidence, source and artifact bindings, retained failures, and historical observations. Earlier records retain their original scope. No artifact has been published.
 
 ## Earlier local validation snapshots
 
@@ -76,7 +68,7 @@ Do not publish this machine's entire directory or upload a project bundle. A cle
 
 ## Reproduce local release checks
 
-The observed local environment is Windows, CPython 3.14.0, Pydantic 2.12.4, and setuptools 83.0.0. [The software record](validation/software_checks_release_phase.json) reports 149 tests with zero failures, errors, or skips. Ruff 0.14.14 reported no static Python findings; [actionlint 1.7.12](validation/workflow_checks_release_phase.json) reported no workflow findings. All 29 exported schemas match their definitions and `pip check` found no inconsistent requirements.
+The initial public-release preparation used Windows, CPython 3.14.0, Pydantic 2.12.4, and setuptools 83.0.0. [The software record](validation/software_checks_release_phase.json) reports 149 tests with zero failures, errors, or skips. Ruff 0.14.14 reported no static Python findings; [actionlint 1.7.12](validation/workflow_checks_release_phase.json) reported no workflow findings. All 29 exported schemas match their definitions and `pip check` found no inconsistent requirements.
 
 [The extracted package check](validation/package_checks_release_phase.json), [clean wheel installation](validation/install_checks_release_phase.json), [clean source installation](validation/sdist_install_checks_release_phase.json), and [distribution contents check](validation/distribution_checks_release_phase.json) retain artifact hashes and actual results. Installation tests use isolated imports outside the checkout and local dependency wheels. Archive ownership metadata is normalized and personal package author fields are absent. These records identify particular build snapshots; a development-version rebuild can have a different artifact hash.
 
@@ -92,11 +84,11 @@ python scripts/export_schemas.py --check
 python -m pip check
 python scripts/check_release.py --history --output local_projects/release/source_checks.json
 python scripts/build_distributions.py
-python scripts/check_package.py dist/controlomics-0.6.10.dev0-py3-none-any.whl --output local_projects/release/package_checks.json
-python scripts/check_install.py --wheel dist/controlomics-0.6.10.dev0-py3-none-any.whl --output local_projects/release/install_checks.json
-python scripts/check_install.py --sdist dist/controlomics-0.6.10.dev0.tar.gz --output local_projects/release/sdist_install_checks.json
-python scripts/check_distribution_contents.py --wheel dist/controlomics-0.6.10.dev0-py3-none-any.whl --sdist dist/controlomics-0.6.10.dev0.tar.gz --output local_projects/release/distribution_checks.json
-python scripts/export_public_source.py --output dist/controlomics-0.6.10.dev0-source.zip --record local_projects/release/source_export.json
+python scripts/check_package.py dist/controlomics-0.6.11.dev0-py3-none-any.whl --output local_projects/release/package_checks.json
+python scripts/check_install.py --wheel dist/controlomics-0.6.11.dev0-py3-none-any.whl --output local_projects/release/install_checks.json
+python scripts/check_install.py --sdist dist/controlomics-0.6.11.dev0.tar.gz --output local_projects/release/sdist_install_checks.json
+python scripts/check_distribution_contents.py --wheel dist/controlomics-0.6.11.dev0-py3-none-any.whl --sdist dist/controlomics-0.6.11.dev0.tar.gz --output local_projects/release/distribution_checks.json
+python scripts/export_public_source.py --output dist/controlomics-0.6.11.dev0-source.zip --record local_projects/release/source_export.json
 ```
 
 Run the source check with `--require-license` for the owner-approved MIT release. A PASS for source hygiene does not activate external settings. The installation check uses a fresh temporary virtual environment and isolated imports outside the checkout; it may download public pinned dependencies. `--wheelhouse DIRECTORY` makes it offline using reviewed dependency wheels. Wheel smoke checks do not authenticate untrusted external wheels.

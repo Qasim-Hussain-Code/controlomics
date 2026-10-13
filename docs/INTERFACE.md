@@ -1,6 +1,6 @@
 # Local workspace interface
 
-Version 0.6.10.dev0 uses the six-section workspace layout with Cinnabar navigation, warm ivory labels, and burnt orange selected sections and actions. Navigation names Analysis & claims, Controls, Evidence library, Execution, Scientific audit, and Evaluation. Open and Export keep file actions together; Save review bundle remains available in the header. The interface uses the existing local server and needs no frontend build step.
+Version 0.6.11.dev0 uses the six-section workspace layout with Cinnabar navigation, warm ivory labels, and burnt orange selected sections and actions. Navigation names Analysis & claims, Controls, Evidence library, Execution, Scientific audit, and Evaluation. Open and Export keep file actions together; Save review bundle remains available in the header. The interface uses the existing local server and needs no frontend build step.
 
 ## Visual structure
 
@@ -49,7 +49,9 @@ Forms retain native labels, required fields, and unselected scientific categorie
 
 The judgment workbench distinguishes Not judged from explicitly selected Uncertain in each dimension. Recording an edited item leaves untouched dimensions unassessed; reviewer agreement excludes those missing units. Older assessed snapshots without the optional flags preserve their recorded uncertain labels. Their historical nulls cannot reveal whether a person chose uncertainty or skipped an item.
 
-## Current remediation verification
+Current follow-up verification is recorded in [VALIDATION.md](../VALIDATION.md), including source bindings and retained Windows observations.
+
+## Earlier 0.6.10 remediation verification
 
 Version 0.6.10.dev0 addresses prototype audit findings in review-state transitions, imported evidence gates, judgment missingness, Wilson boundaries, local execution budgets, privacy screening, server binding and response headers, claim-linked evidence, and lexical design cues. Existing hosted and researcher-drafted candidates remain unreviewed until an explicit review action. The Cinnabar interface and section-specific navigation are retained.
 
