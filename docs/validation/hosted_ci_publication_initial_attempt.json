@@ -1,0 +1,75 @@
+{
+  "format": "controlomics.hosted_ci.v0.1",
+  "recorded_at": "2026-10-13T09:32:15.105667+00:00",
+  "revision": "594987eab253c19af32939150daab47b997b9f16",
+  "run_id": 38375655786,
+  "status": "completed",
+  "conclusion": "failure",
+  "scope": "First hosted software CI attempt, preserved before targeted publication fixes. These results do not replace the earlier Windows prototype audit. No provider request or research input is required by the workflow.",
+  "jobs": [
+    {
+      "name": "macos-latest / Python 3.14",
+      "conclusion": "failure",
+      "failed_steps": [
+        "Software tests (no research-provider requests)"
+      ]
+    },
+    {
+      "name": "ubuntu-latest / Python 3.14",
+      "conclusion": "failure",
+      "failed_steps": [
+        "Software tests (no research-provider requests)"
+      ]
+    },
+    {
+      "name": "ubuntu-latest / Python 3.12",
+      "conclusion": "success",
+      "failed_steps": []
+    },
+    {
+      "name": "windows-latest / Python 3.13",
+      "conclusion": "failure",
+      "failed_steps": [
+        "Software tests (no research-provider requests)"
+      ]
+    },
+    {
+      "name": "ubuntu-latest / Python 3.11",
+      "conclusion": "success",
+      "failed_steps": []
+    },
+    {
+      "name": "ubuntu-latest / Python 3.13",
+      "conclusion": "failure",
+      "failed_steps": [
+        "Software tests (no research-provider requests)"
+      ]
+    },
+    {
+      "name": "windows-latest / Python 3.12",
+      "conclusion": "failure",
+      "failed_steps": [
+        "Software tests (no research-provider requests)"
+      ]
+    },
+    {
+      "name": "windows-latest / Python 3.14",
+      "conclusion": "failure",
+      "failed_steps": [
+        "Software tests (no research-provider requests)"
+      ]
+    },
+    {
+      "name": "windows-latest / Python 3.11",
+      "conclusion": "failure",
+      "failed_steps": [
+        "Software tests (no research-provider requests)"
+      ]
+    }
+  ],
+  "confirmed_failure_scopes": [
+    "Source export rejects a valid source under an unresolved filesystem-alias root.",
+    "Malformed versionless request response is empty on some newer-Python hosted runners."
+  ],
+  "disposition": "Targeted source-path and HTTP response fixes are verified separately. This original result remains FAILURE."
+}

@@ -12,9 +12,9 @@ The server binds only to `127.0.0.1` and uses exclusive address binding on Windo
 
 Interface availability messages and disabled execution buttons supplement server validation; they cannot establish adapter applicability, sampling assumptions, or authentic review. Selecting a reviewed control is explicit, and a completed or packaged control does not cause another control to be selected automatically. The named outbound-request dialog initially focuses Cancel. This does not replace the exact-request approval check or establish complete accessibility or security assurance.
 
-POST authorization is checked before waiting for the body; non-ASCII tokens are rejected and truncated bodies cannot be parsed. Browser imports reject invalid UTF-8 instead of silently replacing bytes. CSV decoding accepts an optional UTF-8 byte-order mark while hashes retain the original bytes. The local JSON request budget includes formatting and the project snapshot, so files near the 2 MiB limit may require CLI use.
+POST authorization is checked before waiting for or parsing the body; non-ASCII tokens are rejected and truncated bodies cannot be parsed. After replying, ordinary and excess-worker shutdown share the bounded discard described above. This does not authorize or parse rejected requests. Browser imports reject invalid UTF-8 instead of silently replacing bytes. CSV decoding accepts an optional UTF-8 byte-order mark while hashes retain the original bytes. The local JSON request budget includes formatting and the project snapshot, so files near the 2 MiB limit may require CLI use.
 
-Malformed request-line errors use an HTTP status line and the same security headers as other replies. Explicit HTTP/0.9 requests are rejected with a framed HTTP/1.0 error. Empty connections and read timeouts may close without a response.
+Malformed request-line errors use an HTTP status line and the same security headers as other replies. Versionless request lines and HTTP versions below 1.0 are rejected with a framed HTTP/1.0 error before application dispatch. Empty connections and read timeouts may close without a response.
 
 ## External transport
 
@@ -42,9 +42,9 @@ Do not commit keys, clinical identifiers, private sequences, raw datasets, or re
 
 Only the current `0.6.11.dev0` research preview is maintained. Older development snapshots receive no separate security fixes. There is no response-time guarantee or independent security certification.
 
-Before uploading source, the repository owner must enable GitHub private vulnerability reporting in an empty public repository and verify that its Security page offers **Report a vulnerability**. Use that private channel for suspected vulnerabilities, with a minimal synthetic reproduction and affected version. Do not include credentials, identifying information, or real research data. Do not open a public issue for an undisclosed vulnerability.
+For an owner-authorized public release, enable GitHub private vulnerability reporting and verify that the public repository's Security page offers **Report a vulnerability** before announcing the release. The repository can remain private during preparation and review; this policy does not authorize changing its visibility. Use the reporting channel for suspected vulnerabilities, with a minimal synthetic reproduction and affected version. Do not include credentials, identifying information, or real research data. Do not open a public issue for an undisclosed vulnerability.
 
-SECURITY.md cannot activate private reporting. If the repository lacks the reporting button, its setup is incomplete; do not assume an unlisted email address or invented contact. Source publication requires that channel to be configured. See [GitHub's reporting instructions](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/report-privately) and [owner configuration instructions](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/configure-vulnerability-reporting/configure-for-a-repository).
+SECURITY.md cannot activate private reporting. A public release requires the reporting channel to be configured and checked on GitHub; missing public reporting is incomplete release setup, rather than permission to expose a private repository. Do not assume an unlisted email address or invented contact. See [GitHub's reporting instructions](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/report-privately) and [owner configuration instructions](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/configure-vulnerability-reporting/configure-for-a-repository).
 
 ## Review archive boundary
 

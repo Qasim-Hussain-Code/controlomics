@@ -1,7 +1,7 @@
 {
-  "recorded_at": "2026-10-13T09:04:35.860452+00:00",
+  "recorded_at": "2026-10-13T10:48:29.303186+00:00",
   "artifact": "controlomics-0.6.11.dev0-py3-none-any.whl",
-  "artifact_sha256": "e8c0eca675711f6d00323b5c2270632fdd5bd321a42c0841fbb73f6dd8f38363",
+  "artifact_sha256": "847c67d4c9556eb3fa5f51c99d27618e32e2e8f053fe7e1a317ed07ec7fc7524",
   "installed_artifact_snapshot_bound_to_hash": true,
   "artifact_type": "WHEEL",
   "clean_environment": true,

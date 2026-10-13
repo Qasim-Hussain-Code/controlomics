@@ -26,7 +26,7 @@ Six explicit design scenarios compare the two-reference baseline with operation 
 
 A separate AI-assisted audit reported PASS for `0.6.11.dev0` at revision `ae6dd2d`, with every required group in its predefined technical and synthetic scope completed and no confirmed current defect. The performed scope was Windows 11, Python 3.14, Chrome 154, and Edge 155, with synthetic inputs and mocked or refused provider transports. The [aggregate record](docs/validation/prototype_audit_v0.6.11.json) binds its evidence and audited artifacts; [VALIDATION.md](VALIDATION.md) distinguishes these fresh observations from earlier developer checks.
 
-Publication documentation and CI configuration added after that snapshot do not extend the audit verdict. Numerical small-sample undercoverage, pattern-screening limits, and the absence of measured empirical scientific performance remain explicit limitations. Earlier failures and source bindings are preserved. Publication preparation and hosted checks have separately recorded scopes.
+Publication documentation, CI configuration, and targeted source-export, malformed-HTTP, and connection-closure fixes added after that snapshot do not extend the audit verdict. Scientific reasoning, numerical procedures, evidence gates, and interface assets remain unchanged. Numerical small-sample undercoverage, pattern-screening limits, and the absence of measured empirical scientific performance remain explicit limitations. Earlier failures and source bindings are preserved. Publication preparation and hosted checks have separately recorded scopes.
 
 ## Earlier development slices
 

@@ -71,6 +71,30 @@ class ReleaseHygieneTests(unittest.TestCase):
         self.assertIsNone(path_problem('examples/positive_reference.csv'))
         self.assertIsNone(path_problem('docs/NUMERICAL_VALIDATION.md'))
 
+    def test_source_export_canonicalizes_root_without_allowing_excluded_paths(self):
+        with TemporaryDirectory() as temporary, contextlib.redirect_stdout(io.StringIO()):
+            directory = Path(temporary) / "source"
+            (directory / "nested").mkdir(parents=True)
+            root = directory / "nested" / ".."
+            (root / "pyproject.toml").write_text('[project]\nversion = "0.0.dev0"\n', encoding="utf-8")
+            readme = root / "README.md"
+            readme.write_bytes(b"Synthetic public source\n")
+            archive, record = root / "dist" / "source.zip", root / "dist" / "record.json"
+            with patch("scripts.export_public_source.ROOT", root):
+                with patch("scripts.export_public_source.source_files", return_value=["README.md"]):
+                    export_source(["--output", str(archive), "--record", str(record)])
+                with zipfile.ZipFile(archive) as package:
+                    self.assertEqual(package.namelist(), ["controlomics-0.0.dev0/README.md"])
+                    self.assertEqual(package.read(package.namelist()[0]), readme.read_bytes())
+                before_archive, before_record = archive.read_bytes(), record.read_bytes()
+                for name in ("../outside.md", "local_projects/private.json", ".env", "unreviewed.csv"):
+                    with self.subTest(name=name), patch("scripts.export_public_source.source_files", return_value=["README.md", name]):
+                        with self.assertRaises(ValueError):
+                            export_source(["--output", str(archive), "--record", str(record)])
+                        self.assertEqual(archive.read_bytes(), before_archive)
+                        self.assertEqual(record.read_bytes(), before_record)
+                self.assertFalse(list(archive.parent.glob(".controlomics_*.tmp")))
+
     def test_credentials_and_personal_details_are_reported_without_values(self):
         samples = [('ghp_' + 'a'*36, 'github_token'),
                    ('AKIA' + 'A'*16, 'aws_access_key'),

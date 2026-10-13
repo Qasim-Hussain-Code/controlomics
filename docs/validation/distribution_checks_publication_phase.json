@@ -1,17 +1,17 @@
 {
-  "recorded_at": "2026-10-13T09:02:23.076620+00:00",
+  "recorded_at": "2026-10-13T10:47:41.178223+00:00",
   "artifacts": [
     {
       "artifact": "controlomics-0.6.11.dev0-py3-none-any.whl",
-      "sha256": "e8c0eca675711f6d00323b5c2270632fdd5bd321a42c0841fbb73f6dd8f38363",
+      "sha256": "847c67d4c9556eb3fa5f51c99d27618e32e2e8f053fe7e1a317ed07ec7fc7524",
       "members": 29,
-      "bytes": 112991
+      "bytes": 113409
     },
     {
       "artifact": "controlomics-0.6.11.dev0.tar.gz",
-      "sha256": "1ad7c86ef7a7c2b4c3e83270e1d6d006b8e20610046e12f16320b82f289077b7",
-      "members": 389,
-      "bytes": 4752018
+      "sha256": "88cbe6281be5aafedebdfb9a56d198849866bf792d22c9df653e484bed0451bf",
+      "members": 396,
+      "bytes": 4761028
     }
   ],
   "findings": [],

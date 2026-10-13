@@ -22,6 +22,7 @@ def main(argv=None):
     parser.add_argument('--record', type=Path, required=True)
     args = parser.parse_args(argv)
     require_distinct_outputs(args.output, args.record)
+    source_root = ROOT.resolve()
     names = source_files()
     for name in names:
         require_distinct_outputs(args.output, ROOT / name)
@@ -33,7 +34,7 @@ def main(argv=None):
     with zipfile.ZipFile(buffer, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
         for name in names:
             path = ROOT/name
-            if path_problem(name) or path.is_symlink() or not path.resolve().is_relative_to(ROOT):
+            if path_problem(name) or path.is_symlink() or not path.resolve().is_relative_to(source_root):
                 raise ValueError('public source inventory includes an excluded path')
             raw = path.read_bytes()
             try:

@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-10-13T09:45:29.091078+00:00",
+  "controlomics_version": "0.6.11.dev0",
+  "python": "3.14.0",
+  "operating_system": "Windows",
+  "pydantic": "2.12.4",
+  "setuptools": "83.0.0",
+  "tests": 239,
+  "failures": 0,
+  "errors": 1,
+  "skips": 0,
+  "seconds": 43.87,
+  "status": "FAIL",
+  "scope": "Software behavior using synthetic fixtures and mocked provider transports; no independent scientific validation.",
+  "source_hashes": {
+    "src/controlomics/server.py": "891ebbc59e393d508ea43757d5cccdfe55883c139b588d5bb9847999117b4d4e",
+    "tests/integration/test_http_request_lines.py": "1754a17f857c61293bf5a241dc88654c3102e3feff8efdf5d6a47b18b9b47871",
+    "tests/integration/test_server.py": "68f3c3c0618d0af72e6d528cbefd38a777f26c5761a014710823a86837fe600f",
+    "scripts/export_public_source.py": "e39177b5d27e1bde47e610218b8ed23bd5227be0dc5eb8949781d5bcb6981ebf",
+    "tests/privacy/test_release_hygiene.py": "5841fc671a92aa0b7c13c12626c635618982cd9f3a6f8d6ea5243151cf9bfd14"
+  },
+  "observation": "One existing authorization-rejection test ended with Windows connection abort10053 before the HTTP status was received. No assertion failure occurred; the run remains FAIL. Transport closure is investigated and checked separately."
+}

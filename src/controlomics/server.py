@@ -190,24 +190,13 @@ class LocalServer(ThreadingHTTPServer):
 
     def process_request(self, request, client_address):
         if not self.connection_slots.acquire(blocking=False):
-            # Reject without another worker. Briefly drain already arriving
-            # bytes after half-close to reduce resets that hide the response.
+            # Reject without another worker. Shared shutdown briefly drains
+            # arriving bytes after half-close so they do not hide the response.
             body = b'{"error":"Local server is busy. Retry the operation manually."}'
             try:
                 request.settimeout(0.25)
                 security = b"".join(name.encode("ascii") + b": " + value.encode("ascii") + b"\r\n" for name, value in SECURITY_HEADERS)
                 request.sendall(b"HTTP/1.0 503 Service Unavailable\r\nContent-Type: application/json\r\n" + security + b"Connection: close\r\nContent-Length: " + str(len(body)).encode("ascii") + b"\r\n\r\n" + body)
-                request.shutdown(1)
-                deadline, remaining = time.monotonic() + 0.05, 64 * 1024
-                while remaining > 0:
-                    interval = deadline - time.monotonic()
-                    if interval <= 0:
-                        break
-                    request.settimeout(interval)
-                    discarded = request.recv(min(4096, remaining))
-                    if not discarded:
-                        break
-                    remaining -= len(discarded)
             except OSError:
                 pass
             finally:
@@ -218,6 +207,26 @@ class LocalServer(ThreadingHTTPServer):
         except BaseException:
             self.connection_slots.release()
             raise
+
+    def shutdown_request(self, request):
+        # Rejected POST bodies can arrive after a reply. Half-close first,
+        # then discard at most 64 KiB within 50 ms before closing the socket.
+        try:
+            request.shutdown(socket.SHUT_WR)
+            deadline, remaining = time.monotonic() + 0.05, 64 * 1024
+            while remaining > 0:
+                interval = deadline - time.monotonic()
+                if interval <= 0:
+                    break
+                request.settimeout(interval)
+                discarded = request.recv(min(4096, remaining))
+                if not discarded:
+                    break
+                remaining -= len(discarded)
+        except OSError:
+            pass
+        finally:
+            self.close_request(request)
 
     def process_request_thread(self, request, client_address):
         try:
@@ -235,12 +244,23 @@ class Handler(BaseHTTPRequestHandler):
     default_request_version = "HTTP/1.0"
 
     def parse_request(self):
-        parsed = super().parse_request()
-        if self.request_version == "HTTP/0.9":
-            self.request_version = "HTTP/1.0"
+        # Versionless GET handling differs between stdlib patch releases.
+        # Reject legacy syntax before parsing headers or dispatching an action.
+        requestline = self.raw_requestline.decode("iso-8859-1").rstrip("\r\n")
+        words = requestline.split()
+        legacy_version = False
+        if len(words) == 3 and words[-1].startswith("HTTP/"):
+            components = words[-1].split("/", 1)[1].split(".")
+            if len(components) == 2 and all(part.isascii() and part.isdecimal() and len(part) <= 10 for part in components):
+                legacy_version = int(components[0]) == 0
+        if len(words) == 2 or legacy_version:
+            self.command = words[0]
+            self.requestline = requestline
+            self.request_version = self.default_request_version
+            self.close_connection = True
             self.send_error(400, "Legacy HTTP requests are unsupported.")
             return False
-        return parsed
+        return super().parse_request()
 
     def send_error(self, code, message=None, explain=None):
         if self.request_version == "HTTP/0.9":

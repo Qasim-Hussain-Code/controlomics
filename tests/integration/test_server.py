@@ -3,7 +3,7 @@ import json
 import socket
 import threading
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from controlomics.server import Handler, LocalServer, handle_action
 from tests.fixtures import payload
@@ -107,6 +107,65 @@ class ServerTests(unittest.TestCase):
                 handle_action("/api/literature/retrieve", {"project": {}, "provider": "europepmc",
                     "query": "public method", "public_confirmed": True, "approve_hash": "invalid"})
             search.assert_not_called()
+
+    def test_rejected_delayed_body_is_discarded_and_server_remains_usable(self):
+        original_reply = Handler.reply
+        original_recv = socket.socket.recv
+        original_shutdown = self.server.shutdown_request
+        for token in (b'', b'X-Controlomics-Token: \xff\r\n'):
+            with self.subTest(nonascii_token=bool(token)):
+                replied, body_sent, closed = threading.Event(), threading.Event(), threading.Event()
+                discarded = []
+                peer = None
+                body = b'x' * 8192
+
+                def reply(handler, status, *args, **kwargs):
+                    original_reply(handler, status, *args, **kwargs)
+                    if handler.server is self.server and handler.client_address == peer and status == 403:
+                        replied.set()
+
+                def shutdown(request):
+                    if request.getpeername() != peer:
+                        original_shutdown(request)
+                        return
+                    try:
+                        self.assertTrue(body_sent.wait(2), 'Delayed fixture body was not sent')
+                    finally:
+                        try:
+                            original_shutdown(request)
+                        finally:
+                            closed.set()
+
+                def recv(request, *args, **kwargs):
+                    owned = request.getsockname() == self.server.server_address
+                    received = original_recv(request, *args, **kwargs)
+                    if owned:
+                        discarded.append(len(received))
+                    return received
+
+                with patch.object(Handler, 'reply', reply), patch.object(self.server, 'shutdown_request', shutdown), \
+                     patch.object(socket.socket, 'recv', recv), patch('controlomics.server.handle_action') as action:
+                    try:
+                        with socket.create_connection(self.server.server_address, timeout=5) as client:
+                            peer = client.getsockname()
+                            client.sendall(f'POST /api/analyze HTTP/1.1\r\nHost: 127.0.0.1:{self.server.server_port}\r\nContent-Type: application/json\r\nContent-Length: {len(body)}\r\n'.encode() + token + b'\r\n')
+                            self.assertTrue(replied.wait(2), 'Authorization reply waited for a request body')
+                            client.sendall(body)
+                            body_sent.set()
+                            received = bytearray()
+                            while chunk := client.recv(65536):
+                                received.extend(chunk)
+                        self.assertTrue(closed.wait(2), 'Rejected connection did not finish shutdown')
+                        header, separator, response_body = bytes(received).partition(b'\r\n\r\n')
+                        self.assertTrue(header.startswith(b'HTTP/1.0 403 '), header[:100])
+                        self.assertEqual(separator, b'\r\n\r\n')
+                        self.assertEqual(json.loads(response_body), {'error': 'Local request authorization failed.'})
+                        self.assertEqual(sum(discarded), len(body))
+                        action.assert_not_called()
+                    finally:
+                        body_sent.set()
+                self.assertEqual(self.request('/api/session')[0], 200)
+
 
     def test_ambiguous_headers_are_rejected_before_body_read(self):
         for header, value, expected in (("Host", f"127.0.0.1:{self.server.server_port}", 403),
@@ -217,3 +276,65 @@ class ServerTests(unittest.TestCase):
                 server.shutdown()
                 server.server_close()
                 thread.join(timeout=3)
+
+
+class RequestShutdownTests(unittest.TestCase):
+    def test_worker_slot_is_released_if_connection_shutdown_fails(self):
+        server = object.__new__(LocalServer)
+        server.connection_slots = threading.BoundedSemaphore(1)
+        self.assertTrue(server.connection_slots.acquire(blocking=False))
+        server.finish_request = Mock()
+        server.shutdown_request = Mock(side_effect=RuntimeError('Synthetic close failure'))
+        with self.assertRaises(RuntimeError):
+            server.process_request_thread(Mock(), ('127.0.0.1', 1))
+        self.assertTrue(server.connection_slots.acquire(blocking=False))
+        server.connection_slots.release()
+
+    def test_shutdown_discards_at_most_64_kib_and_closes(self):
+        server, request = Mock(), Mock()
+        unread = bytearray(b'x' * (64 * 1024 + 1))
+
+        def recv(size):
+            received = bytes(unread[:size])
+            del unread[:size]
+            return received
+
+        request.recv.side_effect = recv
+        with patch('controlomics.server.time.monotonic', return_value=10):
+            LocalServer.shutdown_request(server, request)
+        self.assertEqual(len(unread), 1)
+        self.assertTrue(all(0 < call.args[0] <= 4096 for call in request.recv.call_args_list))
+        self.assertTrue(all(0 < call.args[0] <= 0.05 + 1e-12 for call in request.settimeout.call_args_list))
+        request.shutdown.assert_called_once_with(socket.SHUT_WR)
+        server.close_request.assert_called_once_with(request)
+
+    def test_shutdown_stops_at_the_existing_50_ms_deadline(self):
+        server, request = Mock(), Mock()
+        request.recv.return_value = b'x'
+        with patch('controlomics.server.time.monotonic', side_effect=(10, 10.02, 10.06)):
+            LocalServer.shutdown_request(server, request)
+        request.recv.assert_called_once_with(4096)
+        self.assertAlmostEqual(request.settimeout.call_args.args[0], 0.03)
+        server.close_request.assert_called_once_with(request)
+
+    def test_shutdown_stops_at_eof_without_waiting_for_the_deadline(self):
+        server, request = Mock(), Mock()
+        request.recv.return_value = b''
+        LocalServer.shutdown_request(server, request)
+        request.recv.assert_called_once_with(4096)
+        server.close_request.assert_called_once_with(request)
+
+    def test_shutdown_closes_after_socket_errors(self):
+        for operation in ('shutdown', 'settimeout', 'recv'):
+            with self.subTest(operation=operation):
+                server, request = Mock(), Mock()
+                getattr(request, operation).side_effect = TimeoutError('Synthetic transport failure')
+                LocalServer.shutdown_request(server, request)
+                server.close_request.assert_called_once_with(request)
+
+    def test_shutdown_closes_after_an_unexpected_error_and_preserves_it(self):
+        server, request = Mock(), Mock()
+        request.recv.side_effect = RuntimeError('Synthetic unexpected failure')
+        with self.assertRaises(RuntimeError):
+            LocalServer.shutdown_request(server, request)
+        server.close_request.assert_called_once_with(request)

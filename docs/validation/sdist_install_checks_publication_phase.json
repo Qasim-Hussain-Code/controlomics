@@ -1,7 +1,7 @@
 {
-  "recorded_at": "2026-10-13T09:09:46.678122+00:00",
+  "recorded_at": "2026-10-13T10:49:42.495998+00:00",
   "artifact": "controlomics-0.6.11.dev0.tar.gz",
-  "artifact_sha256": "1ad7c86ef7a7c2b4c3e83270e1d6d006b8e20610046e12f16320b82f289077b7",
+  "artifact_sha256": "88cbe6281be5aafedebdfb9a56d198849866bf792d22c9df653e484bed0451bf",
   "installed_artifact_snapshot_bound_to_hash": true,
   "artifact_type": "SOURCE_DISTRIBUTION",
   "clean_environment": true,
