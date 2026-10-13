@@ -12,8 +12,8 @@ python scripts/export_schemas.py --check
 python -m pip check
 python scripts/check_release.py
 python scripts/build_distributions.py
-python scripts/check_package.py dist/controlomics-0.6.0.dev0-py3-none-any.whl --output local_projects/package_checks.json
-python scripts/check_install.py --wheel dist/controlomics-0.6.0.dev0-py3-none-any.whl --output local_projects/install_checks.json
+python scripts/check_package.py dist/controlomics-0.6.12.dev0-py3-none-any.whl --output local_projects/package_checks.json
+python scripts/check_install.py --wheel dist/controlomics-0.6.12.dev0-py3-none-any.whl --output local_projects/install_checks.json
 ```
 
 The installation check creates a temporary clean environment and may download public dependency packages. Tests use synthetic fixtures and mocked provider transports. Do not run live retrieval or hosted-model checks as part of ordinary CI. For optional static checks, install `requirements-quality.lock` and run `ruff check src tests scripts`. Browser QA is optional and requires a fresh task-owned Chrome profile; instructions are in `scripts/check_ui.cjs`. The application does not need Node or Chrome for installation.

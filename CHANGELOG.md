@@ -1,5 +1,11 @@
 # Development changes
 
+## 0.6.12.dev0
+
+Adds a full hosted prototype using the existing scientific actions behind a separate HTTPS, signed-session, and explicit temporary-processing consent boundary. Research records remain browser-held; the application has no project database or saved uploads. Historical processing receipts accompany projects, reports, and execution packages without changing reviewed-control or evaluation hashes.
+
+Adds a free Render configuration, optional pinned Gunicorn dependency, bounded request transport, redacted request diagnostics, and cloud-specific interface disclosures. The local loopback service and provider approval gates remain separate. Scientific evidence gates and frozen numerical procedures retain their earlier definitions; the prior 0.6.11 audit verdict applies to its own snapshot.
+
 ## Publication preparation, 2026-10-13
 
 Added a [sanitized separate-audit summary](docs/validation/prototype_audit_v0.6.11.json) and updated the public overview. The separate AI-assisted audit reported PASS for `0.6.11.dev0` at revision `ae6dd2de43971d533b65f37e33b85ba22ff8d19d`, within its completed Windows, synthetic-input, and mocked-provider scope. Its evidence and artifact hashes identify that snapshot. Publication preparation adds documentation, CI, and separately checked source-export and malformed-HTTP fixes. The package version, scientific reasoning, numerical procedures, evidence gates, and interface assets remain unchanged. [VALIDATION.md](VALIDATION.md) preserves exact scope, numerical undercoverage, and earlier errors; this assessment does not establish empirical scientific performance.

@@ -1,5 +1,6 @@
 include *.md *.toml *.lock .gitattributes .gitignore Start_Controlomics.cmd
 include LICENSE LICENSE.*
+include render.yaml gunicorn.conf.py .python-version
 recursive-include src *.py *.html *.css *.js
 recursive-include schemas *.json
 recursive-include ontology *.json

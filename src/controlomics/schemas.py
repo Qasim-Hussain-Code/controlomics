@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import re
 from typing import Annotated, Literal, Self
+from urllib.parse import urlsplit
 
 from pydantic import (
     AwareDatetime,
@@ -11,6 +13,7 @@ from pydantic import (
     ConfigDict,
     Field,
     StringConstraints,
+    field_validator,
     model_validator,
 )
 
@@ -46,6 +49,7 @@ def _require_bool(value):
 
 LocalOnly = Annotated[Literal[True], BeforeValidator(_require_bool)]
 Disabled = Annotated[Literal[False], BeforeValidator(_require_bool)]
+HOSTED_PROCESSING_POLICY_REVISION = "hosted-temporary-1"
 
 
 class Record(BaseModel):
@@ -254,6 +258,8 @@ class InputRequirement(Record):
 
 
 class PrivacyRequirements(Record):
+    """Local baseline preserved in reviewed snapshots; scoped hosting is recorded separately."""
+
     classification: PrivacyClass = "RESTRICTED"
     raw_data_must_remain_local: LocalOnly = True
     external_transmission_allowed: Disabled = False
@@ -486,11 +492,52 @@ class ProjectManifest(Record):
     format: Literal["controlomics.project"] = "controlomics.project"
 
 
+class HostedProcessingReceipt(Record):
+    """Historical consent attestation, never an active server authorization."""
+
+    processor_origin: Annotated[str, StringConstraints(min_length=9, max_length=253)]
+    policy_revision: Literal["hosted-temporary-1"] = HOSTED_PROCESSING_POLICY_REVISION
+    granted_at: AwareDatetime
+    session_binding_sha256: Sha256
+    authorization_kind: Literal["EXPLICIT_SESSION_CONSENT"] = "EXPLICIT_SESSION_CONSENT"
+    processing_scope: Literal["PROJECT_SOURCE_NUMERIC_EVALUATION"] = "PROJECT_SOURCE_NUMERIC_EVALUATION"
+    local_baseline_exception: Literal["TEMPORARY_FIRST_PARTY_PROCESSING"] = "TEMPORARY_FIRST_PARTY_PROCESSING"
+    retention: Literal["REQUEST_MEMORY_AND_OWNED_EXECUTION_TEMPORARIES"] = "REQUEST_MEMORY_AND_OWNED_EXECUTION_TEMPORARIES"
+    project_persistence_allowed: Disabled = False
+    provider_project_forwarding_allowed: Disabled = False
+
+    @field_validator("processor_origin")
+    @classmethod
+    def canonical_https_origin(cls, value):
+        parts = urlsplit(value)
+        hostname = parts.hostname or ""
+        labels = hostname.split(".")
+        if (
+            parts.scheme != "https" or value != "https://" + hostname
+            or not all(re.fullmatch(r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?", label) for label in labels)
+        ):
+            raise ValueError("a canonical HTTPS processor origin is required")
+        return value
+
+
 class PrivacyPolicy(Record):
+    """Default locality and persistence policy, with recorded first-party exceptions."""
+
     classification: PrivacyClass = "RESTRICTED"
     network_enabled: Disabled = False
-    storage: Literal["LOCAL_ONLY"] = "LOCAL_ONLY"
+    storage: Literal["LOCAL_ONLY"] = Field(default="LOCAL_ONLY", description=
+        "Persistent project exports remain with the researcher. Scoped temporary first-party processing is recorded separately.")
     rationale: Text
+    hosted_processing_receipts: Annotated[tuple[HostedProcessingReceipt, ...], Field(max_length=128,
+        description="Unauthenticated historical attestations of scoped temporary first-party processing; imported receipts never authorize an active session.")] = ()
+
+    @model_validator(mode="after")
+    def unique_processing_sessions(self) -> Self:
+        bindings = [(item.processor_origin, item.policy_revision, item.session_binding_sha256)
+                    for item in self.hosted_processing_receipts]
+        if len(bindings) != len(set(bindings)):
+            raise ValueError("hosted processing session receipts must be unique")
+        return self
 
 
 class ControlomicsProject(Record):

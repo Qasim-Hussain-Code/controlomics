@@ -17,7 +17,8 @@ def main():
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     packages = {}
-    for name in ('requirements-dev.lock', 'requirements-validation.lock', 'requirements-quality.lock'):
+    for name in ('requirements-dev.lock', 'requirements-validation.lock', 'requirements-quality.lock',
+                 'requirements-cloud.lock'):
         for line in (root/name).read_text(encoding='utf-8').splitlines():
             match = re.fullmatch(r'([A-Za-z0-9_.-]+)==([A-Za-z0-9_.+-]+)', line.strip())
             if match:
@@ -41,7 +42,7 @@ def main():
               'packages': findings, 'response_sha256': hashlib.sha256(raw).hexdigest(),
               'status': 'NO_MATCHED_ADVISORIES' if not any(item['advisory_ids'] for item in findings) else 'ADVISORIES_REQUIRE_REVIEW',
               'limitations': ['A point-in-time advisory lookup is not a security audit or proof of absence of vulnerabilities.',
-                              'Only exact versions in the development, optional validation and lint locks were queried; Python, browsers, CI actions, operating systems and future dependency resolutions are outside this check.']}
+                              'Only exact versions in the development, optional validation, lint and cloud locks were queried; Python, browsers, CI actions, operating systems and future dependency resolutions are outside this check.']}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(record, indent=2)+'\n', encoding='utf-8', newline='\n')
     print(json.dumps(record, indent=2))

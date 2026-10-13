@@ -256,6 +256,7 @@
     },
     "PrivacyRequirements": {
       "additionalProperties": false,
+      "description": "Local baseline preserved in reviewed snapshots; scoped hosting is recorded separately.",
       "properties": {
         "schema_version": {
           "const": "0.1.0",

@@ -1,6 +1,6 @@
 # Roadmap
 
-The delivered software is an operational local research alpha. Prototype acceptance concerns the implemented technical and synthetic workflows; empirical scientific performance research has a separate scope.
+The delivered software is an operational prototype with a local workspace and a separately configured hosted adapter. Prototype acceptance concerns the implemented technical and synthetic workflows; empirical scientific performance research has a separate scope.
 
 | Stage | Deliverable | State |
 | --- | --- | --- |
@@ -13,7 +13,7 @@ The delivered software is an operational local research alpha. Prototype accepta
 | 6 | Reports and provenance | Linked responsive reports with print styles, typed network sidecar, bounded review archive save/restore |
 | 7 | ControlomicsBench | Dataset contracts, partition checks, offline runner, judgment workbench, snapshot revisions, metrics and agreement; development fixtures remain separately labeled |
 | 8 | Cross-domain evaluation and ablations | Development reference/design comparison, frozen SciPy numerical comparisons and synthetic coverage experiments recorded; scientific performance claims require a separate study |
-| 9 | Web application | Six-section vertical navigation with section-specific entry, scientific overview and record-count cards in Analysis & claims, responsive two-column controls, Cinnabar navigation with warm ivory labels and burnt orange actions, combined claim/class/evidence-state filters, explicit execution selection and availability, record bindings, local input inspection, export status, draft and pending-input protection, source-bound evaluation metrics, session renewal without replay, workbench focus, keyboard navigation, and local hardening; verification records scoped by version; earlier snapshots retained; remote deployment requires separate assessment |
+| 9 | Web application | Six-section vertical navigation with section-specific entry, scientific overview and record-count cards in Analysis & claims, responsive two-column controls, Cinnabar navigation with warm ivory labels and burnt orange actions, combined claim/class/evidence-state filters, explicit execution selection and availability, record bindings, local input inspection, export status, draft and pending-input protection, source-bound evaluation metrics, session renewal without replay, workbench focus, keyboard navigation, and local hardening; verification records scoped by version; earlier snapshots retained; the hosted prototype adds explicit processing consent, signed browser sessions, historical cloud attestations, and separate transport checks; live deployment is recorded separately |
 | 10 | Public release | MIT research preview; reviewed source and versioned downloads, private vulnerability reporting, and hosted CI results are recorded through the public repository and release process |
 
 ## Delivered slice

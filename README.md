@@ -1,12 +1,12 @@
 # Controlomics
 
-Controlomics is a local research workspace for specifying, reviewing, executing, and auditing controls around computational biology claims. Primary analyses and raw datasets remain in the researcher's environment.
+Controlomics is a research workspace for specifying, reviewing, executing, and auditing controls around computational biology claims. It runs locally or as a hosted prototype with explicit consent to temporary cloud processing. Primary analyses remain in the researcher's environment.
 
 [The complete architecture walkthrough](docs/AGENT_ARCHITECTURE.md) maps the implemented components and their scientific and privacy boundaries. The default reasoner uses inspectable rules; an optional hosted model proposes candidates. Researchers review source support and decide what conclusions are justified.
 
 ## Prototype
 
-Version `0.6.11.dev0` includes local description drafting, multiple claims, inspectable design rules, editable unreviewed controls, Europe PMC and Crossref retrieval, human statement and context review, local CSV inspection, independent-group technical references, complete-pair statistical execution, reproducible packages, linked scientific reports, and a six-section local workspace. A judgment workbench records supplied annotations and revision hashes. Review archives save and restore the project, report, network ledger, and optional evaluation together. Optional hosted reasoning uses a configurable chat-completion JSON interface. Project schema and ontology versions remain `0.1.0`.
+Version `0.6.12.dev0` includes description drafting, multiple claims, inspectable design rules, editable unreviewed controls, Europe PMC and Crossref retrieval, human statement and context review, CSV inspection, independent-group technical references, complete-pair statistical execution, reproducible packages, linked scientific reports, and a six-section workspace. A judgment workbench records supplied annotations and revision hashes. Review archives save and restore the project, report, network ledger, and optional evaluation together. Optional hosted reasoning uses a configurable chat-completion JSON interface. Project schema and ontology versions remain `0.1.0`.
 
 Local exports preserve the previous file when an ordinary write or replacement fails. Evaluation reports identify their recorded source bundle by hash; replacing that bundle or selecting another partition clears stale metrics. Pending operations protect form inputs, and local session renewal retains the open workspace without automatically repeating a request.
 
@@ -16,7 +16,7 @@ Execution requires an explicit reviewed-control selection and explains missing p
 
 ![Controlomics local workspace with no project open](docs/validation/ui_audit_remediation_workspace.png)
 
-The scientific workspace runs locally even when the software is distributed publicly. See [hosting and distribution](docs/HOSTING.md) for the roles of the source repository, downloads, documentation, and local execution.
+The local workspace keeps research inputs on your computer. The full hosted prototype processes submitted project records, source-review text, evaluation records, and selected numeric inputs temporarily after consent. It has no project database or saved uploads; export your work before closing the page. See [hosting and distribution](docs/HOSTING.md).
 
 ## Start locally
 
@@ -58,7 +58,7 @@ For development, install the package in editable mode and run the checks below. 
 .\.venv\Scripts\python.exe scripts/check_release.py
 ```
 
-Pydantic is the sole direct runtime dependency. No weights, GPU, database, containers, provider SDKs, or frontend build tools are required. Installation downloads public Python dependencies; ordinary local use and tests do not contact literature or model providers. The lock file records exact development versions without wheel hashes, rather than multi-platform qualification. See [CONTRIBUTING.md](CONTRIBUTING.md) for package checks and [the public release checklist](docs/PUBLIC_RELEASE.md) for the remaining release gates.
+Pydantic is the sole direct dependency of the scientific core. The optional Linux cloud deployment adds Gunicorn as its HTTP server. No weights, GPU, database, containers, provider SDKs, or frontend build tools are required. Installation downloads public Python dependencies; ordinary local use and tests do not contact literature or model providers. The lock files record exact versions without wheel hashes. See [CONTRIBUTING.md](CONTRIBUTING.md) for package checks and [the public release checklist](docs/PUBLIC_RELEASE.md) for release gates.
 
 ## Evidence, privacy, and limitations
 

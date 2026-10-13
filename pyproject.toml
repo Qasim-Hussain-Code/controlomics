@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "controlomics"
-version = "0.6.11.dev0"
+version = "0.6.12.dev0"
 description = "Structured scientific controls and evidence records for computational biology"
 readme = "README.md"
 license = "MIT"
@@ -22,6 +22,9 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
     "Topic :: Scientific/Engineering :: Bio-Informatics",
 ]
+
+[project.optional-dependencies]
+cloud = ["gunicorn==26.2.0; sys_platform != 'win32'"]
 
 [project.scripts]
 controlomics = "controlomics.cli:main"

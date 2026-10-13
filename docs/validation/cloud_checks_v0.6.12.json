@@ -1,0 +1,170 @@
+{
+  "controlomics_version": "0.6.12.dev0",
+  "scope": "Developer technical verification using synthetic inputs and mocked/refused research providers. These checks do not extend the separate 0.6.11 audit verdict.",
+  "prepared_source_checks": "PASS",
+  "software": {
+    "recorded_at": "2026-10-13T22:42:03.950315+00:00",
+    "controlomics_version": "0.6.12.dev0",
+    "python": "3.14.0",
+    "operating_system": "Windows",
+    "pydantic": "2.12.4",
+    "setuptools": "83.0.0",
+    "tests": 292,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "seconds": 15.119,
+    "status": "PASS",
+    "scope": "Software behavior using synthetic fixtures and mocked provider transports; no independent scientific validation."
+  },
+  "linux_transport": {
+    "status": "PASS",
+    "python": "3.14.4",
+    "gunicorn": "26.2.0",
+    "checks": [
+      {
+        "name": "worker_and_wsgi_socket_guard",
+        "status": "PASS"
+      },
+      {
+        "name": "internal_readiness_without_https_header_never_opens_sessions",
+        "status": "PASS"
+      },
+      {
+        "name": "cookie_consent_and_no_science_before_consent",
+        "status": "PASS"
+      },
+      {
+        "name": "actual_full_analysis_reference_execution_and_report",
+        "status": "PASS"
+      },
+      {
+        "name": "inactivity_body",
+        "status": "PASS",
+        "elapsed_seconds": 10.012,
+        "expected_limit_seconds": 10.0
+      },
+      {
+        "name": "inactivity_headers",
+        "status": "PASS",
+        "elapsed_seconds": 10.017,
+        "expected_limit_seconds": 10.0
+      },
+      {
+        "name": "action_slot_recovered_after_inactivity",
+        "status": "PASS"
+      },
+      {
+        "name": "total_deadline_body",
+        "status": "PASS",
+        "elapsed_seconds": 30.002,
+        "expected_limit_seconds": 30.0
+      },
+      {
+        "name": "total_deadline_headers",
+        "status": "PASS",
+        "elapsed_seconds": 30.004,
+        "expected_limit_seconds": 30.0
+      },
+      {
+        "name": "action_slot_recovered_after_total_deadline",
+        "status": "PASS"
+      },
+      {
+        "name": "malformed_header_error_redacted",
+        "status": "PASS"
+      }
+    ],
+    "cleanup": {
+      "owned_server_exited": true,
+      "owned_endpoint_connection_refused": true,
+      "owned_temporary_directory_removed": true,
+      "log_excludes_synthetic_private_marker": true
+    },
+    "scope": "Owned loopback HTTP with trusted TLS-proxy headers; not live Render/TLS verification",
+    "source_hashes": {
+      "src/controlomics/hosted.py": "5e93c6567207956f9d6e7d4af752a80a6bd612c641c8b42145a09e07de3a54e3",
+      "src/controlomics/hosted_worker.py": "046b54902e752ea58546992f1599781a2e208422f4bc9a6d2a25452fd2a5a902",
+      "gunicorn.conf.py": "6d79e87def693f443c2f9a9f5bbe7708fb6f125ba8ca9a065f0f05e043e33e51",
+      "scripts/check_hosted_transport.py": "f02cda29b9cf40454ba9ece58e18a48f1396b72500b3810e7dada68e79d2c2f2"
+    }
+  },
+  "browsers": [
+    {
+      "browser": "Chrome/154.0.8037.98",
+      "checks": 83,
+      "exceptions": 0,
+      "nonlocal_page_requests": 0,
+      "owned_main_exit_code": 0,
+      "servers_stopped": true,
+      "scope": "Real browser against owned localhost TLS WSGI fixture. Fixture asserts actual loopback authority before mapping Host/Origin to canonical production origin; adapter validations unchanged. Hosted clock advanced only in this fixture for expiry. Synthetic inputs only.",
+      "record_sha256": "7e4ebc6b0a4cae40a6e69f2a2595cc92bf7ffd5c901012ab7d17cdb6a163d3db"
+    },
+    {
+      "browser": "Edg/155.0.4283.45",
+      "checks": 83,
+      "exceptions": 0,
+      "nonlocal_page_requests": 0,
+      "owned_main_exit_code": 0,
+      "servers_stopped": true,
+      "scope": "Real browser against owned localhost TLS WSGI fixture. Fixture asserts actual loopback authority before mapping Host/Origin to canonical production origin; adapter validations unchanged. Hosted clock advanced only in this fixture for expiry. Synthetic inputs only.",
+      "record_sha256": "16d37fabfbc9df2eb480ceedb108cc3bed9e3c3742e4943210f6624a60896905"
+    }
+  ],
+  "client_contract_assertions": 46,
+  "source_sha256": {
+    "src/controlomics/hosted.py": "5e93c6567207956f9d6e7d4af752a80a6bd612c641c8b42145a09e07de3a54e3",
+    "src/controlomics/hosted_worker.py": "046b54902e752ea58546992f1599781a2e208422f4bc9a6d2a25452fd2a5a902",
+    "src/controlomics/hosting_privacy.py": "07ac32f2074982f1c6f0f691d638a012136a009171edb63d85ffe0a73a0e11fb",
+    "src/controlomics/schemas.py": "fee8790ff66d808277c1f7f842d57f1e7aac441f9cf219892993a3790aec95ed",
+    "src/controlomics/execution.py": "52363329fc2eaba87485acaaff3f8aed41640e4e88a051e5ebf1300807701583",
+    "src/controlomics/reports.py": "4ba162f6fc432771f1ad6e6d2f056244ac8059f30aeade50b6d4b1fae56e1152",
+    "src/controlomics/web/app.js": "ce8e49c081bc994c9fda490717b2574a2f7c0847b9d856461d7a9746bb913d07",
+    "src/controlomics/web/index.html": "7ac5c30062485d725487536bffb6a7431ecb9063a3c1033084fa5b7d2aa242ac",
+    "src/controlomics/web/style.css": "9f1c5e5d32299b8f4dd1a91b9451a856be3b0d7a5f1cd32b3bdd855312a951a2",
+    "gunicorn.conf.py": "6d79e87def693f443c2f9a9f5bbe7708fb6f125ba8ca9a065f0f05e043e33e51",
+    "render.yaml": "81c67ebd8decd7eccca5465985c59d914aaafdd4c457cf4d6aa244d555a1fcbd"
+  },
+  "frozen_numerical_sources_unchanged": {
+    "scope": "Frozen numerical sources; no new simulation or scientific validation inferred.",
+    "sources": [
+      {
+        "path": "src/controlomics/statistics.py",
+        "sha256": "3c56a1c6bd78f749b79e8689cfe2d87b96bafa406fd83e943b939530e9145cea",
+        "unchanged": true
+      },
+      {
+        "path": "scripts/scientific_reference.py",
+        "sha256": "a2f54ca27d1d657ee159fb3f369ba53af3a929aaae1552a5384711d1186d1dec",
+        "unchanged": true
+      },
+      {
+        "path": "scripts/run_numerical_validation.py",
+        "sha256": "525adfb2e2c028d6e05ca9a12bbeab1b61e24f5e1d5bde5067e8f2e1a5d631ea",
+        "unchanged": true
+      }
+    ],
+    "status": "PASS"
+  },
+  "original_artifact_files_unchanged": 42,
+  "prior_failures_retained": [
+    "Consent modal Tab escaped to BODY; fixed with an explicit Tab boundary and submission focus. Current Chrome and Edge passed unchanged assertions.",
+    "WSL DrvFs did not support an unlinked heartbeat file. The retained first startup probe failed before its checks; the final Linux tmpfs heartbeat and real timeout probes passed.",
+    "Earlier browser startup, async fixture, field-name and CLI inspection errors remain separate private harness/environment records."
+  ],
+  "not_performed": [
+    "Live Render deployment and TLS/proxy verification",
+    "Live model or literature-provider requests",
+    "Real research data",
+    "Screen-reader validation",
+    "Human scientific review"
+  ],
+  "hosted_ci": "NOT_YET_RUN_FOR_THIS_SOURCE",
+  "deployment": "NOT_CREATED",
+  "limitations": [
+    "Synthetic technical acceptance does not establish scientific control suitability, biological efficacy, or cross-domain generalization.",
+    "Browser fixtures use owned localhost TLS and deliberately map their asserted authority to the canonical test origin; they do not verify Render ingress.",
+    "Temporary file cleanup is attempted; crash cleanup and secure erasure are not guaranteed.",
+    "Imported processing attestations and reviewer identities are unauthenticated."
+  ]
+}

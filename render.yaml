@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: controlomics
+    runtime: python
+    plan: free
+    region: singapore
+    branch: main
+    autoDeployTrigger: checksPass
+    buildCommand: python -m pip install -r requirements-cloud.lock && python -m pip install --no-build-isolation --no-deps .
+    startCommand: gunicorn --config gunicorn.conf.py "controlomics.hosted:create_app()"
+    healthCheckPath: /healthz
+    maxShutdownDelaySeconds: 65
+    envVars:
+      - key: CONTROLOMICS_SESSION_SECRET
+        generateValue: true
+      - key: CONTROLOMICS_TRUST_PROXY
+        value: render

@@ -220,6 +220,19 @@ dialog pre { max-height: min(430px,45dvh); }
 dialog h2 { margin-bottom: 12px; }
 dialog p { color: #59697b; font-size: 13px; }
 dialog::backdrop { background: rgba(18,39,52,.52); }
+.hosting-consent { width: min(94%,720px); }
+.hosting-consent-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }
+.hosting-consent-heading h2 { margin-bottom: 8px; }
+.hosting-consent-heading button { flex-shrink: 0; }
+.hosting-processor { padding: 12px 14px; border: 1px solid var(--line); border-radius: 7px; background: var(--soft); overflow-wrap: anywhere; }
+.processing-disclosure { padding-left: 21px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.processing-disclosure li { margin-bottom: 10px; }
+.hosting-attestation { padding-top: 15px; border-top: 1px solid var(--line); }
+.hosting-gate { display: flex; align-items: center; gap: 22px; padding: 18px 30px; color: var(--ink); background: var(--soft); border-bottom: 1px solid var(--line); }
+.hosting-gate h2 { margin: 0 0 5px; font-size: 14px; }
+.hosting-gate p { margin: 0; font-size: 12px; line-height: 1.6; }
+.hosting-gate button { flex-shrink: 0; }
+@media(max-width:760px) { .hosting-gate { align-items: flex-start; flex-direction: column; gap: 12px; padding: 18px; } .hosting-consent-heading { gap: 12px; } .hosting-consent-heading h2 { font-size: 21px; } }
 [hidden] { display: none !important; }
 @media(max-width:1250px) { .local-indicator { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; } .workspace-overview { grid-template-columns: minmax(0,1fr) 250px; gap: 22px; } .metric-card { padding: 14px; } .metric-top { font-size: 10px; } }
 @media(max-width:1100px) { :root { --sidebar: 210px; } .workspace-nav { padding-inline: 14px; } .brand { font-size: 17px; } .brand-mark { width: 26px; height: 26px; } .topbar { padding-inline: 24px; } main { padding: 27px 24px 45px; } .workspace-overview { grid-template-columns: 1fr; } .overview-art { display: none; } .overview-copy h1 { max-width: 760px; } .control-list { gap: 16px; } .control-card { padding: 21px; } .panel { padding: 23px; } .section-head { align-items: flex-start; } .examples { max-width: 230px; } .control-toolbar .search-field { flex-basis: 100%; } }

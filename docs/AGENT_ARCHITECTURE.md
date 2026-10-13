@@ -1,12 +1,12 @@
 # Complete agent architecture
 
-This describes the implemented local research alpha, version 0.6.11.dev0. Controlomics is a human-supervised scientific workflow with structured proposals, evidence review, restricted numerical tools, and conservative audits. Its default reasoning engine uses inspectable rules. An optional hosted language model can propose controls through the same record contracts. Prototype checks cover implemented contracts and synthetic workflows; they do not demonstrate empirical scientific appropriateness or cross-domain generalization.
+This describes the implemented prototype, version 0.6.12.dev0, with local and consent-gated hosted deployments. Controlomics is a human-supervised scientific workflow with structured proposals, evidence review, restricted numerical tools, and conservative audits. Its default reasoning engine uses inspectable rules. An optional hosted language model can propose controls through the same record contracts. Prototype checks cover implemented contracts and synthetic workflows; they do not demonstrate empirical scientific appropriateness or cross-domain generalization.
 
 ## Overall flow
 
 ```mermaid
 flowchart TD
-    R[Researcher: question, analysis, claim and context] --> UI[Local browser or CLI]
+    R[Researcher: question, analysis, claim and context] --> UI[Local or hosted browser, or local CLI]
     UI --> CORE[Validated project records and provenance]
     CORE --> THINK[Local design reasoner or reference baseline]
     THINK --> CAND[Unreviewed control candidates]
@@ -18,13 +18,13 @@ flowchart TD
     CAND --> REVIEW[Method review or human statement and context review]
     EVID --> REVIEW
     REVIEW --> SPEC[Reviewed control specifications]
-    SPEC --> CHECK[Local input inspection and adapter compatibility]
-    CHECK --> EXEC[Fixed local or dispatched execution package]
+    SPEC --> CHECK[Input inspection and adapter compatibility]
+    CHECK --> EXEC[Fixed local, hosted, or dispatched execution]
     EXEC --> RESULT[Validated control results]
     CORE --> AUDIT[Conservative claim audit]
     SPEC --> AUDIT
     RESULT --> AUDIT
-    AUDIT --> OUT[Linked report and local review archive]
+    AUDIT --> OUT[Linked report and downloadable review archive]
     CORE --> BENCH[Separate benchmark and supplied-annotation evaluation]
 ```
 
@@ -34,9 +34,10 @@ The diagram shows available operations, not an automatic sequence that sends req
 
 | Component | Implementation | Input and output |
 | --- | --- | --- |
-| Browser workspace | `web/index.html`, `web/style.css`, `web/app.js` | Six views for analysis, controls, evidence, execution, assessment, and evaluation. Holds the current project, drafts, session token, request previews, and annotation work in memory. Sends explicit operations to the local server. |
+| Browser workspace | `web/index.html`, `web/style.css`, `web/app.js` | Six views for analysis, controls, evidence, execution, assessment, and evaluation. Holds the current project, drafts, session token, request previews, and annotation work in memory. Sends explicit operations to the selected local or hosted server. |
 | CLI and application entry | `cli.py`, `__main__.py`, `__init__.py` | Scriptable counterparts to intake, reasoning, review, execution, reporting, evaluation, archives, and local serving. Identifies the software version. |
 | Loopback API | `server.py` | Binds to 127.0.0.1, serves fixed assets, validates bounded JSON, dispatches actions, and returns validated records. Mutating requests require the local Host, Origin, and session token. |
+| Hosted API and processing records | `hosted.py`, `hosting_privacy.py` | Reuses scientific actions behind a canonical HTTPS origin, signed per-browser cookie, bound request token, explicit temporary-processing consent, and bounded metadata-only admission counters. Historical processing receipts describe cloud exceptions and grant no active permission. |
 | Scientific record model | `schemas.py` | Strict, frozen Pydantic records for analyses, claims, context, candidates, reviewed controls, evidence, plans, results, audits, privacy, and provenance. Checks supported states and cross-record relationships. |
 | Project parser and persistence | `project.py` | Rejects duplicate JSON keys, nonfinite numbers, unsupported fields, and oversized inputs. Loads and exports explicit local project snapshots and ten core JSON Schemas. |
 | Auxiliary format contracts | `formats.py` | Exports nineteen workflow schemas, including proposals, reviews, execution configuration, annotation records, archives, and input summaries. Python also enforces relationships that structural schemas do not express. |
@@ -82,7 +83,7 @@ The reference reasoner changes proposal generation and the finding codes emitted
 
 Publication identity, statement entailment, and context applicability are separate decisions. Retrieval confirms recorded identifiers and metadata; it does not establish that a paper supports a control.
 
-Human review addresses the candidate's exact rationale and expected behavior using local source text, excerpts, locators, relationship labels, and context. Software checks excerpt presence and record relationships. Human attestations supply the scientific support judgment. The implemented evidence gate requires support for both exact statements, a context MATCH, and no contradiction to record EVIDENCE_BACKED. Mixed support and contradiction can yield CONFLICTING_EVIDENCE. Incomplete support or context yields INSUFFICIENT_EVIDENCE.
+Human review addresses the candidate's exact rationale and expected behavior using supplied source text processed on the selected deployment, excerpts, locators, relationship labels, and context. Software checks excerpt presence and record relationships. Human attestations supply the scientific support judgment. The implemented evidence gate requires support for both exact statements, a context MATCH, and no contradiction to record EVIDENCE_BACKED. Mixed support and contradiction can yield CONFLICTING_EVIDENCE. Incomplete support or context yields INSUFFICIENT_EVIDENCE.
 
 Method review can record METHOD_BASED technical or statistical specifications without claiming empirical biological validation. Only newly created built-in local candidates receive automatic method review during their proposal action. Existing hosted or researcher-drafted candidates remain unreviewed when adding claims, repeating analysis, or opening projects; their method review is an explicit action. `VerifiedControl` means a review record exists, including unsuccessful reviews. Imported reviewed records must have a supported reviewed state, and EVIDENCE_BACKED requires the recorded human-kind statement support. Candidate edits cannot overwrite reviewed specifications; source re-review must identify the current reviewed snapshot. Reviewer identifiers and attestations do not authenticate identity, expertise, or independence.
 
@@ -100,7 +101,7 @@ The current audit emits CONTROL_FAILURE if a relevant recorded technical control
 
 ## Privacy, artifacts, and trust boundaries
 
-Projects and raw primary data remain local. Selected external fields must be explicitly SAFE, pass screening, and match the approved whole-request hash before transmission. Literature destinations are fixed provider routes; a model endpoint must pass the configured transport boundary. Credentials travel separately and do not enter previews, project exports, or reports. The ledger distinguishes NOT_STARTED, ATTEMPTED, and COMPLETED.
+In local mode, projects and raw inputs remain on the researcher's computer. In hosted mode, submitted records, source-review text, evaluation records, selected numeric inputs, and any submitted provider credential are processed temporarily by the first-party service after explicit session consent. Historical project privacy receipts record this exception without changing reviewed-control hashes. The application stores no project database or saved uploads, and ordinary temporary cleanup has crash limits. Selected external fields must be explicitly SAFE, pass screening, and match the approved whole-request hash before transmission. Literature destinations are fixed provider routes; a model endpoint must pass the configured transport boundary. Credentials travel separately and do not enter previews, project exports, or reports. The ledger distinguishes NOT_STARTED, ATTEMPTED, and COMPLETED.
 
 The loopback server serves fixed assets, uses bounded requests, disables request logging/caching, and checks Host/Origin/token on mutations. Browser text nodes and report escaping reduce imported-content execution. Local OS software and browser extensions remain outside the application's trust boundary.
 
@@ -116,4 +117,4 @@ Evaluation keeps reference annotations, predictions, recommendation judgments, a
 
 The completed numerical phase matched 896 scalar comparisons across 128 synthetic cases against SciPy after explicit definition alignment. Seven scenarios used 7,000 total trials and revealed small-sample percentile undercoverage. See [numerical findings](NUMERICAL_VALIDATION.md). The existing six development cases remain unassessed. [The proposed study protocol](INDEPENDENT_VALIDATION_PROTOCOL.md) separately describes empirical control-selection research. It is outside technical prototype acceptance.
 
-The application requires Python and Pydantic. The browser uses plain HTML, CSS, and JavaScript with local assets. Optional isolated NumPy/SciPy and existing Node/Chrome support development validation. Public hosting, remote multiuser operation, and hosted-model performance are not qualified by these local checks.
+The application requires Python and Pydantic. The browser uses plain HTML, CSS, and JavaScript with local assets. Optional isolated NumPy/SciPy and existing Node/Chrome support development validation. The optional Linux hosted service adds Gunicorn and has its own boundary and transport checks. Local checks and historical audits do not by themselves qualify a deployed service or establish hosted-model performance. See [hosting configuration](HOSTING.md) and [current verification](../VALIDATION.md).

@@ -223,12 +223,26 @@ def build_package(project, control_id: str, config: ExecutionConfig, directory: 
         limitations=("This adapter handles complete pairs only; independence across pairs and sign invariance require researcher justification." if paired else "This adapter handles independent-unit technical references only.",
             "Clustered, temporal, covariate-adjusted, and full primary analyses require other adapters.",))
     updated = replace_project(project, controls=tuple(control if item.control_id == control_id else item for item in project.controls),
-        privacy=PrivacyPolicy(rationale="Project includes restricted numeric input requirements; data remain local."),
+        privacy=PrivacyPolicy(rationale=(
+            "Project includes restricted numeric input requirements; the local baseline has recorded temporary first-party processing exceptions."
+            if project.privacy.hosted_processing_receipts else
+            "Project includes restricted numeric input requirements; data remain local."),
+            hosted_processing_receipts=project.privacy.hosted_processing_receipts),
         execution_plans=project.execution_plans + (plan,),
         provenance=project.provenance + (event("CONTROL_REVIEW", [control_id, plan.execution_id]),))
     documents = {"config.json": config.model_dump(mode="json"), "execution_plan.json": plan.model_dump(mode="json"),
                  "control.json": control.model_dump(mode="json"), "result.schema.json": ControlResult.model_json_schema(),
                  "environment.json": {"execution": "Python >=3.11; standard library only", "verification": "Install controlomics " + __version__ + "; the repository lock records the observed development dependencies", "planned_python": platform.python_version()}}
+    hosted_note = ""
+    input_locality_note = "The numeric input stays local. No model-generated code is executed.\n\n"
+    if project.privacy.hosted_processing_receipts:
+        input_locality_note = "The numeric input stays local to the runner. No model-generated code is executed.\n\n"
+        documents["hosting_processing.json"] = {
+            "hosted_processing_receipts": [item.model_dump(mode="json") for item in project.privacy.hosted_processing_receipts]}
+        hosted_note = (
+            "The project records a scoped temporary first-party hosted-processing exception to its local baseline. "
+            "See hosting_processing.json for historical consent attestations. They do not authorize an active web session "
+            "or forwarding project records and raw inputs to providers, and do not establish where this downloaded runner executes.\n\n")
     with staged_directory(directory) as staged:
         for name, document in documents.items():
             (staged / name).write_bytes(canonical_json(document) + b"\n")
@@ -243,7 +257,7 @@ def build_package(project, control_id: str, config: ExecutionConfig, directory: 
         (staged / "README.md").write_text(
         "# Local control execution\n\nReview control.json, config.json, assumptions, and code before execution. "
         "Review the selected adapter and required CSV layout. Pair identifiers do not establish independence across pairs. This runner does not justify exchangeability. "
-        "The numeric input stays local. No model-generated code is executed.\n\n"
+        + input_locality_note + hosted_note +
         "Run: `python run_control.py --input input.csv --output results.json`.\n\n"
         "Verify with the installed package: `python verify_results.py results.json`.\n\n"
         "Import: `controlomics import-results project.json results.json --output updated.project.json`.\n\n"

@@ -1,12 +1,12 @@
 # Public release
 
-Controlomics 0.6.11.dev0 is a research preview distributed under MIT. The application runs locally. Public source, documentation, and downloadable packages support inspection and reproduction without publishing research projects or raw inputs.
+Controlomics 0.6.12.dev0 is a prototype distributed under MIT. It runs locally or behind the separately configured hosted adapter with explicit temporary-processing consent. Public source, documentation, and downloads exclude private research projects and raw inputs. See [hosting](HOSTING.md) for deployment boundaries.
 
 ## Validation boundary
 
 The separate AI-assisted prototype audit reported PASS for source revision `ae6dd2de43971d533b65f37e33b85ba22ff8d19d` on Windows, Python 3.14, Chrome 154, and Edge 155 with synthetic inputs and mocked services. The [public audit summary](validation/prototype_audit_v0.6.11.json) retains the target, scope, counts, and evidence fingerprints. Full audit logs, source copies, screenshots, and local environment details remain private.
 
-Publication preparation retains the scientific implementation while updating documentation, CI, source-root canonicalization, malformed-HTTP compatibility, and bounded connection closure. The separate audit does not cover these later changes. Release checks identify the prepared source revision and actual package hashes separately. The earlier audited artifacts remain immutable; rebuilt packages have their own hashes and installation checks. See [VALIDATION.md](../VALIDATION.md) for the retained observations and limitations.
+Publication preparation after that snapshot added documentation, CI, source-root canonicalization, malformed-HTTP compatibility, and bounded connection closure. Version 0.6.12.dev0 separately adds the hosted HTTP adapter, session consent, historical processing receipts, and cloud interface disclosures while retaining numerical procedures and scientific evidence gates. The separate audit does not cover these later changes. Release checks identify the prepared source revision and actual package hashes separately. The earlier audited artifacts remain immutable; rebuilt packages have their own hashes and installation checks. See [VALIDATION.md](../VALIDATION.md) for the retained observations and limitations.
 
 The PASS concerns implemented technical contracts. It does not establish biological efficacy, control suitability in real experiments, cross-domain generalization, clinical use, authentic reviewer expertise, or a complete security certification. Requested 95% bootstrap intervals retain the measured 74.1% to 93.9% synthetic coverage limitation.
 
@@ -25,7 +25,7 @@ Synthetic review receipts can use HUMAN as a schema fixture without representing
 
 Use GitHub for the public source repository and GitHub Releases for reviewed package downloads. Mark this development version as a prerelease. A release should identify its source revision, package SHA-256 values, installation requirements, and measured scope.
 
-GitHub Pages may host static project documentation. It cannot run the Python application. The scientific workspace continues to run on the researcher's computer at the loopback address described in [README.md](../README.md). It must not be exposed through a public tunnel or reverse proxy. See [HOSTING.md](HOSTING.md).
+GitHub Pages may host static project documentation. It cannot run the Python application. The local workspace runs at the loopback address described in [README.md](../README.md) and must not be exposed through a public tunnel. The full hosted prototype uses the separately configured consent-gated Render adapter. See [HOSTING.md](HOSTING.md).
 
 ## Repository settings
 

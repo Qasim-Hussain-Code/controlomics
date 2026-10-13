@@ -1,21 +1,33 @@
 # Hosting and distribution
 
-Controlomics separates public software distribution from private research execution.
+Controlomics supports a local workspace and a full hosted prototype. Source distribution and research processing have separate boundaries.
 
 | Component | Location | Purpose |
 | --- | --- | --- |
-| Source repository | GitHub | Inspect code, report software issues, and contribute reviewed changes |
-| Release downloads | GitHub Releases | Obtain a versioned wheel or source package with recorded hashes |
-| Project documentation | Repository documentation; optionally GitHub Pages | Read methods, architecture, installation, validation, and limitations |
-| Scientific workspace | Researcher's computer | Process project snapshots and selected numeric inputs locally |
-| Optional literature or model service | Explicitly approved external provider | Receive only screened selected public fields after exact-request approval |
+| Source repository | GitHub | Inspect code, report software issues, and contribute changes |
+| Release downloads | GitHub Releases | Obtain versioned packages with recorded hashes |
+| Local workspace | Researcher's computer | Process inputs on that computer through the loopback service |
+| Hosted prototype | Render Python web service | Temporarily process explicitly consented research inputs |
+| Optional literature or model provider | Separately approved external service | Receive only screened selected public fields after exact-request approval |
 
-The installed application binds to `127.0.0.1`; the browser connects to the local Python service. Raw research inputs stay in that environment. There is no hosted project database or automatic synchronization.
+## Full hosted prototype
 
-GitHub Pages serves static HTML, CSS, JavaScript, and generated documentation. It cannot run this Python service. Publishing the interface assets alone does not provide a functioning hosted Controlomics application.
+`render.yaml` defines a free Python web service in Singapore, using `.python-version` and exact dependencies in `requirements-cloud.lock`. Its build installs the package, and Gunicorn loads `controlomics.hosted:create_app()` with `gunicorn.conf.py`. Automatic deployment waits for linked branch checks to pass. `/healthz` is the health endpoint. There is no database, persistent disk, saved upload, model weight, or container requirement. This configuration file describes a deployment; it does not itself establish that a live service exists.
 
-A public multiuser application would require a separately designed and assessed deployment: per-user authentication and authorization, isolated projects and execution, credential handling, resource controls, and an explicit data-processing policy. The local preview is not qualified for that deployment. A public tunnel or reverse proxy does not establish those boundaries.
+The six-section workspace uses the same scientific actions as the local application, including description drafting, control specifications and reviews, numeric inspection and execution, reports and packages, review archives, and evaluation. Optional model and literature requests retain their separate approval boundary and provider terms. External models are not included in the hosting price.
 
-Project pages and repository services have their own hosting privacy policies. GitHub Pages records visitor IP addresses for security; that is distinct from the local application's lack of telemetry. Never describe third-party hosting as collecting no information.
+On first use, the interface identifies temporary cloud processing and asks for consent. A signed per-browser session, a bound request token, and that consent are checked before reading a scientific action body. Inputs pass over HTTPS to the configured service. Project snapshots, source-review text, numeric inputs, and evaluation records are processed in request memory or owned temporary directories as required. The application saves no project database or uploads. Export work before closing; browser memory is the workspace, and a prepared download is not proof that it was retained.
 
-The [GitHub Pages description](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages), [Pages setup documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site), and [release documentation](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository) describe these services. Their availability does not imply that a site or release has been published.
+Hosted project exports and packages carry historical processing attestations. Those records are not authenticated evidence of processing and cannot authorize a new session. They explain the exception to the unchanged local baseline privacy flags. Raw inputs remain excluded from dispatched packages and review archives. Application logs omit input and credential values; the hosting provider can collect connection and operational metadata. Ordinary cleanup is attempted, with crash and erasure limits described in [PRIVACY.md](../PRIVACY.md).
+
+## Service configuration
+
+The hosted adapter requires `CONTROLOMICS_SESSION_SECRET`, at least 32 bytes of secret material. The Blueprint asks Render to generate a random 256-bit value; keep it out of source files and scientific exports. `CONTROLOMICS_TRUST_PROXY=render` permits HTTPS forwarding only from a direct private or loopback peer, with exact Host and forwarding checks. `PUBLIC_ORIGIN` may explicitly set the canonical HTTPS origin; otherwise the adapter uses Render's `RENDER_EXTERNAL_URL`. It never derives authority from forwarded host or client-IP headers.
+
+Gunicorn runs one worker with four threads, HTTP/1 only, a 10-second socket read-inactivity limit, and a 30-second total header/body read deadline. Response writes have a separate 10-second bound so the read deadline does not limit a completed 35-second numeric calculation. The metadata-only worker heartbeat uses Linux `/dev/shm`; it contains no research inputs. Application admission and numeric budgets are documented in [SECURITY.md](../SECURITY.md). Scaling to several workers, instances, public proxies, custom origins, or stored projects requires a separately assessed configuration; the bounded in-memory session and action limits are per worker. The loopback `controlomics serve` command remains local and must not be exposed publicly.
+
+Render's free service can sleep after inactivity, restart, and pause at its shared usage limits. A cold start invalidates sessions and requires renewed consent; the browser retains work and never automatically repeats a request. Free compute can be slower than a scientific workstation, and valid numeric work can exceed the fixed execution timeout. There is no uptime or result guarantee. Plan availability and limits can change; consult [Render's free-service documentation](https://render.com/docs/free).
+
+[Render's service documentation](https://render.com/docs/web-services), [Blueprint reference](https://render.com/docs/blueprint-spec), [environment variables](https://render.com/docs/environment-variables), and [privacy policy](https://render.com/privacy) describe the host. Third-party hosting must never be described as collecting no information.
+
+GitHub Pages serves static files and cannot run this Python service. Its availability does not provide a working Controlomics workspace; see [GitHub's Pages description](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages).

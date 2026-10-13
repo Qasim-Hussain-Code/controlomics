@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 from urllib.parse import quote
 from controlomics import __version__
+from controlomics.hosting_privacy import describe_processing_privacy, hosted_processing_notice
 from controlomics.reasoning import describe_design
 
 
@@ -37,7 +38,8 @@ def render_report(project, network_audit=()):
         return f"<p><strong>{esc(label)}:</strong> {esc(text)}</p>"
     def reference(kind, identifier, label):
         return f"<a href='#{esc(kind + '-' + identifier)}'>{esc(label)}</a>"
-    blocks.append("<header class='report-header'><p class='eyebrow'>LOCAL SCIENTIFIC REVIEW</p><h1>Controlomics scientific audit</h1>" +
+    report_label = "SCIENTIFIC REVIEW" if project.privacy.hosted_processing_receipts else "LOCAL SCIENTIFIC REVIEW"
+    blocks.append("<header class='report-header'><p class='eyebrow'>" + report_label + "</p><h1>Controlomics scientific audit</h1>" +
         f"<p class='report-question'>{esc(project.analysis.scientific_question)}</p></header>" +
         "<p class='notice'>Research alpha. Scientific validity and cross-domain generalization have not been demonstrated. Imported records and reviewer identities are not authenticated.</p>")
     counts = (("Scientific claims", len(project.claims)), ("Control specifications", len(controls)),
@@ -51,7 +53,9 @@ def render_report(project, network_audit=()):
         f"<a href='#{identifier}'>{label}</a>" for identifier, label in sections) + "</nav>")
     blocks.append(paragraph("Project identifier", project.manifest.project_id) + paragraph("Created", project.manifest.created_at.isoformat()) +
         paragraph("Project version", project.manifest.controlomics_version))
-    blocks.append(paragraph("Privacy", project.privacy.classification + "; project and raw inputs remain local"))
+    blocks.append(paragraph("Privacy", describe_processing_privacy(project)))
+    for receipt in project.privacy.hosted_processing_receipts:
+        blocks.append(paragraph("Recorded hosted processing", hosted_processing_notice(receipt)))
     blocks.append("<h2 id='analysis'>Analysis and claim</h2>" + paragraph("Question", project.analysis.scientific_question) +
                   paragraph("Analysis", project.analysis.analysis_description) + paragraph("Reported result", project.analysis.observed_result))
     blocks.append(paragraph("Methods", "; ".join(project.analysis.methods)) +

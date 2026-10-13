@@ -1,47 +1,155 @@
 "use strict";
-const state = {project: null, audit: [], token: null, pending: null, busy: false, focusAfterAction: null, profiles: [], narrative: null, reviewTemplate: null, evaluation: null, evaluationBundle: null, annotationHash: null, annotationDraft: null, annotationCase: null, revisions: [], view: "analysis", inputSummary: null, revision: 0, preparedRevision: 0, drafts: new Set(), formBaselines: new Map()};
+const state = {project: null, audit: [], token: null, sessionReady: false, deploymentMode: "UNKNOWN", policyRevision: null, hostingConsent: false, hostingReceipts: [], consentSubmitting: false, pending: null, busy: false, focusAfterAction: null, profiles: [], narrative: null, reviewTemplate: null, evaluation: null, evaluationBundle: null, annotationHash: null, annotationDraft: null, annotationCase: null, revisions: [], view: "analysis", inputSummary: null, revision: 0, preparedRevision: 0, drafts: new Set(), formBaselines: new Map()};
 const $ = id => document.getElementById(id);
 const lines = text => text.split(/\r?\n/).map(value => value.trim()).filter(Boolean);
 const pairedBasis = "Complete-pair mean differences; independent pairs; sign-invariant differences for the permutation null; whole-pair resampling for the bootstrap.";
 function message(text, error = false) { $("status").textContent = text; $("status").className = error ? "status error" : state.busy ? "status busy" : "status"; $("status").setAttribute("role", error ? "alert" : "status"); $("status").setAttribute("aria-live", error ? "assertive" : "polite"); if (error) $("status").scrollIntoView({block: "nearest", behavior: "instant"}); }
 function focusDestination(element) { if (state.busy) state.focusAfterAction = element; else element?.focus({preventScroll: true}); }
 function lockInputs(locked) { document.querySelectorAll("form, .file-label").forEach(element => { element.inert = locked; }); }
+function hostedProcessing() { return state.deploymentMode === "HOSTED_TEMPORARY"; }
+function processingText(local, hosted) { return hostedProcessing() ? hosted : local; }
+function processingBlocked() { return !state.sessionReady || hostedProcessing() && !state.hostingConsent; }
+function syncProcessingAccess() {
+  $("workspace-shell").inert = !state.sessionReady;
+  lockInputs(state.busy || processingBlocked());
+  $("hosting-gate").hidden = !hostedProcessing() || state.hostingConsent;
+  $("export-hosting-receipts").hidden = !hostedProcessing();
+  $("export-hosting-receipts").disabled = !state.hostingReceipts.length;
+  $("hosting-records-note").hidden = !hostedProcessing();
+}
+function retainHostingReceipt(data) {
+  if (!hostedProcessing() || !data.hosting_processing || typeof data.hosting_processing !== "object" || Array.isArray(data.hosting_processing)) return;
+  const receipt = data.hosting_processing, key = JSON.stringify(receipt);
+  if (!state.hostingReceipts.some(item => JSON.stringify(item) === key)) state.hostingReceipts.push(structuredClone(receipt));
+  $("export-hosting-receipts").disabled = !state.hostingReceipts.length;
+}
+function showHostingConsent() {
+  if (!hostedProcessing() || state.hostingConsent) return;
+  closeNavigation();
+  $("hosting-origin").textContent = location.origin;
+  $("hosting-policy").textContent = state.policyRevision;
+  $("hosting-transport").textContent = location.protocol === "https:" ? "Submitted inputs are sent over HTTPS to this cloud service." : "This hosted-mode test sends inputs over a local HTTP connection.";
+  $("hosting-attestation").checked = false; $("hosting-accept").disabled = true;
+  $("hosting-consent-status").textContent = "Declining sends no consent request and leaves research processing paused.";
+  syncProcessingAccess();
+  if (!$("hosting-consent-dialog").open) $("hosting-consent-dialog").showModal();
+  $("hosting-decline").focus({preventScroll: true});
+}
+function requireProcessing() {
+  if (!state.sessionReady) throw new Error("Workspace session is not ready. Keep this page open while the service initializes.");
+  if (hostedProcessing() && !state.hostingConsent) { showHostingConsent(); throw new Error("Cloud processing requires your agreement before any research input is sent."); }
+}
+function renderDeployment() {
+  const copy = {
+    "processing-title": ["Local by default", "Temporary cloud processing"],
+    "processing-description": ["Research records stay on this computer. External requests require your review.", "Submitted records are processed by this cloud service. No database or saved uploads. Exports stay with you."],
+    "session-location": ["Local session", "Cloud session"],
+    "overview-processing": ["Data stays local", "Temporary cloud processing"],
+    "narrative-summary": ["Draft fields from a local description", "Draft fields from a description"],
+    "interpret-description": ["Interpret locally", "Interpret description"],
+    "analysis-privacy-notice": ["Descriptions remain local. Design rules suggest technical and statistical specifications; biological controls require independent evidence.", "Submitted descriptions are processed temporarily in the cloud. Design rules suggest technical and statistical specifications; biological controls require independent evidence."],
+    "source-processing-note": ["Source text is processed locally and is not included in exported reports.", "Submitted source text is processed temporarily in the cloud and is not included in exported reports."],
+    "review-processing-note": ["A researcher must read the source and assess support, contradiction, and context. Software checks references and excerpt presence. Source text stays local; receipts and names are not authenticated.", "A researcher must read the source and assess support, contradiction, and context. Software checks references and excerpt presence using temporarily submitted source text. Receipts and names are not authenticated."],
+    "execution-location": ["Local execution", "Numeric execution"],
+    "numeric-input-label": ["Local CSV input", "CSV for temporary cloud processing"],
+    "numeric-processing-note": ["Selected numeric input is inspected and computed on this computer.", "Inspecting or running a selected CSV sends its contents to this cloud service. Execution can use temporary files; cleanup is attempted after the operation."],
+    "inspect-input": ["Inspect local CSV", "Inspect selected CSV"],
+    "run-control": ["Run local numeric control", "Run numeric control"],
+    "evaluation-location": ["Local arithmetic", "Supplied-data arithmetic"],
+    "evaluation-input-label": ["Local evaluation bundle", "Evaluation bundle for cloud processing"],
+    "request-dialog-description": ["Only the displayed public fields will be transmitted. Project files and raw datasets stay local. The receiving service applies its own data policy.", "Only the displayed public fields are forwarded to this provider. Temporary processing of your project by this cloud service is separate; raw numeric inputs are not automatically forwarded. The provider applies its own data policy."],
+    "model-processing-note": ["Credentials are kept only for the request and are excluded from exports.", "When you send a model request, its key passes through this cloud service to the provider. It is kept only for that request and excluded from exports."]
+  };
+  for (const [id, values] of Object.entries(copy)) $(id).textContent = processingText(...values);
+  if (!state.project) $("project-meta").textContent = processingText("Local records of claims, controls, evidence, and execution.", "Browser-held records with temporary cloud processing.");
+  renderSaveState(); syncExecutionFields(); updateExecutionAvailability(); syncProcessingAccess();
+}
+function acceptSession(data) {
+  if (typeof data.token !== "string" || !/^[A-Za-z0-9_-]{32,128}$/.test(data.token)) throw new Error("Invalid workspace session response.");
+  const metadata = data.deployment && typeof data.deployment === "object" ? {...data, ...data.deployment} : data;
+  const loopback = ["127.0.0.1", "localhost", "[::1]"].includes(location.hostname);
+  const mode = metadata.mode || (loopback ? "LOCAL" : null);
+  if (mode !== "LOCAL" && mode !== "HOSTED_TEMPORARY" || mode === "LOCAL" && !loopback) throw new Error("The service has not supplied a valid processing mode. No research request was sent.");
+  if (mode === "HOSTED_TEMPORARY" && (!loopback && location.protocol !== "https:" || typeof metadata.policy_revision !== "string" || !metadata.policy_revision.length || metadata.policy_revision.length > 96 || typeof metadata.consent_required !== "boolean" || typeof metadata.hosting_consent !== "boolean" || metadata.consent_required === metadata.hosting_consent)) throw new Error("Invalid cloud consent information. No research request was sent.");
+  const previousToken = state.token;
+  Object.assign(state, {token: data.token, sessionReady: true, deploymentMode: mode, policyRevision: mode === "HOSTED_TEMPORARY" ? metadata.policy_revision : null, hostingConsent: mode === "LOCAL" || metadata.hosting_consent});
+  if (mode === "HOSTED_TEMPORARY" && previousToken && previousToken !== state.token) { state.pending = null; $("model-key").value = ""; if ($("request-dialog").open) $("request-dialog").close(); }
+  renderDeployment();
+}
 async function action(work) {
   if (state.busy) return;
+  try { requireProcessing(); } catch (error) { message(error.message, true); return; }
   const previousFocus = document.activeElement;
   state.busy = true; state.focusAfterAction = null; lockInputs(true); $("workspace-main").setAttribute("aria-busy", "true"); message("Processing the requested operation...");
   try { await work(); } catch (error) { message(error.message || "Operation failed.", true); }
   finally {
-    state.busy = false; lockInputs(false); $("status").classList.remove("busy"); $("workspace-main").setAttribute("aria-busy", "false");
+    state.busy = false; syncProcessingAccess(); $("status").classList.remove("busy"); $("workspace-main").setAttribute("aria-busy", "false");
     const destination = state.focusAfterAction; state.focusAfterAction = null;
     if (destination?.isConnected && destination.checkVisibility()) destination.focus({preventScroll: true});
     else if (document.activeElement === document.body && previousFocus?.isConnected && !previousFocus.disabled && previousFocus.checkVisibility()) previousFocus.focus({preventScroll: true});
   }
 }
 async function refreshSession() {
-  const response = await fetch("/api/session", {signal: AbortSignal.timeout(10000)});
-  if (!response.ok) throw new Error("Local session is unavailable. Keep this page open to retain unexported work.");
+  const response = await fetch("/api/session", {credentials: "same-origin", signal: AbortSignal.timeout(10000)});
+  if (!response.ok) throw new Error("Workspace session is unavailable. Keep this page open to retain unexported work.");
   const data = await response.json();
-  if (typeof data.token !== "string" || !/^[A-Za-z0-9_-]{32,128}$/.test(data.token)) throw new Error("Invalid local session response.");
-  state.token = data.token;
+  acceptSession(data);
+}
+async function agreeHostingProcessing() {
+  if (!hostedProcessing() || state.hostingConsent || state.consentSubmitting || !$("hosting-attestation").checked) return;
+  state.consentSubmitting = true; $("hosting-accept").disabled = true; $("hosting-decline").disabled = true;
+  $("hosting-attestation").disabled = true; $("hosting-consent-dialog").focus({preventScroll: true});
+  $("hosting-consent-status").textContent = "Recording this processing choice. No scientific request is being sent.";
+  try {
+    const response = await fetch("/api/hosting-consent", {method: "POST", credentials: "same-origin", headers: {"Content-Type": "application/json", "X-Controlomics-Token": state.token}, body: JSON.stringify({allowed: true, policy_revision: state.policyRevision}), signal: AbortSignal.timeout(10000)});
+    if (!response.ok) throw new Error("Processing agreement could not be recorded. No scientific request was sent. Review the choice again or reload after retaining your work.");
+    acceptSession(await response.json());
+    if (!hostedProcessing() || !state.hostingConsent) throw new Error("The service did not confirm processing agreement. No scientific request was sent.");
+    $("hosting-consent-dialog").close();
+    message("Temporary cloud processing is enabled for this browser session. Choose an operation; no research request was automatically submitted.");
+    $("workspace-main").focus({preventScroll: true});
+  } catch (error) {
+    state.hostingConsent = false; syncProcessingAccess();
+    $("hosting-consent-status").textContent = error.message || "Agreement was interrupted. No scientific request was sent. Keep this page open to retain browser work.";
+  } finally {
+    state.consentSubmitting = false; $("hosting-attestation").disabled = false; $("hosting-decline").disabled = false; $("hosting-accept").disabled = !$("hosting-attestation").checked;
+    if ($("hosting-consent-dialog").open) $("hosting-decline").focus({preventScroll: true});
+  }
+}
+function declineHostingProcessing() {
+  if (state.consentSubmitting) return;
+  state.hostingConsent = false; state.pending = null; $("model-key").value = "";
+  if ($("hosting-consent-dialog").open) $("hosting-consent-dialog").close();
+  syncProcessingAccess();
+  message("Cloud processing is paused. No further research request will be sent until you agree. Browser-held records can still be exported.");
+  $("review-hosting-consent").focus({preventScroll: true});
 }
 async function api(path, body, binary = false) {
-  if (!state.token) throw new Error("Local session is not ready. Reload the page.");
+  requireProcessing();
+  if (!state.token) throw new Error("Workspace session is not ready. Keep this page open.");
   const payload = JSON.stringify(body);
-  if (new TextEncoder().encode(payload).length > 2 * 1024 * 1024) throw new Error("The local request exceeds 2 MiB including formatting and the project snapshot. Use the CLI for inputs near the file-size limit.");
+  if (new TextEncoder().encode(payload).length > 2 * 1024 * 1024) throw new Error("The request exceeds 2 MiB including formatting and the project snapshot. Use the local CLI for inputs near the file-size limit.");
   let response;
-  try { response = await fetch(path, {method: "POST", headers: {"Content-Type": "application/json", "X-Controlomics-Token": state.token}, body: payload, signal: AbortSignal.timeout(90000)}); }
+  try { response = await fetch(path, {method: "POST", credentials: "same-origin", headers: {"Content-Type": "application/json", "X-Controlomics-Token": state.token}, body: payload, signal: AbortSignal.timeout(90000)}); }
   catch {
-    throw new Error("The local response was interrupted. Keep this page open to retain your work. No automatic retry was made." + (/\/api\/(model\/run|literature\/retrieve)$/.test(path) ? " The approved external request may already have been transmitted; its ledger may be unavailable." : ""));
+    throw new Error(processingText("The local response was interrupted.", "The cloud response was interrupted; submitted inputs may already have been processed.") + " Keep this page open to retain your work. No automatic retry was made." + (/\/api\/(model\/run|literature\/retrieve)$/.test(path) ? " The approved external request may already have been transmitted; its ledger may be unavailable." : ""));
   }
   if (response.status === 403) {
     const previousToken = state.token;
-    try { await refreshSession(); } catch { throw new Error("Local authorization could not be renewed. Keep this page open and retain exports before reloading."); }
-    if (state.token !== previousToken) throw new Error("The local server session was renewed. Your workspace is retained. Retry the operation; external requests require a new preview and approval.");
+    try { await refreshSession(); } catch { throw new Error("Workspace authorization could not be renewed. Keep this page open and retain exports before reloading."); }
+    if (hostedProcessing() && !state.hostingConsent) { showHostingConsent(); throw new Error("The cloud session was renewed. Your browser work is retained. Review processing consent before retrying; no request was replayed."); }
+    if (state.token !== previousToken) throw new Error(processingText("The local server session was renewed.", "The cloud server session was renewed.") + " Your workspace is retained. Retry the operation; external requests require a new preview and approval.");
+  }
+  if (hostedProcessing() && response.status === 428) {
+    state.hostingConsent = false; state.pending = null; $("model-key").value = "";
+    try { await refreshSession(); } catch { syncProcessingAccess(); throw new Error("Cloud consent could not be refreshed. Your browser work is retained; no request was replayed."); }
+    showHostingConsent();
+    throw new Error(state.hostingConsent ? "Cloud consent state was refreshed. Retry the operation explicitly; no request was replayed." : "Cloud processing requires renewed agreement. Your browser work is retained; no request was replayed.");
   }
   if (binary && response.ok) return response.blob();
   let data;
-  try { data = await response.json(); } catch { throw new Error("The local response was incomplete or invalid. Your workspace is retained; no automatic retry was made."); }
+  try { data = await response.json(); } catch { throw new Error("The service response was incomplete or invalid. Your workspace is retained; no automatic retry was made."); }
+  retainHostingReceipt(data);
   if (data.network_audit?.length) { state.audit.push(...data.network_audit); recordChange(); }
   if (!response.ok || data.error) { render(); throw new Error(data.error || "Operation failed."); }
   return data;
@@ -49,7 +157,7 @@ async function api(path, body, binary = false) {
 function requireProject() { if (!state.project) throw new Error("Create or open a project first."); return state.project; }
 function renderSaveState() {
   const hasRecords = Boolean(state.project || state.evaluationBundle), unprepared = hasRecords && state.revision !== state.preparedRevision;
-  $("save-state").textContent = state.drafts.size ? "Unrecorded inputs" : unprepared ? "Export needed" : hasRecords ? "Bundle prepared" : "Local workspace";
+  $("save-state").textContent = state.drafts.size ? "Unrecorded inputs" : unprepared ? "Export needed" : hasRecords ? "Bundle prepared" : state.sessionReady ? processingText("Local workspace", "Browser workspace") : "Workspace";
   $("save-state").dataset.state = state.drafts.size || unprepared ? "pending" : "local";
   $("overview-save-state").textContent = $("save-state").textContent; $("overview-save-state").dataset.state = $("save-state").dataset.state;
   $("save-state").title = "Records stay in browser memory. A prepared download must be retained separately. Unrecorded form edits and raw inputs are not included in review bundles.";
@@ -73,7 +181,7 @@ function fillAnalysis(project) {
   for (const [name, value] of Object.entries(values)) $("analysis-form").elements.namedItem(name).value = value;
 }
 function resetWorkspace() {
-  Object.assign(state, {project: null, audit: [], pending: null, profiles: [], narrative: null, reviewTemplate: null, evaluation: null, evaluationBundle: null, annotationHash: null, annotationDraft: null, annotationCase: null, revisions: []});
+  Object.assign(state, {project: null, audit: [], hostingReceipts: [], pending: null, profiles: [], narrative: null, reviewTemplate: null, evaluation: null, evaluationBundle: null, annotationHash: null, annotationDraft: null, annotationCase: null, revisions: []});
   document.querySelectorAll("form").forEach(form => form.reset()); state.drafts.clear();
   for (const id of ["project-file", "bundle-file", "review-file", "result-file", "evaluation-file"]) $(id).value = "";
   for (const id of ["candidate-claim", "model-claim", "paired-claim", "review-control", "annotation-case"]) $(id).replaceChildren();
@@ -87,7 +195,7 @@ function resetWorkspace() {
   $("model-key").value = ""; $("request-preview").textContent = ""; $("ledger").textContent = "";
   if ($("request-dialog").open) $("request-dialog").close();
   clearInputSummary(); syncExecutionFields(); state.revision++; state.preparedRevision = state.revision;
-  rememberForms();
+  rememberForms(); syncProcessingAccess();
 }
 const viewNames = {analysis: "Analysis & claims", controls: "Controls", evidence: "Evidence library", execution: "Execution", audit: "Scientific audit", evaluation: "Evaluation"};
 const mobileNavigation = window.matchMedia("(max-width:760px)");
@@ -114,7 +222,7 @@ function node(tag, text, className) { const element = document.createElement(tag
 function field(label, value) { const wrapper = node("div", undefined, "field"); wrapper.append(node("strong", label), node("p", value || "Not supplied")); return wrapper; }
 function empty(text) { return node("p", text, "empty"); }
 function download(content, filename, type = "application/json") { const blob = content instanceof Blob ? content : new Blob([content], {type}); const url = URL.createObjectURL(blob); const anchor = node("a"); anchor.href = url; anchor.download = filename; anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
-function accept(data, notice) { const changedProject = data.project && state.project?.manifest.project_id !== data.project.manifest.project_id; if (data.project) { if (changedProject) { $("control-search").value = ""; $("control-class-filter").value = $("control-claim-filter").value = $("control-state-filter").value = ""; $("execution-control").value = ""; fillAnalysis(data.project); } state.project = data.project; recordChange(); } if (data.design_profiles) state.profiles = data.design_profiles; document.querySelectorAll(".workspace-menu[open]").forEach(menu => { menu.open = false; }); render(); if (changedProject) rememberForms(); message(notice); }
+function accept(data, notice) { retainHostingReceipt(data); const changedProject = data.project && state.project?.manifest.project_id !== data.project.manifest.project_id; if (data.project) { if (changedProject) { $("control-search").value = ""; $("control-class-filter").value = $("control-claim-filter").value = $("control-state-filter").value = ""; $("execution-control").value = ""; fillAnalysis(data.project); } state.project = data.project; recordChange(); } if (data.design_profiles) state.profiles = data.design_profiles; document.querySelectorAll(".workspace-menu[open]").forEach(menu => { menu.open = false; }); render(); if (changedProject) rememberForms(); message(notice); }
 function options(select, entries) { const prior = select.value; select.replaceChildren(); for (const [value, label] of entries) { const option = node("option", label); option.value = value; select.append(option); } if (entries.some(entry => entry[0] === prior)) select.value = prior; }
 function renderOverview() {
   const project = state.project, controls = project ? [...project.controls, ...project.candidates] : [];
@@ -134,7 +242,7 @@ function renderOverview() {
   $("project-subtitle").textContent = project ? "Analysis record. Review states and scientific limitations are recorded separately." : "Create an analysis record or open a saved project.";
   $("project-identifier").hidden = !project;
   $("project-identifier").textContent = project ? "Project: " + project.manifest.project_id : "";
-  $("project-meta").textContent = project ? "Methods: " + project.analysis.methods.join("; ") : "Local records of claims, controls, evidence, and execution.";
+  $("project-meta").textContent = project ? "Methods: " + project.analysis.methods.join("; ") : processingText("Local records of claims, controls, evidence, and execution.", "Browser-held records with temporary cloud processing.");
   $("metric-claims-note").textContent = project ? counts.claims === 1 ? project.claims[0].category.toLowerCase() + " claim" : "Claims in the current analysis" : "Awaiting a project";
   $("metric-controls-note").textContent = project ? project.candidates.length ? project.candidates.length + " unreviewed candidate" + (project.candidates.length === 1 ? "" : "s") : "Review states recorded separately" : "No controls recorded";
   const identities = project?.evidence.filter(item => item.existence_status === "VERIFIED").length || 0;
@@ -232,7 +340,7 @@ $("open-evidence-library").addEventListener("click", () => { switchView("evidenc
 $("nav-toggle").addEventListener("click", () => { document.body.classList.toggle("nav-open"); syncNavigation(); if (document.body.classList.contains("nav-open")) document.querySelector(".tab.active").focus(); });
 $("nav-scrim").addEventListener("click", () => closeNavigation(true));
 $("nav-close").addEventListener("click", () => closeNavigation(true));
-$("new-workspace").addEventListener("click", () => { if (state.busy || !confirmReplacement()) return; resetWorkspace(); render(); switchView("analysis"); message("Started an empty local workspace. No records are stored automatically."); });
+$("new-workspace").addEventListener("click", () => { if (state.busy || !confirmReplacement()) return; resetWorkspace(); render(); switchView("analysis"); message(processingText("Started an empty local workspace. No records are stored automatically.", "Started an empty browser workspace. No records are stored automatically.")); });
 for (const name of ["input", "change"]) document.addEventListener(name, event => { const form = event.target.closest("form"); if (form && event.target.type !== "password") trackForm(form); });
 rememberForms();
 mobileNavigation.addEventListener("change", () => { if (!mobileNavigation.matches) document.body.classList.remove("nav-open"); syncNavigation(); });
@@ -245,7 +353,7 @@ $("analysis-form").addEventListener("submit", event => { event.preventDefault();
   const form = new FormData(event.target); const value = name => String(form.get(name) || "").trim();
   const context = {}; for (const key of ["organism", "tissue", "data_modality"]) if (value(key)) context[key] = value(key);
   const intake = {question: value("question"), analysis_description: value("analysis_description"), methods: lines(value("methods")), observed_result: value("observed_result"), claim: value("claim"), claim_category: value("claim_category"), computational_support: value("computational_support"), biological_context: context, design: {sampling_unit: value("sampling_unit") || null, data_partition: value("data_partition") || null}, assumptions: lines(value("assumptions"))};
-  const data = await api("/api/analyze", {intake}); resetWorkspace(); accept(data, "Local design controls specified. Biological support and applicability remain unvalidated."); switchView("controls");
+  const data = await api("/api/analyze", {intake}); resetWorkspace(); accept(data, processingText("Local design controls specified. Biological support and applicability remain unvalidated.", "Design controls specified using temporary cloud processing. Biological support and applicability remain unvalidated.")); switchView("controls");
 }); });
 function example(kind) {
   if (state.busy || state.drafts.has("analysis-form") && !window.confirm("Replace the unrecorded analysis fields with this hypothetical example?")) return;
@@ -255,19 +363,19 @@ function example(kind) {
   trackForm($("analysis-form")); switchView("analysis"); message("Loaded a hypothetical example. Review the fields, then create the control audit.");
 }
 $("example-rna").addEventListener("click", () => example("rna")); $("example-ml").addEventListener("click", () => example("ml"));
-async function localText(file) { if (!file || file.size > 2 * 1024 * 1024) throw new Error("Choose a local file no larger than 2 MiB."); try { return new TextDecoder("utf-8", {fatal: true, ignoreBOM: true}).decode(await file.arrayBuffer()); } catch { throw new Error("The selected file must contain valid UTF-8 text. Input values are omitted."); } }
+async function localText(file) { requireProcessing(); if (!file || file.size > 2 * 1024 * 1024) throw new Error("Choose a local file no larger than 2 MiB."); try { return new TextDecoder("utf-8", {fatal: true, ignoreBOM: true}).decode(await file.arrayBuffer()); } catch { throw new Error("The selected file must contain valid UTF-8 text. Input values are omitted."); } }
 async function fileJSON(input) { const file = input.files[0]; if (!file) return null; return (await api("/api/parse-json", {content: await localText(file)})).value; }
-$("project-file").addEventListener("change", () => action(async () => { const project = await fileJSON($("project-file")); if (!project) return; const data = await api("/api/analyze", {project}); if (!confirmReplacement()) { $("project-file").value = ""; message("Kept the current workspace."); return; } resetWorkspace(); accept(data, "Opened and audited a local project. Review its evidence receipts before relying on them."); switchView("controls"); }));
+$("project-file").addEventListener("change", () => action(async () => { const project = await fileJSON($("project-file")); if (!project) return; const data = await api("/api/analyze", {project}); if (!confirmReplacement()) { $("project-file").value = ""; message("Kept the current workspace."); return; } resetWorkspace(); accept(data, processingText("Opened and audited a local project. Review its evidence receipts before relying on them.", "Opened and audited the submitted project. Review its evidence receipts before relying on them.")); switchView("controls"); }));
 $("export-project").addEventListener("click", () => { if (state.project) download(JSON.stringify(state.project, null, 2), "project.controlomics.json"); });
 $("export-audit").addEventListener("click", () => download(JSON.stringify(state.audit, null, 2), "network_audit.json"));
-$("export-report").addEventListener("click", () => action(async () => { const report = await api("/api/report", {project: requireProject(), network_audit: state.audit}, true); download(report, "controlomics.report.html"); message("Downloaded the local report. Review it before sharing."); }));
+$("export-report").addEventListener("click", () => action(async () => { const report = await api("/api/report", {project: requireProject(), network_audit: state.audit}, true); download(report, "controlomics.report.html"); message(processingText("Downloaded the local report. Review it before sharing.", "Downloaded the scientific report. Review it before sharing.")); }));
 $("export-bundle").addEventListener("click", () => action(async () => { const revision = state.revision; const archive = await api("/api/review-bundle", {project: requireProject(), network_audit: state.audit, evaluation_bundle: state.evaluationBundle, annotation_revisions: state.revisions}, true); download(archive, "controlomics.review.zip"); state.preparedRevision = revision; renderSaveState(); message("Prepared a review bundle for download. Retain the file before closing. Unrecorded form edits and raw inputs are omitted."); }));
 $("bundle-file").addEventListener("change", () => action(async () => { const file = $("bundle-file").files[0]; if (!file) return; if (file.size > 1024 * 1024) throw new Error("Review archives have a 1 MiB limit."); const bytes = new Uint8Array(await file.arrayBuffer()); let encoded = ""; for (let start = 0; start < bytes.length; start += 16384) encoded += String.fromCharCode(...bytes.subarray(start, start + 16384)); const data = await api("/api/open-bundle", {archive_base64: btoa(encoded)}); const annotations = data.evaluation_bundle ? await api("/api/annotation-template", {bundle: data.evaluation_bundle}) : null; if (!confirmReplacement()) { $("bundle-file").value = ""; message("Kept the current workspace."); return; } resetWorkspace(); state.audit = data.network_audit_restored; state.revisions = data.annotation_revisions; await loadAnnotationBundle(data.evaluation_bundle, false, annotations); accept(data, "Restored validated local records. Hashes and reviewer identities are not authenticated; the ledger may be incomplete."); state.preparedRevision = state.revision; renderSaveState(); switchView("controls"); }));
-async function preview(kind, settings) { requireProject(); const result = await api("/api/" + kind + "/preview", settings); state.pending = {kind, settings, hash: result.approve_hash}; $("request-preview").textContent = JSON.stringify(result, null, 2); $("request-dialog").showModal(); $("cancel-request").focus(); message("No external request has been sent. Review the displayed payload."); }
+async function preview(kind, settings) { requireProject(); const result = await api("/api/" + kind + "/preview", settings); state.pending = {kind, settings, hash: result.approve_hash}; $("request-preview").textContent = JSON.stringify(result, null, 2); $("request-dialog").showModal(); $("cancel-request").focus(); message(processingText("No external request has been sent. Review the displayed payload.", "No provider request has been sent. Review the displayed payload.")); }
 $("literature-form").addEventListener("submit", event => { event.preventDefault(); action(() => preview("literature", {provider: $("literature-provider").value, query: $("literature-query").value.trim(), limit: 5, public_confirmed: $("literature-public").checked})); });
 $("model-form").addEventListener("submit", event => { event.preventDefault(); action(async () => preview("model", {endpoint: $("model-endpoint").value.trim(), model: $("model-id").value.trim(), claim_id: $("model-claim").value, fields: (await api("/api/parse-json", {content: $("model-context").value})).value, public_confirmed: $("model-public").checked})); });
-$("cancel-request").addEventListener("click", () => { $("request-dialog").close(); state.pending = null; $("model-key").value = ""; message("Request cancelled. No external request was sent."); });
-$("request-dialog").addEventListener("cancel", () => { state.pending = null; $("model-key").value = ""; message("Request cancelled. No external request was sent."); });
+$("cancel-request").addEventListener("click", () => { $("request-dialog").close(); state.pending = null; $("model-key").value = ""; message(processingText("Request cancelled. No external request was sent.", "Provider request cancelled. No provider request was sent.")); });
+$("request-dialog").addEventListener("cancel", () => { state.pending = null; $("model-key").value = ""; message(processingText("Request cancelled. No external request was sent.", "Provider request cancelled. No provider request was sent.")); });
 $("approve-request").addEventListener("click", () => action(async () => { const pending = state.pending; if (!pending) return; $("request-dialog").close(); const body = {...pending.settings, project: requireProject(), approve_hash: pending.hash}; if (pending.kind === "model") { body.api_key = $("model-key").value; $("model-key").value = ""; } state.pending = null; const data = await api("/api/" + pending.kind + (pending.kind === "model" ? "/run" : "/retrieve"), body); accept(data, pending.kind === "model" ? "Received unverified model candidates. External evidence review is required." : "Retrieved publication identities. Statement entailment remains a separate review."); }));
 $("review-file").addEventListener("change", () => action(async () => { const review = await fileJSON($("review-file")); if (!review) return; accept(await api("/api/review", {project: requireProject(), review}), "Recorded researcher review with explicit evidence and context states."); $("review-file").value = ""; }));
 function executionSettings() {
@@ -291,7 +399,7 @@ function updateExecutionAvailability() {
   $("execution-open-paired").disabled = !project;
   $("execution-open-paired").hidden = !paired || available.length > 0;
   const reviewed = project?.controls.filter(item => (paired ? item.scientific_level === "STATISTICAL" && item.control_class === "NULL" && item.method_basis === pairedBasis : item.scientific_level === "TECHNICAL" && ["POSITIVE", "NEGATIVE"].includes(item.control_class)) && ["METHOD_BASED", "EVIDENCE_BACKED"].includes(item.evidence_status)) || [];
-  $("execution-availability").textContent = !project ? "Create or open a project to select an executable specification. Local CSV inspection remains available." : !available.length ? reviewed.length ? "All compatible reviewed controls in this snapshot already have execution plans. Import their results or retain a separate original snapshot for another run." : paired ? "No reviewed complete-pair specification is available. State its claim, applicability, and assumptions in the paired specification form; other controls require their own adapters." : "No reviewed independent-group technical reference is available. Inspect the controls and method review. Biological, design, and other statistical specifications require applicable adapters." : !selected ? "Select a reviewed control explicitly. " + available.length + " compatible specification" + (available.length === 1 ? " is" : "s are") + " available. Existing procedure inputs are retained; check them for your selected control." : $("numeric-file").files.length ? "The selected control can be run locally or exported as a package. Review the input, expected behavior, and assumptions before execution." : "The selected control can be exported as a package. Choose a local CSV to inspect or run it on this computer.";
+  $("execution-availability").textContent = !project ? processingText("Create or open a project to select an executable specification. Local CSV inspection remains available.", "Create or open a project to select an executable specification. CSV inspection uses temporary cloud processing.") : !available.length ? reviewed.length ? "All compatible reviewed controls in this snapshot already have execution plans. Import their results or retain a separate original snapshot for another run." : paired ? "No reviewed complete-pair specification is available. State its claim, applicability, and assumptions in the paired specification form; other controls require their own adapters." : "No reviewed independent-group technical reference is available. Inspect the controls and method review. Biological, design, and other statistical specifications require applicable adapters." : !selected ? "Select a reviewed control explicitly. " + available.length + " compatible specification" + (available.length === 1 ? " is" : "s are") + " available. Existing procedure inputs are retained; check them for your selected control." : $("numeric-file").files.length ? processingText("The selected control can be run locally or exported as a package. Review the input, expected behavior, and assumptions before execution.", "The selected control can run with temporary cloud processing or be exported as a package. Review the input, expected behavior, and assumptions before execution.") : processingText("The selected control can be exported as a package. Choose a local CSV to inspect or run it on this computer.", "The selected control can be exported as a package. Selecting Inspect or Run sends the chosen CSV to this cloud service.");
 }
 $("execution-control").addEventListener("change", updateExecutionAvailability);
 $("execution-open-controls").addEventListener("click", () => { switchView("controls"); focusDestination($("view-controls")); });
@@ -314,21 +422,21 @@ $("execution-kind").addEventListener("change", syncExecutionFields);
 $("inspect-input").addEventListener("click", () => action(async () => {
   const data = await api("/api/inspect-input", {adapter: $("execution-adapter").value, csv: await localText($("numeric-file").files[0])});
   state.inputSummary = data.input_summary; const summary = state.inputSummary, panel = $("input-summary");
-  panel.replaceChildren(node("h3", "Local input inspection"));
+  panel.replaceChildren(node("h3", processingText("Local input inspection", "Cloud input inspection")));
   const dimensions = node("div", undefined, "input-dimensions"); dimensions.append(field("Data rows", String(summary.rows)));
   if (summary.complete_pairs !== null) dimensions.append(field("Complete pairs", String(summary.complete_pairs)));
   else dimensions.append(field("Group 0 units", String(summary.group_zero_units)), field("Group 1 units", String(summary.group_one_units)));
   dimensions.append(field("Input bytes", String(summary.input_bytes))); panel.append(dimensions, field("Exact input SHA-256", summary.input_sha256), node("p", "Columns and finite values checked. No control has been executed. Sampling assumptions still require justification.", "muted"));
-  panel.hidden = false; $("export-input-summary").disabled = false; message("Inspected the selected local CSV. The summary omits raw values and identifiers.");
+  panel.hidden = false; $("export-input-summary").disabled = false; message(processingText("Inspected the selected local CSV. The summary omits raw values and identifiers.", "Inspected the selected CSV using temporary cloud processing. The summary omits raw values and identifiers."));
 }));
 $("export-input-summary").addEventListener("click", () => { if (state.inputSummary) download(JSON.stringify(state.inputSummary, null, 2), "controlomics.input-summary.json"); });
 syncExecutionFields();
-$("execution-form").addEventListener("submit", event => { event.preventDefault(); action(async () => { const settings = executionSettings(); settings.csv = await localText($("numeric-file").files[0]); accept(await api("/api/execute", settings), "Recorded the local control result and conservative scientific audit."); clearDraft("execution-form"); switchView("audit"); }); });
+$("execution-form").addEventListener("submit", event => { event.preventDefault(); action(async () => { const settings = executionSettings(); settings.csv = await localText($("numeric-file").files[0]); accept(await api("/api/execute", settings), processingText("Recorded the local control result and conservative scientific audit.", "Recorded the cloud-computed control result and conservative scientific audit.")); clearDraft("execution-form"); switchView("audit"); }); });
 $("download-package").addEventListener("click", () => action(async () => { const data = await api("/api/package", executionSettings()); const bytes = Uint8Array.from(atob(data.package_base64), character => character.charCodeAt(0)); download(new Blob([bytes], {type: "application/zip"}), data.filename); accept(data, "Downloaded a reproducible execution package. The saved package includes its planned project snapshot."); }));
 $("result-file").addEventListener("change", () => action(async () => { const result = await fileJSON($("result-file")); if (!result) return; accept(await api("/api/import-results", {project: requireProject(), result}), "Imported and checked the result against its execution plan."); $("result-file").value = ""; }));
 const categories = ["DESCRIPTIVE", "ASSOCIATIONAL", "COMPARATIVE", "PREDICTIVE", "STATISTICAL", "FUNCTIONAL", "MECHANISTIC", "CAUSAL"];
 for (const id of ["new-claim-category", "new-claim-support"]) options($(id), [["", "Choose a category"], ...categories.map(category => [category, category])]);
-$("narrative-form").addEventListener("submit", event => { event.preventDefault(); action(async () => { const data = await api("/api/interpret", {description: $("narrative-description").value}); state.narrative = data.draft; $("narrative-preview").textContent = JSON.stringify(data.draft, null, 2); $("narrative-result").hidden = false; message("Drafted local fields. Review them and explicitly choose the claim and support categories."); }); });
+$("narrative-form").addEventListener("submit", event => { event.preventDefault(); action(async () => { const data = await api("/api/interpret", {description: $("narrative-description").value}); state.narrative = data.draft; $("narrative-preview").textContent = JSON.stringify(data.draft, null, 2); $("narrative-result").hidden = false; message(processingText("Drafted local fields. Review them and explicitly choose the claim and support categories.", "Drafted fields using temporary cloud processing. Review them and explicitly choose the claim and support categories.")); }); });
 $("use-narrative").addEventListener("click", () => { if (state.busy || !state.narrative || state.drafts.has("analysis-form") && !window.confirm("Apply this description draft over the unrecorded analysis fields?")) return; const form = $("analysis-form"); for (const [name, value] of Object.entries(state.narrative.fields)) { const element = form.elements.namedItem(name); if (element) element.value = value; } for (const name of ["claim_category", "computational_support"]) if (!state.narrative.fields[name]) form.elements.namedItem(name).value = ""; trackForm(form); message("Applied provisional fields. Complete missing values and review every field before creating a project."); });
 $("claim-form").addEventListener("submit", event => { event.preventDefault(); action(async () => { const form = new FormData(event.target); const claim = {statement: form.get("statement"), category: form.get("category"), computational_support: form.get("computational_support"), assumptions: lines(String(form.get("assumptions") || ""))}; accept(await api("/api/add-claim", {project: requireProject(), claim}), "Added an explicit claim with its own design controls."); event.target.reset(); clearDraft("claim-form"); switchView("controls"); }); });
 function editCandidate(control = null) {
@@ -353,7 +461,7 @@ async function openReview(controlId) {
     function input(label, suffix, type = "textarea") { const wrapper = node("label", label); const element = node(type); element.id = "statement-" + index + "-" + suffix; element.required = true; if (type === "textarea") element.rows = 3; wrapper.append(element); panel.append(wrapper); return element; }
     options(input("Publication identity", "evidence", "select"), sourceOptions);
     options(input("Relationship", "relationship", "select"), [["UNCERTAIN", "UNCERTAIN"], ["SUPPORTS", "SUPPORTS"], ["CONTRADICTS", "CONTRADICTS"]]);
-    input("Locally supplied source text", "source"); const excerpt = input("Excerpt present in that text, at most 300 characters", "excerpt"); excerpt.maxLength = 300;
+    input(processingText("Locally supplied source text", "Source text for temporary cloud processing"), "source"); const excerpt = input("Excerpt present in that text, at most 300 characters", "excerpt"); excerpt.maxLength = 300;
     input("Source locator", "locator", "input"); input("Scientific explanation of the relationship", "rationale"); const context = input("Context established by the source, as JSON", "context"); context.value = "{}";
     $("statement-reviews").append(panel);
   }
@@ -377,7 +485,7 @@ $("evaluation-form").addEventListener("submit", event => { event.preventDefault(
   const panel = node("div", undefined, "panel metric-panel"), table = node("table"), head = node("thead"), header = node("tr"); for (const label of ["Metric", "Result", "Denominator", "Definition"]) header.append(node("th", label)); head.append(header); table.append(head);
   const body = node("tbody"); for (const [name, metric] of Object.entries(report.metrics)) { const row = node("tr"); row.append(node("td", name.replaceAll("_", " ")), node("td", metric.value === null ? "Unavailable" : String(Number(metric.value.toFixed(4)))), node("td", String(metric.denominator)), node("td", metric.definition)); [...row.children].forEach((cell, index) => { cell.dataset.label = ["Metric", "Result", "Denominator", "Definition"][index]; }); body.append(row); } table.append(body); panel.append(table); container.append(panel);
   const limits = node("article", undefined, "panel"); limits.append(field("Limitations", report.limitations.join(" ")), field("Interval interpretation", "The exported JSON includes descriptive Wilson intervals. Correlated cases and controls require a separate inferential design.")); container.append(limits);
-  $("export-evaluation").disabled = false; clearDraft("evaluation-form"); message("Calculated local metrics with explicit denominators. Unassessed scientific quality remains unavailable.");
+  $("export-evaluation").disabled = false; clearDraft("evaluation-form"); message(processingText("Calculated local metrics with explicit denominators. Unassessed scientific quality remains unavailable.", "Calculated supplied metrics using temporary cloud processing with explicit denominators. Unassessed scientific quality remains unavailable."));
 }); });
 $("export-evaluation").addEventListener("click", () => { if (state.evaluation) download(JSON.stringify(state.evaluation, null, 2), "controlomics.evaluation.json"); });
 function invalidateEvaluation(notice = "The evaluation input changed. Calculate this recorded snapshot to see its metrics.") { state.evaluation = null; $("evaluation-result").replaceChildren(empty(notice)); $("export-evaluation").disabled = true; }
@@ -444,10 +552,25 @@ $("annotation-form").addEventListener("submit", event => { event.preventDefault(
 $("export-evaluation-bundle").addEventListener("click", () => { if (state.evaluationBundle) download(JSON.stringify(state.evaluationBundle, null, 2), "controlomics.annotations.json"); });
 $("export-revisions").addEventListener("click", () => download(JSON.stringify(state.revisions, null, 2), "controlomics.annotation_revisions.json"));
 window.addEventListener("beforeunload", event => { if (hasUnsavedWork()) { event.preventDefault(); event.returnValue = ""; } });
+$("review-hosting-consent").addEventListener("click", showHostingConsent);
+$("export-hosting-receipts").addEventListener("click", () => { if (state.hostingReceipts.length) download(JSON.stringify(state.hostingReceipts, null, 2), "controlomics.hosting-processing.json"); });
+$("hosting-attestation").addEventListener("change", () => { $("hosting-accept").disabled = state.consentSubmitting || !$("hosting-attestation").checked; });
+$("hosting-accept").addEventListener("click", agreeHostingProcessing);
+$("hosting-decline").addEventListener("click", declineHostingProcessing);
+$("hosting-consent-dialog").addEventListener("cancel", event => { event.preventDefault(); declineHostingProcessing(); });
+$("hosting-consent-dialog").addEventListener("keydown", event => {
+  if (event.key !== "Tab") return;
+  const available = [...$("hosting-consent-dialog").querySelectorAll("button:not(:disabled), input:not(:disabled)")].filter(element => element.checkVisibility());
+  if (!available.length) { event.preventDefault(); $("hosting-consent-dialog").focus({preventScroll: true}); return; }
+  const first = available[0], last = available.at(-1);
+  if (event.shiftKey && document.activeElement === first || !event.shiftKey && document.activeElement === last) { event.preventDefault(); (event.shiftKey ? last : first).focus({preventScroll: true}); }
+});
 refreshSession().then(() => {
   render();
+  if (hostedProcessing() && !state.hostingConsent) showHostingConsent();
+  else message(processingText("Start with an analysis description or open a saved local project.", "Cloud processing is enabled for this browser session. Open a project or describe an analysis; retain your exports."));
   if (location.hash === "#demo=transcriptomics" || location.hash === "#demo=microscopy") {
     example(location.hash.endsWith("microscopy") ? "ml" : "rna");
-    $("analysis-form").requestSubmit();
+    if (!hostedProcessing()) $("analysis-form").requestSubmit();
   }
-}).catch(() => message("Local session could not be initialized. Keep any existing workspace open and retain exports before reloading.", true));
+}).catch(error => message(error.message || "Workspace session could not be initialized. Keep any existing workspace open and retain exports before reloading.", true));

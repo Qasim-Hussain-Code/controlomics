@@ -30,6 +30,9 @@ def main():
         names = archive.namelist()
         if len(names) != len(set(names)):
             findings.append({'artifact': 'wheel', 'rule': 'duplicate_members'})
+        for name in ('controlomics/hosted.py', 'controlomics/hosted_worker.py', 'controlomics/hosting_privacy.py'):
+            if name not in names:
+                findings.append({'artifact': 'wheel', 'path': name, 'rule': 'required_source_missing'})
         for name in names:
             if path_problem(name):
                 findings.append({'artifact': 'wheel', 'path': name, 'rule': 'excluded_path'})
@@ -61,6 +64,9 @@ def main():
                     'scripts/scientific_reference.py', 'scripts/run_numerical_validation.py',
                     'docs/validation/numerical_protocol.json', 'requirements-validation.lock',
                     'tests/privacy/test_local_boundary.py', 'schemas/0.1.0/ControlomicsProject.schema.json'}
+        required.update({'render.yaml', 'gunicorn.conf.py', '.python-version', 'requirements-cloud.lock',
+                         'src/controlomics/hosted.py', 'src/controlomics/hosted_worker.py',
+                         'src/controlomics/hosting_privacy.py', 'scripts/check_hosted_transport.py'})
         present = {'/'.join(name.split('/')[1:]) for name in names}
         for name in sorted(required-present):
             findings.append({'artifact': 'sdist', 'path': name, 'rule': 'required_source_missing'})

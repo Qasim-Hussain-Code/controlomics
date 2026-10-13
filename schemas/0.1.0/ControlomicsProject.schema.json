@@ -1689,6 +1689,83 @@
       "title": "ExecutionPlan",
       "type": "object"
     },
+    "HostedProcessingReceipt": {
+      "additionalProperties": false,
+      "description": "Historical consent attestation, never an active server authorization.",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0",
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "processor_origin": {
+          "maxLength": 253,
+          "minLength": 9,
+          "title": "Processor Origin",
+          "type": "string"
+        },
+        "policy_revision": {
+          "const": "hosted-temporary-1",
+          "default": "hosted-temporary-1",
+          "title": "Policy Revision",
+          "type": "string"
+        },
+        "granted_at": {
+          "format": "date-time",
+          "title": "Granted At",
+          "type": "string"
+        },
+        "session_binding_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Session Binding Sha256",
+          "type": "string"
+        },
+        "authorization_kind": {
+          "const": "EXPLICIT_SESSION_CONSENT",
+          "default": "EXPLICIT_SESSION_CONSENT",
+          "title": "Authorization Kind",
+          "type": "string"
+        },
+        "processing_scope": {
+          "const": "PROJECT_SOURCE_NUMERIC_EVALUATION",
+          "default": "PROJECT_SOURCE_NUMERIC_EVALUATION",
+          "title": "Processing Scope",
+          "type": "string"
+        },
+        "local_baseline_exception": {
+          "const": "TEMPORARY_FIRST_PARTY_PROCESSING",
+          "default": "TEMPORARY_FIRST_PARTY_PROCESSING",
+          "title": "Local Baseline Exception",
+          "type": "string"
+        },
+        "retention": {
+          "const": "REQUEST_MEMORY_AND_OWNED_EXECUTION_TEMPORARIES",
+          "default": "REQUEST_MEMORY_AND_OWNED_EXECUTION_TEMPORARIES",
+          "title": "Retention",
+          "type": "string"
+        },
+        "project_persistence_allowed": {
+          "const": false,
+          "default": false,
+          "title": "Project Persistence Allowed",
+          "type": "boolean"
+        },
+        "provider_project_forwarding_allowed": {
+          "const": false,
+          "default": false,
+          "title": "Provider Project Forwarding Allowed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "processor_origin",
+        "granted_at",
+        "session_binding_sha256"
+      ],
+      "title": "HostedProcessingReceipt",
+      "type": "object"
+    },
     "InputHash": {
       "additionalProperties": false,
       "properties": {
@@ -1916,6 +1993,7 @@
     },
     "PrivacyPolicy": {
       "additionalProperties": false,
+      "description": "Default locality and persistence policy, with recorded first-party exceptions.",
       "properties": {
         "schema_version": {
           "const": "0.1.0",
@@ -1942,6 +2020,7 @@
         "storage": {
           "const": "LOCAL_ONLY",
           "default": "LOCAL_ONLY",
+          "description": "Persistent project exports remain with the researcher. Scoped temporary first-party processing is recorded separately.",
           "title": "Storage",
           "type": "string"
         },
@@ -1951,6 +2030,16 @@
           "pattern": "\\S",
           "title": "Rationale",
           "type": "string"
+        },
+        "hosted_processing_receipts": {
+          "default": [],
+          "description": "Unauthenticated historical attestations of scoped temporary first-party processing; imported receipts never authorize an active session.",
+          "items": {
+            "$ref": "#/$defs/HostedProcessingReceipt"
+          },
+          "maxItems": 128,
+          "title": "Hosted Processing Receipts",
+          "type": "array"
         }
       },
       "required": [
@@ -1961,6 +2050,7 @@
     },
     "PrivacyRequirements": {
       "additionalProperties": false,
+      "description": "Local baseline preserved in reviewed snapshots; scoped hosting is recorded separately.",
       "properties": {
         "schema_version": {
           "const": "0.1.0",

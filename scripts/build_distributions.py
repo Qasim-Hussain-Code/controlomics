@@ -1,5 +1,6 @@
 """Build local distributions using the already installed, pinned setuptools."""
 
+import argparse
 import subprocess
 import sys
 import tarfile
@@ -16,6 +17,10 @@ from controlomics.storage import write_bytes_atomic
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output-dir', type=Path, default=ROOT/'dist',
+                        help='Directory for new local distribution candidates.')
+    args = parser.parse_args()
     # Build from a reviewed public inventory, never from this machine's private
     # working directory or stale egg-info manifest.
     revision = subprocess.run(['git', '-c', f'safe.directory={ROOT.as_posix()}', 'rev-parse', 'HEAD'],
@@ -45,8 +50,8 @@ def main():
         result = subprocess.run([sys.executable, '-c', script], cwd=public, capture_output=True, text=True, timeout=300)
         if result.returncode:
             raise RuntimeError('distribution build failed; no package was published')
-        output = ROOT/'dist'
-        output.mkdir(exist_ok=True)
+        output = args.output_dir.resolve()
+        output.mkdir(parents=True, exist_ok=True)
         for package in (public/'dist').iterdir():
             if package.suffix == '.whl':
                 with zipfile.ZipFile(package) as archive:

@@ -1,0 +1,4 @@
+# Optional Linux cloud server; no model, database, or storage dependency.
+# Existing package/build pins are shared with the local release environment.
+-r requirements-dev.lock
+gunicorn==26.2.0
