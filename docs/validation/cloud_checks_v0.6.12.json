@@ -170,7 +170,16 @@
       "cause": "Build-helper argument parsing inherited unittest discovery arguments on a direct Python call. All jobs retained one test error.",
       "fix": "Programmatic main defaults to an empty argument sequence; only the script entry point reads sys.argv. Original privacy assertion is unchanged."
     },
-    "fixed_source_run": "NOT_YET_RUN"
+    "fixed_source_run": {
+      "id": 38481736299,
+      "source_revision": "ca73da8a9ae38cf3acfdac7c7bf1d5d67d806c1b",
+      "url": "https://github.com/Qasim-Hussain-Code/controlomics/actions/runs/38481736299",
+      "status": "PASS",
+      "jobs": 9,
+      "platforms": "Windows and Linux Python 3.11-3.14; macOS Python 3.14",
+      "mandatory_steps_verified": true,
+      "linux_production_transport_step": "PASS"
+    }
   },
   "deployment": "NOT_CREATED",
   "limitations": [
@@ -178,5 +187,6 @@
     "Browser fixtures use owned localhost TLS and deliberately map their asserted authority to the canonical test origin; they do not verify Render ingress.",
     "Temporary file cleanup is attempted; crash cleanup and secure erasure are not guaranteed.",
     "Imported processing attestations and reviewer identities are unauthenticated."
-  ]
+  ],
+  "documentation_update_scope": "This finalized record adds hosted outcomes; runtime sources remain those independently hashed and tested above."
 }
