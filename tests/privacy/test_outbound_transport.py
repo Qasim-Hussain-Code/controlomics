@@ -1,5 +1,6 @@
 import json
 import socket
+import ssl
 import unittest
 from unittest.mock import MagicMock, patch
 
@@ -36,8 +37,10 @@ class TransportTests(unittest.TestCase):
         connection.getresponse.return_value.status = 200
         connection.getresponse.return_value.read.return_value = json.dumps(response).encode()
         addresses = [(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("93.184.216.34", 443))]
+        context = MagicMock(spec=ssl.SSLContext)
+        context.minimum_version = ssl.TLSVersion.TLSv1_2
         with patch("socket.getaddrinfo", return_value=addresses), patch("socket.create_connection"), \
-             patch("ssl.create_default_context"), patch("http.client.HTTPSConnection", return_value=connection):
+             patch("ssl.create_default_context", return_value=context), patch("http.client.HTTPSConnection", return_value=connection):
             proposal = provider.complete(request, request.approval_hash)
         self.assertEqual(len(proposal.controls), 2)
         headers = connection.request.call_args.kwargs["headers"]

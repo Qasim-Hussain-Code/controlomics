@@ -2,6 +2,7 @@ import contextlib
 import io
 import json
 import socket
+import ssl
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -23,7 +24,9 @@ class InterruptedTransportTests(unittest.TestCase):
         addresses = [(socket.AF_INET, socket.SOCK_STREAM, 6, '', ('93.184.216.34', 443))]
         resolve = stack.enter_context(patch('socket.getaddrinfo', return_value=addresses))
         stack.enter_context(patch('socket.create_connection'))
-        stack.enter_context(patch('ssl.create_default_context'))
+        context = MagicMock(spec=ssl.SSLContext)
+        context.minimum_version = ssl.TLSVersion.TLSv1_2
+        stack.enter_context(patch('ssl.create_default_context', return_value=context))
         stack.enter_context(patch('http.client.HTTPSConnection', return_value=connection))
         target = {'dns': resolve, 'request': connection.request,
                   'response': connection.getresponse, 'read': connection.getresponse.return_value.read,

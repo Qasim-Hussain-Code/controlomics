@@ -3,17 +3,17 @@
   "scope": "Developer technical verification using synthetic inputs and mocked/refused research providers. These checks do not extend the separate 0.6.11 audit verdict.",
   "prepared_source_checks": "PASS",
   "software": {
-    "recorded_at": "2026-10-13T22:42:03.950315+00:00",
+    "recorded_at": "2026-10-13T23:23:36.945639+00:00",
     "controlomics_version": "0.6.12.dev0",
     "python": "3.14.0",
     "operating_system": "Windows",
     "pydantic": "2.12.4",
     "setuptools": "83.0.0",
-    "tests": 292,
+    "tests": 295,
     "failures": 0,
     "errors": 0,
     "skips": 0,
-    "seconds": 15.119,
+    "seconds": 13.622,
     "status": "PASS",
     "scope": "Software behavior using synthetic fixtures and mocked provider transports; no independent scientific validation."
   },
@@ -179,6 +179,14 @@
       "platforms": "Windows and Linux Python 3.11-3.14; macOS Python 3.14",
       "mandatory_steps_verified": true,
       "linux_production_transport_step": "PASS"
+    },
+    "documentation_run": {
+      "id": 38482507059,
+      "source_revision": "cdd5332e57c36471e3cafec4208dab69a58d8b82",
+      "url": "https://github.com/Qasim-Hussain-Code/controlomics/actions/runs/38482507059",
+      "status": "PASS",
+      "jobs": 9,
+      "scope": "Finalized documentation with unchanged runtime sources, before the owner-requested status-label change."
     }
   },
   "deployment": "NOT_CREATED",
@@ -188,5 +196,57 @@
     "Temporary file cleanup is attempted; crash cleanup and secure erasure are not guaranteed.",
     "Imported processing attestations and reviewer identities are unauthenticated."
   ],
-  "documentation_update_scope": "This finalized record adds hosted outcomes; runtime sources remain those independently hashed and tested above."
+  "documentation_update_scope": "Original transport and browser observations retain their source identities. Subsequent text labels and explicit TLS floor have separate source hashes and checks; the current software result includes these changes.",
+  "interface_copy_update": {
+    "status": "PASS",
+    "scope": "Text-only owner-requested status labels; all markup tags and attributes match the previously checked interface. No browser observation is regraded.",
+    "prior_asset_sha256": "7ac5c30062485d725487536bffb6a7431ecb9063a3c1033084fa5b7d2aa242ac",
+    "updated_asset_sha256": "3322bf1b71820cbac6c83c57b49a88c9cf64029541b4aebdd0bc1ffcecfcc39e",
+    "footer": [
+      "Controlomics",
+      "Prototype"
+    ],
+    "structure_unchanged": true,
+    "old_status_labels_absent": true
+  },
+  "original_software_before_tls_floor": {
+    "recorded_at": "2026-10-13T22:42:03.950315+00:00",
+    "controlomics_version": "0.6.12.dev0",
+    "python": "3.14.0",
+    "operating_system": "Windows",
+    "pydantic": "2.12.4",
+    "setuptools": "83.0.0",
+    "tests": 292,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "seconds": 15.119,
+    "status": "PASS",
+    "scope": "Software behavior using synthetic fixtures and mocked provider transports; no independent scientific validation."
+  },
+  "post_check_tls_floor": {
+    "source_sha256": "3607982ed1533a95557415ed43162b1004a340ba7e53c5099e6fe505be07d363",
+    "test_sha256": "a8c8d9f01c0c2d72b3b79f2ebcb1f4349529f6073217cadb6286cfd466c61432",
+    "added_tests": 3,
+    "scope": "Explicit TLS1.2 floor with preservation of stricter defaults, certificate verification, original-hostname SNI and approval-before-network. Provider transport mocked; no live request."
+  },
+  "codeql_initial_analysis": {
+    "source_revision": "cdd5332e57c36471e3cafec4208dab69a58d8b82",
+    "run_id": 38483225339,
+    "execution": "PASS",
+    "languages": [
+      "python",
+      "javascript-typescript",
+      "actions"
+    ],
+    "reported_alerts": 15,
+    "triage": {
+      "confirmed_vulnerabilities": 0,
+      "false_positives_for_current_boundaries": 15,
+      "javascript_literal_probes": 64,
+      "unchanged_shutdown_tests": 13,
+      "scope": "14 optional local QA path or literal-construction findings and one TLS-default finding for supported CPython3.11+. No blanket suppression; subsequent scans and GitHub alert states remain separate."
+    }
+  },
+  "source_hash_scope": "The source_sha256 map retains original checked source identities. interface_copy_update and post_check_tls_floor bind the subsequent changes separately."
 }

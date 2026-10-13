@@ -178,7 +178,11 @@ class SafeTransport:
             address = addresses[0][4][0]
             connection = http.client.HTTPSConnection(host, timeout=20)
             try:
-                connection.sock = ssl.create_default_context().wrap_socket(
+                context = ssl.create_default_context()
+                # Keep certificate/hostname defaults and any stricter protocol floor.
+                if context.minimum_version < ssl.TLSVersion.TLSv1_2:
+                    context.minimum_version = ssl.TLSVersion.TLSv1_2
+                connection.sock = context.wrap_socket(
                     socket.create_connection((address, 443), timeout=20), server_hostname=host)
                 parts = urlsplit(prepared.url)
                 path = parts.path + ("?" + parts.query if parts.query else "")

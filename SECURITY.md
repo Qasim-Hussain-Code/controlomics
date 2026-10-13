@@ -30,7 +30,7 @@ Malformed request-line errors use an HTTP status line and the same security head
 
 ## External transport
 
-HTTPS URLs cannot include credentials, fragments, or nonstandard ports. Provider preparation binds selected public fields to URLs or messages, and exact approval is checked before connection. DNS addresses must be globally routable; TLS uses a checked address and the original hostname. Redirects are rejected. Responses are bounded to 2 MiB with socket timeouts. Errors omit private input and response content.
+HTTPS URLs cannot include credentials, fragments, or nonstandard ports. Provider preparation binds selected public fields to URLs or messages, and exact approval is checked before connection. DNS addresses must be globally routable; TLS uses a checked address, the original hostname, certificate verification, and a minimum of TLS 1.2 while retaining stricter defaults. Redirects are rejected. Responses are bounded to 2 MiB with socket timeouts. Errors omit private input and response content.
 
 Model policy and context remain separate. Strict proposals cannot supply citations, verification, or executable fields. These gates reduce malformed-output and injection consequences; they do not establish correct or harmless model reasoning. Hosted models remain unevaluated.
 
