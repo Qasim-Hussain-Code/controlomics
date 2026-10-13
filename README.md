@@ -18,15 +18,15 @@ The interface uses six sections with a Cinnabar navigation rail, warm ivory labe
 
 Execution requires an explicit reviewed-control selection and explains missing prerequisites. Procedure inputs remain available while changing the control or refreshing the same project snapshot, so review them before another action. Editor, source-review, and judgment workbench actions focus their destination. The named external-request dialog initially focuses Cancel. The header retains a visible export-state label at narrow widths alongside the save-state live announcement.
 
-Version 0.6.11.dev0 follows up the recorded prototype audit. Outbound requests interrupted after transmission starts retain a FAILED ledger event and its transmission phase, so the record remains usable in reports and review bundles. Screening now recognizes uppercase protein-like runs containing U or X and matches identifier and named-credential labels without regard to case. Screening remains a limited pattern check.
+A separate AI-assisted prototype audit reported PASS for version `0.6.11.dev0` at revision `ae6dd2d`. It exercised technical contracts, numerical calculations, synthetic reasoning, privacy boundaries, packaging, and the interface on Windows 11 with Python 3.14, Chrome 154, and Edge 155. All required groups in its predefined scope were completed; no confirmed current defect was found. The [sanitized audit summary](docs/validation/prototype_audit_v0.6.11.json) records the exact snapshot, scope, evidence hashes, and limitations.
 
-Malformed HTTP replies retain status lines and security headers, and explicit HTTP/0.9 requests are rejected. Design-rule documentation now explains when category-derived cues suppress the operation-unrecognized question. Methods documentation specifies the actual chat-completion JSON contract rather than implying native Messages API compatibility. Completed functional browser observations are saved before shutdown verification; a failed or timed-out shutdown preserves those observations with a separate shutdown status.
-
-Prototype validation concerns implemented technical and synthetic workflows. These checks do not establish biological efficacy, empirical control suitability, or cross-domain generalization. See [VALIDATION.md](VALIDATION.md) for exact current evidence, source and artifact bindings, retained failures, and historical observations. Earlier records retain their original scope. No artifact has been published.
+This verdict applies to the audited snapshot and its retained artifacts. Later publication documentation and CI configuration changes are outside that snapshot. The checks do not establish biological efficacy, empirical control suitability, or cross-domain generalization. See [VALIDATION.md](VALIDATION.md) for the numerical undercoverage, retained earlier failures, and exact observations. No artifact has been published.
 
 ![Controlomics local workspace with no project open](docs/validation/ui_audit_remediation_workspace.png)
 
 The default reasoner adds operation-specific null, specificity, robustness, confounder, and falsification specifications when stated design cues apply. These are provisional review questions, with inspectable triggers and limitations. The original two-reference baseline remains available. Both abstain from choosing biological entities without reviewed evidence. METHOD_BASED is specification review, not empirical validation. Automatic method review applies only to newly created built-in local proposals. Existing hosted and researcher-drafted candidates require explicit review; loading, adding claims, and repeated analysis preserve their unreviewed state. Hosted candidates cannot supply citations or promote their evidence status.
+
+The scientific workspace runs locally even when the software is distributed publicly. See [hosting and distribution](docs/HOSTING.md) for the roles of the source repository, downloads, documentation, and local execution.
 
 ## Start locally
 
@@ -58,7 +58,7 @@ Execution offers an explicit local CSV inspection before computation. It checks 
 
 Review [the design rules](docs/DESIGN_RULES.md) and [evaluation protocol](docs/EVALUATION.md). Included benchmark judgment sheets are UNASSESSED; they deliberately yield no scientific recommendation-quality score. Development expectations and source motivation are distinct from independent expert annotations.
 
-For development, install the package in editable mode and run the checks below. Use `.venv/bin/python` instead of the Windows executable path on Linux or macOS. Recorded local checks use CPython 3.14.0 on Windows; the configured GitHub matrix covers Python 3.11 to 3.14 on Windows and Linux, plus 3.14 on macOS. Those hosted jobs have not run before repository publication.
+For development, install the package in editable mode and run the checks below. Use `.venv/bin/python` instead of the Windows executable path on Linux or macOS. Recorded local checks use CPython 3.14.0 on Windows; the configured GitHub matrix covers Python 3.11 to 3.14 on Windows and Linux, plus 3.14 on macOS. Consult the hosted CI results for the source revision and platforms you use; configured jobs alone do not establish a passing result.
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install --no-build-isolation --no-deps -e .
@@ -82,4 +82,4 @@ Software tests, eight retained live identity checks, synthetic numerical observa
 
 ## Citation and license
 
-[The citation note](docs/CITATION.md) identifies the software without personal authorship metadata, a DOI, or a publication claim. The source is available under the owner-selected [MIT License](LICENSE). Its notice identifies the copyright holders collectively without disclosing personal names. Public bibliography and third-party dependencies retain their own attribution and terms. This local preparation does not publish a repository, release, package, or research artifact.
+[The citation note](docs/CITATION.md) identifies the software without personal authorship metadata, a DOI, or a publication claim. The source is available under the owner-selected [MIT License](LICENSE). Its notice identifies the copyright holders collectively without disclosing personal names. Public bibliography and third-party dependencies retain their own attribution and terms.

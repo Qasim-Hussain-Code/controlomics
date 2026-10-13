@@ -1,7 +1,7 @@
 # Software identification
 
-Software: Controlomics. Package: controlomics. Current research version: 0.6.0.dev0.
+Software: Controlomics. Package: controlomics. Current research version: 0.6.11.dev0.
 
-Personal authorship information is withheld. No replacement person or affiliation is asserted. The former citation file was removed rather than leaving an incomplete citation-format record or assigning a fictional author.
+The software is identified without personal authorship metadata. No person or affiliation is asserted as a replacement.
 
-For reproducibility, retain the version, source or artifact SHA-256, scientific protocol, and relevant project and execution records. The source uses the owner-selected [MIT License](../LICENSE). No DOI, publication, or public repository is claimed. A formal public citation remains an owner decision.
+For reproducibility, cite the software name and version together with the release source revision or artifact SHA-256. Retain the scientific protocol and relevant project and execution records. The source uses the owner-selected [MIT License](../LICENSE). No DOI or scientific publication is asserted. A formal citation with personal authorship metadata remains an owner decision.

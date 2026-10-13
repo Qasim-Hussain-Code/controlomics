@@ -14,7 +14,7 @@ The delivered software is an operational local research alpha. Prototype accepta
 | 7 | ControlomicsBench | Dataset contracts, partition checks, offline runner, judgment workbench, snapshot revisions, metrics and agreement; development fixtures remain separately labeled |
 | 8 | Cross-domain evaluation and ablations | Development reference/design comparison, frozen SciPy numerical comparisons and synthetic coverage experiments recorded; scientific performance claims require a separate study |
 | 9 | Web application | Six-section vertical navigation with section-specific entry, scientific overview and record-count cards in Analysis & claims, responsive two-column controls, Cinnabar navigation with warm ivory labels and burnt orange actions, combined claim/class/evidence-state filters, explicit execution selection and availability, record bindings, local input inspection, export status, draft and pending-input protection, source-bound evaluation metrics, session renewal without replay, workbench focus, keyboard navigation, and local hardening; verification records scoped by version; earlier snapshots retained; remote deployment requires separate assessment |
-| 10 | Public release | MIT selected; public source preparation and local checks complete when recorded, owner-enabled GitHub private reporting and hosted CI remain external steps; no remote configured |
+| 10 | Public release | MIT research preview; reviewed source and versioned downloads, private vulnerability reporting, and hosted CI results are recorded through the public repository and release process |
 
 ## Delivered slice
 
@@ -22,13 +22,11 @@ Hypothetical transcriptomics and microscopy examples exercise intake, primary co
 
 Six explicit design scenarios compare the two-reference baseline with operation rules. Their recommendation sheets remain UNASSESSED. Development expected finding codes test software behavior and do not establish scientific generalization. They are neither the domain boundaries of the representation nor an independent benchmark. See [the evaluation protocol](docs/EVALUATION.md).
 
-## Current prototype remediation
+## Current prototype assessment
 
-Version 0.6.11.dev0 follows up the recorded prototype audit. Outbound requests interrupted after transmission starts retain a FAILED ledger event and its transmission phase, so the record remains usable in reports and review bundles. Screening now recognizes uppercase protein-like runs containing U or X and matches identifier and named-credential labels without regard to case. Screening remains a limited pattern check.
+A separate AI-assisted audit reported PASS for `0.6.11.dev0` at revision `ae6dd2d`, with every required group in its predefined technical and synthetic scope completed and no confirmed current defect. The performed scope was Windows 11, Python 3.14, Chrome 154, and Edge 155, with synthetic inputs and mocked or refused provider transports. The [aggregate record](docs/validation/prototype_audit_v0.6.11.json) binds its evidence and audited artifacts; [VALIDATION.md](VALIDATION.md) distinguishes these fresh observations from earlier developer checks.
 
-Malformed HTTP replies retain status lines and security headers, and explicit HTTP/0.9 requests are rejected. Design-rule documentation now explains when category-derived cues suppress the operation-unrecognized question. Methods documentation specifies the actual chat-completion JSON contract rather than implying native Messages API compatibility. Completed functional browser observations are saved before shutdown verification; a failed or timed-out shutdown preserves those observations with a separate shutdown status.
-
-Prototype validation concerns implemented technical and synthetic workflows. These checks do not establish biological efficacy, empirical control suitability, or cross-domain generalization. See [VALIDATION.md](VALIDATION.md) for exact current evidence, source and artifact bindings, retained failures, and historical observations. Earlier records retain their original scope. No artifact has been published.
+Publication documentation and CI configuration added after that snapshot do not extend the audit verdict. Numerical small-sample undercoverage, pattern-screening limits, and the absence of measured empirical scientific performance remain explicit limitations. Earlier failures and source bindings are preserved. Publication preparation and hosted checks have separately recorded scopes.
 
 ## Earlier development slices
 

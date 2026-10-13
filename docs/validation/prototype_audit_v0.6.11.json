@@ -1,0 +1,127 @@
+{
+  "format": "controlomics.prototype_audit_summary.v0.1",
+  "recorded_at": "2026-10-13T08:43:44.829947+00:00",
+  "audit_completed_at": "2026-10-13T08:10:55.955532+00:00",
+  "review_type": "SEPARATE_AI_ASSISTED_TECHNICAL_AUDIT",
+  "audited_snapshot": {
+    "revision": "ae6dd2de43971d533b65f37e33b85ba22ff8d19d",
+    "package_version": "0.6.11.dev0",
+    "tracked_files": 352,
+    "audit_binding_combined_sha256": "50be08c106a9030050844a5a53f9e478ca145a05fa3d46801abf278c2eb9bd6b"
+  },
+  "scoped_verdict": "PASS",
+  "acceptance_rule_sha256": "32a0077b22df71853af8f0763cfdb4a4a9b97b5b0ba7e96e5f6fe2194867f5c9",
+  "required_check_groups_completed": true,
+  "required_groups_unverified": 0,
+  "confirmed_defects": 0,
+  "human_review_performed": false,
+  "scope": {
+    "operating_system": "Windows 11",
+    "python": "3.14.0",
+    "browsers": {
+      "chrome": "154.0.8037.98",
+      "edge": "155.0.4283.45"
+    },
+    "inputs": "SYNTHETIC",
+    "provider_transports": "MOCKED_OR_REFUSED",
+    "live_provider_requests_performed": false,
+    "real_research_data_used": false
+  },
+  "coverage": {
+    "rows": 40,
+    "executed_rows": 39,
+    "static_inspection_rows": 1,
+    "software_tests": 233,
+    "shipped_lifecycle_tests": 13,
+    "independent_lifecycle_tests": 15,
+    "independent_browser_checks_per_browser": 135,
+    "browser_functional_completion": {
+      "chrome": "COMPLETE",
+      "edge": "COMPLETE"
+    },
+    "browser_checker_lifecycle": {
+      "chrome": "PASS",
+      "edge": "PASS"
+    },
+    "source_history_scan": {
+      "tracked_files": 352,
+      "commits": 23,
+      "reachable_objects": 1124,
+      "matched_private_material": false
+    }
+  },
+  "numerical_repetition": {
+    "scalar_comparisons": 896,
+    "cases": 128,
+    "all_matched_at_frozen_tolerances": true,
+    "synthetic_trials": 7000,
+    "retained_counts_reproduced": true,
+    "native_scipy_tail_definition_differences": 36,
+    "requested_coverage": 0.95,
+    "observed_coverage_range": [
+      0.741,
+      0.939
+    ],
+    "protocol_sha256": "a7b1c5c458a7af1f7a57511bc1e145bbe8501777fa34277d8a98ec3c00dda6cc"
+  },
+  "reasoning_contract_checks": {
+    "synthetic_cases": 41,
+    "invariant_evaluations": 348,
+    "documented_expectation_checks": 107,
+    "recommendation_quality_score_established": false,
+    "scope": "Predefined synthetic software contracts, not expert ground truth or measured scientific performance."
+  },
+  "audited_artifacts": [
+    {
+      "type": "WHEEL",
+      "name": "controlomics-0.6.11.dev0-py3-none-any.whl",
+      "bytes": 113110,
+      "members": 29,
+      "sha256": "f012ad571b6d91f1185ff7f9319b94cedb2e26b35702e47ba89ea99e8503f904"
+    },
+    {
+      "type": "SOURCE_DISTRIBUTION",
+      "name": "controlomics-0.6.11.dev0.tar.gz",
+      "bytes": 4731610,
+      "members": 378,
+      "sha256": "c8a3a402ad430a14ef042f85234f0853a61595f3bd30e3986246903f9cb69b7d"
+    },
+    {
+      "type": "SOURCE_ZIP",
+      "name": "controlomics-0.6.11.dev0-source.zip",
+      "bytes": 4933337,
+      "members": 352,
+      "sha256": "60531659db43e91e64e31479d818083290112d1b9c41df7b7cac3be4a0459cc5"
+    }
+  ],
+  "private_evidence_hashes": {
+    "report_sha256": "e6297230c41f863103602a5e88e67fcb0c28c0c1cdcf259bacb38deac3d71ec1",
+    "findings_sha256": "914729cf411facb99f2a9c65034f80080cf5804500ad84a819002a83b304c751",
+    "coverage_sha256": "d36202d8627c8099a583d864000030a9d5da1a24e0e08567cbbac3a0899a5c30",
+    "manifest_sha256": "547af16d2ea2456c90aa82ce9580d3687a0963741801065fe911ae7d1a30dca8"
+  },
+  "preservation": {
+    "audited_repository_and_artifacts_unchanged_during_run": true,
+    "earlier_failures_retained": true,
+    "earlier_private_manifest_preexisting_differences": 1,
+    "preexisting_difference_predated_this_audit": true,
+    "current_audit_manifest_bookkeeping": "The manifest records the command-ledger prefix before its own final command was appended; that prefix and the appended successful command were separately verified.",
+    "raw_audit_material_published": false
+  },
+  "publication_preparation": {
+    "relationship_to_audited_snapshot": "Subsequent publication-preparation descendant with unchanged scientific runtime. The audit verdict and artifact hashes apply to the named snapshot; later documentation and CI configuration changes are outside that snapshot.",
+    "package_version_unchanged": true,
+    "runtime_changes_in_this_preparation": false
+  },
+  "limitations": [
+    "This is a separate AI-assisted technical audit, not human scientific review or authenticated expert judgment.",
+    "Synthetic checks do not establish biological efficacy, empirical control suitability or cross-domain generalization.",
+    "Requested 95% percentile intervals retain the documented 74.1% to 93.9% coverage in the measured small-sample experiments.",
+    "Screening recognizes specified patterns and cannot certify that all confidential content is detected.",
+    "Imported receipts, declared reviewer kinds and retained hashes do not authenticate review or execution.",
+    "Linux, macOS, Python 3.11 through 3.13, hosted CI and screen readers were outside this performed scope.",
+    "Live literature and hosted-model requests were excluded. Browser background HTTP connection attempts were refused; other browser-internal traffic was not separately measured.",
+    "The immutable source distribution contains documented pre-final prose and a syntax-equivalent terminal-blank-line difference; its hash identifies that build snapshot.",
+    "Historical reasoning expectation R08 and earlier checker errors remain recorded; this fresh PASS does not retroactively change them."
+  ]
+}

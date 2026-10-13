@@ -1,5 +1,9 @@
 # Development changes
 
+## Publication preparation, 2026-10-13
+
+Added a [sanitized separate-audit summary](docs/validation/prototype_audit_v0.6.11.json) and updated the public overview. The separate AI-assisted audit reported PASS for `0.6.11.dev0` at revision `ae6dd2de43971d533b65f37e33b85ba22ff8d19d`, within its completed Windows, synthetic-input, and mocked-provider scope. Its evidence and artifact hashes identify that snapshot. Publication documentation and CI configuration are later additions, with no change to the package version or scientific runtime. [VALIDATION.md](VALIDATION.md) preserves exact scope, numerical undercoverage, and earlier errors; this assessment does not establish empirical scientific performance. Nothing was published.
+
 ## 0.6.11.dev0, 2026-10-12
 
 Interrupted outbound requests retain consistent ledger states after sending begins. Protein-like screening includes U and X, and recognized identifier and named-credential labels are case-insensitive. Malformed HTTP responses carry status and security headers; explicit HTTP/0.9 is rejected.

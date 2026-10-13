@@ -50,6 +50,20 @@ jobs:
         run: |
           python -m pip install -r requirements-quality.lock
           ruff check src tests scripts
+      - name: Set up optional JavaScript validation
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.14'
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Frontend syntax and QA lifecycle tests
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.14'
+        run: |
+          node --check src/controlomics/web/app.js
+          node --check scripts/check_ui.cjs
+          node --check scripts/check_ui_shutdown.cjs
+          node --check scripts/test_ui_shutdown.cjs
+          node --test scripts/test_ui_shutdown.cjs
       - name: Build wheel and source distribution
         run: python scripts/build_distributions.py
       - name: Extracted wheel smoke check

@@ -1,0 +1,45 @@
+{
+  "format": "controlomics.publication_checks.v0.1",
+  "recorded_at": "2026-10-13T09:12:19.247478+00:00",
+  "package_version": "0.6.11.dev0",
+  "status": "PASS",
+  "audited_runtime_revision": "ae6dd2de43971d533b65f37e33b85ba22ff8d19d",
+  "runtime_matches_audited_source": true,
+  "runtime_files_compared": 23,
+  "scope": "Local publication preparation; documentation and CI changes are outside the separate prototype audit. No new scientific validation or hosted CI result is asserted.",
+  "fresh_software_tests": 233,
+  "static_check_groups": 10,
+  "schema_exports": 29,
+  "local_document_links_checked": 385,
+  "local_document_link_problems": 0,
+  "dependency_advisory_status": "NO_MATCHED_ADVISORIES",
+  "dependency_versions_queried": 9,
+  "package_build_source_files": 357,
+  "clean_offline_installations": "PASS",
+  "source_distribution_static_bound_files_match_current_source": true,
+  "source_distribution_supported_version_correct": true,
+  "original_artifact_and_wheelhouse_files_unchanged": 42,
+  "record_hashes": {
+    "software_checks_publication_phase.json": "897c3318f48455b71a76b94f41f268a493e1d2390b148fbd92ee22a237875821",
+    "static_checks_publication_phase.json": "f06c39fda1be89c39a9a071a318f8fb691a4edc3f4b22412a977a009e41a7814",
+    "dependency_advisory_checks_publication_phase.json": "cccb7fa7670c54623edef006de9f71426732cd15eca1b29c6ed34aad94ba4e4a",
+    "package_checks_publication_phase.json": "8601ceabb8df369353baf21c1b9ffd74ff77d39c2ac5b06b3bd872887acc993b",
+    "distribution_checks_publication_phase.json": "9f62a5a6ccebce218ccb390577aea63baa12a91ef9c1dd2b2ac51fa15586113b",
+    "install_checks_publication_phase.json": "3316f5d6f57481d955215553d725781aeca08c5aeee4d9a937f8db3e1cd4d04e",
+    "sdist_install_checks_publication_phase.json": "1194d86c7550da8066b58a44b88f6f35c39b3ead69b5ec7978690009abe954d5",
+    "prototype_audit_v0.6.11.json": "2f2eb82da30b2ba16c24bfd85ccbb6a16d19341041c965ef845cb10e6c03b3a6"
+  },
+  "source_code_comparison": {
+    "audited_revision": "ae6dd2de43971d533b65f37e33b85ba22ff8d19d",
+    "scope": "Runtime, browser assets, scripts, tests, schemas, ontology, package metadata and dependency locks",
+    "changed_files": [],
+    "status": "IDENTICAL",
+    "publication_changes": "Documentation, minimized audit records and CI configuration only."
+  },
+  "limits": [
+    "Source pattern screening does not prove complete anonymity or confidentiality.",
+    "The prototype audit covers synthetic/mocked inputs on the recorded Windows environment.",
+    "Biological efficacy, empirical control suitability and generalization are not established.",
+    "Hosted CI and repository security settings require separate actual execution and verification."
+  ]
+}
