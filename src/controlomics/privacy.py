@@ -206,9 +206,12 @@ class SafeTransport:
             # Connect to the checked IP, while retaining the original hostname for TLS.
             address = addresses[0][4][0]
             context = ssl.create_default_context()
-            # Keep certificate/hostname defaults and any stricter protocol floor.
-            if context.minimum_version < ssl.TLSVersion.TLSv1_2:
-                context.minimum_version = ssl.TLSVersion.TLSv1_2
+            # Establish the baseline explicitly, then retain a stricter default.
+            # This fresh context is not used until the complete policy is set.
+            default_floor = context.minimum_version
+            context.minimum_version = ssl.TLSVersion.TLSv1_2
+            if default_floor > ssl.TLSVersion.TLSv1_2:
+                context.minimum_version = default_floor
             connection = http.client.HTTPSConnection(host, timeout=20, context=context)
             try:
                 connection.sock = context.wrap_socket(

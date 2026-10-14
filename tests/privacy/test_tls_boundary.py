@@ -59,11 +59,17 @@ class TLSBoundaryTests(unittest.TestCase):
                     self.assertEqual(actual_context.verify_flags, flags)
                     return tls_socket
 
+                def construct(host, *, timeout, context):
+                    self.assertEqual(context.minimum_version, max(minimum, ssl.TLSVersion.TLSv1_2))
+                    self.assertTrue(context.check_hostname)
+                    self.assertEqual(context.verify_mode, ssl.CERT_REQUIRED)
+                    return connection
+
                 with patch("socket.getaddrinfo", return_value=addresses), \
                         patch("socket.create_connection", return_value=raw_socket) as connect, \
                         patch("ssl.create_default_context", return_value=context) as factory, \
                         patch.object(ssl.SSLContext, "wrap_socket", autospec=True, side_effect=wrap) as wrapped, \
-                        patch("http.client.HTTPSConnection", return_value=connection) as https:
+                        patch("http.client.HTTPSConnection", side_effect=construct) as https:
                     self.assertEqual(transport.send(request, request.approval_hash), {})
                     factory.assert_called_once_with()
                     https.assert_called_once_with(EuropePMC.host, timeout=20, context=context)

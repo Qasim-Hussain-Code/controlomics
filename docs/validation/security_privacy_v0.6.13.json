@@ -3,7 +3,7 @@
   "review_baseline": "4109b4aa776a9bf6e23bb70169b342f35c7497e7",
   "scope": "AI-assisted developer security/privacy review. Synthetic inputs and mocked provider transports only. No independent security certification.",
   "source_sha256": {
-    "src/controlomics/privacy.py": "4af9b9f53db72a04c2c9ad2aeff68cb73f94656a68a49469e819c6d34964e37d",
+    "src/controlomics/privacy.py": "f815f3c2552c14df728a98532c6f79f86b0b09b4191b3490103a147714bee84c",
     "src/controlomics/artifacts.py": "c34cdb4a211ed74948ed6b535783e7a55a3cac64d4bbf2b91b09445ce82ab3d7",
     "src/controlomics/hosted.py": "7573d9ce680ac4c3ab9397c4d815e73ccb85f9d121e2aa506d90fc40d0e8b738",
     "src/controlomics/hosted_worker.py": "046b54902e752ea58546992f1599781a2e208422f4bc9a6d2a25452fd2a5a902",
@@ -11,12 +11,12 @@
     "render.yaml": "e72be6dc0511f5ec242d641301bda1f41952c1904447672decb3f5dedc4999b2",
     "scripts/check_hosted_transport.py": "49a1bec37cd86152c20fabebeda4cc9ced0b8c24313e548f1a2ae4bc61a9c271",
     "tests/privacy/test_endpoint_preparation.py": "c935e2716458ae75481377d08bdb1879cb59be0253859a8e0136cce46cfefe86",
-    "tests/privacy/test_tls_boundary.py": "8136734e941e7d72b555c7c7d345d06401f94e4c4a14372d5b29920b51e7da61",
+    "tests/privacy/test_tls_boundary.py": "65d9bcd8866cfe39b13d7ff5428089a80d2ec705a3c1f09d983cf3d7a9243013",
     "tests/privacy/test_wsgi_error_stream.py": "7daefcdedbdfe921659de94c581a1a1d42e5dd1927fb8b7561c02b62a8f3c4f6",
     "tests/integration/test_deployment_metadata.py": "aa0f3fe84c198a13a3e73502be993b12edc04d2fd8e53ee803046de9db281cf3"
   },
   "software": {
-    "recorded_at": "2026-10-14T15:47:20.018297+00:00",
+    "recorded_at": "2026-10-14T16:00:19.780918+00:00",
     "controlomics_version": "0.6.13.dev0",
     "python": "3.14.0",
     "operating_system": "Windows",
@@ -26,7 +26,7 @@
     "failures": 0,
     "errors": 0,
     "skips": 0,
-    "seconds": 14.553,
+    "seconds": 23.798,
     "status": "PASS",
     "scope": "Software behavior using synthetic fixtures and mocked provider transports; no independent scientific validation."
   },
@@ -53,6 +53,7 @@
   },
   "hardening": [
     "Identical verified TLS context for HTTPS constructor and actual handshake.",
+    "Explicit TLS 1.2 baseline followed by restoration of stricter defaults before connection construction.",
     "Fixed text for application-side WSGI diagnostic stream writes.",
     "Strict public revision and current access-logger state headers."
   ],
@@ -67,7 +68,7 @@
     "dependabot_security_updates": true,
     "open_secret_alerts": 0,
     "open_dependency_alerts": 0,
-    "codeql_alert_16": "OPEN. TLS floor query triaged against actual conditional floor and SSL-context tests; no dismissal or suppression."
+    "codeql_initial_review": "Alert16 OPEN at baseline. First prepared revision3f9ca6d received the same protocol warning after all nine software jobs and17 Linux wire checks passed. Explicit policy initialization added afterward; final analysis recorded separately. No dismissal or suppression."
   },
   "dependency_advisories": {
     "service": "OSV",
@@ -93,7 +94,7 @@
     "Runtime headers are application self-reports, not an infrastructure audit."
   ],
   "private_evidence_sha256": {
-    "software_checks_final.json": "1ad24bf2f57a0dedfb76db4e42a7ded76ae768e1942d62b1c3c41435ee20b79d",
+    "software_checks_tls_policy.json": "619f9560521af12654d3d08eab1c2be5df7aa96b662ba7d8ea98e6341cd70753",
     "source_hygiene_corrected_fixture.json": "f71f91b4b04a7858d5449d027fa28f0cae74fe3f967c8570d8e3527ee01cd543",
     "dependency_advisories.json": "c11c19fa51d9737acb53078cf453c3444d225e7071e7bf66f151bff147c3609f",
     "github_security.json": "6788e21af678c83b624de6603a64780a2790ca021379fcf0fe6ff4ee23411d51",
