@@ -1,5 +1,11 @@
 # Validation
 
+## Shared-link compatibility, 2026-10-14
+
+A public GET with a synthetic `fbclid` query reproduced `403 HOSTED_ORIGIN_REJECTED`. The hosted adapter previously rejected every query string. Fixed public workspace and asset GET/HEAD routes now ignore query parameters while serving unchanged bytes. Session, consent, scientific-action, readiness, and unknown routes still reject queries, and canonical Host, HTTPS/proxy, token, and consent checks remain intact. Tracking parameters are not used as authorization, reflected in content, or retained by the application; platform URL metadata is a separate boundary.
+
+The local Windows CPython 3.14 suite passed 299 tests, including four new shared-link regression groups. They verify unchanged public content and headers, no body reads or session creation, protected-route rejection, Host/TLS/proxy checks, and cross-origin POST rejection. Schema drift, Python lint, source/history hygiene, and diff checks passed. The Linux transport checker adds real Gunicorn wire probes for these routes; its execution is recorded separately in hosted CI. The exact Facebook device request was not captured, so the matching reproduced query failure does not certify every in-app browser configuration. Earlier audit and release-artifact observations remain bound to their original snapshots.
+
 ## Live hosted prototype, 2026-10-14
 
 The [hosted workspace](https://controlomics.onrender.com/) passed the [recorded synthetic deployment checks](docs/validation/live_render_v0.6.12.json). Native HTTPS checks verified certificate and hostname trust, HTTP redirection, health responses, six security headers, and the three deployed browser assets. The API workflow passed 25 checks covering explicit consent, session isolation, drafting, control specifications, numeric inspection and execution, reports, packages, and review archive restoration. A technical reference PASS did not promote the full scientific claim or its evidence status.

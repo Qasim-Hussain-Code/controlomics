@@ -152,6 +152,74 @@ class HostedTests(unittest.TestCase):
         action.assert_not_called()
         self.assert_security(response)
 
+    def test_shared_link_queries_only_serve_unchanged_public_assets(self):
+        queries = ('fbclid=synthetic_click_id', 'utm_source=facebook&utm_medium=social',
+                   'next=https%3A%2F%2Felsewhere.example&fbclid=synthetic_click_id',
+                   'project=%3Cscript%3Esynthetic_marker%3C%2Fscript%3E&fbclid=a&fbclid=b')
+        for path in hosted.ASSETS:
+            original = self.browser.request(path)
+            for method in ('GET', 'HEAD'):
+                for query in queries:
+                    with self.subTest(path=path, method=method, query=query):
+                        response = self.browser.request(path, method=method, stream=UnreadBody(), overrides={
+                            'QUERY_STRING': query, 'HTTP_SEC_FETCH_SITE': 'cross-site',
+                            'HTTP_ORIGIN': 'https://www.facebook.com', 'HTTP_REFERER': 'https://www.facebook.com/'})
+                        self.assertEqual(response['status'], 200)
+                        self.assertEqual(response['body'], original['body'] if method == 'GET' else b'')
+                        self.assertEqual(response['headers'], original['headers'])
+                        self.assertNotIn(b'synthetic_click_id', response['body'])
+                        self.assert_security(response)
+        self.assertEqual(self.app._sessions, {})
+        self.assertIsNone(self.browser.cookie)
+        self.assertIsNone(self.browser.token)
+
+    def test_shared_link_queries_do_not_authorize_session_or_action_routes(self):
+        self.browser.consent()
+        original_sessions = dict(self.app._sessions)
+        routes = [('/api/session', 'GET'), ('/api/session', 'HEAD'), ('/healthz', 'GET'),
+                  ('/healthz', 'HEAD'), ('/not-an-asset', 'GET'), ('/', 'POST'), ('/', 'OPTIONS'),
+                  ('/app.js', 'POST'), ('/api/hosting-consent', 'POST')]
+        routes.extend((path, 'POST') for path in hosted.ACTION_PATHS)
+        with patch('controlomics.hosted.handle_action') as action:
+            for path, method in routes:
+                with self.subTest(path=path, method=method):
+                    response = self.browser.request(path, method=method, stream=UnreadBody(), overrides={
+                        'QUERY_STRING': 'fbclid=synthetic_click_id'})
+                    self.assertEqual(response['status'], 403)
+                    self.assertEqual(response['value']['code'], 'HOSTED_ORIGIN_REJECTED')
+                    self.assert_security(response)
+            action.assert_not_called()
+        self.assertEqual(self.app._sessions, original_sessions)
+
+    def test_shared_link_queries_keep_host_tls_and_proxy_checks(self):
+        query = {'QUERY_STRING': 'fbclid=synthetic_click_id'}
+        direct_failures = ({'HTTP_HOST': 'elsewhere.example'}, {'HTTP_HOST': 'controlomics.example,controlomics.example'},
+                           {'wsgi.url_scheme': 'http', 'HTTP_X_FORWARDED_PROTO': 'https'},
+                           {'HTTP_X_FORWARDED_PROTO': 'http'}, {'HTTP_X_FORWARDED_PROTO': 'https,http'})
+        for change in direct_failures:
+            with self.subTest(mode='direct', change=change):
+                self.assertEqual(self.browser.request('/', overrides={**query, **change}, stream=UnreadBody())['status'], 403)
+        proxy = {'wsgi.url_scheme': 'http', 'HTTP_X_FORWARDED_PROTO': 'https', 'REMOTE_ADDR': '10.1.2.3', **query}
+        browser = Browser(hosted.create_app(ORIGIN, SECRET, trust_proxy=True))
+        self.assertEqual(browser.request('/', overrides=proxy, stream=UnreadBody())['status'], 200)
+        failures = ({'HTTP_HOST': 'elsewhere.example'}, {'HTTP_X_FORWARDED_PROTO': None},
+                    {'HTTP_X_FORWARDED_PROTO': 'http'}, {'HTTP_X_FORWARDED_PROTO': 'https,http'},
+                    {'wsgi.url_scheme': 'ftp'})
+        failures += tuple({'REMOTE_ADDR': peer} for peer in ('8.8.8.8', '0.0.0.0', '224.0.0.1', 'bad', ''))
+        for change in failures:
+            with self.subTest(mode='proxy', change=change):
+                self.assertEqual(browser.request('/', overrides={**proxy, **change}, stream=UnreadBody())['status'], 403)
+        self.assertEqual(browser.app._sessions, {})
+
+    def test_shared_link_queries_do_not_relax_cross_origin_posts(self):
+        self.browser.consent()
+        for origin in ('https://www.facebook.com', 'null', None):
+            with self.subTest(origin=origin), patch('controlomics.hosted.handle_action') as action:
+                response = self.browser.request('/api/interpret', {}, stream=UnreadBody(), overrides={
+                    'HTTP_ORIGIN': origin})
+                self.assertEqual(response['status'], 403)
+                action.assert_not_called()
+
     def test_consent_has_exact_policy_boolean_and_small_metadata_only(self):
         self.browser.request('/api/session')
         original_token = self.browser.token

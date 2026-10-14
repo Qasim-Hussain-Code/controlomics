@@ -108,6 +108,18 @@ def main():
                     raise AssertionError("Owned Gunicorn did not become ready")
                 time.sleep(0.1)
             record["checks"].append({"name": "worker_and_wsgi_socket_guard", "status": "PASS"})
+            for asset in ("/", "/app.js", "/style.css"):
+                status, original, original_headers = request(asset)
+                assert status == 200 and "Set-Cookie" not in original_headers
+                status, shared, shared_headers = request(asset + "?fbclid=synthetic_click_id&utm_source=facebook", extra={
+                    "Origin": "https://www.facebook.com", "Sec-Fetch-Site": "cross-site"})
+                assert status == 200 and shared == original and "Set-Cookie" not in shared_headers
+                assert shared_headers["Content-Type"] == original_headers["Content-Type"]
+                assert shared_headers["Content-Length"] == original_headers["Content-Length"]
+            for guarded in ("/api/session", "/healthz", "/not-an-asset"):
+                status, _, guarded_headers = request(guarded + "?fbclid=synthetic_click_id")
+                assert status == 403 and "Set-Cookie" not in guarded_headers
+            record["checks"].append({"name": "shared_link_queries_only_serve_unchanged_public_assets", "status": "PASS"})
             health_status, health, health_headers = request("/healthz", extra={"X-Forwarded-Proto": None})
             assert health_status == 200 and health == {"status": "ok", "mode": "HOSTED_TEMPORARY"}
             assert "Set-Cookie" not in health_headers

@@ -178,7 +178,14 @@ class HostedApplication:
     def _secure_request(self, environ):
         # PUBLIC_ORIGIN is authoritative. Client forwarded-host/for values
         # never select an origin, a session or a rate-limit identity.
-        if environ.get("HTTP_HOST") != self.host or environ.get("QUERY_STRING", ""):
+        if environ.get("HTTP_HOST") != self.host:
+            return False
+        # Shared links may carry click identifiers or campaign parameters.
+        # Only fixed public assets ignore them; they never select content,
+        # create sessions, authorize processing, or reach scientific actions.
+        if (environ.get("QUERY_STRING", "")
+                and not (environ.get("REQUEST_METHOD") in ("GET", "HEAD")
+                         and environ.get("PATH_INFO") in ASSETS)):
             return False
         if "HTTP_X_FORWARDED_PROTO" in environ and environ["HTTP_X_FORWARDED_PROTO"] != "https":
             return False
