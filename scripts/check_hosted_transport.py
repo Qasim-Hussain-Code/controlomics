@@ -82,7 +82,7 @@ def main():
                 "--config", str(ROOT / "gunicorn.conf.py"), "--bind", "127.0.0.1:0", "--print-config",
                 "owned_hosted_fixture:application"], cwd=ROOT, env=env, capture_output=True, timeout=20, check=False)
             assert configuration.returncode == 0, "Owned launcher configuration check failed"
-            effective = dict(line.split(" = ", 1) for line in configuration.stdout.decode("utf-8").splitlines() if " = " in line)
+            effective = {key.strip(): value.strip() for key, value in (line.split(" = ", 1) for line in configuration.stdout.decode("utf-8").splitlines() if " = " in line)}
             assert effective.get("accesslog") == "None" and effective.get("preload_app") == "False"
             assert effective.get("bind") == "['127.0.0.1:0']"
             record["checks"].append({"name": "new_launcher_ignores_inherited_render_cli_defaults", "status": "PASS"})
