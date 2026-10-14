@@ -64,6 +64,13 @@
       "All six sections and Home/End navigation at both recorded widths"
     ],
     "capture_count": 5,
+    "public_workspace_capture": {
+      "path": "docs/images/prototype_workspace.png",
+      "sha256": "07ff09d3765a1ed2432385e499f1849b7ef84a7b541eede8192770629842b2a1",
+      "width": 1440,
+      "inputs": "Hypothetical transcriptomics example and synthetic technical reference only",
+      "publication_review": "Visual and PNG-metadata screening completed; copied unchanged from the retained live capture."
+    },
     "mobile_capture_caveat": "One workspace capture was taken during the drawer transition. Functional assertions passed; it is not a settled mobile-layout figure."
   },
   "live_asset_sha256": {
@@ -107,7 +114,8 @@
     "inputs": "Synthetic public fixtures only",
     "research_provider_routes_called": 0,
     "project_database_or_saved_uploads": "Excluded by implemented configuration and source contract; platform memory/filesystem retention was not independently inspected.",
-    "raw_logs_exports_profiles_and_captures_published": false,
+    "raw_logs_exports_and_browser_profiles_published": false,
+    "captures_published": "Only the visually reviewed desktop workspace capture identified above",
     "session_tokens_cookies_and_binding_identifiers_published": false
   },
   "not_verified": [

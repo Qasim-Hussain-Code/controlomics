@@ -16,7 +16,7 @@ Execution packages and restored review bundles prepare their complete contents b
 
 Execution requires an explicit reviewed-control selection and explains missing prerequisites. Procedure inputs remain available while changing the control or refreshing the same project snapshot, so review them before another action. Editor, source-review, and judgment workbench actions focus their destination. The named external-request dialogue initially focuses Cancel. The header retains a visible export-state label at narrow widths alongside the save-state live announcement.
 
-![Controlomics local workspace with no project open](docs/validation/ui_audit_remediation_workspace.png)
+![Controlomics hosted prototype with a hypothetical transcriptomics example](docs/images/prototype_workspace.png)
 
 The local workspace keeps research inputs on your computer. The full hosted prototype processes submitted project records, source-review text, evaluation records, and selected numeric inputs temporarily after consent. It has no project database or saved uploads; export your work before closing the page. See [hosting and distribution](docs/HOSTING.md).
 
