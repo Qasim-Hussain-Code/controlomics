@@ -2,6 +2,8 @@
 
 Controlomics supports a local workspace and a full hosted prototype. Source distribution and research processing have separate boundaries.
 
+The hosted prototype is available at [controlomics.onrender.com](https://controlomics.onrender.com/). The [scoped deployment record](validation/live_render_v0.6.12.json) describes the performed synthetic checks and their limits.
+
 | Component | Location | Purpose |
 | --- | --- | --- |
 | Source repository | GitHub | Inspect code, report software issues, and contribute changes |

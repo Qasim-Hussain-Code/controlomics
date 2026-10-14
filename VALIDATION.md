@@ -1,5 +1,13 @@
 # Validation
 
+## Live hosted prototype, 2026-10-14
+
+The [hosted workspace](https://controlomics.onrender.com/) passed the [recorded synthetic deployment checks](docs/validation/live_render_v0.6.12.json). Native HTTPS checks verified certificate and hostname trust, HTTP redirection, health responses, six security headers, and the three deployed browser assets. The API workflow passed 25 checks covering explicit consent, session isolation, drafting, control specifications, numeric inspection and execution, reports, packages, and review archive restoration. A technical reference PASS did not promote the full scientific claim or its evidence status.
+
+Edge 155 passed 33 live interface checks, including consent and decline boundaries, explicit method review, one four-row execution, actual exports, all six sections at 375 and 1440 pixels, and keyboard navigation. It reported no JavaScript exception or unexpected page request. Ordinary browser main-process exit was not observed; explicit cleanup of the owned profiles was followed by zero matching processes and a closed proxy. Initial logging, workflow-sequence, and browser-bootstrap harness failures remain separate retained records. The mobile drawer capture made during its transition is not a settled layout figure.
+
+The owner's Blueprint synced source `ae533e1`; deployed interface hashes match that baseline. Free-tier deployment initially rejected a custom shutdown delay, which was removed through [PR3](https://github.com/Qasim-Hussain-Code/controlomics/pull/3). These observations use synthetic inputs and no live model or literature requests. They do not establish scientific suitability or generalization, inspect platform retention or cleanup, or verify screen readers and forced shutdown. Raw logs, profiles, captures, and synthetic exports remain private. Later documentation does not change the tested application sources or the immutable release downloads.
+
 ## Hosted prototype preparation, 0.6.12.dev0
 
 The [scoped technical record](docs/validation/cloud_checks_v0.6.12.json) binds the new hosted adapter, processing receipts, and interface to the performed developer checks. The Windows Python 3.14.0 suite passed 292 tests. Linux Python 3.14.4 with pinned Gunicorn 26.2.0 passed 11 real transport checks, including approximately 10-second stalled header/body reads and 30-second drip deadlines, slot recovery, signed consent, actual synthetic execution, report privacy, redacted malformed replies, and internal readiness without opening session access. Owned processes, ports, and temporary directories were checked at closure.

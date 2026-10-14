@@ -1,0 +1,122 @@
+{
+  "recorded_at": "2026-10-14T05:04:40.594251+00:00",
+  "controlomics_version": "0.6.12.dev0",
+  "origin": "https://controlomics.onrender.com",
+  "status": "PASS_WITHIN_RECORDED_SYNTHETIC_SCOPE",
+  "source_baseline": "ae533e1c8e226e23ff1124129ac44047a851b7e3",
+  "source_binding_scope": "The owner dashboard showed Blueprint sync ae533e1. Live browser assets match this checkout; platform environment and every backend byte were not independently inspected. Subsequent documentation does not alter runtime sources.",
+  "hosting_mode": "HOSTED_TEMPORARY",
+  "http": {
+    "status": "PASS",
+    "requests": 7,
+    "https_responses": 6,
+    "security_header_pairs": 36,
+    "certificate_and_hostname_verification": true,
+    "http_redirect": {
+      "status": 301,
+      "location": "https://controlomics.onrender.com/",
+      "followed": false
+    },
+    "health_statuses": {
+      "GET": 200,
+      "HEAD": 200,
+      "OPTIONS": 405
+    },
+    "record_sha256": "89a77970d8ffdffeed622fcff874b10889c403d04875014d54e4e72e822d939c"
+  },
+  "api": {
+    "status": "PASS",
+    "checks": 25,
+    "requests": 19,
+    "numeric_executions": 1,
+    "record_sha256": "3c348b42641a05ce0225a548ed0cdf57ba50232bb9ef0fad83439163a005db16",
+    "covered": [
+      "Explicit current-policy consent and secure host-only session cookie",
+      "Wrong-origin, pre-consent-token and cross-session-token rejection",
+      "Drafting, control analysis and method specifications",
+      "CSV hash inspection and actual fixed numeric subprocess",
+      "Technical PASS without full-claim or evidence-status promotion",
+      "Report, dispatched package and review archive exports without raw CSV identifiers",
+      "Separate unplanned snapshot packaging and duplicate-plan rejection",
+      "Review archive restoration and imported-receipt authorization rejection"
+    ]
+  },
+  "browser": {
+    "functional_status": "PASS",
+    "browser": "Edg/155.0.4283.45",
+    "checks": 33,
+    "widths": [
+      375,
+      1440
+    ],
+    "scientific_post_count": 7,
+    "numeric_executions": 1,
+    "javascript_exceptions": 0,
+    "unexpected_page_requests": 0,
+    "tls_protocol": "TLS 1.3",
+    "certificate_verification_bypassed": false,
+    "record_sha256": "ed1bbacbc588a0ff4a029ee9739da74eaf6b0ef81dc0672f834957f236e06f8a",
+    "covered": [
+      "Decline-focused consent, keyboard focus containment, no file reads or scientific POSTs after decline",
+      "Explicit agreement, synthetic intake and method review",
+      "Four-row input inspection and prespecified technical execution",
+      "Actual project, report, review archive and separate processing-attestation downloads",
+      "All six sections and Home/End navigation at both recorded widths"
+    ],
+    "capture_count": 5,
+    "mobile_capture_caveat": "One workspace capture was taken during the drawer transition. Functional assertions passed; it is not a settled mobile-layout figure."
+  },
+  "live_asset_sha256": {
+    "/": "3322bf1b71820cbac6c83c57b49a88c9cf64029541b4aebdd0bc1ffcecfcc39e",
+    "/app.js": "ce8e49c081bc994c9fda490717b2574a2f7c0847b9d856461d7a9746bb913d07",
+    "/style.css": "9f1c5e5d32299b8f4dd1a91b9451a856be3b0d7a5f1cd32b3bdd855312a951a2"
+  },
+  "owned_process_cleanup": {
+    "status": "PASS",
+    "normal_main_exit_observed": false,
+    "forced_exact_profile_cleanup": true,
+    "profiles_checked": 3,
+    "remaining_profile_processes": 0,
+    "proxy_thread_stopped": true,
+    "proxy_connections_remaining": 0,
+    "closure_record_sha256": "730342bd796c35b98aa3c8601deefeef9b51353e0a50a56c3eed2706a5ad7d19",
+    "scope": "Only task-owned test profiles and proxy were closed. Owner browsers and local review servers were not targeted."
+  },
+  "retained_unsuccessful_attempts": [
+    {
+      "layer": "API recording harness",
+      "outcome": "FAIL",
+      "cause": "Request.method was unavailable; logging failed after the first session GET, before an assertion or scientific POST.",
+      "record_sha256": "7be7cfd2cc1c8255c41bb27e799f6de519379215e08be4467878b4f96bfb2911"
+    },
+    {
+      "layer": "API workflow harness",
+      "outcome": "FAIL",
+      "checks_completed": 17,
+      "numeric_executions": 1,
+      "cause": "A second execution plan was requested for an already executed control. The application correctly returned400; opening empty bytes as ZIP then raised BadZipFile. A separate offline reproduction confirmed the contract.",
+      "record_sha256": "e4a0ad7d956919bf032c84059017d236d5fbab40a15c8c3bda814e31434f3687"
+    },
+    {
+      "layer": "Browser startup harness",
+      "outcome": "TIMEOUT_OR_BOOTSTRAP_FAILURE",
+      "cause": "Git metadata discovery rejected repository ownership and an open CDP socket prevented bootstrap exit. No page navigation or scientific POST occurred. The corrected private harness used the separately verified source revision and closed failed bootstrap resources."
+    }
+  ],
+  "privacy_scope": {
+    "inputs": "Synthetic public fixtures only",
+    "research_provider_routes_called": 0,
+    "project_database_or_saved_uploads": "Excluded by implemented configuration and source contract; platform memory/filesystem retention was not independently inspected.",
+    "raw_logs_exports_profiles_and_captures_published": false,
+    "session_tokens_cookies_and_binding_identifiers_published": false
+  },
+  "not_verified": [
+    "Real research data or empirical control suitability",
+    "Scientific generalization or biological efficacy",
+    "Live model or literature-provider transport",
+    "Screen readers",
+    "Cold-start/redeploy/forced-shutdown behavior on Render",
+    "Platform internal proxy identity, logs, filesystem cleanup or secure erasure"
+  ],
+  "publication_scope": "Recorded live checks are separate from the immutable v0.6.12 release artifacts and the earlier independent prototype audit. No earlier failed observation is regraded."
+}

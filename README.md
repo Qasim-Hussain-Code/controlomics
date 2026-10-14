@@ -2,6 +2,8 @@
 
 Controlomics is a research workspace for specifying, reviewing, executing, and auditing controls around computational biology claims. It runs locally or as a hosted prototype with explicit consent to temporary cloud processing. Primary analyses remain in the researcher's environment.
 
+[Open the hosted prototype](https://controlomics.onrender.com/).
+
 [The complete architecture walkthrough](docs/AGENT_ARCHITECTURE.md) maps the implemented components and their scientific and privacy boundaries. The default reasoner uses inspectable rules; an optional hosted model proposes candidates. Researchers review source support and decide what conclusions are justified.
 
 ## Prototype
