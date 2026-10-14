@@ -3,21 +3,18 @@
 from __future__ import annotations
 
 import io
-import ipaddress
 import json
 import stat
 import zipfile
 import zlib
 from datetime import datetime, timezone
 from typing import Annotated, Literal
-from urllib.parse import unquote, urlsplit
 
 from pydantic import AwareDatetime, Field, model_validator
 
 from controlomics import __version__
 from controlomics.evaluation import AnnotationRevision, EvaluationBundle, bundle_hash
-from controlomics.privacy import (PreparedRequest, SafeField, canonical_json, digest,
-    is_public_unicast_address, screen_text)
+from controlomics.privacy import PreparedRequest, SafeField, canonical_json, digest, validate_outbound_url
 from controlomics.project import decode_json, parse_project_json
 from controlomics.reports import render_report
 from controlomics.schemas import Identifier, Record, Sha256, Text
@@ -57,15 +54,7 @@ class NetworkAuditEvent(Record):
     def safe_ledger(self):
         if len({item.name for item in self.fields}) != len(self.fields):
             raise ValueError("audit fields must be unique")
-        parts = urlsplit(self.url)
-        if parts.scheme != "https" or not parts.hostname or parts.username or parts.password or parts.fragment or parts.port not in (None, 443) or screen_text((parts.hostname or "") + " " + unquote(parts.path + "?" + parts.query)) == "RESTRICTED":
-            raise ValueError("audit URL contains unsupported content")
-        try:
-            address = ipaddress.ip_address(parts.hostname)
-        except ValueError:
-            address = None
-        if address is not None and not is_public_unicast_address(str(address)):
-            raise ValueError("audit destination is not public")
+        parts = validate_outbound_url(self.url)
         if self.purpose == "LITERATURE":
             prepared = PreparedRequest(self.purpose, self.method, self.url,
                 tuple(SafeField(item.name, item.value, item.classification) for item in self.fields))

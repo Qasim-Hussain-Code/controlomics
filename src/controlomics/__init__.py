@@ -1,5 +1,5 @@
 """Local scientific records for Controlomics."""
 
-__version__ = "0.6.12.dev0"
+__version__ = "0.6.13.dev0"
 SCHEMA_VERSION = "0.1.0"
 ONTOLOGY_VERSION = "0.1.0"

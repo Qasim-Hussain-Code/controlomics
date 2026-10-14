@@ -28,7 +28,7 @@ The application disables access logging and redacts server diagnostics. Render a
 
 The outbound gate accepts named fields explicitly classified SAFE. Screening rejects recognized credentials, certain identifiers, local paths, emails, long DNA, RNA, or protein-like strings, and recognized service-token formats. Unrecognized text defaults to SENSITIVE_SCIENTIFIC until a caller explicitly classifies a selected field. Pattern screening cannot reliably recognize every confidential fact and may flag innocent text.
 
-The exact destination, query or messages, and fields are previewed. A matching complete-request SHA-256 approval is required before DNS resolution or transmission. Literature parameters and the model policy are fixed. The project is never serialized for a provider. Receiving services apply their own data policies.
+The exact destination, query or messages, and fields are previewed. Destination preparation and saved-ledger validation use the same screening of decoded URL components, literal IP addresses, length, and raw ASCII whitespace or controls. This prevents an accepted destination from becoming an unusable ledger entry under different URL rules. DNS results still undergo separate checks at transmission. A matching complete-request SHA-256 approval is required before DNS resolution or transmission. Literature parameters and the model policy are fixed. The project is never serialized for a provider. Receiving services apply their own data policies.
 
 ## Credentials and records
 

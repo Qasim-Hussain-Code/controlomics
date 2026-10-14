@@ -62,6 +62,37 @@ def is_public_unicast_address(address: str) -> bool:
     return ip.is_global and not ip.is_multicast and not ip.is_reserved
 
 
+def validate_outbound_url(url: str):
+    """Share endpoint admission between request preparation and recorded ledgers.
+
+    This performs no DNS lookup. Hostnames still require checked public addresses
+    at transmission time; literal addresses can be rejected before a preview.
+    """
+
+    # Text-valued ledger URLs have the same limit. Do not let urlsplit silently
+    # remove raw whitespace or controls from the destination shown for approval.
+    if not isinstance(url, str) or len(url) > 12000 or any(ord(character) <= 32 or ord(character) == 127 for character in url):
+        raise ValueError("outbound URL contains unsupported content")
+    try:
+        parts = urlsplit(url)
+        valid = (
+            parts.scheme == "https" and bool(parts.hostname)
+            and not parts.username and not parts.password and not parts.fragment
+            and parts.port in (None, 443)
+        )
+    except ValueError:
+        raise ValueError("outbound URL contains unsupported content") from None
+    if not valid or screen_text(parts.hostname + " " + unquote(parts.path + "?" + parts.query)) == "RESTRICTED":
+        raise ValueError("outbound URL contains unsupported content")
+    try:
+        address = ipaddress.ip_address(parts.hostname)
+    except ValueError:
+        address = None
+    if address is not None and not is_public_unicast_address(str(address)):
+        raise ValueError("outbound destination is not public")
+    return parts
+
+
 @dataclass(frozen=True)
 class SafeField:
     name: str
@@ -90,9 +121,7 @@ class PreparedRequest:
             raise ValueError("unsupported outbound operation")
         if not self.fields or len({item.name for item in self.fields}) != len(self.fields):
             raise ValueError("outbound fields must be explicit and unique")
-        parts = urlsplit(self.url)
-        if parts.scheme != "https" or parts.username or parts.password or parts.fragment or parts.port not in (None, 443):
-            raise ValueError("outbound endpoints must use HTTPS without credentials or fragments")
+        parts = validate_outbound_url(self.url)
         if self.purpose == "LITERATURE":
             fields = {item.name: item.value for item in self.fields}
             query = parse_qs(parts.query, strict_parsing=True)
@@ -176,12 +205,12 @@ class SafeTransport:
                 headers["Authorization"] = "Bearer " + api_key
             # Connect to the checked IP, while retaining the original hostname for TLS.
             address = addresses[0][4][0]
-            connection = http.client.HTTPSConnection(host, timeout=20)
+            context = ssl.create_default_context()
+            # Keep certificate/hostname defaults and any stricter protocol floor.
+            if context.minimum_version < ssl.TLSVersion.TLSv1_2:
+                context.minimum_version = ssl.TLSVersion.TLSv1_2
+            connection = http.client.HTTPSConnection(host, timeout=20, context=context)
             try:
-                context = ssl.create_default_context()
-                # Keep certificate/hostname defaults and any stricter protocol floor.
-                if context.minimum_version < ssl.TLSVersion.TLSv1_2:
-                    context.minimum_version = ssl.TLSVersion.TLSv1_2
                 connection.sock = context.wrap_socket(
                     socket.create_connection((address, 443), timeout=20), server_hostname=host)
                 parts = urlsplit(prepared.url)

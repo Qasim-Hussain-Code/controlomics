@@ -7,6 +7,7 @@ import hashlib
 import hmac
 import ipaddress
 import json
+import logging
 import os
 import re
 import secrets
@@ -59,6 +60,24 @@ def _encode(raw):
     return base64.urlsafe_b64encode(raw).rstrip(b"=").decode("ascii")
 
 
+class _RedactedErrorStream:
+    """Expose the WSGI diagnostic interface without forwarding request text."""
+
+    def __init__(self, stream):
+        self._stream = stream
+
+    def write(self, value):
+        if value:
+            self._stream.write("Hosted request diagnostic. Private details omitted.\n")
+
+    def writelines(self, values):
+        for value in values:
+            self.write(value)
+
+    def flush(self):
+        self._stream.flush()
+
+
 class HostedApplication:
     """One-worker, bounded, metadata-only session state; projects are never cached."""
 
@@ -75,6 +94,9 @@ class HostedApplication:
         # secret. No request or consent is silently replayed after a cold start.
         self._key = hmac.digest(session_secret, b"worker:" + secrets.token_bytes(32), "sha256")
         self.trust_proxy = trust_proxy
+        # This is public source metadata, never derived from request fields.
+        revision = os.environ.get("RENDER_GIT_COMMIT", "")
+        self.revision = revision if re.fullmatch(r"[0-9a-f]{40}", revision) else None
         self._lock = threading.Lock()
         self._actions = threading.BoundedSemaphore(2)
         self._sessions = {}
@@ -202,6 +224,9 @@ class HostedApplication:
             status, body, content_type = 500, b'{"error":"Hosted response could not be prepared."}', "application/json"
         headers = [("Content-Type", content_type), ("Content-Length", str(len(body))), *SECURITY_HEADERS,
                    ("Strict-Transport-Security", "max-age=31536000"), ("Cross-Origin-Resource-Policy", "same-origin")]
+        if self.revision is not None:
+            headers.extend((("X-Controlomics-Revision", self.revision),
+                            ("X-Controlomics-Access-Log", "disabled" if logging.getLogger("gunicorn.access").disabled else "unverified")))
         if cookie is not None:
             headers.append(("Set-Cookie", f"{COOKIE_NAME}={cookie}; Path=/; Max-Age={SESSION_SECONDS}; Secure; HttpOnly; SameSite=Strict"))
         if filename is not None:
@@ -215,6 +240,8 @@ class HostedApplication:
         return self._respond(start_response, status, {"error": message, "code": code})
 
     def __call__(self, environ, start_response):
+        if environ.get("wsgi.errors") is not None:
+            environ = {**environ, "wsgi.errors": _RedactedErrorStream(environ["wsgi.errors"])}
         try:
             return self._handle(environ, start_response)
         except Exception:

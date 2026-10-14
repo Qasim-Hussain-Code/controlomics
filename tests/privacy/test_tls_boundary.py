@@ -63,9 +63,10 @@ class TLSBoundaryTests(unittest.TestCase):
                         patch("socket.create_connection", return_value=raw_socket) as connect, \
                         patch("ssl.create_default_context", return_value=context) as factory, \
                         patch.object(ssl.SSLContext, "wrap_socket", autospec=True, side_effect=wrap) as wrapped, \
-                        patch("http.client.HTTPSConnection", return_value=connection):
+                        patch("http.client.HTTPSConnection", return_value=connection) as https:
                     self.assertEqual(transport.send(request, request.approval_hash), {})
                     factory.assert_called_once_with()
+                    https.assert_called_once_with(EuropePMC.host, timeout=20, context=context)
                     connect.assert_called_once_with(("93.184.216.34", 443), timeout=20)
                     wrapped.assert_called_once()
                 self.assertIs(connection.sock, tls_socket)

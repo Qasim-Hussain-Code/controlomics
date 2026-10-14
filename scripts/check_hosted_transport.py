@@ -24,11 +24,12 @@ from controlomics.hosted_worker import READ_DEADLINE_SECONDS, READ_INACTIVITY_SE
 from controlomics.server import SECURITY_HEADERS  # noqa: E402
 
 ORIGIN = "https://controlomics.example"
+FIXTURE_REVISION = "a" * 40
 MARKER = "synthetic_private_transport_marker"
 # Exercise the documented Render Python default, not the operator's environment.
 # https://render.com/docs/environment-variables
 RENDER_GUNICORN_CMD_ARGS = "--preload --access-logfile - --bind=0.0.0.0:10000"
-LOG_MARKERS = {name: MARKER + "_" + name for name in ("query", "user_agent", "referer", "wsgi_diagnostic")}
+LOG_MARKERS = {name: MARKER + "_" + name for name in ("query", "user_agent", "referer", "wsgi_diagnostic", "error_stream")}
 
 
 def main():
@@ -67,6 +68,14 @@ def main():
             "from controlomics.hosted import create_app\n"
             "from controlomics.hosted_worker import BoundedSocket\n"
             "app = create_app()\n"
+            "original_handle = app._handle\n"
+            "def probed_handle(environ, start_response):\n"
+            f"    if environ.get('HTTP_X_TRANSPORT_LOG_PROBE') == {MARKER!r}:\n"
+            f"        environ['wsgi.errors'].write({LOG_MARKERS['error_stream']!r})\n"
+            f"        environ['wsgi.errors'].writelines([{LOG_MARKERS['error_stream']!r}])\n"
+            "        environ['wsgi.errors'].flush()\n"
+            "    return original_handle(environ, start_response)\n"
+            "app._handle = probed_handle\n"
             "def application(environ, start_response):\n"
             "    if not isinstance(environ.get('gunicorn.socket'), BoundedSocket):\n"
             "        raise RuntimeError('Unbounded hosted transport fixture')\n"
@@ -74,7 +83,7 @@ def main():
             f"        logging.getLogger('gunicorn.http.wsgi').warning('Synthetic WSGI diagnostic %s', {LOG_MARKERS['wsgi_diagnostic']!r})\n"
             "    return app(environ, start_response)\n", encoding="utf-8")
         env = {**os.environ, "PUBLIC_ORIGIN": ORIGIN, "CONTROLOMICS_SESSION_SECRET": "Synthetic transport qualification secret, never a deployment key.",
-               "CONTROLOMICS_TRUST_PROXY": "render", "TMPDIR": str(scratch),
+               "CONTROLOMICS_TRUST_PROXY": "render", "TMPDIR": str(scratch), "RENDER_GIT_COMMIT": FIXTURE_REVISION,
                "GUNICORN_CMD_ARGS": RENDER_GUNICORN_CMD_ARGS,
                "PYTHONPATH": os.pathsep.join((str(scratch), str(ROOT / "src")))}
         try:
@@ -129,6 +138,11 @@ def main():
                     raise AssertionError("Owned Gunicorn did not become ready")
                 time.sleep(0.1)
             record["checks"].append({"name": "worker_and_wsgi_socket_guard", "status": "PASS"})
+            status, _, metadata = request("/healthz", extra={
+                "X-Controlomics-Revision": "b" * 40, "X-Controlomics-Access-Log": "enabled"})
+            assert status == 200 and metadata.get("X-Controlomics-Revision") == FIXTURE_REVISION
+            assert metadata.get("X-Controlomics-Access-Log") == "disabled"
+            record["checks"].append({"name": "public_build_and_runtime_logger_metadata_ignore_request_values", "status": "PASS"})
             status, _, probe_headers = request("/?fbclid=" + LOG_MARKERS["query"], extra={
                 "User-Agent": LOG_MARKERS["user_agent"],
                 "Referer": "https://controlomics.example/" + LOG_MARKERS["referer"],
@@ -261,11 +275,13 @@ def main():
     record["log_excludes_synthetic_access_fields"] = all(LOG_MARKERS[name].encode() not in log for name in ("query", "user_agent", "referer"))
     record["wsgi_diagnostic_redacted"] = (LOG_MARKERS["wsgi_diagnostic"].encode() not in log
         and b"Hosted server diagnostic. Request and internal details omitted." in log)
+    record["wsgi_error_stream_redacted"] = (LOG_MARKERS["error_stream"].encode() not in log
+        and b"Hosted request diagnostic. Private details omitted." in log)
     if failure is None:
-        for name in ("log_excludes_synthetic_access_fields", "wsgi_diagnostic_redacted"):
+        for name in ("log_excludes_synthetic_access_fields", "wsgi_diagnostic_redacted", "wsgi_error_stream_redacted"):
             record["checks"].append({"name": name, "status": "PASS" if record[name] else "FAIL"})
     record["server_log_sha256"] = hashlib.sha256(log).hexdigest()
-    if failure is None and all(record[name] for name in ("owned_server_exited", "owned_endpoint_connection_refused", "owned_temporary_directory_removed", "log_excludes_synthetic_private_marker", "log_excludes_synthetic_access_fields", "wsgi_diagnostic_redacted")):
+    if failure is None and all(record[name] for name in ("owned_server_exited", "owned_endpoint_connection_refused", "owned_temporary_directory_removed", "log_excludes_synthetic_private_marker", "log_excludes_synthetic_access_fields", "wsgi_diagnostic_redacted", "wsgi_error_stream_redacted")):
         record["status"] = "PASS"
     else:
         record["status"] = "FAIL"
