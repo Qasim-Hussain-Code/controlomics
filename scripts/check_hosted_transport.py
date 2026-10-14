@@ -25,6 +25,10 @@ from controlomics.server import SECURITY_HEADERS  # noqa: E402
 
 ORIGIN = "https://controlomics.example"
 MARKER = "synthetic_private_transport_marker"
+# Exercise the documented Render Python default, not the operator's environment.
+# https://render.com/docs/environment-variables
+RENDER_GUNICORN_CMD_ARGS = "--preload --access-logfile - --bind=0.0.0.0:10000"
+LOG_MARKERS = {name: MARKER + "_" + name for name in ("query", "user_agent", "referer", "wsgi_diagnostic")}
 
 
 def main():
@@ -45,6 +49,9 @@ def main():
     record = {"scope": "Owned loopback HTTP with trusted TLS-proxy headers; not live Render/TLS verification",
               "python": sys.version.split()[0], "gunicorn": gunicorn.__version__,
               "read_inactivity_seconds": READ_INACTIVITY_SECONDS, "read_deadline_seconds": READ_DEADLINE_SECONDS,
+              "inherited_gunicorn_cmd_args": RENDER_GUNICORN_CMD_ARGS,
+              "print_config_launcher_environment_boundary": "env -u GUNICORN_CMD_ARGS",
+              "wire_launcher_mode": "Inherited Render CLI defaults retained to exercise stored start commands",
               "checks": [], "source_hashes": {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in
                   ("src/controlomics/hosted.py", "src/controlomics/hosted_worker.py", "gunicorn.conf.py", "scripts/check_hosted_transport.py")}}
     listener = socket.socket()
@@ -56,17 +63,31 @@ def main():
     with TemporaryDirectory(prefix="hosted_transport_", dir=output.parent) as temporary, log_path.open("x", encoding="utf-8") as logs:
         scratch = Path(temporary)
         (scratch / "owned_hosted_fixture.py").write_text(
+            "import logging\n"
             "from controlomics.hosted import create_app\n"
             "from controlomics.hosted_worker import BoundedSocket\n"
             "app = create_app()\n"
             "def application(environ, start_response):\n"
             "    if not isinstance(environ.get('gunicorn.socket'), BoundedSocket):\n"
             "        raise RuntimeError('Unbounded hosted transport fixture')\n"
+            f"    if environ.get('HTTP_X_TRANSPORT_LOG_PROBE') == {MARKER!r}:\n"
+            f"        logging.getLogger('gunicorn.http.wsgi').warning('Synthetic WSGI diagnostic %s', {LOG_MARKERS['wsgi_diagnostic']!r})\n"
             "    return app(environ, start_response)\n", encoding="utf-8")
         env = {**os.environ, "PUBLIC_ORIGIN": ORIGIN, "CONTROLOMICS_SESSION_SECRET": "Synthetic transport qualification secret, never a deployment key.",
                "CONTROLOMICS_TRUST_PROXY": "render", "TMPDIR": str(scratch),
+               "GUNICORN_CMD_ARGS": RENDER_GUNICORN_CMD_ARGS,
                "PYTHONPATH": os.pathsep.join((str(scratch), str(ROOT / "src")))}
         try:
+            configuration = subprocess.run(["env", "-u", "GUNICORN_CMD_ARGS", sys.executable, "-m", "gunicorn",
+                "--config", str(ROOT / "gunicorn.conf.py"), "--bind", "127.0.0.1:0", "--print-config",
+                "owned_hosted_fixture:application"], cwd=ROOT, env=env, capture_output=True, timeout=20, check=False)
+            assert configuration.returncode == 0, "Owned launcher configuration check failed"
+            effective = dict(line.split(" = ", 1) for line in configuration.stdout.decode("utf-8").splitlines() if " = " in line)
+            assert effective.get("accesslog") == "None" and effective.get("preload_app") == "False"
+            assert effective.get("bind") == "['127.0.0.1:0']"
+            record["checks"].append({"name": "new_launcher_ignores_inherited_render_cli_defaults", "status": "PASS"})
+            # Keep the inherited defaults here: an existing service can retain
+            # its old start command until its Blueprint configuration is synced.
             process = subprocess.Popen([sys.executable, "-m", "gunicorn", "--config", str(ROOT / "gunicorn.conf.py"),
                 "--bind", f"fd://{listener.fileno()}", "owned_hosted_fixture:application"], cwd=ROOT, env=env,
                 pass_fds=(listener.fileno(),), stdout=logs, stderr=logs, start_new_session=True)
@@ -108,6 +129,11 @@ def main():
                     raise AssertionError("Owned Gunicorn did not become ready")
                 time.sleep(0.1)
             record["checks"].append({"name": "worker_and_wsgi_socket_guard", "status": "PASS"})
+            status, _, probe_headers = request("/?fbclid=" + LOG_MARKERS["query"], extra={
+                "User-Agent": LOG_MARKERS["user_agent"],
+                "Referer": "https://controlomics.example/" + LOG_MARKERS["referer"],
+                "X-Transport-Log-Probe": MARKER})
+            assert status == 200 and "Set-Cookie" not in probe_headers
             for asset in ("/", "/app.js", "/style.css"):
                 status, original, original_headers = request(asset)
                 assert status == 200 and "Set-Cookie" not in original_headers
@@ -232,8 +258,14 @@ def main():
     record["owned_temporary_directory_removed"] = not scratch.exists()
     log = log_path.read_bytes()
     record["log_excludes_synthetic_private_marker"] = MARKER.encode() not in log
+    record["log_excludes_synthetic_access_fields"] = all(LOG_MARKERS[name].encode() not in log for name in ("query", "user_agent", "referer"))
+    record["wsgi_diagnostic_redacted"] = (LOG_MARKERS["wsgi_diagnostic"].encode() not in log
+        and b"Hosted server diagnostic. Request and internal details omitted." in log)
+    if failure is None:
+        for name in ("log_excludes_synthetic_access_fields", "wsgi_diagnostic_redacted"):
+            record["checks"].append({"name": name, "status": "PASS" if record[name] else "FAIL"})
     record["server_log_sha256"] = hashlib.sha256(log).hexdigest()
-    if failure is None and all(record[name] for name in ("owned_server_exited", "owned_endpoint_connection_refused", "owned_temporary_directory_removed", "log_excludes_synthetic_private_marker")):
+    if failure is None and all(record[name] for name in ("owned_server_exited", "owned_endpoint_connection_refused", "owned_temporary_directory_removed", "log_excludes_synthetic_private_marker", "log_excludes_synthetic_access_fields", "wsgi_diagnostic_redacted")):
         record["status"] = "PASS"
     else:
         record["status"] = "FAIL"

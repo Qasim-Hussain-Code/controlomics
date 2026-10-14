@@ -7,7 +7,7 @@ services:
     branch: main
     autoDeployTrigger: checksPass
     buildCommand: python -m pip install -r requirements-cloud.lock && python -m pip install --no-build-isolation --no-deps .
-    startCommand: gunicorn --config gunicorn.conf.py "controlomics.hosted:create_app()"
+    startCommand: env -u GUNICORN_CMD_ARGS gunicorn --config gunicorn.conf.py "controlomics.hosted:create_app()"
     healthCheckPath: /healthz
     envVars:
       - key: CONTROLOMICS_SESSION_SECRET

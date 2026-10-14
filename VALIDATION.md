@@ -1,5 +1,13 @@
 # Validation
 
+## Hosted logging configuration, 2026-10-14
+
+After manual deployment of `22e6781`, 13 live synthetic HTTP checks passed for clean and tracking-query public assets, unchanged content, security headers, and rejection of query-bearing guarded routes. The actual Facebook device request was not captured. This closes the reproduced shared-link failure within that recorded scope.
+
+The deployment screenshot separately exposed Gunicorn access-log rows. Render's documented `GUNICORN_CMD_ARGS` defaults override the config file's disabled access logging. The launcher now removes those inherited arguments, and startup independently disables the configured access logger after argument parsing, including for existing services using the previous stored start command. The separate WSGI diagnostic logger also receives redaction. These changes do not remove earlier logs or establish absence of hosting-infrastructure metadata.
+
+The Windows CPython 3.14 suite passed 301 tests. Two new logging tests verify that an already configured access handler emits no request records after startup and that both error and WSGI diagnostics omit supplied message arguments, tracebacks, and stack information. Schema, lint, source/history hygiene, and diff checks passed. The Linux transport checker additionally qualifies the new launcher's effective configuration and a real server retaining Render's documented default arguments, with synthetic URL and header markers excluded from captured logs; its results belong to the corresponding hosted CI revision.
+
 ## Shared-link compatibility, 2026-10-14
 
 A public GET with a synthetic `fbclid` query reproduced `403 HOSTED_ORIGIN_REJECTED`. The hosted adapter previously rejected every query string. Fixed public workspace and asset GET/HEAD routes now ignore query parameters while serving unchanged bytes. Session, consent, scientific-action, readiness, and unknown routes still reject queries, and canonical Host, HTTPS/proxy, token, and consent checks remain intact. Tracking parameters are not used as authorization, reflected in content, or retained by the application; platform URL metadata is a separate boundary.

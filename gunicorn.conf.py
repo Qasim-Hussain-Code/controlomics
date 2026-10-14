@@ -45,6 +45,13 @@ class _RedactedDiagnostics(logging.Filter):
 
 
 def on_starting(server):
+    # The host can inject --access-logfile after this file is loaded. Enforce
+    # the privacy policy after argument parsing, including an existing service
+    # that still uses the previous stored start command.
+    server.cfg.set("accesslog", None)
+    server.log.access_log.disabled = True
     # Gunicorn can include invalid header values in warning messages. Apply the
     # filter before workers start; it is inherited by the single worker.
-    server.log.error_log.addFilter(_RedactedDiagnostics())
+    redact = _RedactedDiagnostics()
+    server.log.error_log.addFilter(redact)
+    logging.getLogger("gunicorn.http.wsgi").addFilter(redact)
