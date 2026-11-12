@@ -63,6 +63,8 @@ jobs:
           node --check scripts/check_ui.cjs
           node --check scripts/check_ui_shutdown.cjs
           node --check scripts/test_ui_shutdown.cjs
+          node --check src/controlomics/web/browser.js
+          node --input-type=module --check < src/controlomics/web/browser_worker.js
           node --test scripts/test_ui_shutdown.cjs
       - name: Hosted HTTP transport checks
         if: matrix.os == 'ubuntu-latest' && matrix.python == '3.14'

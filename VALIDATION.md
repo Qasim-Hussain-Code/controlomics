@@ -1,5 +1,13 @@
 # Validation
 
+## Static browser workspace, 2026-11-12
+
+The [developer check record](docs/validation/browser_workspace_v0.6.13.json) covers the static workspace before publication. The pinned Pyodide 314.0.7 core files matched the integrity-verified npm release, and the five package wheels matched its lock file. Eighteen browser runtime and build tests passed in WSL CPython 3.14. In-process fixed-runner results matched the separate-process runner apart from identifiers and timestamps.
+
+Headless Chrome 157 ran the transcriptomics demo at 390 and 1440 pixels in browser mode with no exception or horizontal overflow. Method review, execution, packages, reports, input inspection, and literature retrieval returned the expected records; Europe PMC and Crossref each returned three records for public synthetic queries with COMPLETED ledger events. An unresolvable synthetic model endpoint recorded FAILED after an attempt, without echoing the key. A shortened first execution timer produced the fixed timeout reply and a working restarted worker. The page contacted only the site and the two literature hosts.
+
+Start-up first took 57 to 74 seconds because of Pyodide's JSPI path in Chrome and now takes about 3 seconds with JSPI hidden in the worker. This record and its retained failures are developer observations; screen readers, other browsers, mobile devices, and the published deployment are not covered here.
+
 ## Security and privacy review, 0.6.13.dev0
 
 The [scoped review record](docs/validation/security_privacy_v0.6.13.json) separates source, synthetic probes, repository settings, and live observations. Three parallel AI-assisted reviews examined hosted authorization and framing, outbound requests and ledgers, and storage, imports, execution, and browser code. No live provider request, real research data, hostile public-service load test, or new native-browser qualification was performed. This is developer verification, not independent security certification.

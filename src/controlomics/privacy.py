@@ -178,7 +178,8 @@ class SafeTransport:
     allowed_hosts: frozenset[str]
     audit: list[dict] = field(default_factory=list)
 
-    def send(self, prepared: PreparedRequest, approval_hash: str | None, api_key: str | None = None):
+    def open_event(self, prepared: PreparedRequest, approval_hash: str | None, api_key: str | None = None):
+        """Check approval and the allowlist, then record a NOT_STARTED ledger event."""
         if approval_hash != prepared.approval_hash:
             raise ApprovalRequired("review and approve the exact outbound request first")
         host = urlsplit(prepared.url).hostname
@@ -192,6 +193,10 @@ class SafeTransport:
         event["credential_supplied"] = bool(api_key)
         event["payload_transmission"] = "NOT_STARTED"
         self.audit.append(event)
+        return host, event
+
+    def send(self, prepared: PreparedRequest, approval_hash: str | None, api_key: str | None = None):
+        host, event = self.open_event(prepared, approval_hash, api_key)
         try:
             addresses = socket.getaddrinfo(host, 443, type=socket.SOCK_STREAM)
             if not addresses or any(not is_public_unicast_address(address[4][0]) for address in addresses):

@@ -69,10 +69,12 @@ function acceptSession(data) {
   const metadata = data.deployment && typeof data.deployment === "object" ? {...data, ...data.deployment} : data;
   const loopback = ["127.0.0.1", "localhost", "[::1]"].includes(location.hostname);
   const mode = metadata.mode || (loopback ? "LOCAL" : null);
-  if (mode !== "LOCAL" && mode !== "HOSTED_TEMPORARY" || mode === "LOCAL" && !loopback) throw new Error("The service has not supplied a valid processing mode. No research request was sent.");
+  // The in-browser runtime registers itself before this script runs; its mode is never accepted from a server.
+  const browserRuntime = mode === "BROWSER" && globalThis.ControlomicsBrowser?.active === true && (loopback || location.protocol === "https:");
+  if (mode !== "LOCAL" && mode !== "HOSTED_TEMPORARY" && !browserRuntime || mode === "LOCAL" && !loopback) throw new Error("The service has not supplied a valid processing mode. No research request was sent.");
   if (mode === "HOSTED_TEMPORARY" && (!loopback && location.protocol !== "https:" || typeof metadata.policy_revision !== "string" || !metadata.policy_revision.length || metadata.policy_revision.length > 96 || typeof metadata.consent_required !== "boolean" || typeof metadata.hosting_consent !== "boolean" || metadata.consent_required === metadata.hosting_consent)) throw new Error("Invalid cloud consent information. No research request was sent.");
   const previousToken = state.token;
-  Object.assign(state, {token: data.token, sessionReady: true, deploymentMode: mode, policyRevision: mode === "HOSTED_TEMPORARY" ? metadata.policy_revision : null, hostingConsent: mode === "LOCAL" || metadata.hosting_consent});
+  Object.assign(state, {token: data.token, sessionReady: true, deploymentMode: mode, policyRevision: mode === "HOSTED_TEMPORARY" ? metadata.policy_revision : null, hostingConsent: mode === "LOCAL" || mode === "BROWSER" || metadata.hosting_consent});
   if (mode === "HOSTED_TEMPORARY" && previousToken && previousToken !== state.token) { state.pending = null; $("model-key").value = ""; if ($("request-dialog").open) $("request-dialog").close(); }
   renderDeployment();
 }

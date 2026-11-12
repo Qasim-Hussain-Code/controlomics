@@ -1,5 +1,9 @@
 # Development changes
 
+## Static browser workspace, 2026-11-12
+
+Adds a static [browser workspace](https://qasim-hussain-code.github.io/controlomics/) published from `main` by `pages.yml`, because the free Render service is suspended and Hugging Face Docker Spaces now require a paid plan. The interface and scientific dispatch run in the visitor's browser with a self-hosted, hash-pinned Pyodide 314.0.7. Approved literature and model requests are sent by the page after the unchanged exact-approval gate, and the ledger records the phase reached. Fixed execution runs in the worker's interpreter under the 35-second local limit. `handle_action` accepts a transport class and `SafeTransport.open_event` holds the shared approval and ledger step; local and hosted behavior, scientific procedures, and frozen numerical sources are unchanged. [ADR 0006](docs/adr/0006_static_browser_workspace.md) records the changed boundaries.
+
 ## 0.6.12.dev0
 
 Adds a full hosted prototype using the existing scientific actions behind a separate HTTPS, signed-session, and explicit temporary-processing consent boundary. Research records remain browser-held; the application has no project database or saved uploads. Historical processing receipts accompany projects, reports, and execution packages without changing reviewed-control or evaluation hashes.

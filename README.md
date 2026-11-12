@@ -1,8 +1,8 @@
 # Controlomics
 
-Controlomics is a research workspace for specifying, reviewing, executing, and auditing controls around computational biology claims. It runs locally or as a hosted prototype with explicit consent to temporary cloud processing. Primary analyses remain in the researcher's environment.
+Controlomics is a research workspace for specifying, reviewing, executing, and auditing controls around computational biology claims. It runs locally, in the browser from a static site, or as a hosted prototype with explicit consent to temporary cloud processing. Primary analyses remain in the researcher's environment.
 
-[Open the hosted prototype](https://controlomics.onrender.com/).
+[Open the browser workspace](https://qasim-hussain-code.github.io/controlomics/). It runs the same Python in your browser and uploads nothing to a first-party server; the first visit downloads about 15.7 MB. The [hosted prototype](https://controlomics.onrender.com/) is unavailable while its free Render service is suspended.
 
 [The complete architecture walkthrough](docs/AGENT_ARCHITECTURE.md) maps the implemented components and their scientific and privacy boundaries. The default reasoner uses inspectable rules; an optional hosted model proposes candidates. Researchers review source support and decide what conclusions are justified.
 
@@ -19,6 +19,20 @@ Execution requires an explicit reviewed-control selection and explains missing p
 ![Controlomics hosted prototype with a hypothetical transcriptomics example](docs/images/prototype_workspace.png)
 
 The local workspace keeps research inputs on your computer. The full hosted prototype processes submitted project records, source-review text, evaluation records, and selected numeric inputs temporarily after consent. It has no project database or saved uploads; export your work before closing the page. See [hosting and distribution](docs/HOSTING.md).
+
+## Browser workspace
+
+The static workspace runs the shared scientific actions with Pyodide in a dedicated browser worker. Approved literature and model requests are sent by the page after the same preview and exact-request approval, and the network ledger records how far each request reached. A model key, if supplied, stays in the page for that request only. Execution uses the fixed runner inside the worker with the 35-second local limit. See [ADR 0006](docs/adr/0006_static_browser_workspace.md) for the boundary and its limits.
+
+To build it from a checkout, after installing the development lock as described below:
+
+```sh
+python scripts/build_distributions.py --output-dir dist
+python scripts/build_browser.py --wheel dist/controlomics-0.6.13.dev0-py3-none-any.whl --output site
+python -m http.server 8000 --bind 127.0.0.1 --directory site
+```
+
+Open [the local copy](http://127.0.0.1:8000/). The build downloads pinned Pyodide files once into `local_projects/pyodide_cache/` and rejects any file whose SHA-256 differs.
 
 ## Start locally
 

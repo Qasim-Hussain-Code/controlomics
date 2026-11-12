@@ -2,7 +2,7 @@
 
 Controlomics supports a local workspace and a full hosted prototype. Source distribution and research processing have separate boundaries.
 
-The hosted prototype is available at [controlomics.onrender.com](https://controlomics.onrender.com/). The [scoped deployment record](validation/live_render_v0.6.12.json) describes the performed synthetic checks and their limits.
+The hosted prototype runs at [controlomics.onrender.com](https://controlomics.onrender.com/) when its free Render service is active; it is currently suspended. The [browser workspace](https://qasim-hussain-code.github.io/controlomics/) runs the same scientific actions in the visitor's browser from GitHub Pages. The [scoped deployment record](validation/live_render_v0.6.12.json) describes the performed synthetic checks and their limits.
 
 | Component | Location | Purpose |
 | --- | --- | --- |
@@ -10,6 +10,7 @@ The hosted prototype is available at [controlomics.onrender.com](https://control
 | Release downloads | GitHub Releases | Obtain versioned packages with recorded hashes |
 | Local workspace | Researcher's computer | Process inputs on that computer through the loopback service |
 | Hosted prototype | Render Python web service | Temporarily process explicitly consented research inputs |
+| Browser workspace | GitHub Pages static site | Process research inputs in the visitor's browser without a first-party server |
 | Optional literature or model provider | Separately approved external service | Receive only screened selected public fields after exact-request approval |
 
 ## Full hosted prototype
@@ -38,4 +39,8 @@ Render's free service can sleep after inactivity, restart, and pause at its shar
 
 [Render's service documentation](https://render.com/docs/web-services), [Blueprint reference](https://render.com/docs/blueprint-spec), [environment variables](https://render.com/docs/environment-variables), and [privacy policy](https://render.com/privacy) describe the host. Third-party hosting must never be described as collecting no information.
 
-GitHub Pages serves static files and cannot run this Python service. Its availability does not provide a working Controlomics workspace; see [GitHub's Pages description](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages).
+## Browser workspace on GitHub Pages
+
+GitHub Pages serves static files and cannot run the Python service; see [GitHub's Pages description](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages). The static workspace instead runs the scientific core in the visitor's browser. [pages.yml](../.github/workflows/pages.yml) builds it from `main` with `scripts/build_distributions.py` and `scripts/build_browser.py`, then publishes the artifact. Only its deploy job holds `pages: write` and `id-token: write`. The build accepts pinned Pyodide 314.0.7 core files by SHA-256 and package wheels by the pinned lock file; the site loads nothing from a third party.
+
+Research inputs stay in the browser. Approved literature and model requests go from the browser directly to the provider after exact approval. A visitor's model key stays in the page and is sent only in that request's authorization header. GitHub Pages applies no application logging, but GitHub can collect connection and operational metadata under [its privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement), and providers apply their own policies. GitHub Pages cannot send headers, so the page carries its content policy as a meta element without `frame-ancestors`. Scope, boundary changes, and limits are recorded in [ADR 0006](adr/0006_static_browser_workspace.md).

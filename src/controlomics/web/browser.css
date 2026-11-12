@@ -1,0 +1,4 @@
+/* Runtime status line for the static in-browser workspace. */
+.browser-runtime { margin: 0 0 12px; padding: 9px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--warm); color: var(--ink); font-size: 14px; line-height: 1.45; }
+.browser-runtime[data-state="ready"] { background: var(--paper); color: var(--muted); }
+.browser-runtime[data-state="failed"] { background: var(--soft); color: var(--danger); border-color: var(--danger); }

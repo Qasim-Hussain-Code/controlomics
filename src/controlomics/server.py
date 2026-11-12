@@ -60,7 +60,7 @@ def selected_claim(project, identifier):
     return identifier
 
 
-def handle_action(path, data):
+def handle_action(path, data, transport_type=SafeTransport):
     if path == "/api/inspect-input":
         from controlomics.inputs import inspect_numeric_input
         return {"input_summary": inspect_numeric_input(data["csv"].encode("utf-8"), data["adapter"]).model_dump(mode="json")}
@@ -116,7 +116,7 @@ def handle_action(path, data):
         if type(data.get("public_confirmed")) is not bool or not data["public_confirmed"]:
             raise ValueError("a public-only query must be explicitly confirmed")
         cls = {"europepmc": EuropePMC, "crossref": Crossref}[data["provider"]]
-        transport = SafeTransport(frozenset({cls.host}))
+        transport = transport_type(frozenset({cls.host}))
         provider = cls(transport)
         prepared = provider.prepare_search(data["query"], data.get("limit", 5))
         if path.endswith("preview"):
@@ -135,7 +135,7 @@ def handle_action(path, data):
             raise ValueError("model context must be a named public-field object")
         fields = tuple(SafeField(name, value, "SAFE") for name, value in data["fields"].items())
         host = urlsplit(data["endpoint"]).hostname
-        transport = SafeTransport(frozenset({host}))
+        transport = transport_type(frozenset({host}))
         provider = MessagesProvider(data["endpoint"], data["model"], transport, data.get("api_key"))
         prepared = provider.prepare(fields)
         if path.endswith("preview"):

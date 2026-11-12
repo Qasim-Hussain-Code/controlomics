@@ -30,6 +30,12 @@ Loopback POST authorization is checked before waiting for or parsing the body; n
 
 Malformed request-line errors use an HTTP status line and the same security headers as other replies. Versionless request lines and HTTP versions below 1.0 are rejected with a framed HTTP/1.0 error before application dispatch. Empty connections and read timeouts may close without a response.
 
+## Browser workspace boundary
+
+The static workspace accepts the `BROWSER` mode only from its own registered page runtime over HTTPS or a loopback host. Actions call the shared dispatch in a module worker and return the local server's status codes and fixed redacted messages. Pyodide core files are accepted at build time by pinned SHA-256, package wheels by the pinned lock file, and the Controlomics wheel by the build manifest's SHA-256, checked in the worker before installation. Pyodide's JSPI path is hidden in that worker only.
+
+Approved requests keep preparation, screening, exact approval, and the allowlist in Python. The page then transmits over HTTPS with `redirect: "error"`, omitted credentials and referrer, no caching, a 20-second timeout, and a 2 MiB streamed bound. The browser performs name resolution and TLS, so the transmission-time public-address check and explicit TLS floor do not apply. GitHub Pages cannot send headers: the content policy is a meta element limiting connections to HTTPS, without `frame-ancestors`, so framing is not prevented, and the worker has no policy of its own. Fixed execution runs in the worker's interpreter, not a separate operating-system process; the page ends the worker after 37 seconds. See [ADR 0006](docs/adr/0006_static_browser_workspace.md).
+
 ## External transport
 
 HTTPS URLs cannot include credentials, fragments, or nonstandard ports. Preparation and ledger validation share the same URL checks: restricted decoded components, nonpublic literal IP addresses, raw ASCII whitespace or controls, and URLs longer than 12,000 characters are rejected. Public hostname validation does not authorize its DNS result. Provider preparation binds selected public fields to URLs or messages, and exact approval is checked before connection. DNS addresses must be globally routable; TLS uses a checked address, the original hostname, certificate verification, and a minimum of TLS 1.2 while retaining stricter defaults. The same verified SSL context is supplied to the HTTPS connection and actual socket handshake. Redirects are rejected. Responses are bounded to 2 MiB with socket timeouts. Errors omit private input and response content.
