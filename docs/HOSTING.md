@@ -10,7 +10,6 @@ The hosted prototype is available at [controlomics.onrender.com](https://control
 | Release downloads | GitHub Releases | Obtain versioned packages with recorded hashes |
 | Local workspace | Researcher's computer | Process inputs on that computer through the loopback service |
 | Hosted prototype | Render Python web service | Temporarily process explicitly consented research inputs |
-| Hosted prototype, alternative host | Hugging Face Docker Space | Run the same hosted adapter while the Render service is unavailable |
 | Optional literature or model provider | Separately approved external service | Receive only screened selected public fields after exact-request approval |
 
 ## Full hosted prototype
@@ -38,13 +37,5 @@ Gunicorn runs one worker with four threads, HTTP/1 only, a 10-second socket read
 Render's free service can sleep after inactivity, restart, and pause at its shared usage limits. Its Blueprint rejects a custom `maxShutdownDelaySeconds`, so the configuration uses Render's default shutdown deadline. That deadline can terminate an in-flight action before the application's execution or graceful-shutdown timeout. A cold start invalidates sessions and requires renewed consent; the browser retains work and never automatically repeats a request. Free compute can be slower than a scientific workstation, and valid numeric work can exceed the fixed execution timeout. There is no uptime or result guarantee. Plan availability and limits can change; consult [Render's free-service documentation](https://render.com/docs/free).
 
 [Render's service documentation](https://render.com/docs/web-services), [Blueprint reference](https://render.com/docs/blueprint-spec), [environment variables](https://render.com/docs/environment-variables), and [privacy policy](https://render.com/privacy) describe the host. Third-party hosting must never be described as collecting no information.
-
-## Hugging Face Space
-
-[deploy/huggingface](../deploy/huggingface) holds the files of a free Hugging Face Docker Space. The Space itself contains only that folder's `README.md` card and `Dockerfile`. Its build downloads the public source archive of the `main` branch, or of the `CONTROLOMICS_REF` build argument, installs `requirements-cloud.lock` and the package, and then runs [start.sh](../deploy/huggingface/start.sh) from that source as an unprivileged user. Gunicorn loads the same `controlomics.hosted:create_app()` with the same `gunicorn.conf.py` on port 7860. Rebuilding the Space picks up later source; a running Space does not update itself.
-
-`start.sh` takes the canonical origin from a `PUBLIC_ORIGIN` Space variable when one is defined, and otherwise from the platform's `SPACE_HOST`. A `CONTROLOMICS_SESSION_SECRET` Space secret is used when present. Otherwise each start generates a random 256-bit value that exists only in the process environment; sessions already end at every restart, so this loses nothing. `CONTROLOMICS_TRUST_PROXY=render` selects the same private-peer forwarding check, named after the host it was first written for. If the platform proxy does not satisfy that check, the adapter rejects requests rather than trusting forwarded headers. Without a valid origin, or with a Space secret shorter than 32 bytes, the service does not start.
-
-The application sends `frame-ancestors 'none'`, so the panel on the Space page stays blank; open the direct `hf.space` address instead. A free Space sleeps when unused and can restart, which ends open sessions and requires renewed consent. There is no uptime or result guarantee. Hugging Face collects connection and operational metadata under [its privacy policy](https://huggingface.co/privacy). These files describe a deployment; they do not themselves establish that a live Space exists.
 
 GitHub Pages serves static files and cannot run this Python service. Its availability does not provide a working Controlomics workspace; see [GitHub's Pages description](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages).
