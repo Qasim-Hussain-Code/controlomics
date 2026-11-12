@@ -101,5 +101,41 @@
     "refused_webassembly_once": "Retried by the worker; ready",
     "refused_manifest_once": "Retried by the page with a retry message; ready",
     "full_local_workflow": "Passed at 390 and 1440 pixels, including live Europe PMC and Crossref retrieval and the timeout path"
+  },
+  "hardened_deployment_live": {
+    "source": "5e57d76",
+    "published_scripts_match_source": [
+      "browser.js",
+      "browser_worker.js"
+    ],
+    "chrome_start_up": "Ready after 1,211 seconds on the same slow connection with QUIC disabled",
+    "widths": [
+      390,
+      1440
+    ],
+    "horizontal_overflow": false,
+    "actions_returning_200": [
+      "transcriptomics demo analysis",
+      "method-review",
+      "execute",
+      "package",
+      "report",
+      "inspect-input",
+      "literature retrieve",
+      "model run"
+    ],
+    "execution": "INDETERMINATE with p = 1/3",
+    "live_literature": {
+      "europepmc": "COMPLETED, 3 records",
+      "crossref": "COMPLETED, 3 records"
+    },
+    "model_failure_path": "FAILED after ATTEMPTED with credential_supplied true; key not echoed",
+    "timeout_path": "LOCAL_EXECUTION_TIMEOUT, then the restarted worker answered in 8 seconds",
+    "hosts_contacted_by_the_page": [
+      "qasim-hussain-code.github.io",
+      "www.ebi.ac.uk",
+      "api.crossref.org"
+    ],
+    "exceptions": 0
   }
 }
