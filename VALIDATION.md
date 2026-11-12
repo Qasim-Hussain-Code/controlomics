@@ -6,7 +6,7 @@ The [developer check record](docs/validation/browser_workspace_v0.6.13.json) cov
 
 Headless Chrome 157 ran the transcriptomics demo at 390 and 1440 pixels in browser mode with no exception or horizontal overflow. Method review, execution, packages, reports, input inspection, and literature retrieval returned the expected records; Europe PMC and Crossref each returned three records for public synthetic queries with COMPLETED ledger events. An unresolvable synthetic model endpoint recorded FAILED after an attempt, without echoing the key. A shortened first execution timer produced the fixed timeout reply and a working restarted worker. The page contacted only the site and the two literature hosts.
 
-Start-up first took 57 to 74 seconds because of Pyodide's JSPI path in Chrome and now takes about 3 seconds with JSPI hidden in the worker. This record and its retained failures are developer observations; screen readers, other browsers, mobile devices, and the published deployment are not covered here.
+Start-up first took 57 to 74 seconds because of Pyodide's JSPI path in Chrome and now takes about 3 seconds with JSPI hidden in the worker. The first Pages workflow run failed before publishing because its build step did not install the package, which local checks had supplied through the source path; the workflow now installs it as the software checks do. This record and its retained failures are developer observations; screen readers, other browsers, mobile devices, and the published deployment are not covered here.
 
 ## Security and privacy review, 0.6.13.dev0
 

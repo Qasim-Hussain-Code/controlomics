@@ -37,7 +37,8 @@
   "retained_observations": [
     "The first build failed because lock dependencies use underscores while lock keys use hyphens; names are now normalized.",
     "Start-up first took 57 to 74 seconds in headless Chrome. Timing showed 41 seconds in Pyodide initialization against 1.3 seconds under Node.js. Plain JavaScript and WebAssembly loops ran at matching speed, and hiding JSPI in the worker reduced start-up to about 3 seconds.",
-    "The first timeout check shortened every execution timer, so its recovery step also timed out; the check now shortens only the first timer."
+    "The first timeout check shortened every execution timer, so its recovery step also timed out; the check now shortens only the first timer.",
+    "The first Pages workflow run at 7445241 failed before publishing: its build step did not install the package that build_distributions.py imports. It now installs the package as the software checks do."
   ],
   "limits": [
     "No screen-reader, Firefox, Safari, or mobile-device check.",

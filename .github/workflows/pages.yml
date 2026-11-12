@@ -27,7 +27,9 @@ jobs:
         with:
           python-version: '3.14'
       - name: Install pinned build dependencies
-        run: python -m pip install -r requirements-dev.lock
+        run: |
+          python -m pip install -r requirements-dev.lock
+          python -m pip install --no-build-isolation --no-deps -e .
       - name: Build the wheel from the public inventory
         run: python scripts/build_distributions.py --output-dir dist
       - name: Build the static workspace
