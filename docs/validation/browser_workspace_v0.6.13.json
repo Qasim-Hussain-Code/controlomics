@@ -7,9 +7,21 @@
     "version": "314.0.7",
     "python": "3.14.2",
     "pydantic": "2.12.5",
-    "core_files_checked_against_npm_release": ["pyodide.mjs", "pyodide.asm.mjs", "pyodide.asm.wasm", "python_stdlib.zip", "pyodide-lock.json"],
+    "core_files_checked_against_npm_release": [
+      "pyodide.mjs",
+      "pyodide.asm.mjs",
+      "pyodide.asm.wasm",
+      "python_stdlib.zip",
+      "pyodide-lock.json"
+    ],
     "npm_tarball_integrity": "sha512 matched the registry record",
-    "package_wheels_matching_lock": ["pydantic", "pydantic-core", "typing-extensions", "annotated-types", "typing-inspection"]
+    "package_wheels_matching_lock": [
+      "pydantic",
+      "pydantic-core",
+      "typing-extensions",
+      "annotated-types",
+      "typing-inspection"
+    ]
   },
   "python_checks": {
     "browser_runtime_and_build_unit_tests": "18 passed in WSL CPython 3.14",
@@ -17,11 +29,26 @@
     "pyodide_under_node": "All core modules imported, including ssl; analysis, method review, report, execution, and package actions returned 200"
   },
   "browser_checks": {
-    "widths": [390, 1440],
+    "widths": [
+      390,
+      1440
+    ],
     "build_size_mb": 15.7,
-    "runtime_ready_seconds": [3.2, 3.0],
+    "runtime_ready_seconds": [
+      3.2,
+      3.0
+    ],
     "mode": "BROWSER",
-    "actions_returning_200": ["analyze through the transcriptomics demo", "method-review", "execute", "package", "report", "inspect-input", "literature preview and retrieve", "model preview"],
+    "actions_returning_200": [
+      "analyze through the transcriptomics demo",
+      "method-review",
+      "execute",
+      "package",
+      "report",
+      "inspect-input",
+      "literature preview and retrieve",
+      "model preview"
+    ],
     "execution": "Permutation fixture INDETERMINATE with p = 1/3, matching CPython",
     "live_literature": {
       "europepmc": "COMPLETED ledger event, 3 records imported for a public synthetic query",
@@ -29,7 +56,11 @@
     },
     "model_failure_path": "Unresolvable synthetic endpoint recorded FAILED with ATTEMPTED transmission and credential_supplied true; the key did not appear in any response",
     "timeout_path": "With only the first 37-second timer shortened, a heavy execution returned LOCAL_EXECUTION_TIMEOUT, the worker restarted, and the next execution returned one result",
-    "hosts_contacted_by_the_page": ["the site itself", "www.ebi.ac.uk", "api.crossref.org"],
+    "hosts_contacted_by_the_page": [
+      "the site itself",
+      "www.ebi.ac.uk",
+      "api.crossref.org"
+    ],
     "exceptions": 0,
     "console_errors": "Only the expected name-resolution failure of the synthetic model endpoint",
     "horizontal_overflow": false
@@ -44,5 +75,31 @@
     "No screen-reader, Firefox, Safari, or mobile-device check.",
     "The live GitHub Pages deployment is recorded separately after publication.",
     "Framing is not prevented because GitHub Pages cannot send headers."
-  ]
+  ],
+  "published_deployment": {
+    "source": "8dd81c5",
+    "identical_to_source": [
+      "index.html",
+      "app.js",
+      "style.css",
+      "browser.js",
+      "browser.css",
+      "browser_worker.js"
+    ],
+    "matching_pinned_digests": [
+      "pyodide/pyodide.mjs",
+      "pyodide/pyodide-lock.json"
+    ],
+    "wheel": "Digest matched the manifest; 30 package files matched the source",
+    "network": "About 15 KB/s from this workstation to GitHub Pages; the WebAssembly file arrived gzip-compressed as 3.6 MB in 289 seconds with curl",
+    "chrome_start_up": "Stalled beyond 25 minutes with QUIC enabled; ready after 484 seconds with QUIC disabled, with no failed request, exception, or console message",
+    "failed_start": "A later live start reported that the runtime could not start and offered only a reload"
+  },
+  "start_up_hardening": {
+    "cause": "Pyodide logged that WebAssembly instantiation failed and then waited indefinitely when its WebAssembly download was refused",
+    "change": "The worker downloads and checks every runtime file before Pyodide starts, retries interrupted downloads, bounds the remaining start-up at 120 seconds, and the page retries a failed start twice",
+    "refused_webassembly_once": "Retried by the worker; ready",
+    "refused_manifest_once": "Retried by the page with a retry message; ready",
+    "full_local_workflow": "Passed at 390 and 1440 pixels, including live Europe PMC and Crossref retrieval and the timeout path"
+  }
 }

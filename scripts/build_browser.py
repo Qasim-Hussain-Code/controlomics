@@ -122,7 +122,11 @@ def main(argv=None):
         for name, path in {**core, **packages}.items():
             shutil.copyfile(path, staging/'pyodide'/name)
         shutil.copyfile(args.wheel, staging/args.wheel.name)
+        # The worker downloads and checks these itself before Pyodide starts, so an
+        # interrupted transfer is retried instead of leaving Pyodide waiting.
         manifest = {'pyodide': PYODIDE_VERSION, 'packages': list(PACKAGES),
+                    'core': {name: digest for name, digest in CORE.items() if name != 'pyodide.mjs'},
+                    'package_files': {entry['file_name']: entry['sha256'] for entry in required_packages(lock, PACKAGES).values()},
                     'wheel': {'file': args.wheel.name, 'sha256': sha256(args.wheel)}}
         (staging/'browser_manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8', newline='\n')
         # Serve files as they are; GitHub Pages would otherwise process the site with Jekyll.

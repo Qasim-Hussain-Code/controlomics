@@ -1,5 +1,9 @@
 # Development changes
 
+## Browser workspace start-up, 2026-11-12
+
+The worker now downloads every runtime file itself, checks it against the build manifest, and retries an interrupted download before Pyodide starts, because Pyodide waits indefinitely when its WebAssembly download is refused. The remaining start-up is bounded, and the page retries a failed start twice. The status note carries its state from creation and reports a slow first visit. Pyodide's package location is set to the site's own copy.
+
 ## Static browser workspace, 2026-11-12
 
 Adds a static [browser workspace](https://qasim-hussain-code.github.io/controlomics/) published from `main` by `pages.yml`, because the free Render service is suspended and Hugging Face Docker Spaces now require a paid plan. The interface and scientific dispatch run in the visitor's browser with a self-hosted, hash-pinned Pyodide 314.0.7. Approved literature and model requests are sent by the page after the unchanged exact-approval gate, and the ledger records the phase reached. Fixed execution runs in the worker's interpreter under the 35-second local limit. `handle_action` accepts a transport class and `SafeTransport.open_event` holds the shared approval and ledger step; local and hosted behavior, scientific procedures, and frozen numerical sources are unchanged. [ADR 0006](docs/adr/0006_static_browser_workspace.md) records the changed boundaries.

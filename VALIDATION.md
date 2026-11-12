@@ -1,5 +1,9 @@
 # Validation
 
+## Published browser workspace, 2026-11-12
+
+The site published from `8dd81c5` served the page, interface, and runtime scripts byte for byte as built from that source, and the Pyodide loader and lock file at their pinned digests. The published wheel matched its manifest digest, and its 30 package files matched the source. From this workstation, whose connection to GitHub Pages ran at about 15 KB/s, Chrome's start-up stalled beyond 25 minutes with QUIC enabled and reached ready after 484 seconds with QUIC disabled. A later live start failed and offered only a reload; this led to the start-up changes below. Locally, a refused WebAssembly download had left Pyodide waiting indefinitely; with the changes, a refused WebAssembly file was retried by the worker and a refused manifest by the page, and both starts reached ready. The full local workflow passed again. These observations come from one network and are retained in the [check record](docs/validation/browser_workspace_v0.6.13.json).
+
 ## Static browser workspace, 2026-11-12
 
 The [developer check record](docs/validation/browser_workspace_v0.6.13.json) covers the static workspace before publication. The pinned Pyodide 314.0.7 core files matched the integrity-verified npm release, and the five package wheels matched its lock file. Eighteen browser runtime and build tests passed in WSL CPython 3.14. In-process fixed-runner results matched the separate-process runner apart from identifiers and timestamps.
