@@ -1,5 +1,9 @@
 # Development changes
 
+## Hugging Face Space files, 2026-11-12
+
+Adds `deploy/huggingface`, the card, Dockerfile, and start script of a free Hugging Face Docker Space, because the Render service is suspended. The Space builds the public source and runs the unchanged hosted adapter and Gunicorn configuration. Application code, scientific procedures, and the Render Blueprint are unchanged. The [hosting guide](docs/HOSTING.md) records the configuration and its limits.
+
 ## 0.6.12.dev0
 
 Adds a full hosted prototype using the existing scientific actions behind a separate HTTPS, signed-session, and explicit temporary-processing consent boundary. Research records remain browser-held; the application has no project database or saved uploads. Historical processing receipts accompany projects, reports, and execution packages without changing reviewed-control or evaluation hashes.
